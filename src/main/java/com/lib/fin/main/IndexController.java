@@ -16,6 +16,8 @@ public class IndexController {
 
 	@GetMapping("/d")
 	public void getd() {
+
+		
 	}
 
 
@@ -23,6 +25,7 @@ public class IndexController {
 	public String test() {
 		return "test";
 	}
+
 	@GetMapping("/ksg")
 	public void ksg() {
 		
