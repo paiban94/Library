@@ -13,8 +13,4 @@ public class IndexController {
 	}
 	
 
-	@GetMapping("/abc")
-	public void getabc() {
-		
-	}
 }
