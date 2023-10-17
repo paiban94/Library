@@ -14,8 +14,8 @@ public class IndexController {
 		return "index";
 	}
 	
-	@GetMapping("/ksg")
-	public void ksg() {
+	@GetMapping("/d")
+	public void getd() {
 		
 	}
 
