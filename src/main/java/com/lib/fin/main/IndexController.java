@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 	
 	@GetMapping("/")
-	@ResponseBody
 	public String getIndex() {
 		return "index";
 	}
 	
+
+	@GetMapping("/test")
+	public String test() {
+		return "test";
+
 	@GetMapping("/ksg")
 	public void ksg() {
 		
+
 	}
 
 }
