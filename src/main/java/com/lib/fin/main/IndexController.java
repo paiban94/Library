@@ -13,9 +13,15 @@ public class IndexController {
 		return "index";
 	}
 	
+
 	@GetMapping("/test")
 	public String test() {
 		return "test";
+
+	@GetMapping("/ksg")
+	public void ksg() {
+		
+
 	}
 
 }
