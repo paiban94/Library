@@ -14,22 +14,4 @@ public class IndexController {
 	}
 	
 
-	@GetMapping("/d")
-	public void getd() {
-
-		
-	}
-
-
-	@GetMapping("/test")
-	public String test() {
-		return "test";
-	}
-
-	@GetMapping("/ksg")
-	public void ksg() {
-		
-
-	}
-
 }
