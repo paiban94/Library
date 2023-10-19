@@ -23,24 +23,38 @@
     	 		
     	  <c:import url="/WEB-INF/views/layout/topbar.jsp"></c:import> 
     	 		
-    	 		<%-- <div class="container-fluid">
-    	 			<!-- page 실제 내용 -->
-    	 			<h1>Welcome : <spring:message code="hello"></spring:message>  </h1>
-    	 			<h1><spring:message code="hi" text="기본메세지"></spring:message> </h1>
-    	 			
-    	 			<sec:authorize access="isAuthenticated()">
-    	 			<sec:authentication property="name"  var="name"></sec:authentication>
-    	 			<sec:authentication property="principal.username"  var="vo"></sec:authentication>
-    	 			<h1><spring:message code="login.welcome" arguments="${name}"></spring:message> </h1>
-    	 			</sec:authorize>
-    	 		</div> --%>
+		  <main id="main" class="main">
+
+			<section class="section dashboard">
+
+			<div class="container-fluid">
+			
+				  </div><!-- End Sales Card -->
+						
+				<div class="row">
+					<!-- 각 영역 크기조절하기 -->
+					<div class="col-lg-6">
+						<div class="card">이곳에 내용을 입력하시면 됩니다<div class=""></div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+	
+			</section>
+
+		  </main><!-- End #main -->	
+
+    	 		 
     	 	
     	 	</div>
-		 <c:import url="/WEB-INF/views/layout/footer.jsp"></c:import> 
-    	 
-    	 </div>
+			 
+		</div>
     	
-    </div>
+		<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import> 
+    
+	</div>
     
     
 
