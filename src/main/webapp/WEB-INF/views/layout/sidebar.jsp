@@ -121,7 +121,7 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">근태관리</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="attendance.jsp">
           <i class="bi bi-layout-text-window-reverse"></i><span>근태관리</span>
         </a>
  
