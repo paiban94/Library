@@ -9,7 +9,7 @@ public class IndexController {
 	
 	@GetMapping("/")
 	public String getIndex() {
-		return "index";
+		return "/index";
 	}
 	
 
