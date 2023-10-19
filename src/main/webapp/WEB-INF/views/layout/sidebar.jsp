@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>조직체계</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-people-fill"></i><span>조직체계</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#approval_new" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>새결재</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-pencil-square"></i><span>새결재</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="approval_new" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
       <li class="nav-item">
         <!--data-bs-target="#approval_nav", id="approval_nav" 이름 다르게 설정하면 동시에 열리지 않음.-->
         <a class="nav-link collapsed" data-bs-target="#approval_nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>결재하기</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-ui-checks"></i><span>결재하기</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="approval_nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#approval_doc" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>개인문서함</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-files"></i><span>개인문서함</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="approval_doc" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -131,7 +131,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>게시판</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-clipboard"></i><span>게시판</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -160,10 +160,10 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">관리</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>물품 관리</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#charts-nav01" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box-seam-fill"></i><span>물품 관리</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="charts-nav01" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="charts-chartjs.html">
               <i class="bi bi-circle"></i><span>도서 관리</span>
