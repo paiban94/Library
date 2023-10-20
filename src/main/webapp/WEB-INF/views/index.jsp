@@ -39,8 +39,8 @@
 													</div>
 												</div>
 
-											</div><!-- End Sales Card -->
-										</div>
+											</div>
+										</div>	
 
 							</div>
 
