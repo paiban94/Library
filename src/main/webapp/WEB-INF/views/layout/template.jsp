@@ -29,7 +29,6 @@
 
 			<div class="container-fluid">
 			
-				  </div><!-- End Sales Card -->
 						
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
@@ -38,6 +37,7 @@
 						</div>
 					</div>
 
+				  </div><!-- End Sales Card -->
 				</div>
 
 			</div>

@@ -11,7 +11,6 @@
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 
-
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -29,6 +28,8 @@
 			<section class="section dashboard">
 
 			<div class="container-fluid">
+			
+				  </div><!-- End Sales Card -->
 						
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
@@ -36,8 +37,6 @@
 						<div class="card">이곳에 내용을 입력하시면 됩니다<div class=""></div>
 						</div>
 					</div>
-			
-				  </div><!-- End Sales Card -->
 
 				</div>
 
