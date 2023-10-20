@@ -28,14 +28,16 @@
 
 									<section class="section dashboard">
 
-										<div class="container-fluid">
+										<div class="container bg-black">
 
 
 											<div class="row">
 												<!-- 각 영역 크기조절하기 -->
-												<div class="col-lg-6">
+												<div class="col-lg-12">
 													<div class="card">
 														이곳에 내용을 입력하시면 됩니다.
+														<input type="date">
+														
 													</div>
 												</div>
 
