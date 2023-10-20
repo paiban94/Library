@@ -8,13 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
-@RequestMapping("member/*")
+@RequestMapping("/member/*")
 @Slf4j
 public class MemberController {
 	//회원가입 페이지 출력 요청
 	@GetMapping("join")
-	public String memJoin () throws Exception {
-		return "/" ;
+	public void memJoin () throws Exception {
+		
 	}
 
 }

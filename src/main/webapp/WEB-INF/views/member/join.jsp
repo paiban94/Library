@@ -3,14 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
-
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -39,13 +38,7 @@
 
 				  </div><!-- End Sales Card -->
 				
-				<div class="container-fluid">
-    	 			<form:form modelAttribute="memberVO" method="post" enctype="multipart/form-data">
-    	 			  <div class="form-group">
-    	 			  	<form:label path="username">Username</form:label>
-					    <form:input id="username"  path="username" cssClass="form-control"/>
-					    <form:errors path="username"></form:errors>
-					  </div>
+				
 				
 				</div>
 
