@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/reservation/*")
+@RequestMapping("/schedule/*")
 @Slf4j
 public class scheduleController {
 
@@ -15,5 +15,6 @@ public class scheduleController {
 	public void getSchedule() {
 		
 	}
-
+	@GetMapping("schedulelist")
+	public void getSchedulelist() {}
 }

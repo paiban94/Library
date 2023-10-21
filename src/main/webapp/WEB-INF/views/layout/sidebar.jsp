@@ -151,7 +151,7 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">예약</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/reservation/calendar">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/schedule/calendar">
           <i class="bi bi-gem"></i><span>예약하기</span>
         </a>
         
