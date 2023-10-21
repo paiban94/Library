@@ -7,15 +7,102 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset='utf-8' />
-  <link href='/fullcalendar/main.css' rel='stylesheet' />
+<meta charset="UTF-8">
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
-<style>
-.col-lg-6{
-width:1000px;
-}
-</style>
+<meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>calendar</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- bootstrap 4 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- fullcalendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'UTC',
+                initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.
+                events:[ // 일정 데이터 추가 , DB의 event를 가져오려면 JSON 형식으로 변환해 events에 넣어주면된다.
+                    {
+                        title:'일정',
+                        start:'2023-10-26 00:00:00',
+                        end:'2023-10-27 24:00:00' 
+                        // color 값을 추가해 색상도 변경 가능 자세한 내용은 하단의 사이트 참조
+                    }
+                ], headerToolbar: {
+                    left:'',
+                    center: 'title',// headerToolbar에 버튼을 추가
+                    right:'addEventButton'
+                }, customButtons: {
+                    addEventButton: { // 추가한 버튼 설정
+                        text : "일정 추가",  // 버튼 내용
+                        click : function(){ // 버튼 클릭 시 이벤트 추가
+                            $("#calendarModal").modal("show"); // modal 나타내기
+
+                            $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+                                var schedule_contents = $("#schedule_content").val();
+                                var schedule_start_date = $("#schedule_start_date").val();
+                                var schedule_end_date = $("#schedule_end_date").val();
+                                var schedule_title = $("#schedule_title").val();
+                                var schedule_kind = $("#schedule_kind").val();
+                                
+                                //내용 입력 여부 확인
+                              
+                                if(schedule_start_date == "" || schedule_end_date ==""){
+                                    alert("날짜를 입력하세요.");
+                                }else if(new Date(end_date)- new Date(start_date) < 0){ // date 타입으로 변경 후 확인
+                                    alert("종료일이 시작일보다 먼저입니다.");
+                                }else if(schedule_title == null || schedule_title ==""){
+                                	alert("제목을 입력하세요")
+                                }else if(schedule_kind == null || schedule_kind == ""){
+                                	alert("일정종류를 선택하세요")
+                                }else{ // 정상적인 입력 시
+                                    var obj = {
+                                        "schedule_contents" : schedule_contents,
+                                        "schedule_start_time" : schedule_start_time,
+                                        "schedule_end_time" : schedule_end_time,
+                                        "schedule_title" : schedule_title,
+                                        "schedule_kind" : schedule_kind
+                                    }//전송할 객체 생성
+
+                                    console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                                }
+                            });
+                        }
+                    }
+                },
+                editable: true, // false로 변경 시 draggable 작동 x 
+                displayEventTime: false // 시간 표시 x
+            });
+            calendar.render();
+        });
+    </script>
+    <style>
+        #calendarBox{
+            width: 70%;
+            padding-left: 15%;
+            width:1000px;
+        }
+		.calendar{
+		width:1000px;	
+		}
+		.card{
+		width:1000px;	
+		}
+    </style>
+
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -37,17 +124,61 @@ width:1000px;
 						
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
-					<div class="col-lg-6"
-						
+					<div class="col-lg-6">
 						<div class="card">
-						<div class="hstack gap-3">
-							  <div class="p-2">전체</div>
-							  <div class="p-2">일정</div>
-							  <div class="p-2">예약</div>
-							</div>
-						<div id='calendar'></div><div class=""></div>
+						  <div id="calendarBox">
+						       <div class="hstack gap-3">
+								  <div class="p-2">전체</div>
+								  <div class="p-2">일정</div>
+								  <div class="p-2">예약</div>
+								</div>
+        <div id="calendar"></div>
+    </div>
+
+    <!-- modal 추가 -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="taskId" class="col-form-label">시작 날짜</label>
+                        <input type="date" class="form-control" id="schedule_start_date" name="schedule_start_date">
+                        <label for="taskId" class="col-form-label">종료 날짜</label>
+                        <input type="date" class="form-control" id="schedule_end_date" name="schedule_end_date">
+                        <label for="taskId" class="col-form-label">일정 종류</label>
+                        <select class="form-control" id="schedule_kind" name="schedule_kind">
+                        	<option disabled>일정종류를 선택하세요</option>
+                        	<option value="A">연차</option>
+                        	<option value="B">회의</option>
+                        	<option value="c">교육</option>
+                        	</select>
+                        <label for="taskId" class="col-form-label">일정 제목</label>
+                        <input type="text" class="form-control" id="schedule_title" name="schedule_title">
+                        <label for="taskId" class="col-form-label">일정 내용</label>
+                        <textarea class="form-control" id="schedule_contents" name="schedule_contents"></textarea>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" id="addCalendar">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/calendar'">취소</button>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+						
+						<div class=""></div>
 						</div>
-					</div><button>일정추가</button><button>예약추가</button>
+					</div>
 
 				  </div><!-- End Sales Card -->
 				</div>
@@ -71,155 +202,5 @@ width:1000px;
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-<script src='/fullcalendar/main.js'></script>
-    <script>
-    	document.addEventListener('DOMContentLoaded', function() {
-        	var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                // Tool Bar 목록 document : https://fullcalendar.io/docs/toolbar
-            		   
-                headerToolbar: {
-                    left: '',
-                    center:'prev,title,next',
-                    right: ''
-                },
-
-                selectable: true,
-                selectMirror: true,
-
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                // Create new event
-                select: function (arg) {
-                    Swal.fire({
-                        html: "<div class='mb-7'>Create new event?</div><div class='fw-bold mb-5'>Event Name:</div><input type='text' class='form-control' name='event_name' />",
-                        icon: "info",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "Yes, create it!",
-                        cancelButtonText: "No, return",
-                        customClass: {
-                            confirmButton: "btn btn-primary",
-                            cancelButton: "btn btn-active-light"
-                        }
-                    }).then(function (result) {
-                        if (result.value) {
-                            var title = document.querySelector("input[name=;event_name']").value;
-                            if (title) {
-                                calendar.addEvent({
-                                    title: title,
-                                    start: arg.start,
-                                    end: arg.end,
-                                    allDay: arg.allDay
-                                })
-                            }
-                            calendar.unselect()
-                        } else if (result.dismiss === "cancel") {
-                            Swal.fire({
-                                text: "Event creation was declined!.",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary",
-                                }
-                            });
-                        }
-                    });
-                },
-
-                // Delete event
-                eventClick: function (arg) {
-                    Swal.fire({
-                        text: "Are you sure you want to delete this event?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "Yes, delete it!",
-                        cancelButtonText: "No, return",
-                        customClass: {
-                            confirmButton: "btn btn-primary",
-                            cancelButton: "btn btn-active-light"
-                        }
-                    }).then(function (result) {
-                        if (result.value) {
-                            arg.event.remove()
-                        } else if (result.dismiss === "cancel") {
-                            Swal.fire({
-                                text: "Event was not deleted!.",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary",
-                                }
-                            });
-                        }
-                    });
-                },
-                dayMaxEvents: true, // allow "more" link when too many events
-                // 이벤트 객체 필드 document : https://fullcalendar.io/docs/event-object
-                events: [
-                    {
-                    title: 'All Day Event',
-                    start: '2022-07-01'
-                    },
-                    {
-                    title: 'Long Event',
-                    start: '2022-07-07',
-                    end: '2022-07-10'
-                    },
-                    {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-07-09T16:00:00'
-                    },
-                    {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-07-16T16:00:00'
-                    },
-                    {
-                    title: 'Conference',
-                    start: '2022-07-11',
-                    end: '2022-07-13'
-                    },
-                    {
-                    title: 'Meeting',
-                    start: '2022-07-12T10:30:00',
-                    end: '2022-07-12T12:30:00'
-                    },
-                    {
-                    title: 'Lunch',
-                    start: '2022-07-12T12:00:00'
-                    },
-                    {
-                    title: 'Meeting',
-                    start: '2022-07-12T14:30:00'
-                    },
-                    {
-                    title: 'Happy Hour',
-                    start: '2022-07-12T17:30:00'
-                    },
-                    {
-                    title: 'Dinner',
-                    start: '2022-07-12T20:00:00'
-                    },
-                    {
-                    title: 'Birthday Party',
-                    start: '2022-07-13T07:00:00'
-                    },
-                    {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2022-07-28'
-                    }
-                ]
-            });
-
-            calendar.render();
-        });
-
-    </script>
 </body>
 </html>
