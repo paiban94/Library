@@ -43,9 +43,17 @@
                     }
                 ], headerToolbar: {
                     left:'',
-                    center: 'title',// headerToolbar에 버튼을 추가
-                    right:'addEventButton'
-                }, customButtons: {
+                    center: 'prev,title,next',// headerToolbar에 버튼을 추가
+                    right:'addEventButton,addEventButton2'
+                },customButtons: {
+				addEventButton2: {
+					text: '예약추가',
+					click: function() {
+						alert('예약추가');
+					    }
+					  }
+					},
+  					 customButtons: {
                     addEventButton: { // 추가한 버튼 설정
                         text : "일정 추가",  // 버튼 내용
                         click : function(){ // 버튼 클릭 시 이벤트 추가
@@ -62,7 +70,7 @@
                               
                                 if(schedule_start_date == "" || schedule_end_date ==""){
                                     alert("날짜를 입력하세요.");
-                                }else if(new Date(end_date)- new Date(start_date) < 0){ // date 타입으로 변경 후 확인
+                                }else if(new Date(schedule_end_date)- new Date(schedule_start_date) < 0){ // date 타입으로 변경 후 확인
                                     alert("종료일이 시작일보다 먼저입니다.");
                                 }else if(schedule_title == null || schedule_title ==""){
                                 	alert("제목을 입력하세요")
@@ -99,9 +107,10 @@
 		width:1000px;	
 		}
 		.card{
-		width:1000px;	
+		width:1200px;
+		height:850px;	
 		}
-    </style>
+   </style>
 
 </head>
 <body id="page-top">
@@ -127,10 +136,10 @@
 					<div class="col-lg-6">
 						<div class="card">
 						  <div id="calendarBox">
-						       <div class="hstack gap-3">
-								  <div class="p-2">전체</div>
+						       <div class="hstack gap-3 text-decoration-underline">
+								  <div class="p-1">전체</div>
 								  <div class="p-2">일정</div>
-								  <div class="p-2">예약</div>
+								  <div class="p-3">예약</div>
 								</div>
         <div id="calendar"></div>
     </div>
@@ -141,7 +150,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">일정추가</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -167,7 +176,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning" id="addCalendar">추가</button>
+                    <button type="submit" class="btn btn-warning" id="addSchedule">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         id="sprintSettingModalClose" onclick="location.href='/schedule/calendar'">취소</button>
                 </div>
