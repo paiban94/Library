@@ -48,17 +48,17 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_new" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="/approval/draft">
               <i class="bi bi-circle"></i><span>업무기안</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="./approval/Leave">
               <i class="bi bi-circle"></i><span>휴가신청서</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="./approval/expense">
               <i class="bi bi-circle"></i><span>지출결의서</span>
             </a>
           </li>
