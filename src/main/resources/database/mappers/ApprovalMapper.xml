@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.lib.fin.approval.ApprovalDAO">
+  
+  	<insert id="setDraft" parameterType="ApprovalDocVO">
+  	
+  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},now(),null,null,#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
+  	</insert>
+  
+  </mapper>

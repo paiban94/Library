@@ -37,14 +37,14 @@
 					<section class="section dashboard">
 
 						<div class="container">
-							<form action="./draft" method="post" id="frm" enctype="multipart/form-data">
+							<form action="./leave" method="post" id="frm" enctype="multipart/form-data">
 
 
 							<div class="row">
 								<!-- 각 영역 크기조절하기 -->
 								<div class="col-lg-12">
 									<div class="card">
-										<h1 class="my-5 " align="center">업무 기안</h1>
+										<h1 class="my-5 " align="center">휴가 신청서</h1>
 
 										<!-- 상단 왼쪽 strart -->
 										<div class="row grid text-center mx-3">
@@ -169,21 +169,30 @@
 												<div class="col-lg-12">
 												<table class="table table-bordered">
 													<tr>
-														<th class="table-light" style="width: 10%">시행일자</th>
+														<th class="table-light" style="width: 12%">제목</th>
+														<td></td>
+													</tr>
+													<tr>
+														<th class="table-light">작성일자</th>
+														<td></td>
+													</tr>
+													<tr>
+														<th class="table-light">작성자</th>
+														<td></td>
+													</tr>
+													<tr>
+														<th class="table-light"">총금액</th>
 														<td>
-															<input type="date" class="form-control w-25" id="startDate" name="start_date">
+															
 														</td>
 													</tr>
+												
 													<tr>
 														<th class="table-light">참조자</th>
 														<td></td>
 													</tr>
-													<tr>
-														<th class="table-light">제목</th>
-														<td><input type="text" class="form-control w-75" id="title" name="doc_title" ></td>
-													</tr>
 													<tr >
-														<td colspan="2"> <div><textarea id="summernote" name="doc_contents"></textarea></div></td>
+														<td colspan="2"> <div><textarea id="summernote"></textarea></div></td>
 														
 													</tr>
 												</table>	
@@ -258,15 +267,6 @@
 
 	
 	<script src="/js/file.js"></script>
-	<script type="text/javascript">
-	let sd = $('#startDate').val()
-	
-	$('.btn-sm').click(function(){
-		  
-		console.log(sd);
-		console.log("1");
-		  });  
-	</script>
 </body>
 
 </html>

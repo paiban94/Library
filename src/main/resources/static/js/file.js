@@ -2,15 +2,12 @@ let idx=0;
 
 $("#fileAdd").click(function(){
 
-    let r = '<div class="col-lg-8 mb-3" id="file "'+idx+'>';
-
-    r = r.concat('<label for="pic" class="form-label">파일첨부</label>');
+    let r = '<div class="a mb-3 w-50" id="file "'+idx+'>';
 
     r = r.concat('<input type="file" class="form-control" id="pic" name="files1" </div>');
    
-    r= r.concat('<div class="col-lg-4 df" data-id="file" '+ idx +'>x</div>')
+    r= r.concat('<div class="a df mt-2 mx-2" data-id="file" '+ idx +'>x</div>')
     
-
     $("#fileList").append(r);
     idx++;
 })
