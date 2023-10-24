@@ -56,5 +56,14 @@ public class MemberController {
 
         return "redirect:../";
     }
+    
+    
+    @GetMapping("login")
+    public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+    	
+    	
+    	
+    	return "member/login";
+    }
 
 }

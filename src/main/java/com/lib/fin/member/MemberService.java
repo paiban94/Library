@@ -41,4 +41,5 @@ public class MemberService {
 	        // 다른 처리 로직 추가 (예: 권한 설정, 로깅 등)
 	        return 1; // 성공 시 양수 반환, 실패 시 0 반환
 	    }
+
 }
