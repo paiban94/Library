@@ -35,7 +35,18 @@
                 timeZone: 'UTC',
                 initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.
                 events:[ // 일정 데이터 추가 , DB의 event를 가져오려면 JSON 형식으로 변환해 events에 넣어주면된다.
+                	<%List<ScheduleVO> scheduleList = (List<ScheduleVO>) request.getAttribute("calendarList");%>
+                    <%if (scheduleList != null) {%>
+                    <%for (schedule vo : scheduleList) {%>
                     {
+                    	title : '<%=vo.getSchedule_title()%>',
+                        start : '<%=vo.getSchedule_start_time()%>',
+                        end : '<%=vo.getSchedule_end_time()%>',
+                        color : '#' + Math.round(Math.random() * 0xffffff).toString(16)
+                     },
+        	<%}
+        }%>
+                	{
                         title:'일정',
                         start:'2023-10-26 00:00:00',
                         end:'2023-10-27 24:00:00' 
@@ -83,6 +94,7 @@
                                         "schedule_end_time" : schedule_end_time,
                                         "schedule_title" : schedule_title,
                                         "schedule_kind" : schedule_kind
+                                       
                                     }//전송할 객체 생성
 
                                     console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
