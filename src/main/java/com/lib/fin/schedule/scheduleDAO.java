@@ -11,7 +11,7 @@ public class scheduleDAO {
 	@Autowired
 	private SqlSession sql;
 	
-	private String spacename="com.lib.fin.schedule.scheduleDAO";
+	private final String spacename="com.lib.fin.schedule.scheduleDAO";
 	
 	public List<scheduleVO> getSchedule() throws Exception {
 		List<scheduleVO> schedule = null;

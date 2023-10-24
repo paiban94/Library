@@ -1,6 +1,7 @@
 package com.lib.fin.schedule;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +24,6 @@ public class scheduleVO {
 	private Date reg_date;
 	private Date mod_date;
 	private String use_yn;
+	
+	private List<scheduleVO> schedulelist;
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,9 +19,9 @@ public class scheduleController {
 
 	
 	//일정보기
-			@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+			@RequestMapping(value = "calendar", method = RequestMethod.GET)
 			public ModelAndView getScheduleList(ModelAndView mv, HttpServletRequest request) {
-				String viewpage = "schedule";
+				String viewpage = "calendar";
 				List<scheduleVO> schedule = null;
 				try {
 					schedule = scheduleService.getSchedule();
