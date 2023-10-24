@@ -43,7 +43,7 @@
 					<div class="form-group">
 						<br>
 						<form:label path="password">비밀번호</form:label>
-					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
+					    <form:password path="password" cssClass="form-control" id="password"/>
 					    <form:errors path="password"></form:errors>
 					</div> 
 				    <div class="form-group">

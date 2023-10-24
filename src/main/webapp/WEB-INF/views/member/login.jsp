@@ -39,9 +39,9 @@
 							<span class="d-none d-lg-block">NiceAdmin</span>
 						  </a>
 						</div><!-- End Logo -->
-		  
+						<form:form modelAttribute="memberVO" method="post" enctype="multipart/form-data">
 						<div class="card mb-3">
-		  
+							
 						  <div class="card-body">
 		  
 							<div class="pt-4 pb-2">
@@ -84,7 +84,7 @@
 		  
 						  </div>
 						</div>
-		  
+						</form:form>
 					
 					  </div>
 					</div>

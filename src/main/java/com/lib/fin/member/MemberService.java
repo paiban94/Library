@@ -27,8 +27,8 @@ public class MemberService {
 		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
 			check=true; // 패스워드가 패스워드체크랑 같지않다면 트루(에러)
 			
-			bindingResult.reject("passwordCheck","비밀번호가 일치하지 않습니다.");
-		
+			//bindingResult.reject("passwordCheck","비밀번호가 일치하지 않습니다.");
+			bindingResult.rejectValue("passwordCheck", "password.mismatch", "비밀번호가 일치해야 합니다.");
 		}
 			
 		
