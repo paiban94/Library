@@ -5,6 +5,6 @@
 
 <configuration>
 	<typeAliases>
-		
+		<typeAlias type="com.lib.fin.member.MemberVO" alias="MemberVO"/>
 	</typeAliases>
 </configuration>	  

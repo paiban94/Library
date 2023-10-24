@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
+
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,11 +31,97 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-						<div class="card">이곳에 내용을 입력하시면 됩니다<div class=""></div>
+						
+				<form:form modelAttribute="memberVO" method="post" enctype="multipart/form-data">
+    	 			  <div class="form-group">
+    	 			  	<form:label path="name">이름</form:label>
+					    <form:input id="name"  path="name" cssClass="form-control"/>
+					    <form:errors path="name"></form:errors>
+					  </div>
+					  
+					
+					<div class="form-group">
+						<br>
+						<form:label path="password">비밀번호</form:label>
+					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
+					    <form:errors path="password"></form:errors>
+					</div> 
+				    <div class="form-group">
+						<br>
+					    <form:label path="passwordCheck">비밀번호확인</form:label>
+					    <form:password path="passwordCheck" cssClass="form-control" id="passwordCheck"/>
+					    <form:errors path="passwordCheck"></form:errors>
+				    </div>
+				    <div class="form-group">
+						<br>
+				    	<form:label path="email">이메일</form:label>
+				    	<form:input id="email" type="email" path="email" cssClass="form-control"/>
+				    	<form:errors path="email"></form:errors>
+				    </div>
+
+				    
+				      <div class="form-group">
+						<br>
+    	 			  	<form:label path="birth">Birth</form:label>
+					    <form:input id="birth" type="date" path="birth" cssClass="form-control"/>
+					    <form:errors path="birth"></form:errors>
+					  </div>	
+					  
+					  <div class="form-group">
+						<br>
+    	 			  	<form:label path="emp_in_date">입사일</form:label>
+					    <form:input id="emp_in_date" type="date" path="emp_in_date" cssClass="form-control"/>
+					    <form:errors path="emp_in_date"></form:errors>
+					  </div>
+				    	
+			
+					  <div class="form-group">
+						<br>
+						<label for="phone">전화번호</label>
+						<input id="phone" type="tel" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control"/>
+					</div>
+
+						<div class="form-group">
+							<br>
+							<form:label path="emp_team">부서</form:label>
+							<form:select id="emp_team" path="emp_team" cssClass="form-control">
+								<form:option value="" label="부서 선택 시 클릭하세요" /> 
+								<form:option value="M" label="운영과" />
+								<form:option value="P" label="정책과" />
+								<form:option value="S" label="서비스과" />
+								<form:option value="N" label="미정" />
+							</form:select>
+							<form:errors path="emp_team"></form:errors>
+						</div>
+						
+					
+					    <div class="form-group">
+						<br>
+    	 			  	<form:label path="emp_position">직급</form:label>
+					    <form:select id="emp_position"  path="emp_position" cssClass="form-control">
+							<form:option value="" label="직급 선택 시 클릭하세요" /> 
+							<form:option value="D" label="관장" /> 
+							<form:option value="T" label="팀장" /> 
+							<form:option value="A" label="주무관" /> 
+							<form:option value="L" label="사서" /> 
+						</form:select>
+					    <form:errors path="emp_position"></form:errors>
+					  </div>
+				    
+				    <div class="form-group">
+						<br>
+				    	<label for="proflie">프로필사진</label>
+				    	<input type="file" name="proflie" class="form-control" id="proflie" aria-describedby="photoHelp">
+				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				    </div>
+					<br>
+					 <button type="submit" class="btn btn-primary">회원가입</button>
+				
+				</form:form>
 						</div>
 					</div>
 
-				  </div><!-- End Sales Card -->
+				
 				
 				
 				
