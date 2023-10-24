@@ -11,7 +11,7 @@ public class scheduleService {
 	@Autowired
 	private static scheduleDAO scheduleDAO;
 	
-	public static List<scheduleVO> getSchedule() throws Exception {
+	public static  List<scheduleVO> getSchedule() throws Exception {
 		return scheduleDAO.getSchedule();
 	}
   }

@@ -13,7 +13,7 @@ public class scheduleVO {
 	
 	private int schedule_No;
 	private String emp_No;
-	private int schedue_start_time;
+	private int schedule_start_time;
 	private int schedule_end_time;
 	private String schedule_contents;
 	private String schedule_title;

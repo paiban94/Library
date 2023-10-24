@@ -4,6 +4,8 @@
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
+<%@page import="java.util.List"%>
+<%@page import="com.lib.fin.schedule.scheduleVO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +13,7 @@
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 <meta charset='utf-8'>
+	
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>calendar</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -35,23 +38,28 @@
                 timeZone: 'UTC',
                 initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.
                 events:[ // 일정 데이터 추가 , DB의 event를 가져오려면 JSON 형식으로 변환해 events에 넣어주면된다.
-                	<%List<ScheduleVO> scheduleList = (List<ScheduleVO>) request.getAttribute("calendarList");%>
-                    <%if (scheduleList != null) {%>
-                    <%for (schedule vo : scheduleList) {%>
                     {
-                    	title : '<%=vo.getSchedule_title()%>',
-                        start : '<%=vo.getSchedule_start_time()%>',
-                        end : '<%=vo.getSchedule_end_time()%>',
-                        color : '#' + Math.round(Math.random() * 0xffffff).toString(16)
-                     },
-        	<%}
-        }%>
-                	{
                         title:'일정',
                         start:'2023-10-26 00:00:00',
                         end:'2023-10-27 24:00:00' 
                         // color 값을 추가해 색상도 변경 가능 자세한 내용은 하단의 사이트 참조
-                    }
+                    },
+                	{
+                		title:'test',
+                		start:'2023-10-28 00:00:00',
+                		end:'2023-10-30 00:00:00'
+                	},
+                	<%List<scheduleVO> scheduleList = (List<scheduleVO>) request.getAttribute("scheduleList");%>
+                    <%if (scheduleList != null) {%>
+                    <%for (scheduleVO vo : scheduleList) {%>
+                    {
+                    	title : '<%=vo.getSchedule_title()%>',
+                        start : '<%=vo.getSchedule_start_time()%>',
+                        end : '<%=vo.getSchedule_end_time()%>',
+                         },
+        	<%}
+        }%>
+                    
                 ], headerToolbar: {
                     left:'',
                     center: 'prev,title,next',// headerToolbar에 버튼을 추가
