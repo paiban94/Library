@@ -1,6 +1,9 @@
 package com.lib.fin.schedule;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,10 @@ public class ScheduleDAO {
 	
 	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO.";
 	
-	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception {
+	public List<ScheduleVO> getSchedule(Map<String, Object> map) throws Exception {
 		
 		List<ScheduleVO> schedule = new ArrayList<ScheduleVO>();
-		schedule = sql.selectList(NAMESPACE+"getSchedule",scheduleVO);
+		schedule = sql.selectList(NAMESPACE+"getSchedule",map);
 		return schedule;
 		
 	}

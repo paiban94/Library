@@ -19,7 +19,7 @@
   </resultMap>
 	
 	<select id="getSchedule" resultMap="scheduleRM">
-		select * from schedule 
+		select * from schedule_base 
 	</select>
 	
 </mapper>
