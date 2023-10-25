@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class ApprovalDocVO {
 	
-	private Integer doc_no;
+	private Long doc_no;
 	private String emp_no;
 	private String grp_cd;
 	private String approval_state;

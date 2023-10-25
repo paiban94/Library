@@ -1,6 +1,15 @@
 package com.lib.fin.approval;
 
-public class ApprovalFileVO {
+import com.lib.fin.commons.FileVO;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class ApprovalFileVO extends FileVO{
 
 	private Long doc_no;
 }

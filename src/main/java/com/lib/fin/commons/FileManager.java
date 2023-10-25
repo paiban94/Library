@@ -2,9 +2,11 @@ package com.lib.fin.commons;
 
 import java.io.File;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FieManager {
+@Component
+public class FileManager {
 	
 
 		public String save(String path, MultipartFile multipartFile)throws Exception{
