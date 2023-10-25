@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
 <%@page import="java.util.List"%>
-<%@page import="com.lib.fin.schedule.scheduleVO"%>
+<%@page import="com.lib.fin.schedule.ScheduleVO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,9 +49,9 @@
                 		start:'2023-10-28 00:00:00',
                 		end:'2023-10-30 00:00:00'
                 	},
-                	<%List<scheduleVO> scheduleList = (List<scheduleVO>) request.getAttribute("scheduleList");%>
+                	<%List<ScheduleVO> scheduleList = (List<ScheduleVO>) request.getAttribute("scheduleList");%>
                     <%if (scheduleList != null) {%>
-                    <%for (scheduleVO vo : scheduleList) {%>
+                    <%for (ScheduleVO vo : scheduleList) {%>
                     {
                     	title : '<%=vo.getSchedule_title()%>',
                         start : '<%=vo.getSchedule_start_time()%>',
