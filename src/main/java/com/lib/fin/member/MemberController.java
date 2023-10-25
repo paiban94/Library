@@ -57,14 +57,33 @@ public class MemberController {
             log.info("===========회원 가입이 성공했습니다.=========");
         }
 
-        return "redirect:../";
+        //return "redirect:../";
+        return "member/login";
     }
     
     
-	@GetMapping("login")
+	@GetMapping("/login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+		
+		return "/member/login";
 
-		return "member/login";
+	}
+	
+	@RequestMapping("/postLogin")
+	public String postLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		log.info("===== Name : {} =====", context.getAuthentication().getPrincipal().toString());
+		String check=context.getAuthentication().getPrincipal().toString();
+		
+		if(!check.equals("anonymousUser")) {		
+			return "/member/login";
+	
+		}else {
+			return "/index";
+		}
 		
 	}
+	
+
 }

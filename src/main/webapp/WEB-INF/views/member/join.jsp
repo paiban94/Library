@@ -43,7 +43,8 @@
 					<div class="form-group">
 						<br>
 						<form:label path="password">비밀번호</form:label>
-					    <form:password path="password" cssClass="form-control" id="password"/>
+					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
+						<small id="pwstyle" class="form-text text-muted">비밀번호는 6~12자 이며 소문자,특수문자,숫자를 하나 이상씩 넣어야합니다.</small>
 					    <form:errors path="password"></form:errors>
 					</div> 
 				    <div class="form-group">

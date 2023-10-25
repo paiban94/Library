@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@
 							<span class="d-none d-lg-block">NiceAdmin</span>
 						  </a>
 						</div><!-- End Logo -->
-						<form:form modelAttribute="memberVO" method="post" enctype="multipart/form-data">
+						<form modelAttribute="memberVO" method="post" enctype="multipart/form-data" action="/member/postLogin" class="row g-3 needs-validation" novalidate>
 						<div class="card mb-3">
 							
 						  <div class="card-body">
@@ -49,12 +50,12 @@
 							  <p class="text-center small">사원번호와 비밀번호를 입력하세요.</p>
 							</div>
 		  
-							<form class="row g-3 needs-validation" novalidate>
+						
 		  
 							  <div class="col-12">
 								<label for="yourUsername" class="form-label">사원번호</label>
 								<div class="input-group has-validation">
-								  <input type="text" name="username" class="form-control" id="yourUsername" required>
+								  <input type="text" name="emp_no" class="form-control" id="yourUsername" required>
 								  <div class="invalid-feedback">사원번호를 입력하세요.</div>
 								</div>
 							  </div>
@@ -78,13 +79,13 @@
 							  <div class="col-12 text-center">
 								<span class="small mb-0"><a href="pages-register.html">사원번호 찾기</a></span>&nbsp|&nbsp
 								<span class="small mb-0"><a href="pages-register.html">비밀번호 찾기</a></span>&nbsp|&nbsp
-								<span class="small mb-0"><a href="pages-register.html">회원가입</a></span>  
+								<span class="small mb-0"><a href="/member/join">회원가입</a></span>  
 							</div>
-							</form>
+			
 		  
 						  </div>
 						</div>
-						</form:form>
+						</form>
 					
 					  </div>
 					</div>
