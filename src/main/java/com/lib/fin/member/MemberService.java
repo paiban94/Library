@@ -49,12 +49,10 @@ public class MemberService implements UserDetailsService {
 	 
 	 //serverLogin
 		@Override
-		public UserDetails loadUserByUsername(String emp_no) throws UsernameNotFoundException {
-			log.info("====== 로그인 시도 중 ==========");		
+		public UserDetails loadUserByUsername(String emp_no) throws UsernameNotFoundException {		
 			//MemberVO memberVO = MemberMapper.getLogin(username);
 			MemberVO memberVO = new MemberVO();
 			memberVO.setEmp_no(emp_no);
-			log.info("=============="+emp_no+"=============");
 			try {
 				memberVO = memberDAO.getMember(memberVO);
 			} catch (Exception e) {
