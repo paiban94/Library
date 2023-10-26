@@ -10,7 +10,7 @@
   		
   		select *
   		from ST_STD_CD
-  		where grp_cd = 'D001'
+  		where grp_cd = 'T001'
   		order by cd asc
   		
   	</select>
