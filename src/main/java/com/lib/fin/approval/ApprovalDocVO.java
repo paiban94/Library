@@ -2,6 +2,8 @@ package com.lib.fin.approval;
 
 import java.sql.Date;
 
+import com.lib.fin.commons.CommonVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ApprovalDocVO {
+public class ApprovalDocVO extends CommonVO {
 	
 	private Long doc_no;
 	private String emp_no;
@@ -22,11 +24,7 @@ public class ApprovalDocVO {
 	private String adtn_info1;
 	private String adtn_info2;
 	private String temp_save;
-	private String reg_id;
-	private String mod_id;
-	private Date reg_date;
-	private Date mod_date;
-	private String use_yn;
+
 	
 
 }

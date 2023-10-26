@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 public class FileMappringConfig implements WebMvcConfigurer {
 
-	//local file 위치
+		//local file 위치
 		@Value("${app.upload.mapping}")
 		private String filePath;
 		

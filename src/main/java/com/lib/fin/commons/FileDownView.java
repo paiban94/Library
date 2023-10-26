@@ -31,13 +31,13 @@ public class FileDownView extends AbstractView{
 	
 		//서버에서 파일을 찾아서 클라이언트로 전송 
 		//어디에서? 
-		// filePath
-		String board = (String)model.get("board");
+		// @ModelAttribute("name")에서 설정
+		String name = (String)model.get("name");
 		
 		//어떤파일??
 		FileVO fileVO = (FileVO)model.get("fileVO");
 		
-		File file = new File(filePath+board, fileVO.getFile_name());
+		File file = new File(filePath+name, fileVO.getFile_name());
 		
 		 //한글 처리
 		 response.setCharacterEncoding("UTF-8");

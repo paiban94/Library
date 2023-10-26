@@ -71,7 +71,7 @@ $("#summernote").summernote({
                 contentType: false,
                 success:function(result){
                     console.log(result)
-                    $("#contents").summernote('insertImage', result.trim());
+                    $("#summernote").summernote('insertImage', result.trim());
                 },
                 error:function(){
                     console.log('error');

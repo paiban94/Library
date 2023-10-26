@@ -143,7 +143,7 @@
 													<table class="table table-bordered">
 
 														<tr>
-															<th rowspan="3" class="table-light">신청</th>
+															<th rowspan="3" class="table-light"><br>신<br>청</th>
 															<td>홍길동1</td>
 														</tr>
 

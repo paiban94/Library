@@ -14,7 +14,7 @@ import com.lib.fin.approval.ApprovalDocVO;
 public interface DeptDAO {
 	
 
-	//draft Add
+	
 	public List<Map<String, Object>> getDeptInfo()throws Exception;
 
 }
