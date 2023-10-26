@@ -5,6 +5,8 @@
 
 <configuration>
 	<typeAliases>
+	<typeAlias type="com.lib.fin.approval.ApprovalDocVO" alias="ApprovalDocVO"/>
+	<typeAlias type="com.lib.fin.approval.ApprovalFileVO" alias="ApprovalFileVO"/>
 		
 	</typeAliases>
 </configuration>	  

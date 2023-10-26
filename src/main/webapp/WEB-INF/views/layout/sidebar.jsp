@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="/">
           <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
@@ -43,22 +43,22 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">전자결재</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#approval_new" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#approval_new" data-bs-toggle="collapse">
           <i class="bi bi-pencil-square"></i><span>새결재</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="approval_new" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="/approval/draft">
               <i class="bi bi-circle"></i><span>업무기안</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/leave">
               <i class="bi bi-circle"></i><span>휴가신청서</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/expense">
               <i class="bi bi-circle"></i><span>지출결의서</span>
             </a>
           </li>
