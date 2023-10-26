@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lib.fin.board.announcement.AnnouncementDAO">
+
+	<select id="getList">
+		SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' 
+	</select>
+	<insert id="addWriting">
+		INSERT INTO BOARD_BASE
+		(BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE,BOARD_KIND,BOARD_VIEWS,BOARD_LIKE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN) 
+		VALUES
+		(#{boardTitle},#{boardContents},'A','C',0,0,#{boardWriter},#{boardWriter},NOW(),NOW(),'Y')
+	</insert>
+	
+	<select id="getDetail">
+		SELECT * FROM BOARD_BASE WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	
+	
+</mapper>

@@ -48,8 +48,15 @@
 
 							</main><!-- End #main -->
 
-
-
+			<div class="container-fluid">
+						
+				<div class="row">
+					<!-- 각 영역 크기조절하기 -->
+					<div class="col-lg-6">
+						<div class="card">
+							
+							
+							<div class=""></div>
 						</div>
 
 					</div>
