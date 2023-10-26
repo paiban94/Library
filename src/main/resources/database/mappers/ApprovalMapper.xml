@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.lib.fin.approval.ApprovalDAO">
+  
+  	<!-- file add -->
+  	<insert id="setFileAdd" parameterType="ApprovalFileVO">
+  		INSERT INTO APPROVAL_FILE(APPROVAL_FILE_NO, DOC_NO, APPROVAL_FILENAME,APPROVAL_PATH, REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
+  		VALUES(#{file_no},#{doc_no},#{file_name},#{file_path},'1','1',now(),now(),'y')
+  	</insert>
+  	
+  		
+  	<!-- 기안 add -->
+  	<insert id="setDraft" parameterType="ApprovalDocVO" useGeneratedKeys="true" keyProperty="doc_no">
+  	
+  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},now(),null,null,#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
+  	</insert>
+  
+  </mapper>
