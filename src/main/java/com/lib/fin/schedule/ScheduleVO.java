@@ -5,14 +5,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lib.fin.commons.CommonVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-public class ScheduleVO {
+
+public class ScheduleVO extends CommonVO {
 	
 	private int schedule_No;
 	private String emp_No;
@@ -21,11 +23,7 @@ public class ScheduleVO {
 	private String schedule_contents;
 	private String schedule_title;
 	private String schedule_kind;
-	private String reg_Id;
-	private String mod_Id;
-	private Date reg_date;
-	private Date mod_date;
-	private String use_yn;
+
 	@Autowired
 	private List<ScheduleVO> schedulelist;
 }
