@@ -16,7 +16,7 @@ import javax.inject.Inject;
 @Repository
 @Slf4j
 public class ScheduleDAO {
-	@Inject
+	@Autowired
 	private SqlSession sql;
 	
 	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO";
