@@ -6,6 +6,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
 <%@page import="java.util.List"%>
 <%@page import="com.lib.fin.schedule.ScheduleVO"%>
+<%
+List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,16 +52,17 @@
                 		start:'2023-10-28 00:00:00',
                 		end:'2023-10-30 00:00:00'
                 	},
-                	<%List<ScheduleVO> scheduleList = (List<ScheduleVO>) request.getAttribute("scheduleList");%>
-                    <%if (scheduleList != null) {%>
-                    <%for (ScheduleVO vo : scheduleList) {%>
-                    {
-                    	title : '<%=vo.getSchedule_title()%>',
-                        start : '<%=vo.getSchedule_start_time()%>',
-                        end : '<%=vo.getSchedule_end_time()%>',
+                	<%for(int i =0;i<list.size(); i++){
+                		ScheduleVO scheduleVO = (ScheduleVO)list.get(i);
+                	%>
+                	{
+                    	title : '<%=scheduleVO.getSchedule_title()%>',
+                        start : '<%=scheduleVO.getSchedule_start_time()%>',
+                        end : '<%=scheduleVO.getSchedule_end_time()%>',
                          },
-        	<%}
-        }%>
+        	<%
+            }
+        %>
                     
                 ], headerToolbar: {
                     left:'',

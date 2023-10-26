@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-@Service("scheduleService")
+import javax.inject.Inject;
+@Service
 public class ScheduleService {
-
-	private static final ScheduleDAO scheduleDAO = new ScheduleDAO();
+	private final ScheduleDAO scheduleDAO = new ScheduleDAO();
 	
-	public static  List<ScheduleVO> getSchedule() throws Exception {
-		return scheduleDAO.getSchedule(null);
+	public List<ScheduleVO> showSchedule()throws Exception{
+		return scheduleDAO.showSchedule();
+	}
+	
+	public void addSchedule(ScheduleVO scheduleVO)throws Exception{
+		scheduleDAO.addSchedule(scheduleVO);
 	}
   }
 

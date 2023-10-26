@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
-@Repository("ScheduleDAO")
+import javax.inject.Inject;
+
+@Repository
 @Slf4j
 public class ScheduleDAO {
 	@Autowired
@@ -19,11 +21,12 @@ public class ScheduleDAO {
 	
 	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO.";
 	
-	public List<ScheduleVO> getSchedule(Map<String, Object> map) throws Exception {
-		
-		List<ScheduleVO> schedule = new ArrayList<ScheduleVO>();
-		schedule = sql.selectList(NAMESPACE+"getSchedule",map);
-		return schedule;
-		
+	public List<ScheduleVO> showSchedule()throws Exception{
+		return sql.selectList(NAMESPACE+".showSchedule");
 	}
+	
+	public void addSchedule(ScheduleVO scheduleVO)throws Exception{
+		sql.insert(NAMESPACE+".addSchedule",scheduleVO);
+	}
+	
 }
