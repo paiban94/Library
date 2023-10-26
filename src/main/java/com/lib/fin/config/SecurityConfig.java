@@ -43,6 +43,11 @@
 	          .authorizeRequests()
 	              .antMatchers("/member/join").permitAll()
 	              .antMatchers("/member/postLogin").permitAll()
+//	              .antMatchers("/assets/css/**"
+//	            		  ,"/assets/img/**"
+//	            		  ,"/assets/js/**"
+//	            		  ,"/assets/vendor/**"
+//	            		  ,"/forms/**").permitAll()	
 	              .anyRequest().authenticated()
 	              //나머지 모든 요청은 로그인한 사용자 가능
 	              
@@ -76,6 +81,10 @@
 	  return httpSecurity.build();	
 	
 	}
+		
+		
+		
+		
 		
 	private SecurityFailHandler getFailHandler() {
 		return new SecurityFailHandler();

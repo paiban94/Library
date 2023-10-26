@@ -25,7 +25,7 @@
 <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
 <!-- Template Main CSS File -->
-<link href="/kassets/css/style.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
 
 <!-- jquery-->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
