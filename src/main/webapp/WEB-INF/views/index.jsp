@@ -32,7 +32,10 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-						<div class="card">이곳에 내용을 입력하시면 됩니다<div class=""></div>
+						<div class="card">
+							
+							
+							<div class=""></div>
 						</div>
 					</div>
 			

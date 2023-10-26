@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="/">
           <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
@@ -135,12 +135,12 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="charts-chartjs.html">
+            <a href="/board/announcement">
               <i class="bi bi-circle"></i><span>공지사항</span>
             </a>
           </li>
           <li>
-            <a href="charts-apexcharts.html">
+            <a href="/board/community">
               <i class="bi bi-circle"></i><span>자유 게시판</span>
             </a>
           </li>
