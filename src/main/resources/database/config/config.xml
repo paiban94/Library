@@ -7,6 +7,6 @@
 	<typeAliases>
 	<typeAlias type="com.lib.fin.approval.ApprovalDocVO" alias="ApprovalDocVO"/>
 	<typeAlias type="com.lib.fin.approval.ApprovalFileVO" alias="ApprovalFileVO"/>
-		
+		<typeAlias type="com.lib.fin.member.MemberVO" alias="MemberVO"/>	
 	</typeAliases>
 </configuration>	  
