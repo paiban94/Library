@@ -3,6 +3,8 @@ package com.lib.fin.member;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +46,7 @@ public class MemberController {
     	boolean check = memberService.getMemberError(memberVO, bindingResult);
 
     	if(bindingResult.hasErrors() || check) {
+    		log.info("==========실패했습니다==========");
     		return "member/join";
     	}
     	
@@ -54,7 +57,33 @@ public class MemberController {
             log.info("===========회원 가입이 성공했습니다.=========");
         }
 
-        return "redirect:../";
+        //return "redirect:../";
+        return "member/login";
     }
+    
+    
+	@GetMapping("/login")
+	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+		
+		return "/member/login";
+
+	}
+	
+	@RequestMapping("/postLogin")
+	public String postLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		log.info("===== Name : {} =====", context.getAuthentication().getPrincipal().toString());
+		String check=context.getAuthentication().getPrincipal().toString();
+		
+		if(!check.equals("anonymousUser")) {		
+			return "/member/login";
+	
+		}else {
+			return "/index";
+		}
+		
+	}
+	
 
 }

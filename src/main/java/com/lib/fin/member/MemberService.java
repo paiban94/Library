@@ -2,6 +2,9 @@ package com.lib.fin.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
 	//DAO
 	@Autowired
 	private MemberDAO memberDAO;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
 	//검증메서드
@@ -27,8 +32,7 @@ public class MemberService {
 		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
 			check=true; // 패스워드가 패스워드체크랑 같지않다면 트루(에러)
 			
-			bindingResult.reject("passwordCheck","비밀번호가 일치하지 않습니다.");
-		
+			bindingResult.rejectValue("passwordCheck", "password.mismatch", "비밀번호가 일치해야 합니다.");
 		}
 			
 		
@@ -37,8 +41,26 @@ public class MemberService {
 	
 	 @Transactional(rollbackFor = Exception.class)
 	    public int memJoin(MemberVO memberVO) throws Exception {
-	        memberDAO.memJoin(memberVO);
+	        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		 	int result= memberDAO.memJoin(memberVO);
 	        // 다른 처리 로직 추가 (예: 권한 설정, 로깅 등)
-	        return 1; // 성공 시 양수 반환, 실패 시 0 반환
+	        return result; // 성공 시 양수 반환, 실패 시 0 반환
 	    }
+	 
+	 //serverLogin
+		@Override
+		public UserDetails loadUserByUsername(String emp_no) throws UsernameNotFoundException {		
+			//MemberVO memberVO = MemberMapper.getLogin(username);
+			MemberVO memberVO = new MemberVO();
+			memberVO.setEmp_no(emp_no);
+			try {
+				memberVO = memberDAO.getMember(memberVO);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				memberVO=null;
+			}
+			return  memberVO;
+		}
+
 }
