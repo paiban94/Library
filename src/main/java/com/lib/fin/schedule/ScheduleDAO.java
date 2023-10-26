@@ -16,11 +16,12 @@ import javax.inject.Inject;
 @Repository
 @Slf4j
 public class ScheduleDAO {
-	@Autowired
+	@Inject
 	private SqlSession sql;
 	
-	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO.";
+	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO";
 	
+
 	public List<ScheduleVO> showSchedule()throws Exception{
 		return sql.selectList(NAMESPACE+".showSchedule");
 	}
