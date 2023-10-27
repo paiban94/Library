@@ -25,7 +25,7 @@ public class DeptService {
 		
 		List<Map<String, Object>> deptList=null;
 		try {
-			deptList = deptDAO.getDeptInfo();
+			 deptList = deptDAO.getDeptInfo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,5 +33,21 @@ public class DeptService {
 		
 		return deptList;
 	}
+	
+	public List<Map<String,Object>> getEmpInfo(String emp_team){
+		
+		
+		List<Map<String, Object>> EmpList=null;
+		try {
+			 EmpList = deptDAO.getEmpInfo(emp_team);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return EmpList;
+	}
+	
+
 
 }

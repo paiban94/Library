@@ -16,6 +16,19 @@
 .a {
 	display: flex;
 }
+
+
+    .scrollable-card {
+ 
+        height: 500px;
+  
+    }
+        .scrollable-card1 {
+ 
+        height: 234px;
+  
+    }
+
 </style>
 
 
@@ -218,8 +231,9 @@
 													<button type="button" id="temp_send"
 														class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
-													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button>
+												<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
+															
 
 												</div>
 
@@ -251,39 +265,60 @@
 			<!-- 모달 -->
 
 			<div class="modal fade" id="basicModal" tabindex="-1">
-				<div class="modal-dialog modal-lg">
+				<div class="modal-dialog modal-lg" style="max-width: 60%; width: 60%;">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">Basic Modal</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body style="max-height: 300px; overflow-y: auto;">
 						
 						<div class=row>
+							<div class="col-sm-3">
+						
+							<div class="card border scrollable-card">
+								<div class="overflow-auto " id="readyMem">
+									
+								</div>
+							</div>
+							
+							</div>
+							
 							<div class="col-sm-4">
 						
-							<div class="card border " id='readyMem'>
-							123
-							</div>
+							<div class="card border scrollable-card">
+								<div class="overflow-auto">
+									
+							
+									
+								</div>
 							
 							</div>
 							
-							<div class="col-sm-4">
+							</div>
+							
+							<div class="col-sm-1 ">
+							
+							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
+								<i class="bi bi-arrow-right"></i>
+							</div>
+							
+							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-4">
+								<i class="bi bi-arrow-right"></i>
+							</div>
+							
 						
-							<div class="card border">
-							123
+			
 							</div>
-							
-							</div>
-							
-							<div class="col-sm-4">
+								
+							<div class="col-sm-4 scrollable-card">
 					
-							<div class="card border">
+							<div class="card border scrollable-card1">
 								123
 							</div>
 							
-							<div class="card border">
+							<div class="card border scrollable-card1">
 								123
 							</div>
 							
@@ -294,7 +329,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save
+							<button type="button" class="btn btn-primary" id="modalSave">Save
 								changes</button>
 						</div>
 					</div>
@@ -327,8 +362,18 @@
 			$("frm").submit();
 
 		});
+		
+		$('#modalSave').click(function() {
+			
+			$('#basicModal').modal("hide");
+		});
+		
+			
+		
 		$('#btnGetMem').click(function() {
 
+			$("#readyMem").empty();
+			
 			$.ajax({
 				url:"/dept/getDeptInfo"
 				,data:{}
@@ -339,16 +384,66 @@
 				,method:"post"
 				,success:function(data){
 					console.log(data);
-					console.log(data.deptList);
 					
 					
 					
-			         
+					let readyMemElement = $("#readyMem");
+					
+					let ul = $("<ul>"); 
+
+					
+					for (let i = 0; i < data.length; i++) {
+					    let deptName = data[i].cd_nm;
+					    
+					    
+					    let li = '<div id="a" class="mt-3"><li>'+
+			    		 deptName+'</li></div>';
+					    
+					    
+					    ul.append(li);
+					}
+
+					
+					readyMemElement.append(ul);
+					
+					       
 				}
 				
 			});
+			
+			
+			
 
 		});
+		
+		
+		//이벤트 위임
+		   $("#readyMem").on("click", "#a", function () {
+			   
+			   $.ajax({
+					url:"/dept/getEmpInfo"
+					,data:{
+						emp_team:'A'
+					}
+				    ,processData: false
+				    ,contentType: false
+					,cache:false
+					,method:"post"
+					,success:function(data){
+						console.log(data);
+						
+						
+						
+						
+						       
+					}
+					
+				});
+	          
+	            
+	           
+	           
+	        });
 		
 		
 		
