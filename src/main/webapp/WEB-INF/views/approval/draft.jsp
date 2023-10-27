@@ -333,13 +333,19 @@
 				url:"/dept/getDeptInfo"
 				,data:{}
 				,dateType:"json"
+			    ,processData: false
+			    ,contentType: false
 				,cache:false
 				,method:"post"
 				,success:function(data){
 					console.log(data);
 					console.log(data.deptList);
 					
+					
+					
+			         
 				}
+				
 			});
 
 		});

@@ -25,11 +25,14 @@ public class DeptController {
 	DeptService deptService;
 	
 	
-	@RequestMapping("/getDeptInfo")
+	@RequestMapping	("/getDeptInfo")
 	public void getDeptInfo(ServletRequest r, ServletResponse s) throws Exception{
 		HashMap<String,Object> resultMap = new HashMap<>();
 		
+        
 		List<Map<String,Object>> deptList= deptService.getDeptInfo();
+		
+		
 		
 		resultMap.put("deptList", deptList);
 		JSONObject resultJson = new JSONObject(resultMap);
