@@ -13,15 +13,15 @@ public class ScheduleDAO {
 	@Autowired
 	private SqlSession sql;
 	
-	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO";
+	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO.";
 	
 
-	public List<ScheduleVO> showSchedule()throws Exception{
-		return sql.selectList(NAMESPACE+".showSchedule");
+	public List<ScheduleVO> showSchedule(Map<String,Object> map)throws Exception{
+		return sql.selectList(NAMESPACE+"showSchedule",map);
 	}
 	
 	public void addSchedule(ScheduleVO scheduleVO)throws Exception{
-		sql.insert(NAMESPACE+".addSchedule",scheduleVO);
+		sql.insert(NAMESPACE+"addSchedule",scheduleVO);
 	}
 	
 }
