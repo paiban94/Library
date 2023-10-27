@@ -15,7 +15,9 @@ public class ScheduleService {
 	
 	public List<ScheduleVO> showSchedule()throws Exception{
 		Map<String,Object> map = new HashMap<String,Object>();
+		
 		return scheduleDAO.showSchedule(map);
+
 	}
 	
 	public void addSchedule(ScheduleVO scheduleVO)throws Exception{

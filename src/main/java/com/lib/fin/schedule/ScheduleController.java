@@ -40,4 +40,5 @@ public class ScheduleController {
 		return "/schedule";
 		
 	}
+	
 }

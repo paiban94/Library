@@ -40,6 +40,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 timeZone: 'UTC',
                 initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.
+                selectable:true,
                 events:[ // 일정 데이터 추가 , DB의 event를 가져오려면 JSON 형식으로 변환해 events에 넣어주면된다.
                     {
                         title:'일정',
@@ -69,14 +70,6 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
                     center: 'prev,title,next',// headerToolbar에 버튼을 추가
                     right:'addEventButton,addEventButton2'
                 },customButtons: {
-				addEventButton2: {
-					text: '예약추가',
-					click: function() {
-						alert('예약추가');
-					    }
-					  }
-					},
-  					 customButtons: {
                     addEventButton: { // 추가한 버튼 설정
                         text : "일정 추가",  // 버튼 내용
                         click : function(){ // 버튼 클릭 시 이벤트 추가
@@ -111,6 +104,13 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
 
                                     console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
                                 }
+                                addEventButton2: {
+                					text: '예약추가',
+                					click: function() {
+                						alert('예약추가');
+                					    }
+                					  }
+                					,
                             });
                         }
                     }
