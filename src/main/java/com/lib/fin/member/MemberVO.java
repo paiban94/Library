@@ -7,8 +7,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.lib.fin.commons.CommonVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +20,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO implements UserDetails{
+
+public class MemberVO extends CommonVO implements UserDetails{
 	
 	private String emp_no;
 
@@ -34,7 +38,7 @@ public class MemberVO implements UserDetails{
 	@Email(message = "이메일 형식에 맞지 않습니다.")
 	private String email;
 	
-	private String birth;
+	private Date birth;
 	
 	private String phone;
 	
@@ -45,31 +49,12 @@ public class MemberVO implements UserDetails{
 	private int remain_holiday;
 	
 	private String authority;
-				   
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	private Date emp_in_date;
-	
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	private Date emp_out_date;
-	
-	private Date reg_date;
-	
-	private String reg_id;
-	
-	private Date mod_date;
-	
-	private String mod_id;
-	
-	private String use_yn;
 
-	/* 사용자 권한을 Security에서 사용 할 수 있도록 변환 */
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//	    List<GrantedAuthority> authorities = new ArrayList();
-//      for(RoleVO roleVO:this.getRoleVOs()) {
-//      	System.out.println(roleVO.getRoleName());
-//      	authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
-//      }
-//		return authorities;
-//	}
+
 
 	
 	

@@ -65,6 +65,7 @@
 								<input type="password" name="password" class="form-control" id="yourPassword" required>
 								<div class="invalid-feedback">비밀번호를 입력하세요.</div>
 							  </div>
+							  <br>
 		  
 							  <!-- <div class="col-12">
 								<div class="form-check">
@@ -73,6 +74,9 @@
 								</div>
 							  </div> -->
 							  <!-- 가운데 정렬 -->
+
+
+							  
 							  <div class="col-12">
 								<button class="btn btn-primary w-100" type="submit">Login</button>
 							  </div>

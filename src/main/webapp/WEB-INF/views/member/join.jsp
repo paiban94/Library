@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>      
@@ -116,13 +115,44 @@
 				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				    </div>
 					<br>
-					 <button type="submit" class="btn btn-primary">회원가입</button>
-				
+				 <button type="submit" class="btn btn-primary">회원가입</button>
+					
+					               <!-- Basic Modal -->
+								   <!-- <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
+									회원가입
+								  </button>
+							
+								   <div class="modal fade" id="basicModal" tabindex="-1">
+									<div class="modal-dialog">
+									  <div class="modal-content">
+										<div class="modal-header">
+										  <h5 class="modal-title">사원번호</h5>
+										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+										
+										</div>
+										<div class="modal-footer">
+										   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" href="member/login">확인</button>
+										</div>
+									  </div>
+									</div>
+								  </div>
+								  <script>
+									$("#joinModal").click(function(e){
+										var emo_no = $(this).data('id');
+										$(".modal-body").text('당신의 사원번호는'+ emo_no +'입니다.');
+									});
+								
+								  </script> -->
+
+
+
 				</form:form>
 						</div>
 					</div>
 
-				
+			
 				
 				
 				
