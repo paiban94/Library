@@ -41,7 +41,7 @@ public class MemberController {
 //	}
 	
     @PostMapping("join")
-    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile photo) throws Exception {
+    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile photo, String selectTeam, String selectPosition) throws Exception {
     	
     	boolean check = memberService.getMemberError(memberVO, bindingResult);
 
@@ -49,6 +49,10 @@ public class MemberController {
     		log.info("==========실패했습니다==========");
     		return "member/join";
     	}
+    	//사용자가 선택한 부서, 직급 MemberVO 담기
+    	memberVO.setEmp_team(selectTeam);
+    	memberVO.setEmp_position(selectPosition);
+    	
     	
         int result = memberService.memJoin(memberVO);
 

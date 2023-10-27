@@ -43,9 +43,9 @@
 	          .authorizeRequests()
 	              .antMatchers("/member/join").permitAll()
 	              .antMatchers("/member/postLogin").permitAll()
+	              .antMatchers("/admin/*").hasRole("ADMIN")
 	              .anyRequest().authenticated()
 	              //나머지 모든 요청은 로그인한 사용자 가능
-	              
 	              //.antMatchers("/").authenticated()
 	              //로그인한 사람만 접속가능
 	              //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
@@ -59,11 +59,10 @@
 	                .failureHandler(getFailHandler())
 	          	  	.permitAll()
 	                .and()
-	//         
-	//            .logout()
-	//            	.logoutUrl("/member/logout")
-	//              .addLogoutHandler(logoutCustomHandler)
-	//              .logoutSuccessHandler(logoutSuccess)
+	            .logout()
+	            	.logoutUrl("/member/logout")
+	            	.logoutSuccessUrl("/")
+	            	.permitAll()
 	//                .permitAll()
 	//               .and()
 	//          .sessionManagement()

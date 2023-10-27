@@ -1,7 +1,9 @@
 package com.lib.fin.member;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lib.fin.commons.CommonVO;
@@ -39,7 +42,7 @@ public class MemberVO extends CommonVO implements UserDetails{
 	private String email;
 	
 	private Date birth;
-	
+	@NotBlank(message = "핸드폰 번호를 입력하세요")
 	private String phone;
 	
 	private String emp_team;
@@ -49,21 +52,28 @@ public class MemberVO extends CommonVO implements UserDetails{
 	private int remain_holiday;
 	
 	private String authority;
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	private Date emp_in_date;
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	private Date emp_out_date;
-
-
-
 	
+	private Date emp_in_date;
+	
+	private Date emp_out_date;
+	
+	private List<ComVO> comVOs;
+
+	///////직급,부서 getter 추가
+	
+	public String getEmp_team() {
+		return emp_team;
+	}
+	
+	public String getEmp_position() {
+		return emp_position;
+	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
     // 시큐리티의 userName
     // -> 따라서 얘는 인증할 때 id를 봄
@@ -101,6 +111,8 @@ public class MemberVO extends CommonVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	
 	
 	
 }

@@ -84,12 +84,12 @@
 						<div class="form-group">
 							<br>
 							<form:label path="emp_team">부서</form:label>
-							<form:select id="emp_team" path="emp_team" cssClass="form-control">
+							<form:select name="selectTeam" id="emp_team" path="emp_team" cssClass="form-control">
 								<form:option value="" label="부서 선택 시 클릭하세요" /> 
-								<form:option value="M" label="운영과" />
-								<form:option value="P" label="정책과" />
-								<form:option value="S" label="서비스과" />
-								<form:option value="N" label="미정" />
+								<form:option value="A" label="운영과" />
+								<form:option value="B" label="정책과" />
+								<form:option value="C" label="서비스과" />
+								<form:option value="D" label="미정" />
 							</form:select>
 							<form:errors path="emp_team"></form:errors>
 						</div>
@@ -98,12 +98,12 @@
 					    <div class="form-group">
 						<br>
     	 			  	<form:label path="emp_position">직급</form:label>
-					    <form:select id="emp_position"  path="emp_position" cssClass="form-control">
+					    <form:select name="selectPosition" id="emp_position"  path="emp_position" cssClass="form-control">
 							<form:option value="" label="직급 선택 시 클릭하세요" /> 
-							<form:option value="D" label="관장" /> 
-							<form:option value="T" label="팀장" /> 
-							<form:option value="A" label="주무관" /> 
-							<form:option value="L" label="사서" /> 
+							<form:option value="A" label="관장" /> 
+							<form:option value="B" label="팀장" /> 
+							<form:option value="C" label="주무관" /> 
+							<form:option value="D" label="사서" /> 
 						</form:select>
 					    <form:errors path="emp_position"></form:errors>
 					  </div>
@@ -115,10 +115,10 @@
 				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				    </div>
 					<br>
-				 <button type="submit" class="btn btn-primary">회원가입</button>
+				 <!-- <button type="submit" class="btn btn-primary">회원가입</button> -->
 					
 					               <!-- Basic Modal -->
-								   <!-- <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
+								   <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
 									회원가입
 								  </button>
 							
@@ -130,7 +130,7 @@
 										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-										
+											<p id="employeeInfo">여기에 사원 정보가 표시됩니다.</p>
 										</div>
 										<div class="modal-footer">
 										   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" href="member/login">확인</button>
@@ -138,15 +138,27 @@
 									  </div>
 									</div>
 								  </div>
+								  <!-- <script src="/resources/static/js/joinModal.js"></script> -->
+
+
 								  <script>
-									$("#joinModal").click(function(e){
-										var emo_no = $(this).data('id');
-										$(".modal-body").text('당신의 사원번호는'+ emo_no +'입니다.');
+									// 버튼 클릭 시 모달 열기
+									document.getElementById("joinModal").addEventListener("click", function () {
+										// 모달 내용 설정
+										var emp_no = "${memberVO.emp_no}";
+										document.getElementById("employeeInfo").textContent = "사원번호: " + emp_no;
+									
+										// 모달 열기
+										$('#basicModal').modal('show');
 									});
-								
-								  </script> -->
-
-
+									</script>
+				
+									
+									
+									
+									
+									
+									
 
 				</form:form>
 						</div>
