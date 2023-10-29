@@ -39,9 +39,6 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
    <script type="text/javascript">
 		const arr = new Array();
 		
-		function timeFormat(time){
-		      return String(time).padStart(2, "0");
-		   }
 		
 		$.ajax({
 			  type: "GET", 
@@ -116,14 +113,19 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 	    	    right: 'myCustomButton'
 	    	  },
 	    	  
-	      buttonText:{
-	    	  
-	    	 
-	      },
+	    
 	      
 	      
 	      
-        	events:arr,
+        	events:[ 
+        	{
+                  title:'일정',
+                  start:'2023-10-26',
+                  end:'2023-10-28'
+              },
+          ],
+          
+          arr,
         	
         	
 	    	  
