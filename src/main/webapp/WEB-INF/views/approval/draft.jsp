@@ -288,7 +288,7 @@
 							<div class="col-sm-4">
 						
 							<div class="card border scrollable-card">
-								<div class="overflow-auto">
+								<div class="overflow-auto" id="memList">
 									
 							
 									
@@ -301,11 +301,11 @@
 							<div class="col-sm-1 ">
 							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
-								<i class="bi bi-arrow-right"></i>
+								<i class="bi bi-arrow-right" id="appAW"></i>
 							</div>
 							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-4">
-								<i class="bi bi-arrow-right"></i>
+								<i class="bi bi-arrow-right" id="refAW"></i>
 							</div>
 							
 						
@@ -314,12 +314,12 @@
 								
 							<div class="col-sm-4 scrollable-card">
 					
-							<div class="card border scrollable-card1">
-								123
+							<div class="card border scrollable-card1 overflow-auto" id="appLine">
+								
 							</div>
 							
-							<div class="card border scrollable-card1">
-								123
+							<div class="card border scrollable-card1 overflow-auto" id="appRef">
+								
 							</div>
 							
 							</div>
@@ -378,9 +378,6 @@
 				url:"/dept/getDeptInfo"
 				,data:{}
 				,dateType:"json"
-			    ,processData: false
-			    ,contentType: false
-				,cache:false
 				,method:"post"
 				,success:function(data){
 					console.log(data);
@@ -396,8 +393,9 @@
 					    let deptName = data[i].cd_nm;
 					    
 					    
-					    let li = '<div id="a" class="mt-3"><li>'+
-			    		 deptName+'</li></div>';
+					    let id = 'a' + i;
+		                
+		                let li = '<div id="' + id + '" class="mt-3 memList"><li>' + deptName + '</li></div>';
 					    
 					    
 					    ul.append(li);
@@ -418,34 +416,115 @@
 		
 		
 		//이벤트 위임
-		   $("#readyMem").on("click", "#a", function () {
+		
+			
+  		   $("#readyMem").on("click", ".memList", function () {
 			   
+  			 let deptName = $(this).text();
+  			 console.log(deptName);
+  			 
+  			let emp_team = getDeptList(deptName);
+			   
+			     
 			   $.ajax({
 					url:"/dept/getEmpInfo"
 					,data:{
-						emp_team:'A'
+						emp_team:emp_team
 					}
-				    ,processData: false
-				    ,contentType: false
-					,cache:false
 					,method:"post"
 					,success:function(data){
 						console.log(data);
 						
+						$('#memList').empty();
 						
+						for (let i = 0; i < data.length; i++) {
+							let employee = data[i];
+							
+							let values = '<tr>' +
+							'<td>' + employee.name + '</td>' +
+							'<td>' + employee.emp_position + '</td>' +
+							'<td>' + employee.emp_team + '</td>' +
+							'<td>x</td>' +
+							'</tr>';
+						    
+							let newRow = '<tr>' +
+								'<td><input type="checkbox" name="selectNm" value="' + values + '"></td>' +
+										'<td>' + employee.name + '</td>' +
+										'<td>' + employee.emp_position + '</td>' +
+										'<td>' + employee.emp_team + '</td>' +
+										'</tr>';
+							$('#memList').append(newRow); 
+						}
+						}
+					,
+					error: function(error) {
+						console.log('Error:', error);
 						
 						
 						       
 					}
 					
 				});
-	          
-	            
-	           
-	           
-	        });
+	 
+	        }); 
 		
+  		 function getDeptList(deptName) {
+  		    let emp_team = "";
+
+  		    switch (deptName) {
+  		        case "운영과":
+  		            emp_team = "A";
+  		            break;
+  		        case "정책과":
+  		            emp_team = "B";
+  		            break;
+  		        case "서비스과":
+  		            emp_team = "C";
+  		            break;
+  		        case "가발령":
+  		            emp_team = "D";
+  		            break;
+  		        // 다른 부서에 대한 경우도 추가
+  		    }
+
+  		    return emp_team;
+  		}
+
+  		$("#appAW").click(function() {
+  		    // 체크된 항목을 가져오기
+  		    let selectedItems = [];
+  		    $("#memList input[name='selectNm']:checked").each(function() {
+  		        selectedItems.push($(this).val());
+  		    });
+
+  		    // 가져온 항목을 "appLine"에 순서대로 추가
+  		    let appLineElement = $("#appLine");
+  		    
+	  		 	 for (let item of selectedItems) {
+	  		 		 console.log(item)
+	  	        let newRow = '<table class="table">' + item + '</table>';
+	  	        appLineElement.append(newRow);
+  	    }
+  		});
+
+  		$("#refAW").click(function() {
+  		    // 체크된 항목을 가져오기
+  		    let selectedItems = [];
+  		    $("#memList input[name='selectNm']:checked").each(function() {
+  		        selectedItems.push($(this).val());
+  		    });
+
+  		    // 가져온 항목을 "appRef"에 순서대로 추가
+  		    let appRefElement = $("#appRef");
+  		    appRefElement.empty(); // 기존 내용을 비우고 다시 채웁니다.
+  		    for (let item of selectedItems) {
+  		        let newItem = document.createElement("div");
+  		        newItem.textContent = item;
+  		        appRefElement.append(newItem);
+  		    }
+  		});
 		
+
 		
 	</script>
 </body>

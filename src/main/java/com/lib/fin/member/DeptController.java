@@ -43,16 +43,28 @@ public class DeptController {
 	
 	}
 	
+//	@RequestMapping("/getEmpInfo")
+//	@ResponseBody
+//	public List<Map<String,Object>> getEmpInfo(String emp_team) throws Exception{
+//	
+//		List<Map<String,Object>> EmpList= deptService.getEmpInfo(emp_team);
+//			
+//		return EmpList;
+//		
+//	
+//	}
+	
 	@RequestMapping("/getEmpInfo")
 	@ResponseBody
-	public List<Map<String,Object>> getEmptInfo(String emp_team) throws Exception{
+	public List<ApprovalDocVO> getEmpInfo(String emp_team) throws Exception{
 	
-		List<Map<String,Object>> EmpList= deptService.getEmpInfo(emp_team);
+		List<ApprovalDocVO> EmpList= deptService.getEmpInfo(emp_team);
 			
 		return EmpList;
 		
 	
 	}
+
 	
 	
 
