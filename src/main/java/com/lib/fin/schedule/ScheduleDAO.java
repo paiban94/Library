@@ -1,33 +1,19 @@
 package com.lib.fin.schedule;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import org.apache.ibatis.annotations.Mapper;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+@Mapper
+public interface ScheduleDAO {
 
-import lombok.extern.slf4j.Slf4j;
-import java.util.ArrayList;
-import javax.inject.Inject;
-
-@Repository
-@Slf4j
-public class ScheduleDAO {
-	@Autowired
-	private SqlSession sql;
+	public int setScheduleAdd(ScheduleVO scheduleVO) throws Exception;
 	
-	private final String NAMESPACE="com.lib.fin.schedule.ScheduleDAO.";
+	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception;
 	
-
-	public List<ScheduleVO> showSchedule(Map<String,Object> map)throws Exception{
-		return sql.selectList(NAMESPACE+"showSchedule",map);
-	}
+	public int setScheduleUpdate(ScheduleVO scheduleVO) throws Exception;
 	
-	public void addSchedule(ScheduleVO scheduleVO)throws Exception{
-		sql.insert(NAMESPACE+"addSchedule",scheduleVO);
-	}
+	public int setScheduleDelete(ScheduleVO scheduleVO) throws Exception;
 	
+	public List<ScheduleVO> getScheduleList(ScheduleVO scheduleVO) throws Exception;
 }

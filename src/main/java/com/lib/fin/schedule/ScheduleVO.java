@@ -15,8 +15,8 @@ import lombok.Setter;
 
 public class ScheduleVO extends CommonVO {
 	
-	private int schedule_No;
-	private String emp_No;
+	private int schedule_no;
+	private String emp_no;
 	private Date schedule_start_time;
 	private Date schedule_end_time;
 	private String schedule_contents;
