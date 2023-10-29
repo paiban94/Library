@@ -13,15 +13,23 @@ public class ScheduleService {
 	@Autowired
 	private ScheduleDAO scheduleDAO;
 	
-	public List<ScheduleVO> showSchedule()throws Exception{
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		return scheduleDAO.showSchedule(map);
-
+	public int setScheduleAdd(ScheduleVO scheduleVO) throws Exception {
+		return scheduleDAO.setScheduleAdd(scheduleVO);
 	}
 	
-	public void addSchedule(ScheduleVO scheduleVO)throws Exception{
-		scheduleDAO.addSchedule(scheduleVO);
+	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception{
+		return scheduleDAO.getSchedule(scheduleVO);
 	}
-  }
-
+	
+	public int setScheduleUpdate(ScheduleVO scheduleVO) throws Exception{
+		return scheduleDAO.setScheduleUpdate(scheduleVO);
+	}
+	
+	public int setScheduleDelete(ScheduleVO scheduleVO) throws Exception{
+		return scheduleDAO.setScheduleDelete(scheduleVO);
+	}
+	
+	public List<ScheduleVO> getScheduleList(ScheduleVO scheduleVO) throws Exception{
+		return scheduleDAO.getScheduleList(scheduleVO);
+	}
+}

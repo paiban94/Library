@@ -4,19 +4,28 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.lib.fin.schedule.ScheduleDAO">
-  	<select id="showSchedule" resultType="ScheduleVO">
-  		SELECT
-  			SCHEDULE_NO,EMP_NO,SCHEDULE_START_TIME,SCHEDULE_END_TIME,SCHEDULE_CONTENTS,SCHEDULE_TITLE,SCHEDULE_KIND,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN
-  		FROM
-  			SCHEDULE_BASE
-  		ORDER BY
-  			SCHEDULE_NO
-  		DESC
-  	</select>
-  	<insert id="addSchedule" parameterType="ScheduleVO">
-  		INSERT INTO
-  			SCHEDULE_BASE(SCHEDULE_NO,EMP_NO,SCHEDULE_START_TIME,SCHEDULE_END_TIME,SCHEDULE_CONTENTS,SCHEDULE_TITLE,SCHEDULE_KIND,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
-  		VALUE
-  			(#{SCHEDULE_NO},#{EMP_NO},#{SCHEDULE_START_TIME},#{SCHEDULE_END_TIME},#{SCHEDULE_CONTENTS},#{SCHEDULE_TITLE},#{SCHEDULE_KIND},'1','1',now(),now(),'y')
-  	</insert>
+  <insert id="setScheduleAdd" parameterType="ScheduleVO">
+		INSERT INTO SCHEDULE_BASE 
+		values(0, '20231024001', #{schedule_start_time}, #{schedule_end_time}, #{schedule_title}, #{schedule_contents}, #{schedule_kind}, '20231024001', '20231024001', sysdate(), sysdate(), 'y');
+   </insert>
+   
+   <select id="getSchedule" resultType="ScheduleVO">
+   		SELECT * FROM SCHEDULE_BASE
+   </select>
+   
+	<update id="setScheduleUpdate" parameterType="ScheduleVO">
+		UPDATE SCHEDULE_BASE SET
+  		EMP_NO=#{emp_no}, SCHEDULE_START_TIME=#{schedule_start_time}, SCHEDULE_END_TIME=#{schedule_end_time}, SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENTS=#{schedule_contents}, SCHEDULE_KIND=#{schedule_kind}
+  		WHERE SCHEDULE_NO=#{schedule_no}
+	</update>
+
+	<delete id="setScheduleDelete" parameterType="ScheduleVO">
+			DELETE FROM SCHEDULE_BASE
+			WHERE SCHEDULE_NO=#{schedule_no}
+	</delete>
+
+	<select id="getScheduleList" resultType="ScheduleVO">
+   		SELECT * FROM SCHEDULE_BASE
+   </select>
+
 </mapper>

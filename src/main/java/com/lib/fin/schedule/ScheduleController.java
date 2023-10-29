@@ -5,40 +5,59 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/schedule/*")
 @Slf4j
+@RequestMapping("/schedule/*")
 public class ScheduleController {
+	
+	@Autowired
+	private ScheduleService scheduleService;
+	
 
-	private final ScheduleService scheduleService = new ScheduleService();
-
+	@GetMapping("getScheduleList")
 	@ResponseBody
-	@RequestMapping(value="/addSchedule",method=RequestMethod.POST)
-	public Map<Object,Object> addSchedule(@RequestBody ScheduleVO schedulevo)throws Exception{
-		Map<Object,Object>map = new HashMap<Object,Object>();
-		
-		scheduleService.addSchedule(schedulevo);
-		
-		return map;
+	public List<ScheduleVO> getEvents(ScheduleVO scheduleVO) throws Exception{
+	    List<ScheduleVO> events = scheduleService.getScheduleList(scheduleVO);
+	    
+	    return events;
 	}
 	
-	@RequestMapping(value="/schedule")
-	public String Schedule(Model model)throws Exception{
-		model.addAttribute("showSchedule",scheduleService.showSchedule());
-		
-		return "/schedule";
-		
+	
+	@PostMapping("update")
+	public String setScheduleUpdate(ScheduleVO scheduleVO)throws Exception{;
+		 
+		int result = scheduleService.setScheduleUpdate(scheduleVO);
+		return "redirect:./schedule";
 	}
+	
+	@PostMapping("delete")
+	public String setScheduleDelete(ScheduleVO scheduleVO) throws Exception{
+		int result = scheduleService.setScheduleDelete(scheduleVO);
+		return "redirect:./schedule";
+	}
+	
+	@GetMapping("scheduleList")
+	public String scheduleList(ScheduleVO scheduleVO, Model model) throws Exception{
+		List<ScheduleVO> arr = scheduleService.getScheduleList(scheduleVO); 
+		model.addAttribute("list", arr);
+		
+		 return "sales/carReservation";
+	}
+	
 	
 }
+
