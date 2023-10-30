@@ -115,10 +115,10 @@
 				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				    </div>
 					<br>
-				 <!-- <button type="submit" class="btn btn-primary">회원가입</button> -->
+				  <button type="submit" class="btn btn-primary">회원가입</button> 
 					
 					               <!-- Basic Modal -->
-								   <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
+								   <%-- <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
 									회원가입
 								  </button>
 							
@@ -137,7 +137,7 @@
 										</div>
 									  </div>
 									</div>
-								  </div>
+								  </div> --%>
 								  <!-- <script src="/resources/static/js/joinModal.js"></script> -->
 
 
@@ -153,7 +153,7 @@
 									});
 									</script>
 								 -->
-								<script>
+								<!-- <script>
 									// 버튼 클릭 시 모달 열기
 									document.getElementById("joinModal").addEventListener("click", function () {
 										// "/getEmpNo"서버로 emp_no를 요청
@@ -166,7 +166,7 @@
 											$('#basicModal').modal('show');
 										});
 									});
-									</script>
+									</script> -->
 									
 									
 									

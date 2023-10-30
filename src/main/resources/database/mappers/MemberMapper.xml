@@ -18,11 +18,11 @@
    	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}); 
    	</insert>
    	
-   	<!-- emp_no modal용 -->
-   	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
+  	<!-- emp_no modal용 -->
+  <!-- 		<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
    		SELECT * FROM MEM_INFO
    		WHERE EMP_NO = ${emp_no}
-   	</select>
+   	</select> -->
    	
 <!--    	
    	로그인

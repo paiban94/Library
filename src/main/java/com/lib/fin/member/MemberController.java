@@ -72,12 +72,7 @@ public class MemberController {
     }
     
     
-    //서버에서 동적으로 emp_no를 가져와서 modal에 띄워줘야함
-//    @RequestMapping(value="/getEmpNO", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String getEmpNo()throws Exception{
-//    	Stri
-//    }
+
     
 	@GetMapping("/login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
