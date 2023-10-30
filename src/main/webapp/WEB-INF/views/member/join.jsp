@@ -130,7 +130,7 @@
 										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<p id="employeeInfo">여기에 사원 정보가 표시됩니다.</p>
+											<p id="emp_info">여기에 사원 정보가 표시됩니다.</p>
 										</div>
 										<div class="modal-footer">
 										   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" href="member/login">확인</button>
@@ -141,7 +141,7 @@
 								  <!-- <script src="/resources/static/js/joinModal.js"></script> -->
 
 
-								  <script>
+								  <!-- <script>
 									// 버튼 클릭 시 모달 열기
 									document.getElementById("joinModal").addEventListener("click", function () {
 										// 모달 내용 설정
@@ -152,7 +152,21 @@
 										$('#basicModal').modal('show');
 									});
 									</script>
-				
+								 -->
+								<script>
+									// 버튼 클릭 시 모달 열기
+									document.getElementById("joinModal").addEventListener("click", function () {
+										// "/getEmpNo"서버로 emp_no를 요청
+										$.get("/getEmpNo", function (data) {
+											// 서버에서 받은 emp_no를 모달에 표시
+											let emp_no = data.emp_no;
+											document.getElementById("emp_info").textContent = "사원번호: " + emp_no;
+									
+											// 모달 열기
+											$('#basicModal').modal('show');
+										});
+									});
+									</script>
 									
 									
 									

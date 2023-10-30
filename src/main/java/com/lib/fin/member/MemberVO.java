@@ -59,16 +59,6 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private List<ComVO> comVOs;
 
-	///////직급,부서 getter 추가
-	
-	public String getEmp_team() {
-		return emp_team;
-	}
-	
-	public String getEmp_position() {
-		return emp_position;
-	}
-	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub

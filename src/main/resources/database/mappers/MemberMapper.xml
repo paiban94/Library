@@ -8,17 +8,21 @@
 
 	<!-- 회원가입 -->
 	<!-- reg_id / mod_id emp_no로 되어있어서 변경해야함, 다른컬럼들도 변경 필요 -->
-	<!-- <insert id="memJoin" parameterType="MemberVO">
+<!-- 	<insert id="memJoin" parameterType="MemberVO">
 	INSERT INTO MEM_INFO (EMP_NO, PW, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE, REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
    	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
    	</insert> -->
    	
-   	<insert id="memJoin" parameterType="MemberVO">
-    INSERT INTO MEM_INFO (EMP_NO, PW, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE, REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
-    VALUES (#{emp_no}, #{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(), #{emp_no}, "y");
-	</insert>
-   		
+   		<insert id="memJoin" parameterType="MemberVO">
+	INSERT INTO MEM_INFO (EMP_NO, PW, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE)
+   	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}); 
+   	</insert>
    	
+   	<!-- emp_no modal용 -->
+   	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
+   		SELECT * FROM MEM_INFO
+   		WHERE EMP_NO = ${emp_no}
+   	</select>
    	
 <!--    	
    	로그인

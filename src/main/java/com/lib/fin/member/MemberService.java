@@ -25,6 +25,13 @@ public class MemberService implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	
+	//EMP_NO MODAL창으로
+	public String getEmpNoModal(String emp_no)throws Exception {
+		return memberDAO.getEmpNoModal(emp_no);
+		
+	}
+	
 
 	//검증메서드
 	public boolean getMemberError(MemberVO memberVO, BindingResult bindingResult) throws Exception{
@@ -100,14 +107,14 @@ public class MemberService implements UserDetailsService {
 	            empPositionMap.put("cd_nm", "직급 이름"); // 직급 이름 (선택적으로 추가)
 
 	            // 부서 정보 및 직급 정보 저장
-	            int empTeamResult = memberDAO.setMemberRole(empTeamMap);
-	            int empPositionResult = memberDAO.setMemberRole(empPositionMap);
-
-	            if (empTeamResult > 0 && empPositionResult > 0) {
-	                result = 1; // 부서와 직급 정보 저장에 성공하면 회원 정보 저장 성공
-	            } else {
-	                result = 0; // 부서 또는 직급 정보 저장에 실패하면 회원 정보 저장 실패
-	            }
+//	            int empTeamResult = memberDAO.setMemberRole(empTeamMap);
+//	            int empPositionResult = memberDAO.setMemberRole(empPositionMap);
+//
+//	            if (empTeamResult > 0 && empPositionResult > 0) {
+//	                result = 1; // 부서와 직급 정보 저장에 성공하면 회원 정보 저장 성공
+//	            } else {
+//	                result = 0; // 부서 또는 직급 정보 저장에 실패하면 회원 정보 저장 실패
+//	            }
 	        }
 
 	        return result;
