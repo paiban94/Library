@@ -61,16 +61,16 @@
                                 <form action="addAnn" method="post" enctype="multipart/form-data">
                                   <!--  <sec:csrfInput/>-->
                                     <div class="mb-3">
-                                        <label for="boardTitle" class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="boardTitle" id="boardTitle" placeholder="제목을 입력하세요">
+                                        <label for="board_title" class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="board_title" id="board_title" placeholder="제목을 입력하세요">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="boardWriter" class="form-label">Writer</label>
-                                        <input type="text" class="form-control" name="boardWriter" id="boardWriter" value="${member.name}" readonly>
+                                        <label for="board_writer" class="form-label">Writer</label>
+                                        <input type="text" class="form-control" name="board_writer" id="board_writer" value="${member.name}" readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="boardContents" class="form-label">Contents</label>
-                                        <textarea class="form-control" id="boardContents" name="boardContents" rows="17"></textarea>
+                                        <label for="board_contents" class="form-label">Contents</label>
+                                        <textarea class="form-control" id="board_contents" name="board_contents" rows="17"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <input type="file" class="form-control" name="files">

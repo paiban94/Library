@@ -9,47 +9,27 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lib.fin.board.BoardService;
 import com.lib.fin.board.BoardVO;
 import com.lib.fin.board.FileVO;
+import com.lib.fin.board.comment.CommentVO;
 
+public interface AnnouncementService {
 
-@Service
-public class AnnouncementService implements BoardService{
+	public List<AnnouncementVO> getList() throws Exception;
+
+	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception;
+
+	public AnnouncementVO getDetail(AnnouncementVO boardVO) throws Exception;
+
+	public int setUpdate(AnnouncementVO boardVO) throws Exception;
+
+	public int setDelete(AnnouncementVO boardVO) throws Exception;
+
+	public FileVO getFileDetail(FileVO fileVO) throws Exception;
+
+	public int addComment(CommentVO comment)  throws Exception;
+
+	public List<CommentVO> getComments(Long board_no) throws Exception;
+
+    // 게시글 좋아요 증가
+    public int increaseLike(Long boardNo) throws Exception;
 	
-	@Autowired
-	private AnnouncementDAO announcementDAO;
-
-	@Override
-	public List<BoardVO> getList() throws Exception {
-		return announcementDAO.getList();
-	}
-
-	@Override
-	public int addWriting(BoardVO boardVO, List<MultipartFile> list) throws Exception {
-		int result= announcementDAO.addWriting(boardVO);
-		return result;
-	}
-
-	@Override
-	public BoardVO getDetail(BoardVO boardVO) throws Exception {
-		
-		return announcementDAO.getDetail(boardVO);
-	}
-
-	@Override
-	public int setUpdate(BoardVO boardVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setDelete(BoardVO boardVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public FileVO getFileDetail(FileVO fileVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -11,7 +11,7 @@
 
 		<typeAlias type="com.lib.fin.board.BoardVO" alias="BoardVO" />
 		<typeAlias type="com.lib.fin.board.announcement.AnnouncementVO" alias="AnnouncementVO" />
-
+ 		<typeAlias type="com.lib.fin.board.comment.CommentVO" alias="CommentVO" />
 
 		<typeAlias type="java.util.List" alias="List" />
 	</typeAliases>

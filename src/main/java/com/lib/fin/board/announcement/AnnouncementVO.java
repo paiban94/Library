@@ -1,8 +1,10 @@
 package com.lib.fin.board.announcement;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.lib.fin.board.BoardVO;
+import com.lib.fin.board.comment.CommentVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import lombok.ToString;
 @ToString
 public class AnnouncementVO extends BoardVO{
 	
-	private String board_Type;
-	private String board_Kind;
+	private String board_type;
+	private String board_kind;
+	  private List<CommentVO> comments; 
 }
