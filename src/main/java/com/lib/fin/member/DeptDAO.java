@@ -16,5 +16,8 @@ public interface DeptDAO {
 
 	
 	public List<Map<String, Object>> getDeptInfo()throws Exception;
+	
+//	public List<Map<String, Object>> getEmpInfo(String emp_team)throws Exception;
+	public List<ApprovalDocVO> getEmpInfo(String emp_team)throws Exception;
 
 }
