@@ -166,45 +166,53 @@
 
       </li><!-- End Messages Nav -->
 
-      <li class="nav-item dropdown pe-3">
 
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
-        </a><!-- End Profile Iamge Icon -->
+      <!--로그인 전-->
+  
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          <li class="dropdown-header">
-            <h6>Kevin Anderson</h6>
-            <span>Web Designer</span>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-              <i class="bi bi-person"></i>
-              <span>My Page</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+  <sec:authorize access="!isAuthenticated()">
+    <a class="nav-link" href="/member/login" id="login" role="button">
+      <i class="bi bi-arrow-right-circle-fill" style='font-size:24px;color:red'></i>
+    </a>
+  </sec:authorize>
 
 
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>LogOut</span>
-            </a>
-          </li>
+  <!-- 로그인 후 -->
+<sec:authorize access="isAuthenticated()">
+  <li class="nav-item dropdown pe-3">
+    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+      <i class="bi bi-award-fill"></i>
+      <!-- <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+      <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+    </a>
 
-        </ul><!-- End Profile Dropdown Items -->
-      </li><!-- End Profile Nav -->
-
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+      <li class="dropdown-header">
+        <h6>Kevin Anderson</h6>
+        <span>Web Designer</span>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+          <i class="bi bi-person"></i>
+          <span>My Page</span>
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="/member/logout">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>로그아웃</span>
+        </a>
+      </li>
     </ul>
+  </li>
+</sec:authorize>
   </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->

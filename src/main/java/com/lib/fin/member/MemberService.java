@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,10 +28,10 @@ public class MemberService implements UserDetailsService {
 
 	
 	//EMP_NO MODAL창으로
-	public String getEmpNoModal(String emp_no)throws Exception {
-		return memberDAO.getEmpNoModal(emp_no);
-		
-	}
+//	public String getEmpNoModal(String emp_no)throws Exception {
+//		return memberDAO.getEmpNoModal(emp_no);
+//		
+//	}
 	
 
 	//검증메서드
@@ -50,7 +51,7 @@ public class MemberService implements UserDetailsService {
 	}
 	
 	 @Transactional(rollbackFor = Exception.class)
-	    public int memJoin(MemberVO memberVO) throws Exception {
+	    public int memJoin(MemberVO memberVO, MultipartFile file) throws Exception {
 	        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		 	
 	        String level = memberVO.getAuthority();
@@ -106,15 +107,6 @@ public class MemberService implements UserDetailsService {
 	            empPositionMap.put("cd", position); // 직급 코드
 	            empPositionMap.put("cd_nm", "직급 이름"); // 직급 이름 (선택적으로 추가)
 
-	            // 부서 정보 및 직급 정보 저장
-//	            int empTeamResult = memberDAO.setMemberRole(empTeamMap);
-//	            int empPositionResult = memberDAO.setMemberRole(empPositionMap);
-//
-//	            if (empTeamResult > 0 && empPositionResult > 0) {
-//	                result = 1; // 부서와 직급 정보 저장에 성공하면 회원 정보 저장 성공
-//	            } else {
-//	                result = 0; // 부서 또는 직급 정보 저장에 실패하면 회원 정보 저장 실패
-//	            }
 	        }
 
 	        return result;

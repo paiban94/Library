@@ -34,9 +34,21 @@
 											<div class="row">
 												<!-- 각 영역 크기조절하기 -->
 												<div class="col-lg-6">
-													<div class="card">
-														이곳에 내용을 입력하시면 됩니다.
-													</div>
+														<div class="card">
+															<%-- <sec:authorize access="isAuthenticated()">
+														        <!-- 로그인한 경우에만 사용자 이름을 출력 -->
+														        <div>${name} 환영합니다.</div>
+														    	<div>${team} 입니다.</div>
+														    </sec:authorize> --%>
+														 
+														        <!-- 로그인한 경우에만 사용자 이름을 출력 -->
+														        <div>${memberVO.name} 환영합니다.</div>
+														    	<div>${memberVO2.emp_no} 입니다.</div>
+														    	<div>${memberVO.phone} 전화번호</div>
+														    	
+														    	
+														
+														</div>
 												</div>
 
 											</div>

@@ -8,15 +8,17 @@
 
 	<!-- 회원가입 -->
 	<!-- reg_id / mod_id emp_no로 되어있어서 변경해야함, 다른컬럼들도 변경 필요 -->
-<!-- 	<insert id="memJoin" parameterType="MemberVO">
+	<insert id="memJoin" parameterType="MemberVO">
 	INSERT INTO MEM_INFO (EMP_NO, PW, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE, REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
    	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
-   	</insert> -->
+   	</insert> 
    	
-   		<insert id="memJoin" parameterType="MemberVO">
-	INSERT INTO MEM_INFO (EMP_NO, PW, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE)
-   	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}); 
+   	<!-- 회원가입시 프로필사진  -->
+   	<insert id="profile" parameterType="MemberFileVO">
+   	INSERT INTO MEM_IMAGE
+   	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role})
    	</insert>
+
    	
   	<!-- emp_no modal용 -->
   <!-- 		<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
@@ -24,20 +26,22 @@
    		WHERE EMP_NO = ${emp_no}
    	</select> -->
    	
-<!--    	
-   	로그인
+  	
+   	<!-- 로그인 -->
+	
 	<select id="getMember" parameterType="MemberVO" resultMap="getMemberResult">
-	 SELECT * FROM MEM_INFO
-	 WHERE EMP_NO=${emp_no}
-	</select> -->
+    SELECT *
+    FROM MEM_INFO
+    WHERE EMP_NO = #{emp_no}
+	</select>
 	
 	<!-- 공통코드 권한,부서,직급 -->
-	<!-- <insert id="setMemberRole" parameterType="java.util.Map">
+	 <insert id="setMemberRole" parameterType="java.util.Map">
 	INSERT INTO ST_STD_CD
 	VALUES (#{grp_cd}, #{cd}, #{cd_nm})
-	</insert>  -->
-	
-   	<!-- 로그인 -->
+	</insert> 
+<!-- 	
+   	로그인
  <select id="getMember" parameterType="MemberVO" resultMap="getMemberResult">
     SELECT M.*,
            T.CD_NM AS EMP_TEAM,
@@ -48,7 +52,7 @@
     LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
     LEFT JOIN ST_STD_CD U ON M.AUTHORITY = U.CD AND U.GRP_CD = 'U001'
     WHERE M.EMP_NO = #{emp_no}
-</select> 
+</select>  -->
 
 
 	<resultMap type="MemberVO" id="getMemberResult">
