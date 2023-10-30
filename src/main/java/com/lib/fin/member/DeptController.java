@@ -1,5 +1,6 @@
 package com.lib.fin.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,12 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.lib.fin.approval.ApprovalDocVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,15 +32,40 @@ public class DeptController {
 	
 	
 	@RequestMapping("/getDeptInfo")
-	public void getDeptInfo(ServletRequest r, ServletResponse s) throws Exception{
-		HashMap<String,Object> resultMap = new HashMap<>();
-		
+	@ResponseBody
+	public List<Map<String,Object>> getDeptInfo() throws Exception{
+	
+        
 		List<Map<String,Object>> deptList= deptService.getDeptInfo();
+			
+		return deptList;
 		
-		resultMap.put("deptList", deptList);
-		JSONObject resultJson = new JSONObject(resultMap);
-		
-		s.getWriter().write(resultJson.toJSONString());
+	
 	}
+	
+//	@RequestMapping("/getEmpInfo")
+//	@ResponseBody
+//	public List<Map<String,Object>> getEmpInfo(String emp_team) throws Exception{
+//	
+//		List<Map<String,Object>> EmpList= deptService.getEmpInfo(emp_team);
+//			
+//		return EmpList;
+//		
+//	
+//	}
+	
+	@RequestMapping("/getEmpInfo")
+	@ResponseBody
+	public List<ApprovalDocVO> getEmpInfo(String emp_team) throws Exception{
+	
+		List<ApprovalDocVO> EmpList= deptService.getEmpInfo(emp_team);
+			
+		return EmpList;
+		
+	
+	}
+
+	
+	
 
 }
