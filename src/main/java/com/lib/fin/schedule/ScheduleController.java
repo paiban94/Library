@@ -27,13 +27,26 @@ public class ScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 	
-
 	@GetMapping("schedule")
+	public String getSchedule() throws Exception{
+		 
+		 return "schedule/schedule";
+	}
+	
+	@PostMapping("add")
+	public String setScheduleAdd(HttpServletRequest request, ScheduleVO scheduleVO)throws Exception{ 
+			        
+		 int result = scheduleService.setScheduleAdd(scheduleVO);
+		
+		 return "redirect:./schedule";
+	}
+	
+	@GetMapping("getScheduleList")
 	@ResponseBody
-	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception{
-	    List<ScheduleVO> schedule = scheduleService.getSchedule(scheduleVO);
+	public List<ScheduleVO> getEvents(ScheduleVO scheduleVO) throws Exception{
+	    List<ScheduleVO> events = scheduleService.getScheduleList(scheduleVO);
 	    
-	    return schedule;
+	    return events;
 	}
 	
 	
@@ -50,7 +63,5 @@ public class ScheduleController {
 		return "redirect:./schedule";
 	}
 	
-	
-	
-}
 
+}

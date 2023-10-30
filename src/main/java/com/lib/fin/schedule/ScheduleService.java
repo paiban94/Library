@@ -29,5 +29,7 @@ public class ScheduleService {
 		return scheduleDAO.setScheduleDelete(scheduleVO);
 	}
 	
-	
+	public List<ScheduleVO> getScheduleList(ScheduleVO scheduleVO) throws Exception{
+		return scheduleDAO.getScheduleList(scheduleVO);
+	}
 }
