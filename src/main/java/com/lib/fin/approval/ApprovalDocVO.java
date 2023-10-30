@@ -24,6 +24,10 @@ public class ApprovalDocVO extends CommonVO {
 	private String adtn_info1;
 	private String adtn_info2;
 	private String temp_save;
+	
+	private String name;
+	private String emp_team;
+	private String emp_position;
 
 	
 
