@@ -28,12 +28,12 @@ public class ScheduleController {
 	private ScheduleService scheduleService;
 	
 
-	@GetMapping("getScheduleList")
+	@GetMapping("schedule")
 	@ResponseBody
-	public List<ScheduleVO> getEvents(ScheduleVO scheduleVO) throws Exception{
-	    List<ScheduleVO> events = scheduleService.getScheduleList(scheduleVO);
+	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception{
+	    List<ScheduleVO> schedule = scheduleService.getScheduleList(scheduleVO);
 	    
-	    return events;
+	    return schedule;
 	}
 	
 	
