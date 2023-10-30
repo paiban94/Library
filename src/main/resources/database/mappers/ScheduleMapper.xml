@@ -24,8 +24,5 @@
 			WHERE SCHEDULE_NO=#{schedule_no}
 	</delete>
 
-	<select id="getScheduleList" resultType="ScheduleVO">
-   		SELECT * FROM SCHEDULE_BASE
-   </select>
-
+	
 </mapper>

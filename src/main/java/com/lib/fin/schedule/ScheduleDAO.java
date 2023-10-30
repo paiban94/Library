@@ -15,5 +15,4 @@ public interface ScheduleDAO {
 	
 	public int setScheduleDelete(ScheduleVO scheduleVO) throws Exception;
 	
-	public List<ScheduleVO> getScheduleList(ScheduleVO scheduleVO) throws Exception;
-}
+	}

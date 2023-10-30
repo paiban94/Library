@@ -50,13 +50,6 @@ public class ScheduleController {
 		return "redirect:./schedule";
 	}
 	
-	@GetMapping("scheduleList")
-	public String scheduleList(ScheduleVO scheduleVO, Model model) throws Exception{
-		List<ScheduleVO> arr = scheduleService.getScheduleList(scheduleVO); 
-		model.addAttribute("list", arr);
-		
-		 return "sales/carReservation";
-	}
 	
 	
 }
