@@ -20,12 +20,12 @@
 
     .scrollable-card {
  
-        height: 500px;
+        height: 550px;
   
     }
         .scrollable-card1 {
  
-        height: 234px;
+        height: 247px;
   
     }
 
@@ -54,6 +54,7 @@
 								enctype="multipart/form-data">
 
 								<input type="hidden" id="grp_cd" name="grp_cd" value="H">
+								<input type="hidden" id="approval_state" name="approval_state" value="G">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 
 								<div class="row">
@@ -129,17 +130,17 @@
 
 														<tr>
 															<th rowspan="3" class="table-light">신청</th>
-															<td>홍길동1</td>
+															<td id="firstDept"></td>
 														</tr>
 
 
 														<tr>
 
-															<td>총무부</td>
+															<td></td>
 														</tr>
 														<tr>
 
-															<td>2023-10-12</td>
+															<td id="firstEmp"></td>
 														</tr>
 
 
@@ -157,7 +158,7 @@
 
 														<tr>
 															<th rowspan="3" class="table-light"><br>신<br>청</th>
-															<td>홍길동1</td>
+															<td id="secondDept"></td>
 														</tr>
 
 
@@ -167,7 +168,7 @@
 														</tr>
 														<tr>
 
-															<td>2023-10-12</td>
+															<td id="secondEmp"></td>
 														</tr>
 
 
@@ -277,6 +278,7 @@
 						<div class=row>
 							<div class="col-sm-3">
 						
+							<div>조직도</div>
 							<div class="card border scrollable-card">
 								<div class="overflow-auto " id="readyMem">
 									
@@ -286,7 +288,8 @@
 							</div>
 							
 							<div class="col-sm-4">
-						
+							
+							<div>사원목록</div>
 							<div class="card border scrollable-card">
 								<div class="overflow-auto" id="memList">
 									
@@ -300,25 +303,28 @@
 							
 							<div class="col-sm-1 ">
 							
+							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
-								<i class="bi bi-arrow-right" id="appAW"></i>
+								<i class="bi bi-arrow-right mt-5" id="appAW"></i>
 							</div>
 							
-							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-4">
-								<i class="bi bi-arrow-right" id="refAW"></i>
+							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-5">
+								<i class="bi bi-arrow-right mt-4" id="refAW"></i>
 							</div>
 							
 						
 			
 							</div>
 								
+							
 							<div class="col-sm-4 scrollable-card">
-					
-							<div class="card border scrollable-card1 overflow-auto" id="appLine">
+							<div>중간 승인자</div>
+							<div class="card border scrollable-card1 overflow-auto" id="fLine">
 								
 							</div>
 							
-							<div class="card border scrollable-card1 overflow-auto" id="appRef">
+							<div>최종 승인자</div>
+							<div class="card border scrollable-card1 overflow-auto" id="lLine">
 								
 							</div>
 							
@@ -364,15 +370,24 @@
 		});
 		
 		$('#modalSave').click(function() {
+
+			var selectedValue = $('input[name="selectNm"]:checked').val();
+			console.log(selectedValue);
 			
 			$('#basicModal').modal("hide");
+			
+			
 		});
 		
 			
 		
 		$('#btnGetMem').click(function() {
 
+			
 			$("#readyMem").empty();
+			$('#memList').empty();
+			$('#fLine').empty();
+			$('#lLine').empty();
 			
 			$.ajax({
 				url:"/dept/getDeptInfo"
@@ -421,9 +436,10 @@
   		   $("#readyMem").on("click", ".memList", function () {
 			   
   			 let deptName = $(this).text();
-  			 console.log(deptName);
+  			 console.log(deptName+"asdasd");
   			 
   			let emp_team = getDeptList(deptName);
+  			console.log(emp_team)
 			   
 			     
 			   $.ajax({
@@ -440,15 +456,10 @@
 						for (let i = 0; i < data.length; i++) {
 							let employee = data[i];
 							
-							let values = '<tr>' +
-							'<td>' + employee.name + '</td>' +
-							'<td>' + employee.emp_position + '</td>' +
-							'<td>' + employee.emp_team + '</td>' +
-							'<td>x</td>' +
-							'</tr>';
+							let values=[employee.emp_no, employee.name,employee.emp_position,employee.emp_team]
 						    
 							let newRow = '<tr>' +
-								'<td><input type="checkbox" name="selectNm" value="' + values + '"></td>' +
+								'<td><input type="radio" name="selectNm" value="' + values + '"></td>' +
 										'<td>' + employee.name + '</td>' +
 										'<td>' + employee.emp_position + '</td>' +
 										'<td>' + employee.emp_team + '</td>' +
@@ -472,19 +483,22 @@
   		    let emp_team = "";
 
   		    switch (deptName) {
+  		  		case "대표":
+	            	emp_team = "A";
+	            	break;
+  		    	
   		        case "운영과":
-  		            emp_team = "A";
-  		            break;
-  		        case "정책과":
   		            emp_team = "B";
   		            break;
-  		        case "서비스과":
+  		        case "정책과":
   		            emp_team = "C";
   		            break;
-  		        case "가발령":
+  		        case "서비스과":
   		            emp_team = "D";
   		            break;
-  		        // 다른 부서에 대한 경우도 추가
+  		        case "가발령":
+  		            emp_team = "E";
+  		            break;
   		    }
 
   		    return emp_team;
@@ -497,14 +511,15 @@
   		        selectedItems.push($(this).val());
   		    });
 
-  		    // 가져온 항목을 "appLine"에 순서대로 추가
-  		    let appLineElement = $("#appLine");
-  		    
-	  		 	 for (let item of selectedItems) {
-	  		 		 console.log(item)
-	  	        let newRow = '<table class="table">' + item + '</table>';
+	  		  let appLineElement = $("#fLine");
+	  	    
+	  	    for (let i = 0; i < selectedItems.length; i++) {
+	  	        let item = selectedItems[i];
+	  	        console.log(item);
+	  	        let newRow = '<table class="table appt">' + selectedItems[0] + '</table>';
 	  	        appLineElement.append(newRow);
-  	    }
+	  	    }
+  	    
   		});
 
   		$("#refAW").click(function() {
@@ -515,12 +530,11 @@
   		    });
 
   		    // 가져온 항목을 "appRef"에 순서대로 추가
-  		    let appRefElement = $("#appRef");
-  		    appRefElement.empty(); // 기존 내용을 비우고 다시 채웁니다.
+  		    let appRefElement = $("#lLine");
+  		   
   		    for (let item of selectedItems) {
-  		        let newItem = document.createElement("div");
-  		        newItem.textContent = item;
-  		        appRefElement.append(newItem);
+  		    	let newRow = '<table class="table">' + item + '</table>';
+  		        appRefElement.append(newRow);
   		    }
   		});
 		

@@ -15,9 +15,9 @@
   		
   	</select>
   	
-  	<select id="getEmpInfo" parameterType="String" resultType="ApprovalDocVO">
+  	<select id="getEmpInfo" parameterType="String" resultType="MemberVO">
   	
-  	select mi.NAME ,(
+  	select mi.NAME,mi.emp_no,(
 	select cd_nm 
 	from ST_STD_CD 
 	where grp_cd='T001' and cd = mi.emp_team) as EMP_TEAM,
@@ -27,6 +27,7 @@
 	where grp_cd='L001' and cd = mi.EMP_POSITION) as EMP_POSITION
 	from MEM_INFO mi
 	where mi.EMP_TEAM = #{emp_team}
+	order by emp_position desc;
   	
   	</select>
   	

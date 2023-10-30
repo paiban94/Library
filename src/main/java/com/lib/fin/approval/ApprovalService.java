@@ -38,8 +38,8 @@ public class ApprovalService {
 		log.info("===============path: {} =========",filePath);
 		log.info("===============path: {} =========",approvalName);
 		
-		if(!"".equals(result)) {
-
+	
+		if(files != null) {
 			for(MultipartFile multipartFile: files) {
 				
 				if(multipartFile.isEmpty()) {
@@ -55,7 +55,9 @@ public class ApprovalService {
 				
 				
 			}
-			}
+			
+		}
+			
 		return result;
 	}
 
