@@ -31,7 +31,7 @@ public class ScheduleController {
 	@GetMapping("schedule")
 	@ResponseBody
 	public List<ScheduleVO> getSchedule(ScheduleVO scheduleVO) throws Exception{
-	    List<ScheduleVO> schedule = scheduleService.getScheduleList(scheduleVO);
+	    List<ScheduleVO> schedule = scheduleService.getSchedule(scheduleVO);
 	    
 	    return schedule;
 	}
