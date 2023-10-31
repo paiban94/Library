@@ -170,7 +170,7 @@ pageEncoding="UTF-8"%>
             </a>
           </li>
           <li>
-            <a href="charts-apexcharts.html">
+            <a href="/facility/facilitylist">
               <i class="bi bi-circle"></i><span>공용품 관리</span>
             </a>
           </li>

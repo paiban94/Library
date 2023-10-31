@@ -38,7 +38,10 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 
    <script type="text/javascript">
 		const arr = new Array();
-		
+		const res = arr.keys();
+		function timeFormat(time){
+		      return String(time).padStart(2, "0");
+		   }
 		
 		$.ajax({
 			  type: "GET", 
@@ -48,15 +51,15 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 			    for (const key in res) {
 			      let obj = new Object();
 			      
-			      obj.title = res[key].schedule_tilte;
+			      obj.schedule_no = res[key].schedule_no;
+			      
+			      obj.emp_no = res[key].emp_no;
 			      
 			      obj.start_time = res[key].schedule_start_time;
 			      
 			      obj.end_time = res[key].schedule_end_time;
 			      
-			      obj.schedule_no = res[key].schedule_no;
-			      
-			      obj.emp_no = res[key].emp_no;
+			      obj.title = res[key].schedule_tilte;
 
 			      obj.schedule_contents = res[key].schedule_contents;
 			      
@@ -76,22 +79,22 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 	document.addEventListener('DOMContentLoaded', function() {
 	    var calendarEl = document.getElementById('calendar');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
-	      locale: "ko",
+	    	 
+	    	locale: "ko",
 	      timeZone: 'Asia/Seoul',
 	      initialView: 'dayGridMonth',
-	      selectable: true,
+	      navLinks:true,
+	      eventLimit:true,
 	      select: function(){
-	    	  $("#calendarAddModal").modal("show");
-	    	  
-	   
-	    	  
-	    	  $('#sprintSettingModalClose').click(function(){
-	    			$('#calendarAddModal').modal('hide')	
-	    		})
-	    		
+	    	 href="/schedule/schedulelist"	    	  	
 	      },
 	      
+	      
 	      customButtons: {
+	    	  myResButton:{
+	    		  text:'예약추가'
+	    	  }
+	    	  ,
 	    	    myCustomButton: {
 	    	      text: '일정 추가',
 	    	      click: function() {
@@ -110,26 +113,30 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 	      headerToolbar: {
 	    	    left: '',
 	    	    center: 'prev,title,next',
-	    	    right: 'myCustomButton'
+	    	    right: 'myCustomButton,myResButton'
 	    	  },
 	    	  
-	    
+	      buttonText:{
+	    	  
+	    	 
+	      },
 	      
 	      
 	      
-        	events:[ 
-        	{
-                  title:'일정',
-                  start:'2023-10-26',
-                  end:'2023-10-28'
-              },
-          ],
-          
-          arr,
+        	events:[
+        		 {
+                     title:'일정',
+                     start:'2023-10-26 00:00:00',
+                     end:'2023-10-27 24:00:00' 
+                    
+                 }
+        	],arr
+        
         	
         	
 	    	  
 	    });
+	    
 	    calendar.render();
 	  });
 	
@@ -211,11 +218,11 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
                         <label for="taskId" class="col-form-label">일정 종류</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" id="schedule_content" name="schedule_kind">
 						  <option selected>일정종류을 선택하세요</option>
-						  <option value="1">연차</option>
-						  <option value="2">회의</option>
-						  <option value="3">교육</option>
-						  <option value="4">외근</option>
-						  <option value="5">출장</option>
+						  <option value="연차">연차</option>
+						  <option value="회의">회의</option>
+						  <option value="교육">교육</option>
+						  <option value="외근">외근</option>
+						  <option value="출장">출장</option>
 						</select>
 						
                         <label for="taskId" class="col-form-label">일정제목</label>
@@ -265,4 +272,4 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 </body>
-</html>
+</html></html>
