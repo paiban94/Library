@@ -41,7 +41,7 @@ public class ScheduleController {
 		 return "redirect:./schedule";
 	}
 	
-	@GetMapping("getScheduleList")
+	@GetMapping("scheduleList")
 	@ResponseBody
 	public List<ScheduleVO> getEvents(ScheduleVO scheduleVO) throws Exception{
 	    List<ScheduleVO> events = scheduleService.getScheduleList(scheduleVO);

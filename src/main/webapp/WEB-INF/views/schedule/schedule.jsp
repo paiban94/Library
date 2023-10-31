@@ -38,7 +38,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 
    <script type="text/javascript">
 		const arr = new Array();
-		
+		const res = arr.keys();
 		function timeFormat(time){
 		      return String(time).padStart(2, "0");
 		   }
@@ -51,15 +51,15 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 			    for (const key in res) {
 			      let obj = new Object();
 			      
-			      obj.title = res[key].schedule_tilte;
+			      obj.schedule_no = res[key].schedule_no;
+			      
+			      obj.emp_no = res[key].emp_no;
 			      
 			      obj.start_time = res[key].schedule_start_time;
 			      
 			      obj.end_time = res[key].schedule_end_time;
 			      
-			      obj.schedule_no = res[key].schedule_no;
-			      
-			      obj.emp_no = res[key].emp_no;
+			      obj.title = res[key].schedule_tilte;
 
 			      obj.schedule_contents = res[key].schedule_contents;
 			      
