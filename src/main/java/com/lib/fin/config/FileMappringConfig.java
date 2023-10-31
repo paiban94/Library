@@ -1,9 +1,15 @@
 package com.lib.fin.config;
 
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Configuration
+@Slf4j
 public class FileMappringConfig implements WebMvcConfigurer {
 
 		//local file 위치
@@ -16,7 +22,7 @@ public class FileMappringConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		
+				
 		//요청 URL /files//**
 		registry.addResourceHandler(urlPath)
 		

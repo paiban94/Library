@@ -29,7 +29,7 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	public int setDraft(ApprovalDocVO approvalDocVO, MultipartFile[] files)throws Exception{
+	public int setDraft(ApprovalDocVO approvalDocVO,ApprovalHisVO approvalHisVO ,MultipartFile[] files)throws Exception{
 		
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
@@ -38,7 +38,7 @@ public class ApprovalService {
 		log.info("===============path: {} =========",filePath);
 		log.info("===============path: {} =========",approvalName);
 		
-	
+			
 		if(files != null) {
 			for(MultipartFile multipartFile: files) {
 				

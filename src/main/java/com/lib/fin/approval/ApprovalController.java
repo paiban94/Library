@@ -24,13 +24,16 @@ public class ApprovalController {
 	}
 	
 	@PostMapping("draft")
-	private String setDraft(ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception {
+	private String setDraft(ApprovalHisVO approvalHisVO, ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception {
 		approvalDocVO.setEmp_no("20231");
 		approvalDocVO.setReg_id("20231");
 		approvalDocVO.setMod_id("20231");
 		approvalDocVO.setUse_yn("y");
 		
-		approvalService.setDraft(approvalDocVO, files1);
+		
+		
+		
+		approvalService.setDraft(approvalDocVO,approvalHisVO, files1);
 		
 		return "approval/draft";
 	}

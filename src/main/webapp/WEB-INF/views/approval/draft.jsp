@@ -23,11 +23,37 @@
         height: 550px;
   
     }
-        .scrollable-card1 {
+    .scrollable-card1 {
  
         height: 247px;
   
     }
+    
+    .custom_table {
+    		
+        width: 90%;
+        }
+    
+    .custom_table tr {
+    		
+            height: 5px; 
+            font-size: 12px;
+        }
+        
+    #sign {
+        height: 100px;
+    }
+    
+    #sign_img{
+		height: 80px;
+		width: 140px;'    
+    }
+    
+    #lastTr{
+    	height: 35px;
+    }
+
+    
 
 </style>
 
@@ -56,6 +82,7 @@
 								<input type="hidden" id="grp_cd" name="grp_cd" value="H">
 								<input type="hidden" id="approval_state" name="approval_state" value="G">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
+								<input type="hidden" id="emp_no" name="emp_no"> 
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -97,22 +124,21 @@
 												<!-- 상단 오른쪽 strart -->
 
 												<div class="col-lg-2">
-													<table class="table table-bordered">
+													<table class="table table-bordered custom_table">
 
 														<tr>
-															<th rowspan="4" class="table-light">신청</th>
-															<td>홍길동1</td>
+															<th class="table-light">신청</th>
+															
 														</tr>
 
 
-														<tr>
-
-															<td rowspan="2">총무부</td>
+														<tr id="sign">
+															<td><img id="sign_img" src="../files/draft/공지3.PNG"></td>
 														</tr>
-														<tr></tr>
+														
 														<tr>
 
-															<td>2023-10-12</td>
+															<td>r</td>
 														</tr>
 
 
@@ -126,51 +152,49 @@
 												<!-- 상단 오른쪽 strart -->
 
 												<div class="col-lg-2">
-													<table class="table table-bordered">
+													<table class="table table-bordered custom_table">
 
 														<tr>
-															<th rowspan="3" class="table-light">신청</th>
-															<td id="firstDept"></td>
+															<th class="table-light">중간</th>
+															
 														</tr>
 
 
-														<tr>
+														<tr id="sign">
+	
+															<td> </td>
+														</tr>
+														<tr id="lastTr">
 
+															<td id="midP"></td>
+														</tr>
+
+
+													</table>
+
+
+												</div>
+
+
+												<!-- 상단 오른쪽 end -->
+												<!-- 상단 오른쪽 strart -->
+
+												<div class="col-lg-2">
+													<table class="table table-bordered custom_table">
+
+														<tr>
+															<th class="table-light">최종</th>
+															
+														</tr>
+
+
+														<tr id="sign">
 															<td></td>
 														</tr>
-														<tr>
-
-															<td id="firstEmp"></td>
+														
+														<tr id="lastTr">
+															<td id="lastP"></td>
 														</tr>
-
-
-													</table>
-
-
-												</div>
-
-
-												<!-- 상단 오른쪽 end -->
-												<!-- 상단 오른쪽 strart -->
-
-												<div class="col-lg-2">
-													<table class="table table-bordered">
-
-														<tr>
-															<th rowspan="3" class="table-light"><br>신<br>청</th>
-															<td id="secondDept"></td>
-														</tr>
-
-
-														<tr>
-
-															<td>총무부</td>
-														</tr>
-														<tr>
-
-															<td id="secondEmp"></td>
-														</tr>
-
 
 													</table>
 
@@ -305,11 +329,11 @@
 							
 							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
-								<i class="bi bi-arrow-right mt-5" id="appAW"></i>
+								<i class="bi bi-arrow-right mt-5" id="midAW"></i>
 							</div>
 							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-5">
-								<i class="bi bi-arrow-right mt-4" id="refAW"></i>
+								<i class="bi bi-arrow-right mt-4" id="lastAW"></i>
 							</div>
 							
 						
@@ -365,18 +389,8 @@
 		$('#temp_send').click(function() {
 
 			$("#temp_save").val("Y");
-			$("frm").submit();
+			$("#frm").submit();
 
-		});
-		
-		$('#modalSave').click(function() {
-
-			var selectedValue = $('input[name="selectNm"]:checked').val();
-			console.log(selectedValue);
-			
-			$('#basicModal').modal("hide");
-			
-			
 		});
 		
 			
@@ -384,10 +398,10 @@
 		$('#btnGetMem').click(function() {
 
 			
-			$("#readyMem").empty();
-			$('#memList').empty();
-			$('#fLine').empty();
-			$('#lLine').empty();
+			$("#readyMem").empty(); //조직도 비우기
+			$('#memList').empty();	//사원정보 비우기
+			$('#fLine').empty();	//중간승인자 비우기
+			$('#lLine').empty();	//최종승인자 비우기
 			
 			$.ajax({
 				url:"/dept/getDeptInfo"
@@ -430,18 +444,17 @@
 		});
 		
 		
-		//이벤트 위임
-		
-			
+		//이벤트 위임 부서 클릭시		
   		   $("#readyMem").on("click", ".memList", function () {
-			   
+			 
+  			   
   			 let deptName = $(this).text();
-  			 console.log(deptName+"asdasd");
   			 
+  			 
+  			//부서 클릭시 emp_name값가져옴
   			let emp_team = getDeptList(deptName);
-  			console.log(emp_team)
-			   
-			     
+  	
+	
 			   $.ajax({
 					url:"/dept/getEmpInfo"
 					,data:{
@@ -453,19 +466,45 @@
 						
 						$('#memList').empty();
 						
-						for (let i = 0; i < data.length; i++) {
-							let employee = data[i];
-							
-							let values=[employee.emp_no, employee.name,employee.emp_position,employee.emp_team]
-						    
-							let newRow = '<tr>' +
-								'<td><input type="radio" name="selectNm" value="' + values + '"></td>' +
-										'<td>' + employee.name + '</td>' +
-										'<td>' + employee.emp_position + '</td>' +
-										'<td>' + employee.emp_team + '</td>' +
-										'</tr>';
-							$('#memList').append(newRow); 
-						}
+						
+						
+				        // 머리글을 변수에 저장
+				        let tableHeader = '<thead><tr>' +
+				            '<th></th>' +
+				            '<th>이름</th>' +
+				            '<th>직책</th>' +
+				            '<th>팀</th>' +
+				            '</tr></thead>';
+
+				        // 테이블 시작 태그
+				        let tableStart = '<table class="table table1">';
+				        $('#memList').append(tableStart);
+
+				        // 테이블 머리글 추가
+				        $('.table1').append(tableHeader);
+
+				        // 테이블 본문 시작 태그
+				        $('.table1').append('<tbody>');
+
+				        for (let i = 0; i < data.length; i++) {
+				            let emp = data[i];
+
+				            let newRow = '<tr>' +
+				                '<td><input type="radio" name="selectNm" value="' + emp.emp_no + '"></td>' +
+				                '<td>' + emp.name + '</td>' +
+				                '<td>' + emp.emp_position + '</td>' +
+				                '<td>' + emp.emp_team + '</td>' +
+				                '</tr>';
+
+				            // 테이블 본문에 행 추가
+				            $('.table1').append(newRow);
+				        }
+
+				        // 테이블 본문 종료 태그
+				        $('.table1').append('</tbody>');
+
+				        // 테이블 종료 태그
+				        $('#memList').append('</table>');
 						}
 					,
 					error: function(error) {
@@ -504,39 +543,100 @@
   		    return emp_team;
   		}
 
-  		$("#appAW").click(function() {
+  		//중간결재자 화살표 클릭시
+  		$("#midAW").click(function() {
   		    // 체크된 항목을 가져오기
-  		    let selectedItems = [];
+  		    $("#fLine").empty();
+  		    let selectedEmps = [];
   		    $("#memList input[name='selectNm']:checked").each(function() {
-  		        selectedItems.push($(this).val());
+  		    	
+  		    	
+  		        // 여기서 "emp" 객체로 변환
+  		        let emp = {
+  		        	emp_no:$(this).val(),
+  		            name: $(this).closest('tr').find('td:eq(1)').text(), // emp.name 가져오기
+  		            emp_position: $(this).closest('tr').find('td:eq(2)').text(), // emp.emp_position 가져오기
+  		            emp_team: $(this).closest('tr').find('td:eq(3)').text() // emp.emp_team 가져오기
+  		        };
+  		        selectedEmps.push(emp);
+  		       
   		    });
+  		    
+	  		  let fLine = $("#fLine");
+			    for (let emp of selectedEmps) {
+			        let newRow = '<div><table class="table">' +
+			            '<tr id="midEmpNo" data-mid-empNo="'+ emp.emp_no+'"><td id="mn">' + emp.name + '</td>' +
+			            '<td id="mp">' + emp.emp_position + '</td>' +
+			            '<td>' + emp.emp_team + '</td>' +
+			            '<td><span id="fx">x</span></td></tr></table></div>';
+			        fLine.append(newRow);
+			    }
 
-	  		  let appLineElement = $("#fLine");
-	  	    
-	  	    for (let i = 0; i < selectedItems.length; i++) {
-	  	        let item = selectedItems[i];
-	  	        console.log(item);
-	  	        let newRow = '<table class="table appt">' + selectedItems[0] + '</table>';
-	  	        appLineElement.append(newRow);
-	  	    }
-  	    
   		});
-
-  		$("#refAW").click(function() {
+  		
+  	  	
+  		//최종결재자 화살표 클릭시
+  		$("#lastAW").click(function() {
   		    // 체크된 항목을 가져오기
-  		    let selectedItems = [];
+  		    $("#lLine").empty();
+  		    let selectedEmps = [];
   		    $("#memList input[name='selectNm']:checked").each(function() {
-  		        selectedItems.push($(this).val());
+  		    	
+  		        // 여기서 "emp" 객체로 변환
+  		        let emp = {
+  		        	emp_no:$(this).val(),
+  		            name: $(this).closest('tr').find('td:eq(1)').text(), // emp.name 가져오기
+  		            emp_position: $(this).closest('tr').find('td:eq(2)').text(), // emp.emp_position 가져오기
+  		            emp_team: $(this).closest('tr').find('td:eq(3)').text() // emp.emp_team 가져오기
+  		        };
+  		        selectedEmps.push(emp);
+  		        
+  		     	
   		    });
+  		    
+  		    
+	  		  let lLine = $("#lLine");
+	  		  
+			    for (let emp of selectedEmps) {
+			        let newRow = '<div><table class="table">' +
+			            '<tr id="lastEmpNo" data-last-empNo="'+ emp.emp_no+'"><td id="ln">' + emp.name + '</td>' +
+			            '<td id="lp">' + emp.emp_position + '</td>' +
+			            '<td>' + emp.emp_team + '</td>' +
+			            '<td><span id="lx">x</span></td></tr></table></div>';
+			        lLine.append(newRow);
+			       
+			    }
 
-  		    // 가져온 항목을 "appRef"에 순서대로 추가
-  		    let appRefElement = $("#lLine");
-  		   
-  		    for (let item of selectedItems) {
-  		    	let newRow = '<table class="table">' + item + '</table>';
-  		        appRefElement.append(newRow);
-  		    }
   		});
+  		
+  		$("#fLine").on('click', '#fx', function () {
+  		    $(this).parent().parent().parent().remove(); 
+  		});
+  		
+  		$("#lLine").on('click', '#lx', function () {
+  		    $(this).parent().parent().parent().remove(); 
+  		});
+		
+  		
+		$('#modalSave').click(function() {
+			
+			    $('#midP').text($('#mp').text()+" "+$("#mn").text());
+			    $('#lastP').text($('#lp').text()+" "+$("#ln").text());
+			    
+			    let a =$("#midEmpNo").attr("data-mid-empNo");
+			    let b =$("#lastEmpNo").attr("data-last-empNo");
+			    
+			    let arry = [a,b]
+			    $("#emp_no").val(arry);
+			   
+			     
+			    
+		
+	
+			$('#basicModal').modal("hide");
+			
+			
+		});
 		
 
 		
