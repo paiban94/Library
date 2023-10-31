@@ -1,0 +1,15 @@
+package com.lib.fin.facility;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/facility/*")
+public class FacilityControl {
+	
+	@GetMapping("facilitylist")
+	public void getFacility() {
+		
+	}
+}
