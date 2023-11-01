@@ -24,6 +24,9 @@ top:30px}
 position:relative;
 left:1000px;
 top:0px}
+.title{
+text-align:center;
+}
 .card{width:1400px}
 .hstack{width:1100px}
 .col-lg-6 {width:1400px }
@@ -58,7 +61,7 @@ top:0px}
 					<div class="col-lg-6">
 						<div class="card">
 						
-						<h1>공용품리스트</h1>
+						<h1 class="title">공용품리스트</h1>
 						
 						  <div class="hstack gap-3 text-decoration-underline">
 								  <div class="p-1">전체</div>

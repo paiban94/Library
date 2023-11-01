@@ -8,9 +8,7 @@
 <%@page import="com.lib.fin.schedule.ScheduleVO"%>
 <%@page import="java.util.ArrayList"%>
 
-<%
-List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,123 +35,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
 	
 
-   <script type="text/javascript">
-		const arr = new Array();
-		const res = arr.keys();
-		function timeFormat(time){
-		      return String(time).padStart(2, "0");
-		   }
-		
-		$.ajax({
-			  type: "GET", 
-			  url: "/schedule/schedule",
-			  async: false,
-			  success: function (res) {
-			    for (const key in res) {
-			      let obj = new Object();
-			      
-			      obj.schedule_no = res[key].schedule_no;
-			      
-			      obj.emp_no = res[key].emp_no;
-			      
-			      obj.start_time = res[key].schedule_start_time;
-			      
-			      obj.end_time = res[key].schedule_end_time;
-			      
-			      obj.title = res[key].schedule_tilte;
-
-			      obj.schedule_contents = res[key].schedule_contents;
-			      
-			      obj.schedule_kind = res[key].schedule_kind;
-			      
-			      arr.push(obj);
-			    }
-			    console.log(arr);
-			
-			  },
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-			    console.log('error')
-			  }
-			});
-
-
-	document.addEventListener('DOMContentLoaded', function() {
-	    var calendarEl = document.getElementById('calendar');
-	    var calendar = new FullCalendar.Calendar(calendarEl, {
-	    	 
-	    	locale: "ko",
-	      timeZone: 'Asia/Seoul',
-	      initialView: 'dayGridMonth',
-	      navLinks:true,
-	      eventLimit:true,
-	      select: function(){
-	    	 href="/schedule/schedulelist"	    	  	
-	      },
-	      
-	      
-	      customButtons: {
-	    	  myResButton:{
-	    		  text:'예약추가'
-	    	  }
-	    	  ,
-	    	    myCustomButton: {
-	    	      text: '일정 추가',
-	    	      click: function() {
-	    	    	  $("#calendarAddModal").modal("show");
-	    	    	  
-	    	    
-	    	    		
-	    	    	  $('#sprintSettingModalClose').click(function(){
-	    	    			$('#calendarAddModal').modal('hide')	
-	    	    		})
-	    	    	  
-	    	      }
-	    	    }
-	    	  },
-	    	    	  
-	      headerToolbar: {
-	    	    left: '',
-	    	    center: 'prev,title,next',
-	    	    right: 'myCustomButton,myResButton'
-	    	  },
-	    	  
-	      buttonText:{
-	    	  
-	    	 
-	      },
-	      
-	      
-	      
-        	events:[
-        		{
-        			title:'test',
-        			start:'2023-11-01',
-        			end:'2023-11-01'
-        			
-        		},
-        		 {
-        			 <c:forEach items="${list}" var="ScheduleVO">
-						
-						title:'${SchedulVO.schedule_content}',
-						start:'${ScheduleVO.schedule_start_time}',
-						end:'${ScheduleVO.schedule_end_time}'
-							</c:forEach>
-                 },
-        	{arr}]
-        
-        	
-        	
-	    	  
-	    });
-	    
-	    calendar.render();
-	  });
-	
-	
-	
-		
-
-	</script>
+   
     <style>
         #calendarBox{
             width: 70%;
@@ -233,13 +115,13 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
                         <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
                         
                         <label for="taskId" class="col-form-label">일정 종류</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="schedule_content" name="schedule_kind">
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
 						  <option selected>일정종류을 선택하세요</option>
-						  <option value="연차">연차</option>
-						  <option value="회의">회의</option>
-						  <option value="교육">교육</option>
-						  <option value="외근">외근</option>
-						  <option value="출장">출장</option>
+						  <option value="S001A">연차</option>
+						  <option value="S001B">회의</option>
+						  <option value="S001C">교육</option>
+						  <option value="S001D">외근</option>
+						  <option value="S001E">출장</option>
 						</select>
 						
                         <label for="taskId" class="col-form-label">일정제목</label>
@@ -334,5 +216,130 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script type="text/javascript">
+
+		
+		
+		var obj = JSON.parse(${List});
+		
+		const arr = new Array();
+		const res = arr.keys();
+		function timeFormat(time){
+		      return String(time).padStart(2, "0");
+		   }
+		
+		 $.ajax({
+		        url: "/schedule/schedule",
+		        data: formdata,
+		        processData: false,    // 필수
+		        contentType: false,    // 필수
+		        method: "post",
+		        cache: false,
+		        enctype: "multipart/form-data",
+		        dataType: "json",
+		        success: function (data) {
+		            console.log(data);
+		            if (data.success === "Y") {
+		                $("#schedule_title").val(data.schedule_title);
+		                $("#schedule_start_time").val(data.schedule_start_time);
+		                $("#schedule_end_time").val(data.schedule_end_time);
+		                console.log(data.schedule_title);
+		                $("#requestForm").submit();
+		            } else {
+		                alert("잠시 후 다시 시도해주세요.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		        }
+		    });
+		/*
+		$.ajax({
+			  type: "GET", 
+			  url: "/schedule/scheduleList",
+			  async: false,
+			  success: function (res) {
+			   
+			    console.log(res);
+			    
+			    
+			
+			  },
+			  error: function (XMLHttpRequest, textStatus, errorThrown) {
+			    console.log('error')
+			  }
+			});
+*/
+
+	document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	    	 
+	    	locale: "ko",
+	      timeZone: 'Asia/Seoul',
+	      initialView: 'dayGridMonth',
+	      navLinks:true,
+	      eventLimit:true,
+	      select: function(){
+	    	 href="/schedule/schedulelist"	    	  	
+	      },
+	      
+	      
+	      customButtons: {
+	    	  myResButton:{
+	    		  text:'예약추가'
+	    	  }
+	    	  ,
+	    	    myCustomButton: {
+	    	      text: '일정 추가',
+	    	      click: function() {
+	    	    	  $("#calendarAddModal").modal("show");
+	    	    	  
+	    	    
+	    	    		
+	    	    	  $('#sprintSettingModalClose').click(function(){
+	    	    			$('#calendarAddModal').modal('hide')	
+	    	    		})
+	    	    	  
+	    	      }
+	    	    }
+	    	  },
+	    	    	  
+	      headerToolbar: {
+	    	    left: '',
+	    	    center: 'prev,title,next',
+	    	    right: 'myCustomButton,myResButton'
+	    	  },
+	    	  
+	      buttonText:{
+	    	  
+	    	 
+	      },
+	      
+	      
+	      
+        	events:[
+        		{
+        			title:'test',
+        			start:'2023-11-01',
+        			end:'2023-11-01'
+        			
+        		}
+        		.
+        	]
+        
+        	
+        	
+	    	  
+	    });
+	    
+	    calendar.render();
+	  });
+	
+	
+	
+		
+
+	</script>
 </body>
 </html></html>

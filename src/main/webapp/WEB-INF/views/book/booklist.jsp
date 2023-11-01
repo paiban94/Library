@@ -15,6 +15,9 @@
 position:relative;
 left:905px;
 top:20px}
+.title{
+text-align: center;
+}
 .del-btn{width:80px;
 position:relative;
 left:1000px;
@@ -52,9 +55,34 @@ top:-10px}
 					<div class="col-lg-6">
 						<div class="card">
 						
-						<h1>도서목록</h1>
+ 						<h1 class="title">도서목록</h1>
 						
-						<button type="submit" class="add-btn">추가</button>
+						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addBookModal">추가</button>
+													<!-- Modal -->
+						<form>
+							<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h1 class="modal-title fs-5" id="addBookModalLabel">도서추가</h1>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							       <label for="taskId" class="col-form-label">도서명</label>
+                        				<input type="text" class="form-control" id="book_name" name="book_name">
+							        <label for="taskId" class="col-form-label">저자명</label>
+                        				<input type="text" class="form-control" id="book_author" name="book_author">
+							        <label for="taskId" class="col-form-label">발행처</label>
+                        				<input type="text" class="form-control" id="book_publisher" name="book_publisher">
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							        <button type="submit" class="btn btn-primary" id="addBook">Save changes</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+							</form>
 						<button type="submit" class="del-btn">폐기</button>
 						
 						<table class="tg">
