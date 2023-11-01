@@ -244,7 +244,7 @@
 		                $("#schedule_start_time").val(data.schedule_start_time);
 		                $("#schedule_end_time").val(data.schedule_end_time);
 		                console.log(data.schedule_title);
-		                $("#requestForm").submit();
+		               
 		            } else {
 		                alert("잠시 후 다시 시도해주세요.");
 		            }
