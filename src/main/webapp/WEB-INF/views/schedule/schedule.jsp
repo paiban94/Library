@@ -16,6 +16,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 <meta charset='utf-8'>
 	
@@ -34,7 +35,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
     <!-- fullcalendar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
-
+	
 
    <script type="text/javascript">
 		const arr = new Array();
@@ -72,7 +73,7 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 			  },
 			  error: function (XMLHttpRequest, textStatus, errorThrown) {
 			    console.log('error')
-			  },
+			  }
 			});
 
 
@@ -124,13 +125,21 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 	      
 	      
         	events:[
+        		{
+        			title:'test',
+        			start:'2023-11-01',
+        			end:'2023-11-01'
+        			
+        		},
         		 {
-                     title:'일정',
-                     start:'2023-10-26 00:00:00',
-                     end:'2023-10-27 24:00:00' 
-                    
-                 }
-        	],arr
+        			 <c:forEach items="${list}" var="ScheduleVO">
+						
+						title:'${SchedulVO.schedule_content}',
+						start:'${ScheduleVO.schedule_start_time}',
+						end:'${ScheduleVO.schedule_end_time}'
+							</c:forEach>
+                 },
+        	{arr}]
         
         	
         	
@@ -158,6 +167,14 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
 		width:1200px;
 		height:850px;	
 		}
+		.fc .fc-daygrid-day-number {
+    position: relative;
+    z-index: 4;
+    padding: 4px;
+    color: black;
+  }
+  
+ 
    </style>
 
 </head>
@@ -236,6 +253,52 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("getSchedule")
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning" id="addCalendar">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/schedule'">취소</button>
+                </div>
+    			</form>
+            </div>
+        </div>
+    </div>
+<!------------------------------------------------- Add modal ------------------------------------------------->
+    			
+ <!------------------------------------------------- Add modal ------------------------------------------------->
+ <div class="modal fade" id="reservationAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">예약추가</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" onclick="location.href='/schedule/schedule'">&times;</span>
+                    </button>
+                </div>
+                
+                <form id="addForm" action="./add" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                    	<input type="hidden" value="memberVO.emp_no">
+                    	
+                    					
+                        <label for="taskId" class="col-form-label">예약시작일</label>
+                        <input type="date" class="form-control" id="schedule_start_time" name="schedule_start_time">
+                        
+                        <label for="taskId" class="col-form-label">예약종료일</label>
+                        <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
+                        
+                        <label for="taskId" class="col-form-label">예약 종류</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="schedule_content" name="schedule_kind">
+						  <option selected>예약종류을 선택하세요</option>
+						  <option value="시설">시설</option>
+						  <option value="공용품">공용품</option>
+						</select>                        
+                        <label for="taskId" class="col-form-label">사용목적</label>
+                        <textarea class="form-control" id="schedule_contents" name="schedule_contents"></textarea>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" id="addReservation">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         id="sprintSettingModalClose" onclick="location.href='/schedule/schedule'">취소</button>
                 </div>

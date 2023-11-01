@@ -11,28 +11,22 @@
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 <style type="text/css">
-.update-btn{width:80px;
-	position:relative;
-	left:1110px;
-	top:90px;
-	}
 .add-btn{width:80px;
 position:relative;
-left:900px;
-top:30px}
+left:905px;
+top:20px}
 .del-btn{width:80px;
 position:relative;
 left:1000px;
-top:0px}
+top:-10px}
 .card{width:1400px}
-.hstack{width:1100px}
 .col-lg-6 {width:1400px }
-.tg  {border-collapse:collapse;border-spacing:0;width:1100px}
+.tg  {border-collapse:collapse;border-spacing:0;width:1080px}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
 </style>
 </head>
 <body id="page-top">
@@ -58,48 +52,34 @@ top:0px}
 					<div class="col-lg-6">
 						<div class="card">
 						
-						<h1>공용품리스트</h1>
-						
-						  <div class="hstack gap-3 text-decoration-underline">
-								  <div class="p-1">전체</div>
-								  <div class="p-2">시설</div>
-								  <div class="p-3">공용품</div>
-								 </div>
+						<h1>도서목록</h1>
 						
 						<button type="submit" class="add-btn">추가</button>
-						<button type="submit" class="del-btn">삭제</button>
-						
+						<button type="submit" class="del-btn">폐기</button>
 						
 						<table class="tg">
 							<thead>
 							  <tr>
-							    <th class="tg-0pky">선택</th>
-							    <th class="tg-0pky">공용품번호</th>
-							    <th class="tg-0pky">공용품이미지</th>
-							    <th class="tg-0pky">공용품이름</th>
-							    <th class="tg-0pky">상세내용</th>
+							    <th class="tg-0lax">선택</th>
+							    <th class="tg-0lax">도서번호</th>
+							    <th class="tg-0lax">도서명</th>
+							    <th class="tg-0lax">저자명</th>
+							    <th class="tg-0lax">발행처</th>
+							    <th class="tg-0lax">입고일</th>
 							  </tr>
 							</thead>
 							<tbody>
-							<div>
 							  <tr>
-							    <td class="tg-0pky">
-							    <div class="input-group mb-3">
-								  <div class="input-group-text">
-								    <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-								  </div>
-							    </td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							  	<button type="submit" class="update-btn">수정</button>
-							  </tr>
-							</div>
+							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"></td>
+							   </tr>
 							</tbody>
-							
 							</table>
-<div class=""></div>
+						<div class=""></div>
 						</div>
 					</div>
 
