@@ -5,12 +5,29 @@
 
 <mapper
 	namespace="com.lib.fin.board.announcement.AnnouncementDAO">
+	<sql id="searchSql">
+		WHERE 1 =1
+		<choose>
+			<when test="searchFlag=='W'">
+				AND REG_ID LIKE '%'||#{emp_no}||'%'
+			</when>
 
-	<select id="getList">
-		SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' ORDER
-		BY BOARD_NO DESC
+			<when test="searchFlag=='N'">
+				AND BOARD_TITLE LIKE '%'||#{board_title}||'%'
+			</when>
+
+			<otherwise>
+				AND BOARD_NO LIKE '%'||#{board_no}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getList" resultType="AnnouncementVO">
+		SELECT * FROM BOARD_BASE WHERE
+		USE_YN = 'Y' AND BOARD_TYPE = 'A'
+		ORDER BY BOARD_NO DESC
 	</select>
-	<insert id="addWriting">
+	<insert id="addWriting" parameterType="AnnouncementVO">
 		INSERT INTO BOARD_BASE
 		(BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE,BOARD_KIND,BOARD_VIEWS,BOARD_LIKE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
 		VALUES
@@ -35,9 +52,53 @@
 		ORDER BY COMMENT_NO DESC
 	</select>
 
-	  <update id="increaseLike" parameterType="long">
-        UPDATE BOARD_BASE
-        SET BOARD_LIKE = BOARD_LIKE + 1
-        WHERE BOARD_NO = #{boardNo}
-    </update>
+	<update id="likeAnnouncement" parameterType="AnnouncementVO">
+		UPDATE BOARD_BASE
+		SET BOARD_LIKE = BOARD_LIKE + 1
+		WHERE BOARD_NO = #{board_no}
+	</update>
+
+	<!-- 예제: 게시글 좋아요 수 감소 -->
+	<update id="unlikeAnnouncement" parameterType="AnnouncementVO">
+		UPDATE BOARD_BASE
+		SET BOARD_LIKE = BOARD_LIKE - 1
+		WHERE BOARD_NO = #{board_no}
+	</update>
+
+	<update id="setDelete" parameterType="AnnouncementVO">
+		UPDATE BOARD_BASE
+		SET USE_YN
+		= 'N'
+		WHERE BOARD_NO = #{board_no}
+	</update>
+
+	<update id="setUpdate" parameterType="AnnouncementVO">
+		UPDATE BOARD_BASE
+		SET
+		BOARD_CONTENT = #{board_content}
+		WHERE
+		BOARD_NO=#{board_no}
+	</update>
+
+	<select id="getPaginatedList" resultType="AnnouncementVO"
+		parameterType="AnnouncementVO">
+		SELECT * FROM BOARD_BASE WHERE
+		BOARD_TYPE = 'A' AND USE_YN = 'Y'
+<!-- 		<if test="searchFlag=W">
+			AND REG_ID LIKE '%'|| #{emp_no} || '%'
+		</if>
+		<if test="searchFlag=N">
+			AND BOARD_TITLE LIKE '%'|| #{board_title} || '%'
+		</if>  -->
+		<!-- <include refid="searchSql"></include> -->
+		ORDER BY BOARD_NO DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getTotalAnnouncementCount" resultType="Long">
+		SELECT
+		COUNT(*) FROM BOARD_BASE WHERE
+		BOARD_TYPE = 'A'
+	</select>
+
 </mapper>

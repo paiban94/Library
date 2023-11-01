@@ -36,10 +36,20 @@ public interface AnnouncementDAO {
 
 	public List<CommentVO> getComments(Long board_no) throws Exception;
 
+	
 	/**
 	 * like부분
-	 * @return 
+	 * 
+	 * @return
 	 **/
-	public int increaseLike(Long boardNo) throws Exception;
+	
+	public void likeAnnouncement(Long board_no) throws Exception;
+
+	public void unlikeAnnouncement(Long board_no) throws Exception;
+
+	public List<AnnouncementVO> getPaginatedList(int startRow, int pageSize)throws Exception;
+
+	public int getTotalAnnouncementCount() throws Exception;
+
 
 }

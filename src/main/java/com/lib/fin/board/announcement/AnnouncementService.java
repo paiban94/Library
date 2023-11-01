@@ -14,6 +14,10 @@ import com.lib.fin.board.comment.CommentVO;
 public interface AnnouncementService {
 
 	public List<AnnouncementVO> getList() throws Exception;
+	
+	public List<AnnouncementVO> getPaginatedList(int page, int pageSize) throws Exception;
+	
+	public int getTotalAnnouncementCount() throws Exception;
 
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception;
 
@@ -25,11 +29,14 @@ public interface AnnouncementService {
 
 	public FileVO getFileDetail(FileVO fileVO) throws Exception;
 
-	public int addComment(CommentVO comment)  throws Exception;
+	public int addComment(CommentVO comment) throws Exception;
 
 	public List<CommentVO> getComments(Long board_no) throws Exception;
 
-    // 게시글 좋아요 증가
-    public int increaseLike(Long boardNo) throws Exception;
-	
+	// 게시글 좋아요 증가
+
+	public void likeAnnouncement(Long board_no) throws Exception;
+
+	public void unlikeAnnouncement(Long board_no)throws Exception;
+
 }
