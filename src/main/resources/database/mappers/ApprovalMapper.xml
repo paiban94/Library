@@ -17,5 +17,11 @@
   	
   		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},now(),null,null,#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
+  	
+  	<!-- 결재선 -->
+  	<insert id="setApprovalHis" parameterType="ApprovalHisVO">
+  		INSERT INTO APPROVAL_HISTORY
+  		VALUES(#{approval_no},#{emp_no},#{doc_no},#{approval_level},#{approval_state},#{reg_id},#{mod_id},now(),now(),#{use_yn})
+  	</insert>
   
   </mapper>

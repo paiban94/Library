@@ -25,7 +25,13 @@
     }
     .scrollable-card1 {
  
-        height: 247px;
+        height: 70px;
+  
+    }
+    
+     .scrollable-card2 {
+ 
+        height: 300px;
   
     }
     
@@ -82,7 +88,8 @@
 								<input type="hidden" id="grp_cd" name="grp_cd" value="H">
 								<input type="hidden" id="approval_state" name="approval_state" value="G">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
-								<input type="hidden" id="emp_no" name="emp_no"> 
+								<input type="hidden" id="midApp" name="midApp" value="">
+								<input type="hidden" id="lastApp" name="lastApp" value="">
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -133,7 +140,7 @@
 
 
 														<tr id="sign">
-															<td><img id="sign_img" src="../files/draft/공지3.PNG"></td>
+															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
 														</tr>
 														
 														<tr>
@@ -216,7 +223,7 @@
 														</tr>
 														<tr>
 															<th class="table-light">참조자</th>
-															<td></td>
+															<td id="refDoc"></td>
 														</tr>
 														<tr>
 															<th class="table-light">제목</th>
@@ -251,13 +258,12 @@
 													</div>
 
 													<!-- button  -->
-													<button type="submit" class="btn btn-primary btn-sm">결재
-														요청</button>
-													<button type="button" id="temp_send"
-														class="btn btn-primary btn-sm">임시저장</button>
+													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
+													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
-												<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
 															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
+
 															
 
 												</div>
@@ -333,7 +339,11 @@
 							</div>
 							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-5">
-								<i class="bi bi-arrow-right mt-4" id="lastAW"></i>
+								<i class="bi bi-arrow-right mt-5" id="lastAW"></i>
+							</div>
+							
+							<div class="scrollable-card2 text-center d-flex flex-column justify-content-center align-items-center mt-5">
+								<i class="bi bi-arrow-right mt-4" id="refAW"></i>
 							</div>
 							
 						
@@ -352,6 +362,11 @@
 								
 							</div>
 							
+							<div>참조자</div>
+							<div class="card border scrollable-card2 overflow-auto" id="refLine">
+								
+							</div>
+							
 							</div>
 						
 						</div>
@@ -365,6 +380,8 @@
 					</div>
 				</div>
 			</div>
+			
+
 			<!-- End Basic Modal-->
 
 
@@ -386,6 +403,19 @@
 
 	<script src="/js/file.js"></script>
 	<script type="text/javascript">
+	
+		$('#doc_send').click(function() {
+	
+			if($('#lastApp').val()==""){
+				alert("최종 결재자는 필수 값입니다");
+				return false;
+			}
+				
+			$("#frm").submit();
+	
+		});
+	
+	
 		$('#temp_send').click(function() {
 
 			$("#temp_save").val("Y");
@@ -397,7 +427,7 @@
 		
 		$('#btnGetMem').click(function() {
 
-			
+			$("#refLine").empty();  //참조자 비우기
 			$("#readyMem").empty(); //조직도 비우기
 			$('#memList').empty();	//사원정보 비우기
 			$('#fLine').empty();	//중간승인자 비우기
@@ -609,6 +639,51 @@
 
   		});
   		
+  		//참조자 화살표 클릭시
+  		$("#refAW").click(function() {
+  		    // 체크된 항목을 가져오기
+  		    
+  		    let selectedEmps = [];
+  		    $("#memList input[name='selectNm']:checked").each(function() {
+  		    	
+  		        // 여기서 "emp" 객체로 변환
+  		        let emp = {
+  		        	emp_no:$(this).val(),
+  		            name: $(this).closest('tr').find('td:eq(1)').text(), // emp.name 가져오기
+  		            emp_position: $(this).closest('tr').find('td:eq(2)').text(), // emp.emp_position 가져오기
+  		            emp_team: $(this).closest('tr').find('td:eq(3)').text() // emp.emp_team 가져오기
+  		        };
+  		        selectedEmps.push(emp);
+  		        
+  		     	
+  		    });
+  		    
+  		    
+	  		  let refLine = $("#refLine");
+	  		  
+/* 			    for (let emp of selectedEmps) {
+			        let newRow = '<div><table class="table">' +
+			            '<tr id="refEmpNo'+i' data-ref-empNo="'+ emp.emp_no+'"><td id="rn">' + emp.name + '</td>' +
+			            '<td>' + emp.emp_position + '</td>' +
+			            '<td>' + emp.emp_team + '</td>' +
+			            '<td><span id="rx">x</span></td></tr></table></div>';
+			        refLine.append(newRow);
+			       
+			    } */
+			    
+			    for (let i = 0; i < selectedEmps.length; i++) {
+			        let emp = selectedEmps[i];
+			        console.log(selectedEmps.length);
+			        let newRow = '<div><table class="table">' +
+			            '<tr id="refEmpNo' + i + '" data-ref-empNo="' + emp.emp_no + '"><td id="rn">' + emp.name + '</td>' +
+			            '<td>' + emp.emp_position + '</td>' +
+			            '<td>' + emp.emp_team + '</td>' +
+			            '<td><span id="rx">x</span></td></tr></table></div>';
+			        refLine.append(newRow);
+			    }
+
+  		});
+  		
   		$("#fLine").on('click', '#fx', function () {
   		    $(this).parent().parent().parent().remove(); 
   		});
@@ -616,18 +691,34 @@
   		$("#lLine").on('click', '#lx', function () {
   		    $(this).parent().parent().parent().remove(); 
   		});
+  		
+  		$("#refLine").on('click', '#rx', function () {
+  		    $(this).parent().parent().parent().parent().remove(); 
+  		});
 		
   		
 		$('#modalSave').click(function() {
 			
 			    $('#midP').text($('#mp').text()+" "+$("#mn").text());
 			    $('#lastP').text($('#lp').text()+" "+$("#ln").text());
+			    $("#refDoc").text($('#rn'));
 			    
-			    let a =$("#midEmpNo").attr("data-mid-empNo");
-			    let b =$("#lastEmpNo").attr("data-last-empNo");
 			    
-			    let arry = [a,b]
-			    $("#emp_no").val(arry);
+			    
+			    let midApp =$("#midEmpNo").attr("data-mid-empNo");
+			    let lastApp =$("#lastEmpNo").attr("data-last-empNo");
+			    
+			    
+			    let refApp0 =$("#refEmpNo0").attr("data-ref-empNo");
+			    let refApp1 =$("#refEmpNo1").attr("data-ref-empNo");
+			    let refApp2 =$("#refEmpNo2").attr("data-ref-empNo");
+			    
+			  
+			    
+			    
+			    $("#midApp").val(midApp);
+			    $("#lastApp").val(lastApp);
+			    
 			   
 			     
 			    
