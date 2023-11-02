@@ -59,7 +59,7 @@ top:-10px}
 						
 						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addBookModal">추가</button>
 													<!-- Modal -->
-						<form>
+						<form id="addForm" action="./add" method="post">
 							<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -76,14 +76,14 @@ top:-10px}
                         				<input type="text" class="form-control" id="book_publisher" name="book_publisher">
 							      </div>
 							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							        <button type="submit" class="btn btn-primary" id="addBook">Save changes</button>
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							        <button type="submit" class="btn btn-primary" id="addBook">추가</button>
 							      </div>
 							    </div>
 							  </div>
 							</div>
 							</form>
-						<button type="submit" class="del-btn">폐기</button>
+						<button id="del" class="del-btn">폐기</button>
 						
 						<table class="tg">
 							<thead>
@@ -97,15 +97,17 @@ top:-10px}
 							  </tr>
 							</thead>
 							<tbody>
+							<c:forEach items="${list}" var="list">
 							  <tr>
-							    <td class="tg-0lax"></td>
-							    <td class="tg-0lax"></td>
-							    <td class="tg-0lax"></td>
-							    <td class="tg-0lax"></td>
-							    <td class="tg-0lax"></td>
-							    <td class="tg-0lax"></td>
+							    <td class="tg-0lax"> <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input"></td>
+							    <td class="tg-0lax">${list.book_no}</td>
+							    <td class="tg-0lax">${list.book_name}</td>
+							    <td class="tg-0lax">${list.book_author}</td>
+							    <td class="tg-0lax">${list.book_publisher}</td>
+							    <td class="tg-0lax">${list.reg_date}</td>
 							   </tr>
 							</tbody>
+							</c:forEach>
 							</table>
 						<div class=""></div>
 						</div>

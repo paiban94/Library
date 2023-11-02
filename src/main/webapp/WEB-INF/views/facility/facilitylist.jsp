@@ -69,7 +69,32 @@ text-align:center;
 								  <div class="p-3">공용품</div>
 								 </div>
 						
-						<button type="submit" class="add-btn">추가</button>
+						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addFacilityModal">추가</button>
+													<!-- Modal -->
+						<form id="addForm" action="./add" method="post">
+							<div class="modal fade" id="addFacilityModal" tabindex="-1" aria-labelledby="addFacilityModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h1 class="modal-title fs-5" id="addFacilityModalLabel">공용품추가</h1>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							       <label for="taskId" class="col-form-label">종류구분</label>
+                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd">
+							        <label for="taskId" class="col-form-label">공용품명</label>
+                        				<input type="text" class="form-control" id="facility_name" name="facility_name">
+							        <label for="taskId" class="col-form-label">상세내용</label>
+                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							        <button type="submit" class="btn btn-primary" id="addFacility">추가</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+							</form>
 						<button type="submit" class="del-btn">삭제</button>
 						
 						
@@ -86,6 +111,7 @@ text-align:center;
 							<tbody>
 							<div>
 							  <tr>
+							  <c:forEach items="${list}" var="list">
 							    <td class="tg-0pky">
 							    <div class="input-group mb-3">
 								  <div class="input-group-text">
@@ -96,7 +122,33 @@ text-align:center;
 							    <td class="tg-0pky"></td>
 							    <td class="tg-0pky"></td>
 							    <td class="tg-0pky"></td>
-							  	<button type="submit" class="update-btn">수정</button>
+							  <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
+													<!-- Modal -->
+						<form id="updateForm" action="./update" method="post">
+							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h1 class="modal-title fs-5" id="updateFacilityModalLabel">공용품수정</h1>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							       <label for="taskId" class="col-form-label">종류구분</label>
+                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd">
+							        <label for="taskId" class="col-form-label">공용품명</label>
+                        				<input type="text" class="form-control" id="facility_name" name="facility_name">
+							        <label for="taskId" class="col-form-label">상세내용</label>
+                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							        <button type="submit" class="btn btn-primary" id="updateFacility">추가</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+							</form>
+							</c:forEach>
 							  </tr>
 							</div>
 							</tbody>

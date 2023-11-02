@@ -33,7 +33,7 @@
     <!-- fullcalendar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
-	
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
    
     <style>
@@ -98,7 +98,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">일정추가</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" onclick="location.href='/schedule/schedule'">&times;</span>
+                        <span aria-hidden="true" onclick="location.href='/schedule/getSchedule'">&times;</span>
                     </button>
                 </div>
                 
@@ -136,7 +136,7 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning" id="addCalendar">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        id="sprintSettingModalClose" onclick="location.href='/schedule/schedule'">취소</button>
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/getSchedule'">취소</button>
                 </div>
     			</form>
             </div>
@@ -145,14 +145,14 @@
 <!------------------------------------------------- Add modal ------------------------------------------------->
     			
  <!------------------------------------------------- Add modal ------------------------------------------------->
- <div class="modal fade" id="reservationAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ <div class="modal fade" id="addReservationModal" tabindex="-1" role="dialog" aria-labelledby="addReservationModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약추가</h5>
+                    <h5 class="modal-title" id="addReservationModalLabel">예약추가</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" onclick="location.href='/schedule/schedule'">&times;</span>
+                        <span aria-hidden="true" onclick="location.href='/schedule/getSchedule'">&times;</span>
                     </button>
                 </div>
                 
@@ -182,7 +182,7 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning" id="addReservation">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        id="sprintSettingModalClose" onclick="location.href='/schedule/schedule'">취소</button>
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/getSchedule'">취소</button>
                 </div>
     			</form>
             </div>
@@ -220,8 +220,7 @@
 
 		
 		
-		var obj = JSON.parse(${List});
-		
+		var obj = ${List};
 		const arr = new Array();
 		const res = arr.keys();
 		function timeFormat(time){
@@ -230,12 +229,12 @@
 		
 		 $.ajax({
 		        url: "/schedule/schedule",
-		        data: formdata,
+		        data: "json",
 		        processData: false,    // 필수
 		        contentType: false,    // 필수
-		        method: "post",
+		        method: "get",
 		        cache: false,
-		        enctype: "multipart/form-data",
+		        enctype: 'resultMap',
 		        dataType: "json",
 		        success: function (data) {
 		            console.log(data);
@@ -287,8 +286,17 @@
 	      
 	      customButtons: {
 	    	  myResButton:{
-	    		  text:'예약추가'
-	    	  }
+	    		  text:'예약추가',
+	    		click: function() {
+		    	    $("#addReservationModal").modal("show");
+		    	    	  
+		    	    
+		    	    		
+		    	   $('#sprintSettingModalClose').click(function(){
+		    	    $('#addReservationModal').modal('hide')	
+		    	    })
+		    	 }
+	    	}
 	    	  ,
 	    	    myCustomButton: {
 	    	      text: '일정 추가',
@@ -325,7 +333,7 @@
         			end:'2023-11-01'
         			
         		}
-        		.
+        		
         	]
         
         	

@@ -46,7 +46,7 @@ public class ScheduleController {
 		
 		
 		return mv;
-		 
+		      
 		 
 	}
 	
@@ -55,7 +55,7 @@ public class ScheduleController {
 			        
 		 int result = scheduleService.setScheduleAdd(scheduleVO);
 		
-		 return "redirect:./schedule";
+		 return "redirect:./getSchedule";
 	}
 	
 	@GetMapping("scheduleList")

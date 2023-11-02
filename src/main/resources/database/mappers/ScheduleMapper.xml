@@ -6,7 +6,7 @@
   <mapper namespace="com.lib.fin.schedule.ScheduleDAO">
   <insert id="setScheduleAdd" parameterType="ScheduleVO">
 		INSERT INTO SCHEDULE_BASE 
-		values(0, '20231024001', #{schedule_start_time}, #{schedule_end_time}, #{schedule_contents}, #{schedule_title}, '20231024001', '20231024001', sysdate(), sysdate(), 'y',#{grp_cd});
+		values(0, '20231024001', #{schedule_start_time}, #{schedule_end_time}, #{schedule_contents}, #{schedule_title}, '20231024001', '20231024001', sysdate(), sysdate(), 'Y',#{grp_cd});
    </insert>
    
    <select id="getScheduleList" resultType="Map">

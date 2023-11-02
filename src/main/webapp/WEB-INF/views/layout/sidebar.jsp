@@ -151,7 +151,7 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">예약</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/schedule/schedule">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/schedule/getSchedule">
           <i class="bi bi-gem"></i><span>예약하기</span>
         </a>
         
@@ -165,12 +165,12 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="charts-nav01" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/book/booklist">
+            <a href="/book/getBooklist">
               <i class="bi bi-circle"></i><span>도서 관리</span>
             </a>
           </li>
           <li>
-            <a href="/facility/facilitylist">
+            <a href="/facility/getFacilitylist">
               <i class="bi bi-circle"></i><span>공용품 관리</span>
             </a>
           </li>
