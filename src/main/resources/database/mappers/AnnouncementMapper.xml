@@ -86,15 +86,16 @@
 		BOARD_TYPE = 'A' AND USE_YN = 'Y'
 <!-- 		<if test="searchFlag=W">
 			AND REG_ID LIKE '%'|| #{emp_no} || '%'
-		</if>
-		<if test="searchFlag=N">
+		</if> -->
+<!-- 		<if test="searchFlag=N">
 			AND BOARD_TITLE LIKE '%'|| #{board_title} || '%'
 		</if>  -->
 		<!-- <include refid="searchSql"></include> -->
 		ORDER BY BOARD_NO DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
-
+	
+	
 	<select id="getTotalAnnouncementCount" resultType="Long">
 		SELECT
 		COUNT(*) FROM BOARD_BASE WHERE
