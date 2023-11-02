@@ -1,5 +1,7 @@
 package com.lib.fin.approval;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,5 +16,8 @@ public interface ApprovalDAO {
 
 	//his add
 	public int setApprovalHis(ApprovalHisVO approvalHisVO)throws Exception;
+	
+	//docLis
+	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception;
 
 }

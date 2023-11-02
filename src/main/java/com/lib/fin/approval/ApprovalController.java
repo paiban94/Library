@@ -1,7 +1,6 @@
 package com.lib.fin.approval;
 
 import java.security.Provider.Service;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import javax.validation.constraints.AssertFalse.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +60,18 @@ public class ApprovalController {
 	@GetMapping("expense")
 	private String getExpense()throws Exception{
 		return "approval/expense";
+	}
+	
+	//기안 list
+	@GetMapping("comDocList")
+	private String getAppDocList(String emp_no, Model model)throws Exception{
+		
+		emp_no = "20231";
+		
+		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(emp_no);
+		model.addAttribute("list",ar);
+		
+		return "approval/comDocList";
 	}
 
 }

@@ -32,6 +32,7 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
+	//일반기안
 	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
 		
 			
@@ -97,6 +98,13 @@ public class ApprovalService {
 		}
 			
 		return result;
+	}
+	
+	//DOCList
+	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception{
+		
+		return approvalDAO.getAppDocList(emp_no);
+		
 	}
 
 }
