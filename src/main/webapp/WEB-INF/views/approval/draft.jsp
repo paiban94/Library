@@ -503,7 +503,7 @@
 				            '<th></th>' +
 				            '<th>이름</th>' +
 				            '<th>직책</th>' +
-				            '<th>팀</th>' +
+				            '<th>부서</th>' +
 				            '</tr></thead>';
 
 				        // 테이블 시작 태그
@@ -661,17 +661,17 @@
   		    
 	  		  let refLine = $("#refLine");
 	  		  
-/* 			    for (let emp of selectedEmps) {
+			   /*  for (let emp of selectedEmps) {
 			        let newRow = '<div><table class="table">' +
-			            '<tr id="refEmpNo'+i' data-ref-empNo="'+ emp.emp_no+'"><td id="rn">' + emp.name + '</td>' +
+			            '<tr id="refEmpNo" data-ref-empNo="'+ emp.emp_no+'"><td id="rn">' + emp.name + '</td>' +
 			            '<td>' + emp.emp_position + '</td>' +
 			            '<td>' + emp.emp_team + '</td>' +
 			            '<td><span id="rx">x</span></td></tr></table></div>';
 			        refLine.append(newRow);
 			       
-			    } */
+			    }  */
 			    
-			    for (let i = 0; i < selectedEmps.length; i++) {
+ 			    for (let i = 0; i < selectedEmps.length; i++) {
 			        let emp = selectedEmps[i];
 			        console.log(selectedEmps.length);
 			        let newRow = '<div><table class="table">' +
@@ -680,7 +680,7 @@
 			            '<td>' + emp.emp_team + '</td>' +
 			            '<td><span id="rx">x</span></td></tr></table></div>';
 			        refLine.append(newRow);
-			    }
+			    } 
 
   		});
   		
@@ -701,7 +701,7 @@
 			
 			    $('#midP').text($('#mp').text()+" "+$("#mn").text());
 			    $('#lastP').text($('#lp').text()+" "+$("#ln").text());
-			    $("#refDoc").text($('#rn'));
+			    $("#refDoc").text($('#rn').text());
 			    
 			    
 			    
