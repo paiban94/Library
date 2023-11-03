@@ -101,7 +101,7 @@ height:20px;
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>
-                        				<input type="text" class="form-control" id="facility_content" name="facility_contents">
+                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -136,7 +136,7 @@ height:20px;
 							    </td>
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
-							    <td class="tg-0pky mt-3">${vo.facility_content}</td>
+							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
 							  <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 													<!-- Modal -->
 						<form id="updateForm" action="./update" method="post">
@@ -149,14 +149,14 @@ height:20px;
 							      </div>
 							      <div class="modal-body">
 							      <label for="taskId" class="col-form-label" >공용품번호</label>
-							      		<input type="text" readonly>${facility.facility_no}> 
+							      		<input type="text" value="${vo.facility_no}" readonly></input>
 							      		<br>
 							       <label for="taskId" class="col-form-label">종류구분</label>
-                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${facility.grp_cd}">
+                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${vo.grp_cd}">
 							        <label for="taskId" class="col-form-label">공용품명</label>
-                        				<input type="text" class="form-control" id="facility_name" name="facility_name" value="${facility.facility_name}">
+                        				<input type="text" class="form-control" id="facility_name" name="facility_name" value="${vo.facility_name}">
 							        <label for="taskId" class="col-form-label">상세내용</label>
-                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents" value="${facility.facility_contents}">
+                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents" value="${vo.facility_contents}">
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
