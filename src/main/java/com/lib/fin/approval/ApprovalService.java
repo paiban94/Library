@@ -1,5 +1,8 @@
 package com.lib.fin.approval;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,17 +32,53 @@ public class ApprovalService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	public int setDraft(ApprovalDocVO approvalDocVO, MultipartFile[] files)throws Exception{
+	//일반기안
+	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
 		
+			
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
-		
+
 		log.info("===============path: {} =========",path);
 		log.info("===============path: {} =========",filePath);
 		log.info("===============path: {} =========",approvalName);
 		
-		if(!"".equals(result)) {
-
+		
+		ApprovalHisVO approvalHisVO = new ApprovalHisVO();
+		
+		String midApp = params.getOrDefault("midApp","");
+		String lastApp = params.getOrDefault("lastApp","");
+	
+		
+		//중간 결재자 insert
+		if(!"".equals(midApp)) {
+			approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+			approvalHisVO.setEmp_no(midApp);
+			approvalHisVO.setApproval_level(1);
+			approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+			approvalHisVO.setReg_id(midApp);
+			approvalHisVO.setMod_id(midApp);
+			approvalHisVO.setUse_yn("Y");
+			result = approvalDAO.setApprovalHis(approvalHisVO);
+		
+		}
+		
+		//최종결재자 insert
+		if(!"".equals(lastApp)) {
+			approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+			approvalHisVO.setEmp_no(lastApp);
+			approvalHisVO.setApproval_level(2);
+			approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+			approvalHisVO.setReg_id(lastApp);
+			approvalHisVO.setMod_id(lastApp);
+			approvalHisVO.setUse_yn("Y");
+			result = approvalDAO.setApprovalHis(approvalHisVO);
+		
+		}
+	
+	
+				
+		if(files != null) {
 			for(MultipartFile multipartFile: files) {
 				
 				if(multipartFile.isEmpty()) {
@@ -55,8 +94,17 @@ public class ApprovalService {
 				
 				
 			}
-			}
+			
+		}
+			
 		return result;
+	}
+	
+	//DOCList
+	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception{
+		
+		return approvalDAO.getAppDocList(emp_no);
+		
 	}
 
 }

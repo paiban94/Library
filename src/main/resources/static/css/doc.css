@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.a {
+	display: flex;
+}
+
+
+    .scrollable-card {
+ 
+        height: 550px;
+  
+    }
+    .scrollable-card1 {
+ 
+        height: 70px;
+  
+    }
+    
+     .scrollable-card2 {
+ 
+        height: 300px;
+  
+    }
+    
+    .custom_table {
+    		
+        width: 90%;
+        }
+    
+    .custom_table tr {
+    		
+            height: 5px; 
+            font-size: 12px;
+        }
+        
+    #sign {
+        height: 100px;
+    }
+    
+    #sign_img{
+		height: 80px;
+		width: 140px;
+    }
+    
+    #lastTr{
+    	height: 35px;
+    }
