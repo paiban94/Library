@@ -23,7 +23,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-
 public class MemberVO extends CommonVO implements UserDetails{
 	
 	private String emp_no;
@@ -59,10 +58,23 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private List<ComVO> comVOs;
 
+	
+	
+//	@Override
+//	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	@Override
+	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		
+		for(ComVO comVO:comVOs) {
+			authorities.add(new SimpleGrantedAuthority(comVO.getCd_nm()));
+		}
+			
+		return authorities;
 	}
 
     // 시큐리티의 userName
@@ -72,12 +84,14 @@ public class MemberVO extends CommonVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return emp_no;
 	}
+	////
+    @Override
+	public String getPassword() {
+		return password;
+	}
 
-	  // Vo의 userName !
-    public String getUserName(){
-        return this.name;
-    }
-	
+    
+    
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
@@ -101,6 +115,8 @@ public class MemberVO extends CommonVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+
 
 	
 	

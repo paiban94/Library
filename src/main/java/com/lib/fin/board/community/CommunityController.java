@@ -29,7 +29,7 @@ public class CommunityController {
 		mv.addObject("list", list);
 		mv.setViewName("board/community/communitylist");
 		
-		return  mv;
+		return mv;
 	}
 	
 	@GetMapping("communityDetail")

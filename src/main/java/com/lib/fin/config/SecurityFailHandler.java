@@ -64,6 +64,6 @@ public class SecurityFailHandler implements AuthenticationFailureHandler {
 		}
 
 		message = URLEncoder.encode(message, "UTF-8");
-		response.sendRedirect("./memberLogin?error=true&loginFailMessage="+message);
+		response.sendRedirect("./login?loginFailMessage="+message);
 	}
 }

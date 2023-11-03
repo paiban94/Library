@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_doc" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="/approval/comDocList">
               <i class="bi bi-circle"></i><span>기안 문서함</span>
             </a>
           </li>

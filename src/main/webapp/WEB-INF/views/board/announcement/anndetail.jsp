@@ -47,7 +47,7 @@
 																	</div>
 																	<div class="pb-2 pt-1">
 																		<span class=""
-																			style="float: left;">${data.reg_date}</span>
+																			style="float: left;">${data.board_writer}</span>
 																		<span class="date m_no"
 																			style="float: right; width: 25%;">${data.reg_date}</span>
 																	</div>
@@ -62,11 +62,21 @@
 																</div>
 															</div>
 
-															<button id="likeButton" class="btn btn-primary"
-																onclick="likeAnnouncement(${data.board_no})">좋아요</button>
+															<div>
+																<button id="likeButton"
+																	onclick="likeAnnouncement(${data.board_no})">좋아요</button>
+																<button id="unlikeButton"
+																	onclick="unlikeAnnouncement(${data.board_no})">좋아요
+																	취소</button>
+																<span id="likeCount">${data.board_like} 명이 이 글을 좋아합니다.</span>
+															</div>
+															<div id="logined">
+																<button id="modifyBtn" type="button" class="btn btn-primary btn-sm" data-val="${data.board_no}">수정</button>
+																<button id="deleteBtn" type="button" class="btn btn-primary btn-sm" onclick="deleteBoard(${data.board_no})">삭제</button>
+															</div>
+															<button id="goList" type="button" class="btn btn-primary btn-sm">목록</button>
 
-															<!-- 게시글 좋아요 수 -->
-															<div id="likeCount">${data.board_like}</div>
+
 
 															<div class="mb-3 border-bottom ">
 																<ul class="nav nav-underline">
@@ -101,10 +111,13 @@
 															<div>
 																<h2>댓글</h2>
 																<c:forEach items="${comments}" var="comment">
+																	<p>${comment.reg_id}</p>
 																	<p>${comment.comment_content}</p>
 																	<p>${comment.reg_date}</p>
 																</c:forEach>
 															</div>
+															
+
 														</section>
 
 
@@ -134,33 +147,7 @@
 
 
 					<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-					<script>
-						function likeAnnouncement(boardNo) {
-							$.ajax({
-								type: "POST",
-								url: "/board/likeAnnouncement",
-								data: {
-									board_no: boardNo
-								},
-								success: function (response) {
-									if (response === "success") {
-										console.log(" like success!!");
-										let likeCountElement = document.getElementById("likeCount_" + boardNo);
-
-										
-										let currentLikeCount = parseInt(likeCountElement.innerText);
-
-										
-										currentLikeCount++;
-										likeCountElement.innerText = currentLikeCount;
-									}
-								},
-								error: function () {
-									// 에러 처리 로직
-								}
-							});
-						}
-					</script>
+					<script src="/js/anndetail.js"></script>
 				</body>
 
 				</html>

@@ -61,28 +61,28 @@
                                                     </div>
 
                                                     <div class="row col-sm-8">
-                                                        <form action="addAnn" method="post"
+                                                        <form action="modifyBoard" method="post"
                                                             enctype="multipart/form-data">
                                                             <!--  <sec:csrfInput/>-->
-                                                            <div class="mb-3"  style="width: 100%;">
+                                                            <div class="mb-3">
                                                                 <label for="board_title"
                                                                     class="form-label">Title</label>
                                                                 <input type="text" class="form-control"
                                                                     name="board_title" id="board_title"
-                                                                    placeholder="제목을 입력하세요">
+                                                                    value="${board.board_title}" readonly>
                                                             </div>
-                                                            <div class="mb-3"  style="width: 100%;">
+                                                            <div class="mb-3">
                                                                 <label for="board_writer"
                                                                     class="form-label">Writer</label>
                                                                 <input type="text" class="form-control"
                                                                     name="board_writer" id="board_writer"
                                                                     value="${member.name}" readonly>
                                                             </div>
-                                                            <div class="mb-3"  style="width: 100%;">
+                                                            <div class="mb-3">
                                                                 <label for="board_contents"
                                                                     class="form-label">Contents</label>
                                                                 <textarea class="form-control" id="board_content"
-                                                                    name="board_content" rows="17"></textarea>
+                                                                    name="board_content" rows="17">${board.board_content}</textarea>
                                                             </div>
 
                                                             <div id="fileList"></div>
@@ -131,7 +131,8 @@
 
                     <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 
-                    <script src="/js/boardnote.js"></script>
+                    <script src="/js/file.js"></script>
+                    <script src="/js/modify.js"></script>
                 </body>
 
                 </html>
