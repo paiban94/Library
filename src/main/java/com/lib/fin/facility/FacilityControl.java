@@ -1,10 +1,13 @@
 package com.lib.fin.facility;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,9 @@ public class FacilityControl {
 	private FacilityService facilityService;
 	
 	@GetMapping("getFacilitylist")
-	public String getFacility() throws Exception {
+	public String getFacility(Model model) throws Exception {
+		List<FacilityVO> ar=facilityService.getFacilitylist(null);
+		model.addAttribute("list",ar);
 		return "facility/facilitylist";
 	}
 	@PostMapping("add")
