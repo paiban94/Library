@@ -44,7 +44,9 @@
 	              .antMatchers("/member/join").permitAll()
 	              .antMatchers("/member/postLogin").permitAll()
 	              .antMatchers("/admin/*").hasRole("ADMIN")
-	              .anyRequest().authenticated()
+	              //.anyRequest().authenticated()
+	              //우선모든접근가능
+	              .anyRequest().permitAll()
 	              //나머지 모든 요청은 로그인한 사용자 가능
 	              //.antMatchers("/").authenticated()
 	              //로그인한 사람만 접속가능
@@ -52,7 +54,7 @@
 	              .and()
 	          .formLogin()
 	          //어느 url로 들어오든 로그인페이지로 이동
-	          		.loginPage("/member/login")//내장된 로그인폼을 사용하지 않고, 개발자가 만든 폼을 사용
+	          		//.loginPage("/member/login")//내장된 로그인폼을 사용하지 않고, 개발자가 만든 폼을 사용
 	          		.loginProcessingUrl("/")
 	          		.defaultSuccessUrl("/")
 	          		.usernameParameter("emp_no")

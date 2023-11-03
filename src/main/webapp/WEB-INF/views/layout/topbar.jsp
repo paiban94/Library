@@ -5,7 +5,10 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.jsp" class="logo d-flex align-items-center">
+
+
+    <a href="/" class="logo d-flex align-items-center">
+
       <img src="/assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">NiceAdmin</span>
     </a>
@@ -197,7 +200,7 @@
           <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
               <i class="bi bi-box-arrow-right"></i>
-              <span>Log Out</span>
+              <span>LogOut</span>
             </a>
           </li>
 
