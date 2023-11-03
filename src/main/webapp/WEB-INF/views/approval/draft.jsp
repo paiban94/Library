@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 
@@ -41,6 +40,10 @@
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 								<input type="hidden" id="midApp" name="midApp" value="">
 								<input type="hidden" id="lastApp" name="lastApp" value="">
+
+	
+	 
+	
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->

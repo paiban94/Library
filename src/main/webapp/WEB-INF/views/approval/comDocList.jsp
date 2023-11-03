@@ -35,24 +35,12 @@
 												<!-- 각 영역 크기조절하기 -->
 												<div class="col-lg-12">
 													<div class="card">
+													
+														<table id="grid" style="margin:5px auto;"></table>
+
+                                                        <div id="pager"></div>
 														
-														<table class="table mt-5">
-		
-		<thead class="table-dark">
-			 <th>ID</th><th>TITLE</th><th>DATE</th><th>HIT</th><th>HIT</th>
-		</thead>
-														<c:forEach items="${list}" var="d">
-															<tr>
-																<td>${d.reg_date}</td>
-																<td><a class="text-decoration-none" href="./detail?boardNo=${d.doc_no}">${d.grp_cd}</a></td>
-																<td>${d.doc_title}</td>
-																<td>${d.doc_no}</td>
-																<td>${d.approval_state}</td>
-															</tr>
-														</c:forEach>
 														
-															</tbody>
-															</table>	
 													</div>
 												</div>
 
@@ -78,6 +66,7 @@
 
 
 					<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+					<script src="/js/comDocList.js"></script>
 				</body>
 
 				</html>

@@ -35,7 +35,6 @@ public class ApprovalService {
 	//일반기안
 	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
 		
-			
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
 
