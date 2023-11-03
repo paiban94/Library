@@ -13,14 +13,14 @@
 <style type="text/css">
 .add-btn{width:80px;
 position:relative;
-left:905px;
+left:1200px;
 top:20px}
 .title{
 text-align: center;
 }
 .del-btn{width:80px;
 position:relative;
-left:1000px;
+left:1300px;
 top:-10px}
 .card{width:1400px}
 .col-lg-6 {width:1400px }
@@ -68,6 +68,8 @@ top:-10px}
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
+							      		<input type="hidden" value="${member.emp_no}" id="reg_id" name="reg_id">
+							      		<input type="hidden" value="${member.emp_no}" id="mod_id" name="mod_id">
 							       <label for="taskId" class="col-form-label">도서명</label>
                         				<input type="text" class="form-control" id="book_name" name="book_name">
 							        <label for="taskId" class="col-form-label">저자명</label>
@@ -85,30 +87,10 @@ top:-10px}
 							</form>
 						<button id="del" class="del-btn">폐기</button>
 						
-						<table class="tg">
-							<thead>
-							  <tr>
-							    <th class="tg-0lax">선택</th>
-							    <th class="tg-0lax">도서번호</th>
-							    <th class="tg-0lax">도서명</th>
-							    <th class="tg-0lax">저자명</th>
-							    <th class="tg-0lax">발행처</th>
-							    <th class="tg-0lax">입고일</th>
-							  </tr>
-							</thead>
-							<tbody>
-							<c:forEach items="${list}" var="list">
-							  <tr>
-							    <td class="tg-0lax"> <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input"></td>
-							    <td class="tg-0lax">${list.book_no}</td>
-							    <td class="tg-0lax">${list.book_name}</td>
-							    <td class="tg-0lax">${list.book_author}</td>
-							    <td class="tg-0lax">${list.book_publisher}</td>
-							    <td class="tg-0lax">${list.reg_date}</td>
-							   </tr>
-							</tbody>
-							</c:forEach>
-							</table>
+						<div class="card" data-list="${list}" id="jqgriddata">
+                                                        <table id="grid" style="margin:5px auto;"></table>
+
+                                                        <div id="pager"></div>
 						<div class=""></div>
 						</div>
 					</div>
@@ -135,5 +117,89 @@ top:-10px}
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script>
+
+
+                        $(document).ready(function () {
+                            $("#grid").jqGrid({
+
+                                url: "/book/booklist", // 데이터를 가져올 서버 엔드포인트의 URL
+                                datatype: "json", // 데이터 타입을 JSON으로 설정
+                                colNames: ['도서번호', '도서명', '저자명', '발행처', '입고일'],
+                                colModel: [
+                                    {
+                                        name: 'book_no',
+                                        index: 'book_no', 
+                                        hidedlg : true,
+                                        width: 50, 
+                                        align: 'center'
+                                    },
+
+                                    { 
+                                        name: 'book_name', 
+                                        index: 'book_name', 
+                                        width: 200 
+                                    },
+                                    { 
+                                        name: 'board_author', 
+                                        index: 'board_author',
+                                         width: 100, 
+                                         align: 'center' 
+                                        },
+                                    { 
+                                        name: 'book_publisher', 
+                                        index: 'book_publisher', 
+                                        width: 80,
+                                         align: 'center' 
+                                    },
+                                    { 
+                                        name: 'reg_date', 
+                                        index: 'reg_date', 
+                                        width: 70, 
+                                        align: 'center' 
+                                    }
+                                ],
+                                rowNum: 10,
+                                rowList: [10, 15, 20],
+                                pager: '#pager',
+                                viewrecords: true,
+                                autowidth: true,
+                                height: 'auto',
+                                onCellSelect: function (rowid, index, contents, event) {
+                                    var data = $(this).jqGrid('getGridParam', 'colModel');
+                                    if (data[index].name == "book_name") {
+                                        var id = $("#grid").jqGrid("getGridParam", "selrow");
+
+                                        var rowData = $("#grid").jqGrid("getRowData", id);
+                                        let no = rowData.book_no;
+
+                                        $.ajax({
+                                            url: "./communityDetail?" + no,
+                                            type: "get",
+                                            data: {
+                                                book_no: rowData.book_no
+                                            },
+                                            success: function (data) {
+                                                if (no !== null && no !== undefined) {
+                                                    location.replace("./annDetail?board_no=" + no);
+                                                }
+
+                                            },
+                                            error: function () {
+                                                console.log("error");
+                                            }
+                                        });
+                                    }
+                                }
+                            }).navGrid('#pager', {
+                                search: true,
+                                edit: true,
+                                add: true,
+                                del: true
+                            });
+                            $("#grid").jqGrid('filterToolbar', { searchOperators: true, stringResult: true, searchOnEnter: true });
+
+                        });
+                    </script>
 </body>
 </html>

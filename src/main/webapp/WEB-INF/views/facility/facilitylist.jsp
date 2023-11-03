@@ -14,7 +14,8 @@
 .update-btn{width:80px;
 	position:relative;
 	left:1110px;
-	top:90px;
+	top:160px;
+	margin:15px;
 	}
 .add-btn{width:80px;
 position:relative;
@@ -27,10 +28,25 @@ top:0px}
 .title{
 text-align:center;
 }
+.mt-0{
+width:20px;
+}
+.th-0{
+width:40px;
+}
+.th-1{
+width:100px;
+}
+.th-2{
+width:150px;
+}
+.tg-0pky{
+height:20px;
+}
 .card{width:1400px}
 .hstack{width:1100px}
 .col-lg-6 {width:1400px }
-.tg  {border-collapse:collapse;border-spacing:0;width:1100px}
+.tg  {border-collapse:collapse;border-spacing:0;width:1100px;text-align: center;}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
@@ -85,7 +101,7 @@ text-align:center;
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>
-                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
+                        				<input type="text" class="form-control" id="facility_content" name="facility_contents">
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -101,27 +117,26 @@ text-align:center;
 						<table class="tg">
 							<thead>
 							  <tr>
-							    <th class="tg-0pky">선택</th>
-							    <th class="tg-0pky">공용품번호</th>
-							    <th class="tg-0pky">공용품이미지</th>
-							    <th class="tg-0pky">공용품이름</th>
-							    <th class="tg-0pky">상세내용</th>
+							    <th class="tg-0pky th-0">선택</th>
+							    <th class="tg-0pky th-1">공용품번호</th>
+							    <th class="tg-0pky th-2">공용품이름</th>
+							    <th class="tg-0pky th-3">상세내용</th>
 							  </tr>
 							</thead>
+							  <c:forEach items="${list}" var="vo">
 							<tbody>
 							<div>
 							  <tr>
-							  <c:forEach items="${list}" var="list">
+
 							    <td class="tg-0pky">
 							    <div class="input-group mb-3">
 								  <div class="input-group-text">
 								    <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
 								  </div>
 							    </td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
+							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
+							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
+							    <td class="tg-0pky mt-3">${vo.facility_content}</td>
 							  <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 													<!-- Modal -->
 						<form id="updateForm" action="./update" method="post">
@@ -133,12 +148,15 @@ text-align:center;
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
+							      <label for="taskId" class="col-form-label" >공용품번호</label>
+							      		<input type="text" readonly>${facility.facility_no}> 
+							      		<br>
 							       <label for="taskId" class="col-form-label">종류구분</label>
-                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd">
+                        				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${facility.grp_cd}">
 							        <label for="taskId" class="col-form-label">공용품명</label>
-                        				<input type="text" class="form-control" id="facility_name" name="facility_name">
+                        				<input type="text" class="form-control" id="facility_name" name="facility_name" value="${facility.facility_name}">
 							        <label for="taskId" class="col-form-label">상세내용</label>
-                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
+                        				<input type="text" class="form-control" id="facility_contents" name="facility_contents" value="${facility.facility_contents}">
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -148,10 +166,10 @@ text-align:center;
 							  </div>
 							</div>
 							</form>
-							</c:forEach>
 							  </tr>
 							</div>
 							</tbody>
+							</c:forEach>
 							
 							</table>
 <div class=""></div>

@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 
-public class reservationVO extends CommonVO{
+public class ReservationVO extends CommonVO{
 
 	private int res_No;
 	private int facility_No;
