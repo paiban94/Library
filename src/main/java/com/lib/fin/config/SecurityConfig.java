@@ -1,11 +1,17 @@
 	package com.lib.fin.config;
 	
 	import org.springframework.beans.factory.annotation.Autowired;
+
+	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.context.annotation.Bean;
 	import org.springframework.context.annotation.Configuration;
-	import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 	import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+	import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.security.web.SecurityFilterChain;
 	
 	import com.lib.fin.member.MemberService;
@@ -18,6 +24,9 @@
 	
 		@Autowired
 		private MemberService memberService;
+		
+		@Autowired
+		private SecurityPasswordEncoder securityPasswordEncoder;
 		
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
@@ -42,39 +51,42 @@
 	          .disable()
 	          .authorizeRequests()
 	              .antMatchers("/member/join").permitAll()
-	              .antMatchers("/member/postLogin").permitAll()
+	              .antMatchers("/member/login").permitAll()
+	              //.antMatchers("/member/postLogin").authenticated()
 	              .antMatchers("/admin/*").hasRole("ADMIN")
-	              //.anyRequest().authenticated()
-	              //우선모든접근가능
-	              .anyRequest().permitAll()
+	            //로그인한 사람만 접속가능
+	              .antMatchers("/").authenticated()
+	              //.antMatchers("/").permitAll()
 	              //나머지 모든 요청은 로그인한 사용자 가능
-	              //.antMatchers("/").authenticated()
-	              //로그인한 사람만 접속가능
 	              //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+	          	  //.anyRequest().permitAll()
 	              .and()
 	          .formLogin()
 	          //어느 url로 들어오든 로그인페이지로 이동
-	          		//.loginPage("/member/login")//내장된 로그인폼을 사용하지 않고, 개발자가 만든 폼을 사용
-	          		.loginProcessingUrl("/")
+	          		.loginPage("/member/login")//내장된 로그인폼을 사용하지 않고, 개발자가 만든 폼을 사용
+	          		.loginProcessingUrl("/member/login") //스프링시큐리티가 해당주소로 오는 로그인 요청 가로채서 로그인 수행
 	          		.defaultSuccessUrl("/")
 	          		.usernameParameter("emp_no")
+	          		
 	                .failureHandler(getFailHandler())
 	          	  	.permitAll()
 	                .and()
 	            .logout()
 	            	.logoutUrl("/member/logout")
 	            	.logoutSuccessUrl("/")
-	            	.permitAll()
-	//                .permitAll()
-	//               .and()
+	            	.invalidateHttpSession(true)
+	            	.deleteCookies("JSESSIONID")
+	               .and()
+	               .userDetailsService(memberService)//사용자정보로드
+	               
 	//          .sessionManagement()
 	//              .maximumSessions(1)
 	//              .maxSessionsPreventsLogin(false)
 	//              .expiredUrl("/")
 	
 	  ;
-	
-	  return httpSecurity.build();	
+			  return httpSecurity.build();
+
 	
 	}
 		
@@ -86,6 +98,13 @@
 		return new SecurityFailHandler();
 	}
 		
+	@Bean
+	 //스프링 시큐리티의 인증을 담당, 사용자 인증시 앞에서 작성한 UserSecurityService 와 PasswordEncoder 를 사용
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception{
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+	
+	
 		
 		
 	}

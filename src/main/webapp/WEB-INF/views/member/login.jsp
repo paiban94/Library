@@ -40,7 +40,16 @@
 							<span class="d-none d-lg-block">NiceAdmin</span>
 						  </a>
 						</div><!-- End Logo -->
-						<form modelAttribute="memberVO" method="post" enctype="multipart/form-data" action="/member/postLogin" class="row g-3 needs-validation" novalidate>
+						
+						
+					<%-- 	<div>
+    	 				<h3>${param.message}</h3>
+    	 				<spring:message code="${param.message}" var="msg"></spring:message>
+    	 				<h3>${msg}</h3>
+    	 				</div> --%>
+						
+						
+						<form method="post" enctype="multipart/form-data" action="/member/login" class="row g-3 needs-validation" novalidate>
 						<div class="card mb-3">
 							
 						  <div class="card-body">
