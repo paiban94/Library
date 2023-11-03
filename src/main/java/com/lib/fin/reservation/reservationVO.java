@@ -2,14 +2,16 @@ package com.lib.fin.reservation;
 
 import java.sql.Date;
 
+import com.lib.fin.commons.CommonVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-public class reservationVO {
+
+public class reservationVO extends CommonVO{
 
 	private int res_No;
 	private int facility_No;
@@ -18,8 +20,5 @@ public class reservationVO {
 	private Date res_start_time;
 	private Date res_end_time;
 	private String res_purpose;
-	private String reg_Id;
-	private String mod_Id;
-	private Date reg_date;
-	private Date mod_date;
+
 }

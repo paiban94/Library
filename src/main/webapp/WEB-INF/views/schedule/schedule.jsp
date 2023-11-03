@@ -6,14 +6,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
 <%@page import="java.util.List"%>
 <%@page import="com.lib.fin.schedule.ScheduleVO"%>
-<%
-List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule");
-%>
+<%@page import="java.util.ArrayList"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 <meta charset='utf-8'>
 	
@@ -32,95 +33,9 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
     <!-- fullcalendar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                timeZone: 'UTC',
-                initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.
-                events:[ // 일정 데이터 추가 , DB의 event를 가져오려면 JSON 형식으로 변환해 events에 넣어주면된다.
-                    {
-                        title:'일정',
-                        start:'2023-10-26 00:00:00',
-                        end:'2023-10-27 24:00:00' 
-                        // color 값을 추가해 색상도 변경 가능 자세한 내용은 하단의 사이트 참조
-                    },
-                	{
-                		title:'test',
-                		start:'2023-10-28 00:00:00',
-                		end:'2023-10-30 00:00:00'
-                	},
-                	<%for(int i =0;i<list.size(); i++){
-                		ScheduleVO scheduleVO = (ScheduleVO)list.get(i);
-                	%>
-                	{
-                    	title : '<%=scheduleVO.getSchedule_title()%>',
-                        start : '<%=scheduleVO.getSchedule_start_time()%>',
-                        end : '<%=scheduleVO.getSchedule_end_time()%>',
-                         },
-        	<%
-            }
-        %>
-                    
-                ], headerToolbar: {
-                    left:'',
-                    center: 'prev,title,next',// headerToolbar에 버튼을 추가
-                    right:'addEventButton,addEventButton2'
-                },customButtons: {
-				addEventButton2: {
-					text: '예약추가',
-					click: function() {
-						alert('예약추가');
-					    }
-					  }
-					},
-  					 customButtons: {
-                    addEventButton: { // 추가한 버튼 설정
-                        text : "일정 추가",  // 버튼 내용
-                        click : function(){ // 버튼 클릭 시 이벤트 추가
-                            $("#calendarModal").modal("show"); // modal 나타내기
-
-                            $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
-                                var schedule_contents = $("#schedule_content").val();
-                                var schedule_start_date = $("#schedule_start_date").val();
-                                var schedule_end_date = $("#schedule_end_date").val();
-                                var schedule_title = $("#schedule_title").val();
-                                var schedule_kind = $("#schedule_kind").val();
-                                
-                                //내용 입력 여부 확인
-                              
-                                if(schedule_start_date == "" || schedule_end_date ==""){
-                                    alert("날짜를 입력하세요.");
-                                }else if(new Date(schedule_end_date)- new Date(schedule_start_date) < 0){ // date 타입으로 변경 후 확인
-                                    alert("종료일이 시작일보다 먼저입니다.");
-                                }else if(schedule_title == null || schedule_title ==""){
-                                	alert("제목을 입력하세요")
-                                }else if(schedule_kind == null || schedule_kind == ""){
-                                	alert("일정종류를 선택하세요")
-                                }else{ // 정상적인 입력 시
-                                    var obj = {
-                                        "schedule_contents" : schedule_contents,
-                                        "schedule_start_time" : schedule_start_time,
-                                        "schedule_end_time" : schedule_end_time,
-                                        "schedule_title" : schedule_title,
-                                        "schedule_kind" : schedule_kind
-                                       
-                                    }//전송할 객체 생성
-
-                                    console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
-                                }
-                            });
-                        }
-                    }
-                },
-                editable: true, // false로 변경 시 draggable 작동 x 
-                displayEventTime: false // 시간 표시 x
-            });
-            calendar.render();
-        });
-    </script>
+   
     <style>
         #calendarBox{
             width: 70%;
@@ -134,6 +49,14 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
 		width:1200px;
 		height:850px;	
 		}
+		.fc .fc-daygrid-day-number {
+    position: relative;
+    z-index: 4;
+    padding: 4px;
+    color: black;
+  }
+  
+ 
    </style>
 
 </head>
@@ -167,48 +90,106 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
 								</div>
         <div id="calendar"></div>
     </div>
-
-    <!-- modal 추가 -->
-    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ <!------------------------------------------------- Add modal ------------------------------------------------->
+ <div class="modal fade" id="calendarAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">일정추가</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true" onclick="location.href='/schedule/getSchedule'">&times;</span>
                     </button>
                 </div>
+                
+                <form id="addForm" action="./add" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="taskId" class="col-form-label">시작 날짜</label>
-                        <input type="date" class="form-control" id="schedule_start_date" name="schedule_start_date">
-                        <label for="taskId" class="col-form-label">종료 날짜</label>
-                        <input type="date" class="form-control" id="schedule_end_date" name="schedule_end_date">
+                    	<input type="hidden" value="memberVO.emp_no">
+                    	
+                    					
+                        <label for="taskId" class="col-form-label">일정시작일</label>
+                        <input type="date" class="form-control" id="schedule_start_time" name="schedule_start_time">
+                        
+                        <label for="taskId" class="col-form-label">일정종료일</label>
+                        <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
+                        
                         <label for="taskId" class="col-form-label">일정 종류</label>
-                        <select class="form-control" id="schedule_kind" name="schedule_kind">
-                        	<option disabled>일정종류를 선택하세요</option>
-                        	<option value="A">연차</option>
-                        	<option value="B">회의</option>
-                        	<option value="c">교육</option>
-                        	</select>
-                        <label for="taskId" class="col-form-label">일정 제목</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
+						  <option selected>일정종류을 선택하세요</option>
+						  <option value="S001A">연차</option>
+						  <option value="S001B">회의</option>
+						  <option value="S001C">교육</option>
+						  <option value="S001D">외근</option>
+						  <option value="S001E">출장</option>
+						</select>
+						
+                        <label for="taskId" class="col-form-label">일정제목</label>
                         <input type="text" class="form-control" id="schedule_title" name="schedule_title">
-                        <label for="taskId" class="col-form-label">일정 내용</label>
+                        
+                        
+                        <label for="taskId" class="col-form-label">일정내용</label>
                         <textarea class="form-control" id="schedule_contents" name="schedule_contents"></textarea>
                         
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning" id="addSchedule">추가</button>
+                    <button type="submit" class="btn btn-warning" id="addCalendar">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        id="sprintSettingModalClose" onclick="location.href='/schedule/calendar'">취소</button>
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/getSchedule'">취소</button>
                 </div>
-    
+    			</form>
             </div>
         </div>
     </div>
-						
+<!------------------------------------------------- Add modal ------------------------------------------------->
+    			
+ <!------------------------------------------------- Add modal ------------------------------------------------->
+ <div class="modal fade" id="addReservationModal" tabindex="-1" role="dialog" aria-labelledby="addReservationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addReservationModalLabel">예약추가</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" onclick="location.href='/schedule/getSchedule'">&times;</span>
+                    </button>
+                </div>
+                
+                <form id="addForm" action="./add" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                    	<input type="hidden" value="memberVO.emp_no">
+                    	
+                    					
+                        <label for="taskId" class="col-form-label">예약시작일</label>
+                        <input type="date" class="form-control" id="schedule_start_time" name="schedule_start_time">
+                        
+                        <label for="taskId" class="col-form-label">예약종료일</label>
+                        <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
+                        
+                        <label for="taskId" class="col-form-label">예약 종류</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="schedule_content" name="schedule_kind">
+						  <option selected>예약종류을 선택하세요</option>
+						  <option value="시설">시설</option>
+						  <option value="공용품">공용품</option>
+						</select>                        
+                        <label for="taskId" class="col-form-label">사용목적</label>
+                        <textarea class="form-control" id="schedule_contents" name="schedule_contents"></textarea>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" id="addReservation">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        id="sprintSettingModalClose" onclick="location.href='/schedule/getSchedule'">취소</button>
+                </div>
+    			</form>
+            </div>
+        </div>
+    </div>
+<!------------------------------------------------- Add modal ------------------------------------------------->
+    			
 						<div class=""></div>
 						</div>
 					</div>
@@ -235,5 +216,138 @@ List<ScheduleVO> list=(ArrayList<ScheduleVO>)request.getAttribute("showSchedule"
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script type="text/javascript">
+
+		
+		
+		var obj = ${List};
+		const arr = new Array();
+		const res = arr.keys();
+		function timeFormat(time){
+		      return String(time).padStart(2, "0");
+		   }
+		
+		 $.ajax({
+		        url: "/schedule/schedule",
+		        data: "json",
+		        processData: false,    // 필수
+		        contentType: false,    // 필수
+		        method: "get",
+		        cache: false,
+		        enctype: 'resultMap',
+		        dataType: "json",
+		        success: function (data) {
+		            console.log(data);
+		            if (data.success === "Y") {
+		                $("#schedule_title").val(data.schedule_title);
+		                $("#schedule_start_time").val(data.schedule_start_time);
+		                $("#schedule_end_time").val(data.schedule_end_time);
+		                console.log(data.schedule_title);
+		               
+		            } else {
+		                alert("잠시 후 다시 시도해주세요.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		        }
+		    });
+		/*
+		$.ajax({
+			  type: "GET", 
+			  url: "/schedule/scheduleList",
+			  async: false,
+			  success: function (res) {
+			   
+			    console.log(res);
+			    
+			    
+			
+			  },
+			  error: function (XMLHttpRequest, textStatus, errorThrown) {
+			    console.log('error')
+			  }
+			});
+*/
+
+	document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	    	 
+	    	locale: "ko",
+	      timeZone: 'Asia/Seoul',
+	      initialView: 'dayGridMonth',
+	      navLinks:true,
+	      eventLimit:true,
+	      select: function(){
+	    	 href="/schedule/schedulelist"	    	  	
+	      },
+	      
+	      
+	      customButtons: {
+	    	  myResButton:{
+	    		  text:'예약추가',
+	    		click: function() {
+		    	    $("#addReservationModal").modal("show");
+		    	    	  
+		    	    
+		    	    		
+		    	   $('#sprintSettingModalClose').click(function(){
+		    	    $('#addReservationModal').modal('hide')	
+		    	    })
+		    	 }
+	    	}
+	    	  ,
+	    	    myCustomButton: {
+	    	      text: '일정 추가',
+	    	      click: function() {
+	    	    	  $("#calendarAddModal").modal("show");
+	    	    	  
+	    	    
+	    	    		
+	    	    	  $('#sprintSettingModalClose').click(function(){
+	    	    			$('#calendarAddModal').modal('hide')	
+	    	    		})
+	    	    	  
+	    	      }
+	    	    }
+	    	  },
+	    	    	  
+	      headerToolbar: {
+	    	    left: '',
+	    	    center: 'prev,title,next',
+	    	    right: 'myCustomButton,myResButton'
+	    	  },
+	    	  
+	      buttonText:{
+	    	  
+	    	 
+	      },
+	      
+	      
+	      
+        	events:[
+        		{
+        			title:'test',
+        			start:'2023-11-01',
+        			end:'2023-11-01'
+        			
+        		}
+        		
+        	]
+        
+        	
+        	
+	    	  
+	    });
+	    
+	    calendar.render();
+	  });
+	
+	
+	
+		
+
+	</script>
 </body>
-</html>
+</html></html>
