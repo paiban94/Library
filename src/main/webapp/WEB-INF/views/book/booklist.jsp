@@ -123,7 +123,7 @@ top:-10px}
                         $(document).ready(function () {
                             $("#grid").jqGrid({
 
-                                url: "/book/booklist", // 데이터를 가져올 서버 엔드포인트의 URL
+                                url: "/book/getBooklist", // 데이터를 가져올 서버 엔드포인트의 URL
                                 datatype: "json", // 데이터 타입을 JSON으로 설정
                                 colNames: ['도서번호', '도서명', '저자명', '발행처', '입고일'],
                                 colModel: [
@@ -174,14 +174,14 @@ top:-10px}
                                         let no = rowData.book_no;
 
                                         $.ajax({
-                                            url: "./communityDetail?" + no,
+                                            url: "./booklist?" + no,
                                             type: "get",
                                             data: {
                                                 book_no: rowData.book_no
                                             },
                                             success: function (data) {
                                                 if (no !== null && no !== undefined) {
-                                                    location.replace("./annDetail?board_no=" + no);
+                                                    location.replace("./booklist?book_no=" + no);
                                                 }
 
                                             },
