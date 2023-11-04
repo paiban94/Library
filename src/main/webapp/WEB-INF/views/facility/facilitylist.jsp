@@ -136,12 +136,12 @@ height:20px;
 								  
 							    </td>
 							    
-							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>					
 						<form id="updateForm" action="./update" method="post">
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
 							 	
+							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>					
 													<!-- Modal -->
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
