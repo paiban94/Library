@@ -14,7 +14,7 @@
 .update-btn{width:80px;
 	position:relative;
 	left:1110px;
-	top:160px;
+	top:230px;
 	margin:15px;
 	}
 .add-btn{width:80px;
@@ -102,6 +102,9 @@ height:20px;
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>
                         				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
+							      	<input type="hidden" value="${MemberVO.emp_no}" id="reg_id" name="reg_id">
+							      	<input type="hidden" value="${MemberVO.emp_no}" id="mod_id" name="mod_id">
+							      
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -139,7 +142,7 @@ height:20px;
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
 							  <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 													<!-- Modal -->
-						<form id="updateForm" action="./update" method="post">
+						<form id="updateForm" action="update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -148,8 +151,9 @@ height:20px;
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
+							      <input type="hidden" value="vo.facility_no" name="facility_no">
 							      <label for="taskId" class="col-form-label" >공용품번호</label>
-							      		<input type="text" value="${vo.facility_no}" readonly></input>
+							      		<input type="text" name="facility_no" value="${vo.facility_no}" readonly></input>
 							      		<br>
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${vo.grp_cd}">
@@ -160,12 +164,13 @@ height:20px;
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-							        <button type="submit" class="btn btn-primary" id="updateFacility">추가</button>
+							        <button type="submit" class="btn btn-primary" id="updateFacility">수정</button>
 							      </div>
 							    </div>
 							  </div>
 							</div>
 							</form>
+												<!-- modal -->
 							  </tr>
 							</div>
 							</tbody>
