@@ -15,8 +15,8 @@
    
    <update id="setFacilityUpdate" parameterType="facilityVO">
    		UPDATE FACILITY_BASE SET
-   		GRP_CD=#{grp_cd},FACILITY_NAME=#{facility_name},FACILITY_CONTENTS=#{facility_contents},MOD_ID=#{mod_id},MOD_DATE=#{mod_date}
-		WHERE FACILILTY_NO=#{facility_no}
+   		GRP_CD=#{grp_cd},FACILITY_NAME=#{facility_name},FACILITY_CONTENTS=#{facility_contents},MOD_ID=#{mod_id},MOD_DATE=sysdate()
+		WHERE FACILITY_NO=#{facility_no}
    </update>
    
    <update id="setFacilityDelete" parameterType="facilityVO">

@@ -14,8 +14,7 @@
 .update-btn{width:80px;
 	position:relative;
 	left:1110px;
-	top:230px;
-	margin:15px;
+	margin:5px;
 	}
 .add-btn{width:80px;
 position:relative;
@@ -114,7 +113,7 @@ height:20px;
 							  </div>
 							</div>
 							</form>
-						<button type="submit" class="del-btn">삭제</button>
+						<button type="button" id="del-btn" class="del-btn" onclick="facilitylist/delete">삭제</button>
 						
 						
 						<table class="tg">
@@ -128,21 +127,22 @@ height:20px;
 							</thead>
 							  <c:forEach items="${list}" var="vo">
 							<tbody>
-							<div>
+							
 							  <tr>
 
 							    <td class="tg-0pky">
-							    <div class="input-group mb-3">
-								  <div class="input-group-text">
-								    <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-								  </div>
+							
+								    <input class="form-check-input mt-0" type="checkbox" value="del-btn" " aria-label="Checkbox for following text input">
+								  
 							    </td>
+							    
+							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>					
+						<form id="updateForm" action="./update" method="post">
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
-							  <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
+							 	
 													<!-- Modal -->
-						<form id="updateForm" action="update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -151,10 +151,10 @@ height:20px;
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
-							      <input type="hidden" value="vo.facility_no" name="facility_no">
 							      <label for="taskId" class="col-form-label" >공용품번호</label>
-							      		<input type="text" name="facility_no" value="${vo.facility_no}" readonly></input>
+							      		<input type="text" name="facility_no" value="${vo.facility_no}" ></input>
 							      		<br>
+							      		<input type="hidden" value="member.emp_no" name="mod_id"></input>
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${vo.grp_cd}">
 							        <label for="taskId" class="col-form-label">공용품명</label>
