@@ -1,6 +1,7 @@
 package com.lib.fin.board.announcement;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public interface AnnouncementService {
 
 	public List<AnnouncementVO> getList() throws Exception;
 	
-	public List<AnnouncementVO> getPaginatedList(int page, int pageSize) throws Exception;
+	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception;
 	
 	public int getTotalAnnouncementCount() throws Exception;
 

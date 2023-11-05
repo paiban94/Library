@@ -5,7 +5,7 @@
             <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
                 <!DOCTYPE html>
                 <html>
-   
+
                 <head>
                     <meta charset="UTF-8">
                     <title>Insert title here</title>
@@ -67,7 +67,7 @@
                                                         <h2 class="font-weight-bold text-primary heading">공지사항</h2>
                                                     </div>
 
-                                                    <div class="card" data-list="${list}" id="jqgriddata">
+                                                    <div class="card" id="jqgriddata">
                                                         <table id="grid" style="margin:5px auto;"></table>
 
                                                         <div id="pager"></div>
@@ -81,9 +81,10 @@
                                             <br>
 
                                             <div class="first">
-                                                <form action="./announcementlist" method="get">
+                                                <form action="./announcement" method="get">
                                                     <div class="searchCategory">
                                                         <div class="searchtext">
+                                                            <input type="hidden" name="page" id="page" value="1" data-page="1">
                                                             <input type="text" name="search" id="search">
                                                         </div>
                                                         <div class="searchselect">
@@ -99,6 +100,23 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                            </div>
+                                            <div class="pagination" style="text-align: center;">
+                                                <c:choose>
+                                                    <c:when test="${totalPages > 1}">
+                                                        <c:forEach begin="1" end="${totalPages}" var="page">
+                                                            <c:choose>
+                                                                <c:when test="${page == currentPage}">
+                                                                    <span class="current-page">${page}</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="javascript:void(0);" class="page-link"
+                                                                        data-page="${page}">${page}</a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                </c:choose>
                                             </div>
                                             <div class="second" role="status" aria-live="polite">
                                                 <a href="./addAnn" class="btn btn-primary btn-icon-split">

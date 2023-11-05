@@ -1,5 +1,39 @@
 
 $(document).ready(function () {
+
+
+    $("#searchBtn").click(function () {
+        
+        let searchValue = $("#search").val();
+        let kindValue = $("#k").val();
+
+
+        let currentPage = $("#grid").getGridParam("page");
+
+        $.ajax({
+            url: "./announcementlist?",
+            type: "get",
+            data: {
+                page: currentPage,
+                search: searchValue,
+                kind: kindValue
+            },
+            success: function () {
+                console.log("sccuess");
+                let newURL = "/board/announcementlist?page=" + currentPage + "&search=" + searchValue + "&kind=" + kindValue;
+                $(location).attr('href', newURL);
+            },
+            error: function () {
+                console.log("error");
+            }
+
+        })
+
+
+
+        //location.href = newURL;
+    });
+
     $("#grid").jqGrid({
 
         url: "/board/announcementlist?page=1&pageSize=20",// 데이터를 가져올 서버 엔드포인트의 URL
@@ -9,7 +43,6 @@ $(document).ready(function () {
             {
                 name: 'board_no',
                 index: 'board_no',
-                hidedlg: true,
                 width: 50,
                 align: 'center'
             },
@@ -41,13 +74,15 @@ $(document).ready(function () {
         rowNum: 20,
         rowList: [20, 25, 30],
         pgbuttons: true,
+        rownumbers: true,
+        gridview: true,
+        autoencode: true,
         pager: '#pager',
-        search: true,
+        styleUI: 'Bootstrap',
         viewrecords: true,
         autowidth: true,
         height: 'auto',
-        search: true,
-        pgbuttons: true,
+        loadonce: true,
         onCellSelect: function (rowid, index, contents, event) {
             var data = $(this).jqGrid('getGridParam', 'colModel');
             if (data[index].name == "board_title") {
@@ -75,21 +110,33 @@ $(document).ready(function () {
             }
         }
     });
-    // $("#grid").jqGrid('filterToolbar', { searchOperators: true, stringResult: true, searchOnEnter: true });
 
-    // 페이지 로딩시 초기 데이터 로드
-    loadPage(1);
+
 
     // 페이지 번호 클릭 이벤트 처리
-    $('#pager .ui-pg-input').change(function () {
-        const page = $(this).val();
+
+    loadPage(1);
+
+    let currentPage = 1; // 현재 페이지를 1로 초기화
+
+    // 페이지 번호 클릭 이벤트 처리
+    $('#pager').on('click', '.page-link', function () {
+        const page = $(this).data('page');
         loadPage(page);
     });
 
     function loadPage(page) {
         $("#grid").jqGrid('setGridParam', {
-            url: `/board/announcementlist?page=${page}`
+            url: `/board/announcementlist?page=${page}&pageSize=20`,
+            page: page,
         }).trigger('reloadGrid');
+        currentPage = page; // 현재 페이지 업데이트
     }
-    $("#grid").jqGrid('filterToolbar', { autosearch: true, searchOperators: true, stringResult: true, searchOnEnter: true });
+    function searchloadPage(page, search) {
+        $("#grid").jqGrid('setGridParam', {
+            url: '/board/announcementlist?page=' + page + '&search=' + search,
+            page: page,
+        }).trigger('reloadGrid');
+        currentPage = page; // 현재 페이지 업데이트
+    }
 });

@@ -1,6 +1,7 @@
 package com.lib.fin.board.announcement;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +37,20 @@ public class AnnouncementServiceImp implements AnnouncementService{
 	}
 
 	@Override
-	public List<AnnouncementVO> getPaginatedList(int page, int pageSize) throws Exception {
+	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception {
+	    int page = (int) params.get("page");
+	    int pageSize = (int) params.get("pageSize");
+	    String search = (String) params.get("search");
+	    System.out.println("=============Service : search value :"+search);
 	    int startRow = (page - 1) * pageSize;
-	    return announcementDAO.getPaginatedList(startRow, pageSize);
+
+	  
+	    params.put("startRow", startRow);
+
+	    return announcementDAO.getPaginatedList(params);
 	}
 
+	
 	@Override
 	public int getTotalAnnouncementCount() throws Exception {
 	    return announcementDAO.getTotalAnnouncementCount();

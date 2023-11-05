@@ -1,3 +1,12 @@
+  let view = $('#view').data('view');
+
+  if(view == 'A'){
+    console.log("view1"+view);
+  }else{
+    console.log('view2'+view);
+  }
+
+
 function likeAnnouncement(board_no) {
     $.ajax({
         type: "POST",

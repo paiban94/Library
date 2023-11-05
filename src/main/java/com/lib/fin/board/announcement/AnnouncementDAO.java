@@ -1,6 +1,7 @@
 package com.lib.fin.board.announcement;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -47,7 +48,7 @@ public interface AnnouncementDAO {
 
 	public void unlikeAnnouncement(Long board_no) throws Exception;
 
-	public List<AnnouncementVO> getPaginatedList(int startRow, int pageSize)throws Exception;
+	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 

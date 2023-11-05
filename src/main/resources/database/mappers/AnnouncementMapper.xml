@@ -42,7 +42,7 @@
 		INSERT INTO COMMENT_BASE
 		(BOARD_NO, COMMENT_CONTENT, REG_ID, MOD_ID,
 		REG_DATE, MOD_DATE, USE_YN)
-		VALUES (#{board_no}, #{comment_content}, 'admin', 'admin', NOW(),
+		VALUES (#{board_no}, #{comment_content}, #{reg_id}, #{reg_id}, NOW(),
 		NOW(),'Y')
 	</insert>
 
@@ -80,21 +80,22 @@
 		BOARD_NO=#{board_no}
 	</update>
 
-	<select id="getPaginatedList" resultType="AnnouncementVO"
-		parameterType="AnnouncementVO">
-		SELECT * FROM BOARD_BASE WHERE
-		BOARD_TYPE = 'A' AND USE_YN = 'Y'
-<!-- 		<if test="searchFlag=W">
-			AND REG_ID LIKE '%'|| #{emp_no} || '%'
-		</if> -->
-<!-- 		<if test="searchFlag=N">
-			AND BOARD_TITLE LIKE '%'|| #{board_title} || '%'
-		</if>  -->
-		<!-- <include refid="searchSql"></include> -->
-		ORDER BY BOARD_NO DESC
-		LIMIT #{startRow}, #{pageSize}
-	</select>
-	
+<select id="getPaginatedList" resultType="AnnouncementVO" parameterType="map">
+    SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' AND USE_YN = 'Y'
+    <if test="search != null and kind != null">
+        <choose>
+            <when test='kind == "W"'>
+                AND BOARD_WRITER LIKE '%'||#{search}||'%'
+            </when>
+            <when test='kind == "N"'>
+                AND BOARD_TITLE LIKE '%'||#{search}||'%'
+            </when>
+        </choose>
+    </if>
+    ORDER BY BOARD_NO DESC
+    LIMIT #{startRow}, #{pageSize}
+</select>
+
 	
 	<select id="getTotalAnnouncementCount" resultType="Long">
 		SELECT
