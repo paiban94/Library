@@ -12,26 +12,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
-<style type="text/css">
-.a {
-	display: flex;
-}
 
 
-    .scrollable-card {
- 
-        height: 500px;
-  
-    }
-        .scrollable-card1 {
- 
-        height: 234px;
-  
-    }
-
-</style>
-
-
+<link href="/css/doc.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -53,8 +36,11 @@
 							<form action="/approval/draft" method="post" id="frm"
 								enctype="multipart/form-data">
 
-								<input type="hidden" id="grp_cd" name="grp_cd" value="H">
+								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
+								<input type="hidden" id="approval_state" name="approval_state" value="G">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
+								<input type="hidden" id="midApp" name="midApp" value="">
+								<input type="hidden" id="lastApp" name="lastApp" value="">
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -96,50 +82,21 @@
 												<!-- 상단 오른쪽 strart -->
 
 												<div class="col-lg-2">
-													<table class="table table-bordered">
+													<table class="table table-bordered custom_table">
 
 														<tr>
-															<th rowspan="4" class="table-light">신청</th>
-															<td>홍길동1</td>
+															<th class="table-light">신청</th>
+															
 														</tr>
 
 
-														<tr>
-
-															<td rowspan="2">총무부</td>
+														<tr id="sign">
+															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
 														</tr>
-														<tr></tr>
+														
 														<tr>
 
-															<td>2023-10-12</td>
-														</tr>
-
-
-													</table>
-
-
-												</div>
-
-
-												<!-- 상단 오른쪽 end -->
-												<!-- 상단 오른쪽 strart -->
-
-												<div class="col-lg-2">
-													<table class="table table-bordered">
-
-														<tr>
-															<th rowspan="3" class="table-light">신청</th>
-															<td>홍길동1</td>
-														</tr>
-
-
-														<tr>
-
-															<td>총무부</td>
-														</tr>
-														<tr>
-
-															<td>2023-10-12</td>
+															<td>r</td>
 														</tr>
 
 
@@ -153,23 +110,49 @@
 												<!-- 상단 오른쪽 strart -->
 
 												<div class="col-lg-2">
-													<table class="table table-bordered">
+													<table class="table table-bordered custom_table">
 
 														<tr>
-															<th rowspan="3" class="table-light"><br>신<br>청</th>
-															<td>홍길동1</td>
+															<th class="table-light">중간</th>
+															
 														</tr>
 
 
-														<tr>
-
-															<td>총무부</td>
+														<tr id="sign">
+	
+															<td> </td>
 														</tr>
-														<tr>
+														<tr id="lastTr">
 
-															<td>2023-10-12</td>
+															<td id="midP"></td>
 														</tr>
 
+
+													</table>
+
+
+												</div>
+
+
+												<!-- 상단 오른쪽 end -->
+												<!-- 상단 오른쪽 strart -->
+
+												<div class="col-lg-2">
+													<table class="table table-bordered custom_table">
+
+														<tr>
+															<th class="table-light">최종</th>
+															
+														</tr>
+
+
+														<tr id="sign">
+															<td></td>
+														</tr>
+														
+														<tr id="lastTr">
+															<td id="lastP"></td>
+														</tr>
 
 													</table>
 
@@ -186,17 +169,12 @@
 													<table class="table table-bordered">
 														<tr>
 															<th class="table-light" style="width: 10%">시행일자</th>
-															<td><input type="date" class="form-control w-25"
-																id="startDate" name="start_date"></td>
+															<td><input type="date" class="form-control w-25" id="startDate" name="start_date"></td>
 														</tr>
-														<tr>
-															<th class="table-light">참조자</th>
-															<td></td>
-														</tr>
+														
 														<tr>
 															<th class="table-light">제목</th>
-															<td><input type="text" class="form-control w-75"
-																id="title" name="doc_title"></td>
+															<td><input type="text" class="form-control w-75" id="title" name="doc_title"></td>
 														</tr>
 														<tr>
 															<td colspan="2">
@@ -226,13 +204,12 @@
 													</div>
 
 													<!-- button  -->
-													<button type="submit" class="btn btn-primary btn-sm">결재
-														요청</button>
-													<button type="button" id="temp_send"
-														class="btn btn-primary btn-sm">임시저장</button>
+													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
+													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
-												<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
 															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
+
 															
 
 												</div>
@@ -277,6 +254,7 @@
 						<div class=row>
 							<div class="col-sm-3">
 						
+							<div>조직도</div>
 							<div class="card border scrollable-card">
 								<div class="overflow-auto " id="readyMem">
 									
@@ -286,7 +264,8 @@
 							</div>
 							
 							<div class="col-sm-4">
-						
+							
+							<div>사원목록</div>
 							<div class="card border scrollable-card">
 								<div class="overflow-auto" id="memList">
 									
@@ -300,27 +279,31 @@
 							
 							<div class="col-sm-1 ">
 							
+							
 							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
-								<i class="bi bi-arrow-right" id="appAW"></i>
+								<i class="bi bi-arrow-right mt-5" id="midAW"></i>
 							</div>
 							
-							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-4">
-								<i class="bi bi-arrow-right" id="refAW"></i>
+							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-5">
+								<i class="bi bi-arrow-right mt-5" id="lastAW"></i>
 							</div>
 							
-						
-			
-							</div>
-								
-							<div class="col-sm-4 scrollable-card">
+
 					
-							<div class="card border scrollable-card1 overflow-auto" id="appLine">
+							</div>
+								
+							
+							<div class="col-sm-4 scrollable-card">
+							<div>중간 승인자</div>
+							<div class="card border scrollable-card1 overflow-auto" id="fLine">
 								
 							</div>
 							
-							<div class="card border scrollable-card1 overflow-auto" id="appRef">
+							<div>최종 승인자</div>
+							<div class="card border scrollable-card1 overflow-auto" id="lLine">
 								
 							</div>
+							
 							
 							</div>
 						
@@ -335,6 +318,8 @@
 					</div>
 				</div>
 			</div>
+			
+
 			<!-- End Basic Modal-->
 
 
@@ -356,177 +341,30 @@
 
 	<script src="/js/file.js"></script>
 	<script type="text/javascript">
+	
+		$('#doc_send').click(function() {
+	
+			if($('#lastApp').val()==""){
+				alert("최종 결재자는 필수 값입니다");
+				return false;
+			}
+				
+			$("#frm").submit();
+	
+		});
+	
+	
 		$('#temp_send').click(function() {
 
 			$("#temp_save").val("Y");
-			$("frm").submit();
+			$("#frm").submit();
 
 		});
 		
-		$('#modalSave').click(function() {
 			
-			$('#basicModal').modal("hide");
-		});
-		
-			
-		
-		$('#btnGetMem').click(function() {
-
-			$("#readyMem").empty();
-			
-			$.ajax({
-				url:"/dept/getDeptInfo"
-				,data:{}
-				,dateType:"json"
-				,method:"post"
-				,success:function(data){
-					console.log(data);
-					
-					
-					
-					let readyMemElement = $("#readyMem");
-					
-					let ul = $("<ul>"); 
-
-					
-					for (let i = 0; i < data.length; i++) {
-					    let deptName = data[i].cd_nm;
-					    
-					    
-					    let id = 'a' + i;
-		                
-		                let li = '<div id="' + id + '" class="mt-3 memList"><li>' + deptName + '</li></div>';
-					    
-					    
-					    ul.append(li);
-					}
-
-					
-					readyMemElement.append(ul);
-					
-					       
-				}
-				
-			});
-			
-			
-			
-
-		});
-		
-		
-		//이벤트 위임
-		
-			
-  		   $("#readyMem").on("click", ".memList", function () {
-			   
-  			 let deptName = $(this).text();
-  			 console.log(deptName);
-  			 
-  			let emp_team = getDeptList(deptName);
-			   
-			     
-			   $.ajax({
-					url:"/dept/getEmpInfo"
-					,data:{
-						emp_team:emp_team
-					}
-					,method:"post"
-					,success:function(data){
-						console.log(data);
-						
-						$('#memList').empty();
-						
-						for (let i = 0; i < data.length; i++) {
-							let employee = data[i];
-							
-							let values = '<tr>' +
-							'<td>' + employee.name + '</td>' +
-							'<td>' + employee.emp_position + '</td>' +
-							'<td>' + employee.emp_team + '</td>' +
-							'<td>x</td>' +
-							'</tr>';
-						    
-							let newRow = '<tr>' +
-								'<td><input type="checkbox" name="selectNm" value="' + values + '"></td>' +
-										'<td>' + employee.name + '</td>' +
-										'<td>' + employee.emp_position + '</td>' +
-										'<td>' + employee.emp_team + '</td>' +
-										'</tr>';
-							$('#memList').append(newRow); 
-						}
-						}
-					,
-					error: function(error) {
-						console.log('Error:', error);
-						
-						
-						       
-					}
-					
-				});
-	 
-	        }); 
-		
-  		 function getDeptList(deptName) {
-  		    let emp_team = "";
-
-  		    switch (deptName) {
-  		        case "운영과":
-  		            emp_team = "A";
-  		            break;
-  		        case "정책과":
-  		            emp_team = "B";
-  		            break;
-  		        case "서비스과":
-  		            emp_team = "C";
-  		            break;
-  		        case "가발령":
-  		            emp_team = "D";
-  		            break;
-  		        // 다른 부서에 대한 경우도 추가
-  		    }
-
-  		    return emp_team;
-  		}
-
-  		$("#appAW").click(function() {
-  		    // 체크된 항목을 가져오기
-  		    let selectedItems = [];
-  		    $("#memList input[name='selectNm']:checked").each(function() {
-  		        selectedItems.push($(this).val());
-  		    });
-
-  		    // 가져온 항목을 "appLine"에 순서대로 추가
-  		    let appLineElement = $("#appLine");
-  		    
-	  		 	 for (let item of selectedItems) {
-	  		 		 console.log(item)
-	  	        let newRow = '<table class="table">' + item + '</table>';
-	  	        appLineElement.append(newRow);
-  	    }
-  		});
-
-  		$("#refAW").click(function() {
-  		    // 체크된 항목을 가져오기
-  		    let selectedItems = [];
-  		    $("#memList input[name='selectNm']:checked").each(function() {
-  		        selectedItems.push($(this).val());
-  		    });
-
-  		    // 가져온 항목을 "appRef"에 순서대로 추가
-  		    let appRefElement = $("#appRef");
-  		    appRefElement.empty(); // 기존 내용을 비우고 다시 채웁니다.
-  		    for (let item of selectedItems) {
-  		        let newItem = document.createElement("div");
-  		        newItem.textContent = item;
-  		        appRefElement.append(newItem);
-  		    }
-  		});
-		
-
-		
+	
 	</script>
+	<script src="/js/appLine.js"></script>
 </body>
 
 </html>

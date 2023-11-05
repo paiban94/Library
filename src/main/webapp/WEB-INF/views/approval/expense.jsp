@@ -37,14 +37,14 @@
 					<section class="section dashboard">
 
 						<div class="container">
-							<form action="./expense" method="post" id="frm" enctype="multipart/form-data">
+							<form action="./leave" method="post" id="frm" enctype="multipart/form-data">
 
 
 							<div class="row">
 								<!-- 각 영역 크기조절하기 -->
 								<div class="col-lg-12">
 									<div class="card">
-										<h1 class="my-5" align="center">지출 결의서</h1>
+										<h1 class="my-5 " align="center">지출 결의서</h1>
 
 										<!-- 상단 왼쪽 strart -->
 										<div class="row grid text-center mx-3">
@@ -173,23 +173,20 @@
 														<td></td>
 													</tr>
 													<tr>
-														<th class="table-light">휴가종류</th>
+														<th class="table-light">작성일자</th>
 														<td></td>
 													</tr>
 													<tr>
-														<th class="table-light">기간 및 일시</th>
+														<th class="table-light">작성자</th>
 														<td></td>
 													</tr>
 													<tr>
-														<th class="table-light"">반차</th>
+														<th class="table-light"">총금액</th>
 														<td>
 															
 														</td>
 													</tr>
-													<tr>
-														<th class="table-light">연차일수</th>
-														<td></td>
-													</tr>
+												
 													<tr>
 														<th class="table-light">참조자</th>
 														<td></td>

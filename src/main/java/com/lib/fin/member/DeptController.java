@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ public class DeptController {
 	DeptService deptService;
 	
 	
-	@RequestMapping("/getDeptInfo")
+	@PostMapping("/getDeptInfo")
 	@ResponseBody
 	public List<Map<String,Object>> getDeptInfo() throws Exception{
 	
@@ -54,11 +55,11 @@ public class DeptController {
 //	
 //	}
 	
-	@RequestMapping("/getEmpInfo")
+	@PostMapping("/getEmpInfo")
 	@ResponseBody
-	public List<ApprovalDocVO> getEmpInfo(String emp_team) throws Exception{
+	public List<MemberVO> getEmpInfo(String emp_team) throws Exception{
 	
-		List<ApprovalDocVO> EmpList= deptService.getEmpInfo(emp_team);
+		List<MemberVO> EmpList= deptService.getEmpInfo(emp_team);
 			
 		return EmpList;
 		

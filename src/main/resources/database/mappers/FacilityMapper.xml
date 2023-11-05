@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.fin.facility.FacilityDAO">
+  <insert id="setFacilityAdd" parameterType="FacilityVO">
+		INSERT INTO FACILITY_BASE 
+		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, '20231024001', sysdate(), '20231024001', sysdate(), 'Y');
+   </insert>
+   
+   <select id="getFacilitylist" resultType="FacilityVO">
+   		SELECT * FROM FACILITY_BASE
+   		WHERE USE_YN='y'
+   </select>
+   
+   <update id="setFacilityDelete" parameterType="facilityVO">
+   			UPDATE FACILITY_BASE SET
+   			USE_YN='N'
+   			WHERE FACILITY_NO=#{facility_no}
+   </update>
+   </mapper>

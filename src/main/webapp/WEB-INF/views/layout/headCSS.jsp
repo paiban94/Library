@@ -24,7 +24,7 @@
 <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.6/css/ui.jqgrid.css"> -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.6/jquery.jqGrid.min.js"></script>
 
 <!-- Template Main CSS File -->
