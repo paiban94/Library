@@ -47,11 +47,26 @@
 		width:1200px;
 		height:850px;	
 		}
-		.fc .fc-daygrid-day-number {
-    position: relative;
-    z-index: 4;
+  .fc-day-sun{
+  color:red;
+  }
+  .fc-day-sat{
+  color:blue;
+  }
+		.fc-daygrid-day-number {
+ 
     padding: 4px;
     color: black;
+  }
+  .fc-prev-button{
+  position:relative;
+  top:35px;
+  left:-50px;
+  }
+  .fc-next-button{
+  position:relative;
+  top:-37px;
+  left:170px;
   }
   
  

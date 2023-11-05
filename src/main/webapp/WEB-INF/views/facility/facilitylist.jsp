@@ -14,16 +14,16 @@
 .update-btn{width:80px;
 	position:relative;
 	left:1110px;
-	margin:5px;
+	margin:6px;
 	}
 .add-btn{width:80px;
 position:relative;
 left:900px;
-top:30px}
+top:-20px}
 .del-btn{width:80px;
 position:relative;
 left:1000px;
-top:0px}
+top:-50px}
 .title{
 text-align:center;
 }
@@ -39,10 +39,11 @@ width:100px;
 .th-2{
 width:150px;
 }
-.tg-0pky{
-height:20px;
+.tg{
+position:absolute;
+top:130px;
 }
-.card{width:1400px}
+.card{width:1400px;height:500px;}
 .hstack{width:1100px}
 .col-lg-6 {width:1400px }
 .tg  {border-collapse:collapse;border-spacing:0;width:1100px;text-align: center;}
@@ -50,7 +51,7 @@ height:20px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:center;vertical-align:top;height:10px;}
 </style>
 </head>
 <body id="page-top">
@@ -82,8 +83,8 @@ height:20px;
 								  <div class="p-1">전체</div>
 								  <div class="p-2">시설</div>
 								  <div class="p-3">공용품</div>
-								 </div>
 						
+								 </div>
 						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addFacilityModal">추가</button>
 													<!-- Modal -->
 						<form id="addForm" action="./add" method="post">
@@ -101,8 +102,8 @@ height:20px;
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>
                         				<input type="text" class="form-control" id="facility_contents" name="facility_contents">
-							      	<input type="hidden" value="${MemberVO.emp_no}" id="reg_id" name="reg_id">
-							      	<input type="hidden" value="${MemberVO.emp_no}" id="mod_id" name="mod_id">
+							      	<input type="hidden" value="${member.emp_no}" id="reg_id" name="reg_id">
+							      	<input type="hidden" value="${member.emp_no}" id="mod_id" name="mod_id">
 							      
 							      </div>
 							      <div class="modal-footer">
@@ -113,7 +114,8 @@ height:20px;
 							  </div>
 							</div>
 							</form>
-						<button type="button" id="del-btn" class="del-btn" onclick="facilitylist/delete">삭제</button>
+													<!--modal-->
+						<button type="button" id="del-btn" class="del-btn" onclick="facilitylist/delete?facility_no=${vo.facility_no}">삭제</button>
 						
 						
 						<table class="tg">
@@ -125,24 +127,26 @@ height:20px;
 							    <th class="tg-0pky th-3">상세내용</th>
 							  </tr>
 							</thead>
-							  <c:forEach items="${list}" var="vo">
 							<tbody>
+							  <c:forEach items="${list}" var="vo">
 							
 							  <tr>
 
 							    <td class="tg-0pky">
 							
-								    <input class="form-check-input mt-0" type="checkbox" value="del-btn" " aria-label="Checkbox for following text input">
+								    <input class="form-check-input mt-0" type="checkbox" value="del-btn" " aria-label="Checkbox for delete data">
 								  
 							    </td>
 							    
-						<form id="updateForm" action="./update" method="post">
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
 							 	
-							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>					
+							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>				
+							</div>
+							</tbody>
 													<!-- Modal -->
+						<form id="updateForm" action="./update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -170,13 +174,12 @@ height:20px;
 							  </div>
 							</div>
 							</form>
-												<!-- modal -->
-							  </tr>
-							</div>
-							</tbody>
 							</c:forEach>
+							  </tr>
+												<!-- modal -->
 							
 							</table>
+							
 <div class=""></div>
 						</div>
 					</div>

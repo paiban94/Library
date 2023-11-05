@@ -165,6 +165,7 @@ top:-10px}
                                 viewrecords: true,
                                 autowidth: true,
                                 height: 'auto',
+                                pgbuttons:true,
                                 onCellSelect: function (rowid, index, contents, event) {
                                     var data = $(this).jqGrid('getGridParam', 'colModel');
                                     if (data[index].name == "book_name") {

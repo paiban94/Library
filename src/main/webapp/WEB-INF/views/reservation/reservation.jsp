@@ -53,6 +53,16 @@
     padding: 4px;
     color: black;
   }
+   .fc-prev-button{
+  position:relative;
+  top:35px;
+  left:-50px;
+  }
+  .fc-next-button{
+  position:relative;
+  top:-37px;
+  left:170px;
+  }
   
  
    </style>
