@@ -31,7 +31,7 @@
 				<main id="main" class="main">
 
 					<section class="section dashboard">
-
+					
 						<div class="container">
 							<form action="/approval/draft" method="post" id="frm"
 								enctype="multipart/form-data">
@@ -41,7 +41,7 @@
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 								<input type="hidden" id="midApp" name="midApp" value="">
 								<input type="hidden" id="lastApp" name="lastApp" value="">
-
+						
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
 									<div class="col-lg-12">
@@ -230,9 +230,9 @@
 								</div>
 							</form>
 
+
 						</div>
 			</div>
-
 
 			</section>
 

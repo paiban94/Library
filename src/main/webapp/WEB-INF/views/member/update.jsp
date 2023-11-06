@@ -30,63 +30,59 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-                        <h1>마이 페이지</h1>
+                        <h1>정보 수정</h1>
 						
-				<form action="/member/update" method="post" enctype="multipart/form-data">		  
+				<form:form modelAttribute="memberVO" method="post" action="/member/update" enctype="multipart/form-data">  
 					
-                    <div class="form-group">
-                        <label for="emp_no">사원번호</label>
-                        <input type="text" value="${memberVO.emp_no}" name="emp_no" class="form-control" readonly/>
-                    </div>
+				<div class="form-group">
+					<label for="name">이름</label>
+					<input type="text" value="${memberVO.name}" name="name" class="form-control" readonly/>
+				  </div>
+				  <br>
 				
-
+						<div class="form-group">	
+							<label for="emp_no">사원번호</label>
+							<input type="text" value="${memberVO.emp_no}" name="emp_no" class="form-control" readonly/>
+						</div>
+				
 					<div class="form-group">
 						<br>
-						
-						<label for="password">비밀번호</label>
-                        <input type="password" value="${memberVO.password}" name="password" class="form-control" aria-describedby="pwstyle"/>
+						<form:label path="password">비밀번호</form:label>
+					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
 						<small id="pwstyle" class="form-text text-muted">비밀번호는 6~12자 이며 소문자,특수문자,숫자를 하나 이상씩 넣어야합니다.</small>
-					  
+					    
 					</div> 
 				    <div class="form-group">
 						<br>
-				
-						<label for="passwordCheck">비밀번호</label>
-                        <input type="password" name="passwordCheck" class="form-control" />
-					   
+					    <form:label path="passwordCheck">비밀번호확인</form:label>
+					    <form:password path="passwordCheck" cssClass="form-control" id="passwordCheck"/>
+					    <form:errors path="passwordCheck"></form:errors>
 				    </div>
 
-
-				    <div class="form-group">
+					<div class="form-group">
 						<br>
-				    	<label for="email">이메일</label>
-                        <input type="email" value="${memberVO.email}" name="email" class="form-control"/>
-				    	
+				    	<form:label path="email">이메일</form:label>
+				    	<form:input  value="${memberVO.email}" id="email" type="email" path="email" cssClass="form-control"/>
+				    	<form:errors path="email"></form:errors>
 				    </div>
 
 					  
 				
-					  <div class="form-group">
+					
+					<div class="form-group">
 						<br>
 						<label for="phone">전화번호</label>
 						<input id="phone" type="tel" value="${memberVO.phone}" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control"/>
 					</div>
 
 					
-				    
-				    <div class="form-group">    
-						<br>
-				    	<label for="proflie">프로필사진</label>
-				    	<input type="file"  name="proflie" class="form-control" id="proflie" aria-describedby="photoHelp">
-				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-				    </div>
+
 					<br>
 				  <button type="submit" class="btn btn-primary">정보수정</button> 
 						
 						
 									
-
-				</form>
+				</form:form>
 						</div>
 					</div>
 

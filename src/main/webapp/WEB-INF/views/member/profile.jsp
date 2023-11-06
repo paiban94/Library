@@ -36,60 +36,29 @@
 					
 
                     <div class="form-group">
-						<br>
-				    	<label for="photo">프로필사진</label>
-				    	<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
-				    </div>
-					<br>
-
-    	 			  <div class="form-group">
                         <label for="name">이름</label>
                         <input type="text" value="${memberVO.name}" name="name" class="form-control" readonly/>
 					  </div>
 					  
-			                    
-                    
-                    <div class="form-group">
-                       <br>
-                        <label for="emp_no">사원번호</label>
-                        <input type="text" value="${memberVO.emp_no}" name="emp_no" class="form-control" readonly/>
-                    </div>
-				
                     
 
-				    <div class="form-group">
+
+                    <div class="form-group">
 						<br>
-				    	<label for="email">이메일</label>
-                        <input type="email" value="${memberVO.email}" name="email" class="form-control" readonly/>
-				    	
+				    	<label for="photo">프로필사진</label>
+				    	<input type="file" name="photo" class="form-control" id="photo">
 				    </div>
-
-                     
-				      <div class="form-group">
-						<br>
-                        <label for="birth">생일</label>
-                        <input type="date" value="${memberVO.birth}" name="birth" class="form-control" readonly/>
-					  </div>	
-                    
-					  <div class="form-group">
-						<br>
-						<label for="phone">전화번호</label>
-						<input id="phone" type="tel" value="${memberVO.phone}" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control" readonly/>
-					</div>
-
-                    
+					<br>
                     <div class="form-group">
-                        <br>
-                        <label for="emp_team">부서</label>
-                        <input id="emp_team" type="text" value="${memberVO.emp_team}" class="form-control" readonly/>
-                    </div>
-
-                    <div class="form-group">
-                        <br>
-                        <label for="emp_position">직급</label>
-                        <input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
-                    </div>
-    
+						<br>
+				    	<label for="photo">서명이미지</label>
+				    	<input type="file" name="sign" class="form-control" id="sign" >
+				    </div>
+					<br>
+					  
+                    
+                    
+                    
                     
 				    
                    

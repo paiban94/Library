@@ -5,10 +5,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-
-
     <a href="/" class="logo d-flex align-items-center">
-
       <img src="/assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">NiceAdmin</span>
     </a>
@@ -27,7 +24,7 @@
 
       <li class="nav-item d-block d-lg-none">
         <a class="nav-link nav-icon search-bar-toggle " href="#">
-          <i class="bi bi-search"></i>
+          <i class="bi bi-search"></i>  
         </a>
       </li><!-- End Search Icon-->
 
@@ -175,7 +172,8 @@
 
   <sec:authorize access="!isAuthenticated()">
     <a class="nav-link" href="/member/login" id="login" role="button">
-      <i class="bi bi-arrow-right-circle-fill" style='font-size:24px;color:red'></i>
+      <!-- <i class="bi bi-arrow-right-circle-fill" style='font-size:24px;color:red'></i> -->
+      <button  class="btn btn-primary">로그인</button>
     </a>
   </sec:authorize>
 
@@ -183,17 +181,19 @@
 
   <!-- 로그인 후 -->
 <sec:authorize access="isAuthenticated()">
+  <sec:authentication property="principal.emp_position"  var="position"></sec:authentication> 
+  <sec:authentication property="principal.name"  var="memberName"></sec:authentication> 
   <li class="nav-item dropdown pe-3">
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
       <i class="bi bi-award-fill"></i>
       <!-- <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-      <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+      <span class="d-none d-md-block dropdown-toggle ps-2">${memberName}님</span>
     </a>
 
     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
       <li class="dropdown-header">
-        <h6>Kevin Anderson</h6>
-        <span>Web Designer</span>
+        <h6>${memberName}</h6>
+        <span>${position}</span>
       </li>
       <li>
         <hr class="dropdown-divider">

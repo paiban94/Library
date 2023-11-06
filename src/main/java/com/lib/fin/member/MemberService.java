@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.userdetails.User;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 	import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 
 	import org.springframework.security.authentication.BadCredentialsException;
@@ -25,8 +26,10 @@ import org.springframework.security.core.userdetails.User;
 	import org.springframework.transaction.annotation.Transactional;
 	import org.springframework.validation.BindingResult;
 	import org.springframework.web.multipart.MultipartFile;
-	
-	import lombok.extern.slf4j.Slf4j;
+
+import com.lib.fin.commons.FileManagerProfile;
+
+import lombok.extern.slf4j.Slf4j;
 	
 	@Service
 	@Slf4j
@@ -36,17 +39,25 @@ import org.springframework.security.core.userdetails.User;
 		//DAO
 		@Autowired
 		private MemberDAO memberDAO;
+		
+		@Autowired
+		private FileManagerProfile fileManagerProfile;
+		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
 		
-
+		//local file 위치
+		@Value("${app.upload.mapping}")
+		private String filePath;
+			
+		//요청 URL 경로
+		@Value("${app.url.path}")
+		private String urlPath;
 	
-		
-		//EMP_NO MODAL창으로
-	//	public String getEmpNoModal(String emp_no)throws Exception {
-	//		return memberDAO.getEmpNoModal(emp_no);
-	//		
-	//	}
+		// 사원번호 모달에 전송
+		public String getEmpNoModal(MemberVO memberVO) {
+		    return memberVO.getEmp_no();
+		}
 		
 	
 		//검증메서드
@@ -55,9 +66,11 @@ import org.springframework.security.core.userdetails.User;
 			//false = error가 없다, true = error가 있다. 검증실패
 			
 			//password 일치 검증
-			if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
-				check=true; // 패스워드가 패스워드체크랑 같지않다면 트루(에러)
-				
+			if(memberVO.getPassword() != null && memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+				check=false; // 비밀번호가 비어있지않고 패스워드가 패스워드체크랑 같다면 일치
+			}else {	
+				//비밀번호 누락 or 불일치
+				check=true;
 				bindingResult.rejectValue("passwordCheck", "password.mismatch", "비밀번호가 일치해야 합니다.");
 			}
 				
@@ -65,35 +78,21 @@ import org.springframework.security.core.userdetails.User;
 			return check;
 		}
 		
+		
+		//코드를 코드명이랑 매칭해서 변경
+//		public Map<String, String> getCodeName(){
+//			Map<String, String> codeName = new HashMap<>();
+//			codeName.put(null, null)
+//		}	 
+		
 		 @Transactional(rollbackFor = Exception.class)
 		    public int memJoin(MemberVO memberVO) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 			 	
-		      
-		        
 		        // 회원 정보 저장
 		        int result = memberDAO.memJoin(memberVO);
-		        //if 나가면 사라지는곳인데 여기는 기본값? 다시 생각해볼곳
-		        if (result > 0) {
-		            // 권한 정보 설정
-		            Map<String, Object> map = new HashMap<>();
-		            map.put("grp_cd", "U001"); // 권한 그룹 코드
-		            map.put("cd", "U"); // 권한 코드
-		            map.put("cd_nm", "USER"); // 권한 이름
-	
-		            // 부서 정보 설정
-		            Map<String, Object> empTeamMap = new HashMap<>();
-		            empTeamMap.put("grp_cd", "T001"); // 부서 그룹 코드
-		            empTeamMap.put("cd", "E"); // 부서 코드
-		            empTeamMap.put("cd_nm", "부서 이름"); // 부서 이름 (선택적으로 추가)
-	
-		            // 직급 정보 설정
-		            Map<String, Object> empPositionMap = new HashMap<>();
-		            empPositionMap.put("grp_cd", "L001"); // 직급 그룹 코드
-		            empPositionMap.put("cd", "D"); // 직급 코드
-		            empPositionMap.put("cd_nm", "직급 이름"); // 직급 이름 (선택적으로 추가)
-	
-		        }
+
+		     
 	
 		        return result;
 		    }   
@@ -122,15 +121,28 @@ import org.springframework.security.core.userdetails.User;
 				return memberVO;
 				
 			}
-			//업데이트
-			
-			public void memberUpdate(MemberVO memberVO)throws Exception{
-				memberDAO.memberUpdate(memberVO);
-			
-	}		
-		
-
-	
-	
-	
+			   @Transactional(rollbackFor = Exception.class)
+			    public Integer updateMember(MemberVO memberVO) throws Exception {
+				   log.info("====updateMember 메서드 호출=====");
+			        int result = memberDAO.updateMember(memberVO);
+			        return result;
+			    }
+//			   @Transactional(rollbackFor = Exception.class)
+//			    public int memberUpdate(MemberVO memberVO) throws Exception {
+//			        //memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+//				   	String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
+//				   	memberVO.setPassword(encodedPassword);
+//				   	int result = memberDAO.memberUpdate(memberVO);
+//			        return result;
+//			    }
+			   
+			   
+			   //아이디찾기
+			   public MemberVO  findEmpNo(String name, String phone)throws Exception{
+				   log.info(phone);
+				   log.info(name);
+				   return memberDAO.findEmpNo(name, phone);
+				   
+			   }
+			   
 }

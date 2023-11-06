@@ -13,18 +13,18 @@
    	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
    	</insert> 
    	
-   	<!-- 회원가입시 프로필사진  -->
-   	<insert id="profile" parameterType="MemberFileVO">
-   	INSERT INTO MEM_IMAGE
-   	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role})
+   	<!-- 회원가입시 프로필사진, 서명이미지  -->
+   	<insert id="setMemImage" parameterType="MemberFileVO">
+   	INSERT INTO MEM_IMAGE (IMG_FILE, EMP_NO, IMG_FILE_NAME, IMG_FILE_PATH, IMG_ROLE,REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
+   	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y")
    	</insert>
 
    	
   	<!-- emp_no modal용 -->
-  <!-- 		<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
-   		SELECT * FROM MEM_INFO
+  	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
+   		SELECT EMP_NO FROM MEM_INFO
    		WHERE EMP_NO = ${emp_no}
-   	</select> -->
+   	</select> 
    	
   	
    	<!-- 로그인 -->
@@ -55,12 +55,25 @@
     WHERE M.EMP_NO = #{emp_no}
 </select> 
 
-	<select id="updateMember" parameterType="memberVO" resultMap="getMemberResult">
+	<select id="updateMember" parameterType="MemberVO" resultType="java.lang.Integer">
 		UPDATE MEM_INFO
-		SET EMAIL=#{email}, PHONE=#{phone}
+		SET EMAIL=#{email}, PHONE=#{phone}, PASSWORD=#{password}
 		WHERE EMP_NO = #{emp_no}
-	</select>
-
+	</select> 
+	
+	<!-- 아이디찾기 -->
+		<select id="findEmpNo" resultType="memberVO">
+			SELECT EMP_NO
+			FROM MEM_INFO 
+			WHERE NAME = #{name} AND PHONE = #{phone}
+		</select>
+		
+	
+<!-- <select id="updateMember" parameterType="MemberVO" resultMap="getMemberResult">
+		UPDATE * FROM
+		MEM_INFO
+		WHERE EMP_NO = #{emp_no}
+	</select> -->
 
 	<resultMap type="MemberVO" id="getMemberResult">
 		<id column="EMP_NO" property="emp_no"/>

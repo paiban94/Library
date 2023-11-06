@@ -85,7 +85,7 @@
 							<br>
 							<form:label path="emp_team">부서</form:label>
 							<form:select name="selectTeam" id="emp_team" path="emp_team" cssClass="form-control">
-								<form:option value="" label="부서 선택 시 클릭하세요" /> 
+								<form:option value="" label="부서 선택 시 클릭하세요" /> 	
 								<form:option value="A" label="운영과" />
 								<form:option value="B" label="정책과" />
 								<form:option value="C" label="서비스과" />
@@ -108,19 +108,27 @@
 					    <form:errors path="emp_position"></form:errors>
 					  </div>
 				    
-				    <div class="form-group">
+				    <!-- <div class="form-group">
 						<br>
-				    	<label for="proflie">프로필사진</label>
+				    	<label for="photo">프로필사진</label>
 				    	<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
 				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				    </div>
+					<br> -->
 					<br>
-				  <button type="submit" class="btn btn-primary">회원가입</button> 
+			 <button type="submit" class="btn btn-primary">회원가입</button> 
+			 
+			   </form:form>
 					
 					               <!-- Basic Modal -->
-								   <%-- <button type="button" id="joinModal" class="btn btn-primary" data-id="${memberVO.emp_no}" data-bs-toggle="modal" data-bs-target="#basicModal">
+								    <!-- <button type="button"  class="btn btn-primary">
 									회원가입
-								  </button>
+								  </button> -->
+
+								  	<!-- 사원번호 모달 버튼 -->
+									<!-- <button type="button" id="joinModal" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#empNoModal">
+										사원번호 확인
+									</button>
 							
 								   <div class="modal fade" id="basicModal" tabindex="-1">
 									<div class="modal-dialog">
@@ -130,43 +138,15 @@
 										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<p id="emp_info">여기에 사원 정보가 표시됩니다.</p>
+											<p id="emp_info">당신의 사원번호는 ${memberVO.emp_no} 입니다.</p>
 										</div>
 										<div class="modal-footer">
 										   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" href="member/login">확인</button>
 										</div>
 									  </div>
 									</div>
-								  </div> --%>
-								  <!-- <script src="/resources/static/js/joinModal.js"></script> -->
-
-
-								  <!-- <script>
-									// 버튼 클릭 시 모달 열기
-									document.getElementById("joinModal").addEventListener("click", function () {
-										// 모달 내용 설정
-										var emp_no = "${memberVO.emp_no}";
-										document.getElementById("employeeInfo").textContent = "사원번호: " + emp_no;
-									
-										// 모달 열기
-										$('#basicModal').modal('show');
-									});
-									</script>
-								 -->
-								<!-- <script>
-									// 버튼 클릭 시 모달 열기
-									document.getElementById("joinModal").addEventListener("click", function () {
-										// "/getEmpNo"서버로 emp_no를 요청
-										$.get("/getEmpNo", function (data) {
-											// 서버에서 받은 emp_no를 모달에 표시
-											let emp_no = data.emp_no;
-											document.getElementById("emp_info").textContent = "사원번호: " + emp_no;
-									
-											// 모달 열기
-											$('#basicModal').modal('show');
-										});
-									});
-									</script> -->
+								  </div>  -->
+								 
 									
 									
 									
@@ -174,7 +154,6 @@
 									
 									
 
-				</form:form>
 						</div>
 					</div>
 
