@@ -34,13 +34,13 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception {
-
+		asdfasdfasdfdasfa
 		int page = (int) params.get("page");
 		int pageSize = (int) params.get("pageSize");
 		int startRow = (page - 1) * pageSize;
 
 		params.put("startRow", startRow);
-		System.out.println("=======search {}");
+		System.out.println("=======search  :");
 		List<AnnouncementVO> ar = announcementDAO.getPaginatedList(params);
 		System.out.println("=====return List size " + ar.size());
 		return ar;
