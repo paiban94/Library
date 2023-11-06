@@ -34,12 +34,12 @@ public class ApprovalController {
 	
 	//기안
 	@GetMapping("draft")
-	private String setDraft()throws Exception {
+	public String setDraft()throws Exception {
 		return "approval/draft";
 	}
 	
 	@PostMapping("draft")
-	private String setDraft(@AuthenticationPrincipal MemberVO memberVO, @RequestParam("midApp") String midApp, @RequestParam("lastApp") String lastApp, ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception {
+	public String setDraft(@AuthenticationPrincipal MemberVO memberVO, @RequestParam("midApp") String midApp, @RequestParam("lastApp") String lastApp, ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception {
 		
 		approvalDocVO.setEmp_no(memberVO.getEmp_no());  
 		
@@ -49,8 +49,8 @@ public class ApprovalController {
 	    
 	    
 		
-		approvalDocVO.setReg_id("20231");
-		approvalDocVO.setMod_id("20231");
+		approvalDocVO.setReg_id(memberVO.getEmp_no());
+		approvalDocVO.setMod_id(memberVO.getEmp_no());
 		approvalDocVO.setUse_yn("Y");
 		
 				
@@ -59,44 +59,41 @@ public class ApprovalController {
 		return "approval/draft";
 	}
 	
+	//기안 detail
+	@GetMapping("draftDetail")
+	public void getDraftDetail(ApprovalDocVO approvalDocVO, Model model)throws Exception{
+		
+	approvalDocVO =	approvalService.getDraftDetail(approvalDocVO);
+		
+		
+	}
+	
+	
+	
 	//휴가신청서
 	@GetMapping("leave")
-	private String getLeave()throws Exception{
+	public String getLeave()throws Exception{
 		return "approval/leave";
 	}
 	
 	//지출결의서
 	@GetMapping("expense")
-	private String getExpense()throws Exception{
+	public String getExpense()throws Exception{
 		return "approval/expense";
 	}
 	
 	//기안 list
 	@GetMapping("comDocList")
-	private String getAppDocList(Model model)throws Exception{
+	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
 		
-//		String emp_no = memberVO.getEmp_no(); //세션에서 사번 꺼내오기
-//		
-//		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(emp_no);
-//		model.addAttribute("list",ar);
+		String emp_no = memberVO.getEmp_no(); //세션에서 사번 꺼내오기
+		
+		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(emp_no);
+		model.addAttribute("list",ar);
 		
 		return "approval/comDocList";
 	}
 	
-	@GetMapping("comDocListJq")
-	@ResponseBody
-	private java.util.List<ApprovalDocVO> getAppDocList(@AuthenticationPrincipal MemberVO memberVO, HttpServletRequest res)throws Exception{
-		
-//		String emp_no = memberVO.getEmp_no(); //세션에서 사번 꺼내오기
-		
-		String emp_no ="20231";
-		
-		Map<String, Object> params = CommonJava.getParameterMap(res);
-		
-		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(emp_no);
-		
-		
-		return ar;
-	}
+	
 
 }

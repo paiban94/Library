@@ -4,6 +4,8 @@
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+	<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +14,14 @@
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
 
+	 <%
+        // 현재 날짜를 가져오는 Java 코드
+        Date currentDate = new Date();
 
+        // 날짜를 원하는 형식으로 포맷팅
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(currentDate);
+    %>
 <link href="/css/doc.css" rel="stylesheet">
 </head>
 
@@ -36,14 +45,14 @@
 								enctype="multipart/form-data">
 
 								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
-								<input type="hidden" id="approval_state" name="approval_state" value="G">
+								<input type="hidden" id="approval_state" name="approval_state" value="R">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 								<input type="hidden" id="midApp" name="midApp" value="">
 								<input type="hidden" id="lastApp" name="lastApp" value="">
 
 	
-	 
-	
+	 							
+			<sec:authentication property="principal" var="vo"></sec:authentication> 
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -58,17 +67,34 @@
 
 														<tr>
 															<th class="table-light">기안자</th>
-															<td>홍길동</td>
+															<td>${vo.name}</td>
 														</tr>
 
 
 														<tr>
 															<th class="table-light">소속</th>
-															<td>총무부</td>
+															
+															<td>
+															<c:choose>
+																  <c:when test="${vo.emp_team eq 'A'}">
+																    운영과
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'B'}">
+																    정책과
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'C'}">
+																   서비스과
+																  </c:when>
+																  <c:otherwise>
+																    가발령
+																  </c:otherwise>
+																</c:choose>
+															</td>
 														</tr>
+
 														<tr>
 															<th class="table-light">기안일</th>
-															<td>2023-10-12</td>
+															<td><%= formattedDate %></td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
@@ -360,6 +386,7 @@
 		$('#temp_send').click(function() {
 
 			$("#temp_save").val("Y");
+			$("#approval_state").val("T");
 			$("#frm").submit();
 
 		});
