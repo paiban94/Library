@@ -1,10 +1,11 @@
-  let view = $('#view').data('view');
+let view = $('#view').data('view');
 
-  if(view == 'A'){
-    console.log("view1"+view);
-  }else{
-    console.log('view2'+view);
-  }
+if (view == 'A') {
+    $('#logined').show();
+} else {
+    $("#logined").css('visibility', 'visible');
+    $('#logined').hide();
+}
 
 
 function likeAnnouncement(board_no) {
@@ -48,8 +49,8 @@ function updateBoard(board_no) {
             url: "/board/updateBoard",
             contentType: "application/json",
             data: {
-                    board_no: board_no
-                },
+                board_no: board_no
+            },
             success: function (result) {
                 console.log("success");
                 // location.replace("/board/announcement");
@@ -65,8 +66,8 @@ function updateBoard(board_no) {
     }
 }
 
-$("#modifyBtn").on("click", function(){
-    location.replace("./updateBoard?board_no="+$(this).attr('data-val'));
+$("#modifyBtn").on("click", function () {
+    location.replace("./updateBoard?board_no=" + $(this).attr('data-val'));
     return false;
 });
 
@@ -81,12 +82,12 @@ function deleteBoard(board_no) {
             url: "/board/deleteBoard",
             contentType: "application/json",
             data: JSON.stringify({
-                    board_no: board_no
-                }),
+                board_no: board_no
+            }),
             success: function (result) {
                 console.log(result);
                 alert("삭제 되었습니다");
-                location.href="/board/announcement";
+                location.href = "/board/announcement";
             },
             error: function () {
                 console.log('deleteBoard error');

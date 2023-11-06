@@ -71,7 +71,7 @@
 																<span id="likeCount">${data.board_like} 명이 이 글을 좋아합니다.</span>
 															</div>
 															<div id="logined">
-																<input type="hidden" id="view" name="view" data-view="A">
+																<input type="hidden" id="view" name="view" data-view="${ready}">
 																<button id="modifyBtn" type="button" class="btn btn-primary btn-sm" data-val="${data.board_no}">수정</button>
 																<button id="deleteBtn" type="button" class="btn btn-primary btn-sm" onclick="deleteBoard(${data.board_no})">삭제</button>
 															</div>

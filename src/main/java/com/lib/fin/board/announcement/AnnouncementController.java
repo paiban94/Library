@@ -45,9 +45,12 @@ public class AnnouncementController {
 
 	@ResponseBody
 	@GetMapping("announcementlist")
-	public List<AnnouncementVO> getList(@RequestParam( value = "page", required = false) Integer page, HttpServletRequest ret) throws Exception {
-		System.out.println("page :"+ page);
+	public List<AnnouncementVO> getList(@RequestParam(value = "page", required = false) Integer page, HttpServletRequest ret) throws Exception {
+		log.info("===============Page : "+ page);
+
 	    Map<String, Object> params = CommonJava.getParameterMap(ret);
+	    
+	    
 	    Object paramValue = params.get("page");
 
 	    if (paramValue != null) {
@@ -67,9 +70,19 @@ public class AnnouncementController {
 	    }
 
 	    int pageSize = Integer.valueOf((String) params.getOrDefault("pageSize", "20"));
+	    
+	    
 	    String search = (String) params.get("search");
-	    log.info("=================Controller : "+ search);
+	    
+		System.out.println("=================search :"+ search);
+		
+		log.info("seaech ========{}",search);
+
+	    
 	    String kind = (String) params.get("kind");
+	    
+		log.info("kind ========{}",kind);
+	    System.out.println("=================kind :");
 
 	    Map<String, Object> value = new HashMap<>();
 	    value.put("page", page);
@@ -107,6 +120,8 @@ public class AnnouncementController {
 		List<CommentVO> comments = announcementService.getComments(boardVO.getBoard_no());
 		if (boardVO.getReg_id().equals(memberVO.getEmp_no())) {
 			mv.addObject("ready", "A");
+		}else {
+			mv.addObject("ready", "B");
 		}
 		 
 
@@ -118,13 +133,15 @@ public class AnnouncementController {
 	}
 
 	@GetMapping("addAnn")
-	public String goAddAnn() throws Exception {
+	public String goAddAnn(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
+		model.addAttribute("member", memberVO);
 		return "board/announcement/annadd";
 	}
 
 	@PostMapping("addAnn")
-	public String addAnnouncementWritten(AnnouncementVO announcementVO, List<MultipartFile> list) throws Exception {
-
+	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO,AnnouncementVO announcementVO, List<MultipartFile> list) throws Exception {
+		announcementVO.setBoard_writer(memberVO.getEmp_no());
+		announcementVO.setReg_id(memberVO.getEmp_no());
 		int result = announcementService.addWriting(announcementVO, list);
 
 		return "redirect:./announcement";

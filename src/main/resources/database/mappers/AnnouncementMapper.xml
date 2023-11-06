@@ -31,7 +31,7 @@
 		INSERT INTO BOARD_BASE
 		(BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE,BOARD_KIND,BOARD_VIEWS,BOARD_LIKE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
 		VALUES
-		(#{board_title},#{board_content},'A','C',0,0,#{board_writer},#{board_writer},NOW(),NOW(),'Y')
+		(#{board_title},#{board_content},'A','C',0,0,#{board_writer},#{reg_id},NOW(),NOW(),'Y')
 	</insert>
 
 	<select id="getDetail">
@@ -85,7 +85,7 @@
     <if test="search != null and kind != null">
         <choose>
             <when test='kind == "W"'>
-                AND BOARD_WRITER LIKE '%'||#{search}||'%'
+                AND REG_ID LIKE '%'||#{search}||'%'
             </when>
             <when test='kind == "N"'>
                 AND BOARD_TITLE LIKE '%'||#{search}||'%'

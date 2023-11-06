@@ -12,24 +12,20 @@ import com.lib.fin.board.FileVO;
 import com.lib.fin.board.comment.CommentVO;
 import com.lib.fin.commons.FileManager;
 
-
 @Service
-public class AnnouncementServiceImp implements AnnouncementService{
-	
+public class AnnouncementServiceImp implements AnnouncementService {
+
 	@Autowired
 	private AnnouncementDAO announcementDAO;
-	
+
 	@Value("${app.upload}")
 	private String filePath;
-	
+
 	@Value("${app.approval.announce}")
 	private String announceName;
-	
-	
-	
+
 	@Autowired
 	private FileManager fileManager;
-	
 
 	@Override
 	public List<AnnouncementVO> getList() throws Exception {
@@ -38,33 +34,32 @@ public class AnnouncementServiceImp implements AnnouncementService{
 
 	@Override
 	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception {
-	    int page = (int) params.get("page");
-	    int pageSize = (int) params.get("pageSize");
-	    String search = (String) params.get("search");
-	    System.out.println("=============Service : search value :"+search);
-	    int startRow = (page - 1) * pageSize;
 
-	  
-	    params.put("startRow", startRow);
+		int page = (int) params.get("page");
+		int pageSize = (int) params.get("pageSize");
+		int startRow = (page - 1) * pageSize;
 
-	    return announcementDAO.getPaginatedList(params);
+		params.put("startRow", startRow);
+		System.out.println("=======search {}");
+		List<AnnouncementVO> ar = announcementDAO.getPaginatedList(params);
+		System.out.println("=====return List size " + ar.size());
+		return ar;
 	}
 
-	
 	@Override
 	public int getTotalAnnouncementCount() throws Exception {
-	    return announcementDAO.getTotalAnnouncementCount();
+		return announcementDAO.getTotalAnnouncementCount();
 	}
-	
+
 	@Override
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception {
-		int result= announcementDAO.addWriting(boardVO);
+		int result = announcementDAO.addWriting(boardVO);
 		return result;
 	}
 
 	@Override
 	public AnnouncementVO getDetail(AnnouncementVO boardVO) throws Exception {
-		
+
 		return announcementDAO.getDetail(boardVO);
 	}
 
@@ -75,7 +70,7 @@ public class AnnouncementServiceImp implements AnnouncementService{
 
 	@Override
 	public int setDelete(AnnouncementVO boardVO) throws Exception {
-		
+
 		return announcementDAO.setDelete(boardVO);
 	}
 
@@ -86,28 +81,26 @@ public class AnnouncementServiceImp implements AnnouncementService{
 	}
 
 	@Override
-	public int addComment(CommentVO comment)  throws Exception{
+	public int addComment(CommentVO comment) throws Exception {
 		int result = announcementDAO.addComment(comment);
 		return result;
 	}
 
 	@Override
-	public List<CommentVO> getComments(Long board_no)  throws Exception{
+	public List<CommentVO> getComments(Long board_no) throws Exception {
 		return announcementDAO.getComments(board_no);
 	}
 
 	@Override
 	public void likeAnnouncement(Long board_no) throws Exception {
-	    announcementDAO.likeAnnouncement(board_no);
-		
+		announcementDAO.likeAnnouncement(board_no);
+
 	}
 
 	@Override
 	public void unlikeAnnouncement(Long board_no) throws Exception {
-		  announcementDAO.unlikeAnnouncement(board_no);
-		
+		announcementDAO.unlikeAnnouncement(board_no);
+
 	}
-
-
 
 }

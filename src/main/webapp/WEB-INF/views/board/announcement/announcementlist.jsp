@@ -95,8 +95,8 @@
                                                                 <option class="kind" value="N">TITLE</option>
                                                             </select>
                                                         </div>
-                                                        <div class="searchBtn">
-                                                            <input type="submit" value="검색">
+                                                        <div class="searchBtn" id="searchBtn">
+                                                            <input type="button" value="검색">
                                                         </div>
                                                     </div>
                                                 </form>

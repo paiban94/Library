@@ -11,7 +11,7 @@ $(document).ready(function () {
         let currentPage = $("#grid").getGridParam("page");
 
         $.ajax({
-            url: "./announcementlist?",
+            url: "./announcementlist",
             type: "get",
             data: {
                 page: currentPage,
@@ -20,8 +20,6 @@ $(document).ready(function () {
             },
             success: function () {
                 console.log("sccuess");
-                let newURL = "/board/announcementlist?page=" + currentPage + "&search=" + searchValue + "&kind=" + kindValue;
-                $(location).attr('href', newURL);
             },
             error: function () {
                 console.log("error");
@@ -38,7 +36,7 @@ $(document).ready(function () {
 
         url: "/board/announcementlist?page=1&pageSize=20",// 데이터를 가져올 서버 엔드포인트의 URL
         datatype: "json", // 데이터 타입을 JSON으로 설정
-        colNames: ['번호', '제목', '작성자', '날짜', '조회수'],
+        colNames: ['번호', '제목', '작성자 사번', '날짜', '조회수'],
         colModel: [
             {
                 name: 'board_no',
@@ -53,8 +51,8 @@ $(document).ready(function () {
                 width: 200
             },
             {
-                name: 'board_writer',
-                index: 'board_writer',
+                name: 'reg_id',
+                index: 'reg_id',
                 width: 100,
                 align: 'center'
             },
@@ -72,7 +70,7 @@ $(document).ready(function () {
             }
         ],
         rowNum: 20,
-        rowList: [20, 25, 30],
+        rowList: [2, 5, 10],
         pgbuttons: true,
         rownumbers: true,
         gridview: true,
