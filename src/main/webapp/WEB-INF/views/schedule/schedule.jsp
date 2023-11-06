@@ -97,7 +97,7 @@
 						<div class="card">
 						  <div id="calendarBox">
 						       <div class="hstack gap-3 text-decoration-underline">
-								  <a href="">전체</a>
+								  
 								  <a href="/schedule/getSchedule">일정</a>
 								  <a href="/reservation/getReservation">예약</a>
 								</div>
@@ -118,7 +118,7 @@
                 <form id="addForm" action="./add" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                    	<input type="hidden" class="form-control" value="${member.emp_no}" name="emp_no" id="emp_no">
+                    	<input type="hidden" class="form-control" value="${memberVO.emp_no}" name="emp_no" id="emp_no">
                     	
                     					
                         <label for="taskId" class="col-form-label">일정시작일</label>

@@ -13,19 +13,25 @@
 <style type="text/css">
 .update-btn{width:80px;
 	position:relative;
-	left:1110px;
+	left:1250px;
 	margin:6px;
+	top:58px;
 	}
 .add-btn{width:80px;
 position:relative;
-left:900px;
-top:-20px}
+left:1070px;
+top:30px}
 .del-btn{width:80px;
 position:relative;
-left:1000px;
-top:-50px}
+left:1170px;
+top:0px}
 .title{
 text-align:center;
+}
+.card{
+position:relative;
+left:0px;
+width:1400px;
 }
 .mt-0{
 width:20px;
@@ -42,6 +48,7 @@ width:150px;
 .tg{
 position:absolute;
 top:130px;
+left:150px;
 }
 .card{width:1400px;height:500px;}
 .hstack{width:1100px}
@@ -79,10 +86,10 @@ top:130px;
 						
 						<h1 class="title">공용품리스트</h1>
 						
-						  <div class="hstack gap-3 text-decoration-underline">
-								  <div class="p-1">전체</div>
-								  <div class="p-2">시설</div>
-								  <div class="p-3">공용품</div>
+						  <div>
+								  <div></div>
+								  <div></div>
+								  <div></div>
 						
 								 </div>
 						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addFacilityModal">추가</button>
@@ -115,9 +122,9 @@ top:130px;
 							</div>
 							</form>
 													<!--modal-->
-						<button type="button" id="del-btn" class="del-btn" onclick="facilitylist/delete?facility_no=${vo.facility_no}">삭제</button>
-						
-						
+								<form id="deleteForm" action="./delete" method="post">
+						<button type="submit" id="del-btn" class="del-btn" onclick="FacilityDelete()">삭제</button>
+							
 						<table class="tg">
 							<thead>
 							  <tr>
@@ -131,18 +138,17 @@ top:130px;
 							  <c:forEach items="${list}" var="vo">
 							
 							  <tr>
-
 							    <td class="tg-0pky">
 							
-								    <input class="form-check-input mt-0" type="checkbox" value="del-btn" " aria-label="Checkbox for delete data">
+								    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
 								  
 							    </td>
-							    
+							    </form>
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
-							    <td class="tg-0pky mt-3">${vo.facility_contents}</td>
-							 	
-							 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>				
+							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
+							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
+										
 							</div>
 							</tbody>
 													<!-- Modal -->
@@ -206,5 +212,6 @@ top:130px;
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script src="/js/facility.js"></script>
 </body>
 </html>

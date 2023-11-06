@@ -152,7 +152,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/schedule/getSchedule">
-          <i class="bi bi-gem"></i><span>예약하기</span>
+          <i class="bi bi-gem"></i><span>일정관리</span>
         </a>
         
       </li><!-- End Icons Nav -->
