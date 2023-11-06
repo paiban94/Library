@@ -34,7 +34,6 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception {
-		asdfasdfasdfdasfa
 		int page = (int) params.get("page");
 		int pageSize = (int) params.get("pageSize");
 		int startRow = (page - 1) * pageSize;
