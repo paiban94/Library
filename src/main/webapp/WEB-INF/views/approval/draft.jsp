@@ -39,7 +39,7 @@
 				<main id="main" class="main">
 
 					<section class="section dashboard">
-
+					
 						<div class="container">
 							<form action="/approval/draft" method="post" id="frm"
 								enctype="multipart/form-data">
@@ -53,6 +53,8 @@
 	
 	 							
 			<sec:authentication property="principal" var="vo"></sec:authentication> 
+
+						
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -262,9 +264,9 @@
 								</div>
 							</form>
 
+
 						</div>
 			</div>
-
 
 			</section>
 

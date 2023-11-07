@@ -32,15 +32,15 @@
 					<div class="col-lg-6">
 
                         <div class="pt-4 pb-2">
-                            <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">비밀번호찾기</h5>
-                            <p class="text-center small">사원번호와 이메일을 입력하세요. 임시 비밀번호를 발급 해 드리겠습니다.</p>
+                            <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">로그인</h5>
+                            <p class="text-center small">이름과 전화번호를 입력하세요.</p>
                           </div>
 				
                           <form action="/member/findEmpNo" method="post" enctype="multipart/form-data">		 
                          
                             <div class="form-group">
-                            <label for="name">사원번호</label>
-                            <input type="text" name="emp_no" class="form-control"/>
+                            <label for="name">이름</label>
+                            <input type="text" name="name" class="form-control"/>
                           </div>
 					
 					

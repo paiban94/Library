@@ -34,13 +34,23 @@
 						
 				<form action="/member/update" method="post" enctype="multipart/form-data">		  
 					
+                    <c:set var="positionMap" value="${positionMap}" />
+                    <c:set var="teamMap" value="${teamMap}" />
+
+
+                    <div class="form-group">
+						<br>
+				    	<label for="photo">프로필사진</label>
+				    	<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
+				    </div>
+					<br>
 
     	 			  <div class="form-group">
                         <label for="name">이름</label>
                         <input type="text" value="${memberVO.name}" name="name" class="form-control" readonly/>
 					  </div>
 					  
-                    
+			                    
                     
                     <div class="form-group">
                        <br>
@@ -85,12 +95,7 @@
     
                     
 				    
-				    <div class="form-group">    
-						<br>
-				    	<label for="proflie">프로필사진</label>
-				    	<input type="file"  name="proflie" class="form-control" id="proflie" aria-describedby="photoHelp" readonly />
-				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-				    </div>
+                   
 					<br>
 				  <button type="submit" class="btn btn-primary" href="/member/update">정보수정</button> 
 							
