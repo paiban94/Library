@@ -147,6 +147,7 @@ left:150px;
 							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
+							</c:forEach>
 							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 										
 							</div>
@@ -180,7 +181,6 @@ left:150px;
 							  </div>
 							</div>
 							</form>
-							</c:forEach>
 							  </tr>
 												<!-- modal -->
 							
