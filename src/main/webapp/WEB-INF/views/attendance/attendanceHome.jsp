@@ -22,7 +22,40 @@ height:400px;
 .div-padding{
 position:relative;
 top:-400px;
-left:300px;
+left:310px;
+width:900px;
+}
+.font-14{
+float:left;
+}
+.main-color{
+float:left;
+}
+.color-gray{
+float:left;
+}
+#work-week-container{
+    position: relative;
+    border: .5px solid gray;
+    height: 100px;
+    width: 100%;
+}
+#work-week-time{
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    height: 100%;
+}
+#work-week-time div{
+    width: 180px;
+    padding-top: 17px;
+}
+#work-week-time p {
+    margin-bottom: 5px;
+}
+#date-box{
+    text-align: center;
 }
 </style>
 </head>
@@ -97,32 +130,33 @@ left:300px;
                             </h4>
                         </div>
 
-                        <div id="work-week-container">
+                        <div class="work-week-container" id="work-week-container">
                             <div id="work-week-time">
+                                
                                 <div>
-                                    <p class="font-14">이번주 누적</p>
+                                    <p class="font-14">이번주 누적</p><br>
                                     <h4 class="main-color" id="main-totalwork-time">0h 0m 0s</h4>
                                 </div>
-                                <br>
                                 <div>
-                                    <p class="font-14">이번주 초과</p>
+                                    <p class="font-14">이번주 초과</p><br>
                                     <h4 class="main-color" id="main-week-over-time">0h 0m 0s</h4>
                                 </div>
                                 <div>
-                                    <p class="font-14">이번주 잔여</p>
+                                    <p class="font-14">이번주 잔여</p><br>
                                     <h4 class="main-color" id="main-work-time">40h 0m 0s</h4>
                                 </div>
                                 <div>
-                                    <p class="font-14">이번달 누적</p>
+                                    <p class="font-14">이번달 누적</p><br>
                                     <h4 class="color-gray" id="main-month-work-time">0h 0m 0s</h4>
                                 </div>
                                 <div>
-                                    <p class="font-14">이번달 연장</p>
+                                    <p class="font-14">이번달 연장</p><br>
                                     <h4 class="color-gray" id="main-month-over-time">0h 0m 0s</h4>
                                 </div>
                             </div>
                         </div>
 
+							
                         <div id="work-info-container"></div>
 
                     </div>

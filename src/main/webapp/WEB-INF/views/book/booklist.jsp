@@ -103,7 +103,7 @@ top:-10px}
 							 <c:forEach items="${list}" var="vo">
 							  <tr>
 							    <td class="tg-0lax">
-							    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
+							    <input class="form-check-input mt-0" name="book_no" type="checkbox" value="${vo.book_no}" " aria-label="Checkbox for delete data">
 							    </td>
 							    </form>
 							    <td class="tg-0lax">${vo.book_no}</td>
@@ -141,6 +141,90 @@ top:-10px}
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script>
 
+
+                        $(document).ready(function () {
+                            $("#grid").jqGrid({
+
+                                url: "/book/getBooklist", // 데이터를 가져올 서버 엔드포인트의 URL
+                                datatype: "json", // 데이터 타입을 JSON으로 설정
+                                colNames: ['도서번호', '도서명', '저자명', '발행처', '입고일'],
+                                colModel: [
+                                    {
+                                        name: 'book_no',
+                                        index: 'book_no', 
+                                        hidedlg : true,
+                                        width: 50, 
+                                        align: 'center'
+                                    },
+
+                                    { 
+                                        name: 'book_name', 
+                                        index: 'book_name', 
+                                        width: 200 
+                                    },
+                                    { 
+                                        name: 'board_author', 
+                                        index: 'board_author',
+                                         width: 100, 
+                                         align: 'center' 
+                                        },
+                                    { 
+                                        name: 'book_publisher', 
+                                        index: 'book_publisher', 
+                                        width: 80,
+                                         align: 'center' 
+                                    },
+                                    { 
+                                        name: 'reg_date', 
+                                        index: 'reg_date', 
+                                        width: 70, 
+                                        align: 'center' 
+                                    }
+                                ],
+                                rowNum: 10,
+                                rowList: [10, 15, 20],
+                                pager: '#pager',
+                                viewrecords: true,
+                                autowidth: true,
+                                height: 'auto',
+                                pgbuttons:true,
+                                onCellSelect: function (rowid, index, contents, event) {
+                                    var data = $(this).jqGrid('getGridParam', 'colModel');
+                                    if (data[index].name == "book_name") {
+                                        var id = $("#grid").jqGrid("getGridParam", "selrow");
+
+                                        var rowData = $("#grid").jqGrid("getRowData", id);
+                                        let no = rowData.book_no;
+
+                                        $.ajax({
+                                            url: "./booklist?" + no,
+                                            type: "get",
+                                            data: {
+                                                book_no: rowData.book_no
+                                            },
+                                            success: function (data) {
+                                                if (no !== null && no !== undefined) {
+                                                    location.replace("./booklist?book_no=" + no);
+                                                }
+
+                                            },
+                                            error: function () {
+                                                console.log("error");
+                                            }
+                                        });
+                                    }
+                                }
+                            }).navGrid('#pager', {
+                                search: true,
+                                edit: true,
+                                add: true,
+                                del: true
+                            });
+                            $("#grid").jqGrid('filterToolbar', { searchOperators: true, stringResult: true, searchOnEnter: true });
+
+                        });
+                    </script>
 </body>
 </html>

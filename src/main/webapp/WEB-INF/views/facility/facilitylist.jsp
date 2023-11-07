@@ -129,7 +129,7 @@ left:150px;
 							<thead>
 							  <tr>
 							    <th class="tg-0pky th-0">선택</th>
-							    <th class="tg-0pky th-1">공용품번호</th>
+							    <th class="tg-0pky th-1">공용품코드</th>
 							    <th class="tg-0pky th-2">공용품이름</th>
 							    <th class="tg-0pky th-3">상세내용</th>
 							  </tr>
@@ -144,14 +144,15 @@ left:150px;
 								  
 							    </td>
 							    </form>
-							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
+							    <td class="tg-0pky mt-1">${vo.grp_cd}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
-							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 										
 							</div>
+							</c:forEach>
 							</tbody>
 													<!-- Modal -->
+							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 						<form id="updateForm" action="./update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
@@ -180,7 +181,6 @@ left:150px;
 							  </div>
 							</div>
 							</form>
-							</c:forEach>
 							  </tr>
 												<!-- modal -->
 							
