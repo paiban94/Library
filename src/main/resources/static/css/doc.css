@@ -45,3 +45,7 @@
     #lastTr{
     	height: 35px;
     }
+    
+        #Body th {
+        text-align: center;
+    }
