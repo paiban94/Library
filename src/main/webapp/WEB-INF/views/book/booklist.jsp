@@ -85,12 +85,36 @@ top:-10px}
 							  </div>
 							</div>
 							</form>
-						<button id="del" class="del-btn">폐기</button>
+							<form id="deleteForm" action="./delete" method="post">
+						<button type="submit" id="del" class="del-btn">폐기</button>
 						
-						<div class="card" data-list="${list}" id="jqgriddata">
-                                                        <table id="grid" style="margin:5px auto;"></table>
-
-                                                        <div id="pager"></div>
+						<table class="tg">
+							<thead>
+							  <tr>
+							    <th class="tg-0lax">선택</th>
+							    <th class="tg-0lax">도서번호</th>
+							    <th class="tg-0lax">도서명</th>
+							    <th class="tg-0lax">저자명</th>
+							    <th class="tg-0lax">발행처</th>
+							    <th class="tg-0lax">입고일</th>
+							  </tr>
+							</thead>
+							<tbody>
+							 <c:forEach items="${list}" var="vo">
+							  <tr>
+							    <td class="tg-0lax">
+							    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
+							    </td>
+							    </form>
+							    <td class="tg-0lax">${vo.book_no}</td>
+							    <td class="tg-0lax">${vo.book_name}</td>
+							    <td class="tg-0lax">${vo.book_author}</td>
+							    <td class="tg-0lax">${vo.book_publisher}</td>
+							    <td class="tg-0lax">${vo.reg_date}</td>
+							   </tr>
+							   </c:forEach>
+							</tbody>
+							</table>
 						<div class=""></div>
 						</div>
 					</div>
@@ -117,90 +141,6 @@ top:-10px}
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-<script>
 
-
-                        $(document).ready(function () {
-                            $("#grid").jqGrid({
-
-                                url: "/book/getBooklist", // 데이터를 가져올 서버 엔드포인트의 URL
-                                datatype: "json", // 데이터 타입을 JSON으로 설정
-                                colNames: ['도서번호', '도서명', '저자명', '발행처', '입고일'],
-                                colModel: [
-                                    {
-                                        name: 'book_no',
-                                        index: 'book_no', 
-                                        hidedlg : true,
-                                        width: 50, 
-                                        align: 'center'
-                                    },
-
-                                    { 
-                                        name: 'book_name', 
-                                        index: 'book_name', 
-                                        width: 200 
-                                    },
-                                    { 
-                                        name: 'board_author', 
-                                        index: 'board_author',
-                                         width: 100, 
-                                         align: 'center' 
-                                        },
-                                    { 
-                                        name: 'book_publisher', 
-                                        index: 'book_publisher', 
-                                        width: 80,
-                                         align: 'center' 
-                                    },
-                                    { 
-                                        name: 'reg_date', 
-                                        index: 'reg_date', 
-                                        width: 70, 
-                                        align: 'center' 
-                                    }
-                                ],
-                                rowNum: 10,
-                                rowList: [10, 15, 20],
-                                pager: '#pager',
-                                viewrecords: true,
-                                autowidth: true,
-                                height: 'auto',
-                                pgbuttons:true,
-                                onCellSelect: function (rowid, index, contents, event) {
-                                    var data = $(this).jqGrid('getGridParam', 'colModel');
-                                    if (data[index].name == "book_name") {
-                                        var id = $("#grid").jqGrid("getGridParam", "selrow");
-
-                                        var rowData = $("#grid").jqGrid("getRowData", id);
-                                        let no = rowData.book_no;
-
-                                        $.ajax({
-                                            url: "./booklist?" + no,
-                                            type: "get",
-                                            data: {
-                                                book_no: rowData.book_no
-                                            },
-                                            success: function (data) {
-                                                if (no !== null && no !== undefined) {
-                                                    location.replace("./booklist?book_no=" + no);
-                                                }
-
-                                            },
-                                            error: function () {
-                                                console.log("error");
-                                            }
-                                        });
-                                    }
-                                }
-                            }).navGrid('#pager', {
-                                search: true,
-                                edit: true,
-                                add: true,
-                                del: true
-                            });
-                            $("#grid").jqGrid('filterToolbar', { searchOperators: true, stringResult: true, searchOnEnter: true });
-
-                        });
-                    </script>
 </body>
 </html>

@@ -9,7 +9,7 @@ public interface BookDAO {
 
 	public int setBookAdd(BookVO bookVO) throws Exception;
 	
-	public List<Map<String, Object>> getBooklist() throws Exception;
+	public List<BookVO> getBooklist() throws Exception;
 	
 	public int setBookDelete (BookVO bookVO)throws Exception;
 	

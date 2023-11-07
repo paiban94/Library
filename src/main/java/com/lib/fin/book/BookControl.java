@@ -3,6 +3,7 @@ package com.lib.fin.book;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,14 +24,11 @@ public class BookControl {
 	private BookService bookService;
 	
 	@GetMapping("getBooklist")
-	public ModelAndView getBooklist() throws Exception {
-		Map<String, Object> listMap= new HashMap();
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/book/booklist");
-		
-		List<Map<String, Object>> result = bookService.getBooklist();
-		System.out.println(result);
-		return mv;
+	public String getBooklist(Model model) throws Exception {
+		List<BookVO> ar=bookService.getBooklist();
+		model.addAttribute("list",ar);
+		return "book/booklist";
+	
 	}
 	
 	@PostMapping("add")
@@ -38,12 +36,12 @@ public class BookControl {
 			        
 		 int result = bookService.setBookAdd(bookVO);
 		
-		 return "redirect:./booklist";
+		 return "redirect:./getBooklist";
 	}
 	@PostMapping("delete")
 	public String setBookDelete(BookVO bookVO) throws Exception{
 		int result = bookService.setBookDelete(bookVO);
-		return "redirect:./booklist";
+		return "redirect:./getBooklist";
 	}
 	
 	
