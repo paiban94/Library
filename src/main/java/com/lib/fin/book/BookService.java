@@ -16,7 +16,7 @@ public class BookService {
 		return bookDAO.setBookAdd(bookVO);
 	}
 	
-	public List<Map<String, Object>> getBooklist() throws Exception{
+	public List<BookVO> getBooklist() throws Exception{
 		return bookDAO.getBooklist();
 	}
 	public int setBookDelete(BookVO bookVO) throws Exception{
