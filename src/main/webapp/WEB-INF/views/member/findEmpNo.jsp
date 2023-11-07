@@ -33,7 +33,7 @@
 
                         <div class="pt-4 pb-2">
                             <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">로그인</h5>
-                            <p class="text-center small">사원번호와 비밀번호를 입력하세요.</p>
+                            <p class="text-center small">이름과 전화번호를 입력하세요.</p>
                           </div>
 				
                           <form action="/member/findEmpNo" method="post" enctype="multipart/form-data">		 
@@ -59,36 +59,7 @@
 			    <button type="submit" class="btn btn-primary">사원번호 찾기</button> 
                 <button type="reset" class="btn btn-danger ">취소</button> 
 					</form>
-					               <!-- Basic Modal -->
-								    <!-- <button type="button"  class="btn btn-primary">
-									회원가입
-								  </button> -->
-
-								  	<!-- 사원번호 모달 버튼 -->
-									<!-- <button type="button" id="joinModal" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#empNoModal">
-										사원번호 확인
-									</button>
-								  
-									
-							
-								   <div class="modal fade" id="basicModal" tabindex="-1">
-									<div class="modal-dialog">
-									  <div class="modal-content">
-										<div class="modal-header">
-										  <h5 class="modal-title">사원번호</h5>
-										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<p id="emp_info">당신의 사원번호는 ${memberVO.emp_no} 입니다.</p>
-										</div>
-										<div class="modal-footer">
-										   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" href="member/login">확인</button>
-										</div>
-									  </div>
-									</div>
-								  </div>  -->
-								 
-									
+					              
 									
 									
 									

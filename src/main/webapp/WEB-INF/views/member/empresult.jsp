@@ -35,14 +35,19 @@
 					<div class="card mx-auto mb-3" style="width: 18rem;">
 						<div class="card-body">
 							<h5 class="card-title">사원번호</h5>
-							<p class="card-text">당신의 사원번호는 ${FindEmpNo.emp_no}입니다.</p>
+							<c:if test="${not empty error}">
+								<p class="card-text">${error}</p>
+							</c:if>
+							
+								<p class="card-text">당신의 사원번호는 ${FindEmpNo.emp_no}입니다.</p>
+							
 						</div>
 					</div>
 					<button class="btn btn-primary btn-sm" type="button" onclick="location.href='/member/login'">확인</button>
 				</div>
 				</div>
 
-			</div>
+			</div>	
 	
 			</section>
 

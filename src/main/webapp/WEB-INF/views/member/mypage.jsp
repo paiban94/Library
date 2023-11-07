@@ -34,6 +34,9 @@
 						
 				<form action="/member/update" method="post" enctype="multipart/form-data">		  
 					
+                    <c:set var="positionMap" value="${positionMap}" />
+                    <c:set var="teamMap" value="${teamMap}" />
+
 
                     <div class="form-group">
 						<br>
