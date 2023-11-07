@@ -52,8 +52,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	          .authorizeRequests()
 	              .antMatchers("/member/join").permitAll()
 	              .antMatchers("/member/login").permitAll()
+	              .antMatchers("/member/findEmpNo").permitAll()
+	              .antMatchers("/member/findpassword").permitAll()
 	              //.antMatchers("/member/postLogin").authenticated()
-	              .antMatchers("/admin/*").hasRole("ADMIN")
+	              .antMatchers("/").hasAnyRole("ADMIN", "USER")
 	            //로그인한 사람만 접속가능
 	              .antMatchers("/").authenticated()
 	              //.antMatchers("/").permitAll()
@@ -62,7 +64,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	          	  //.anyRequest().permitAll()
 	              .and()
 	          .formLogin()
-	          //어느 url로 들어오든 로그인페이지로 이동
+	          
 	          		.loginPage("/member/login")//내장된 로그인폼을 사용하지 않고, 개발자가 만든 폼을 사용
 	          		.loginProcessingUrl("/member/login") //스프링시큐리티가 해당주소로 오는 로그인 요청 가로채서 로그인 수행
 	          		.defaultSuccessUrl("/")
@@ -98,11 +100,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 		return new SecurityFailHandler();
 	}
 		
-	@Bean
-	 //스프링 시큐리티의 인증을 담당, 사용자 인증시 앞에서 작성한 UserSecurityService 와 PasswordEncoder 를 사용
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception{
-		return authenticationConfiguration.getAuthenticationManager();
-	}
+
 	
 	
 		

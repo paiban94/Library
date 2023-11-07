@@ -1,6 +1,7 @@
 package com.lib.fin.approval;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.lib.fin.commons.CommonVO;
 
@@ -25,5 +26,8 @@ public class ApprovalDocVO extends CommonVO {
 	private String adtn_info2;
 	private String temp_save;
 	
+	private String emp_team;
+	private String name;
 
+	private List<ApprovalFileVO> fileVOs;
 }

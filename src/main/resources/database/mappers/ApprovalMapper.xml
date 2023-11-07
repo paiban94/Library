@@ -18,6 +18,49 @@
   		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},now(),null,null,#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
   	
+  	<!-- 기안 detail -->
+  	<select id="getDraftDetail" parameterType="ApprovalDocVO" resultMap="getDetailResult">
+		SELECT ad.*, af.*, mi.NAME AS name, st.CD_NM AS emp_team
+		FROM APPROVAL_DOC ad
+		LEFT JOIN APPROVAL_FILE af ON ad.DOC_NO = af.DOC_NO
+		LEFT JOIN MEM_INFO mi ON ad.EMP_NO = mi.EMP_NO
+		LEFT JOIN ST_STD_CD st ON st.GRP_CD = 'T001' AND st.CD = mi.EMP_TEAM
+		WHERE ad.DOC_NO = #{doc_no}
+  	</select>
+  	
+  	<resultMap type="ApprovalDocVO" id="getDetailResult">
+	  	<id column="DOC_NO" property="doc_no"/>
+	  	<result column="EMP_NO" property="emp_no"/>
+	  	<result column="GRP_CD" property="grp_cd"/>
+	  	<result column="APPROVAL_STATE" property="approval_state"/>
+	  	<result column="DOC_TITLE" property="doc_title"/>
+	  	<result column="DOC_CONTENTS" property="doc_contents"/>
+	  	<result column="START_DATE" property="start_date"/>
+	  	<result column="END_DATE" property="end_date"/>
+	  	<result column="ADTN_INFO1" property="adtn_info1"/>
+	  	<result column="ADTN_INFO2" property="adtn_info2"/>
+	  	<result column="TEMP_SAVE" property="temp_save"/>
+	  	<result column="NAME" property="name"/>
+	  	<result column="EMP_TEAM" property="emp_team"/>
+	  	<result column="REG_ID" property="reg_id"/>
+	  	<result column="MOD_ID" property="mod_id"/>
+	  	<result column="REG_DATE" property="reg_date"/>
+	  	<result column="MOD_DATE" property="mod_date"/>
+	  	<result column="USE_YN" property="use_yn"/>
+  	
+  	<collection property="fileVOs" javaType="List" ofType="ApprovalFileVO">
+  		<id column="APPROVAL_NO" property="file_no"/>
+  		<result column="APPROVAL_FILENAME" property="file_name"/>
+  		<result column="APPROVAL_PATH" property="file_path"/>
+  		<result column="REG_ID" property="reg_id"/>
+	  	<result column="MOD_ID" property="mod_id"/>
+	  	<result column="REG_DATE" property="reg_date"/>
+	  	<result column="MOD_DATE" property="mod_date"/>
+	  	<result column="USE_YN" property="use_yn"/>
+  		
+  	</collection>
+  		
+  	</resultMap>
   	<!-- 결재선 -->
   	<insert id="setApprovalHis" parameterType="ApprovalHisVO">
   		INSERT INTO APPROVAL_HISTORY
@@ -34,7 +77,8 @@
   			FROM ST_STD_CD 
   		 WHERE grp_cd='A002' AND CD= ad.APPROVAL_STATE) as approval_state
 			FROM APPROVAL_DOC ad
-		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y';
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N'
+		ORDER BY DOC_NO DESC
   	
   	</select>
   

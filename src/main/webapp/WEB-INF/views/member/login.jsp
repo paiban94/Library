@@ -90,8 +90,8 @@
 								<button class="btn btn-primary w-100" type="submit">Login</button>
 							  </div>
 							  <div class="col-12 text-center">
-								<span class="small mb-0"><a href="pages-register.html">사원번호 찾기</a></span>&nbsp|&nbsp
-								<span class="small mb-0"><a href="pages-register.html">비밀번호 찾기</a></span>&nbsp|&nbsp
+								<span class="small mb-0"><a href="/member/findEmpNo">사원번호 찾기</a></span>&nbsp|&nbsp
+								<span class="small mb-0"><a href="/member/findpassword">비밀번호 찾기</a></span>&nbsp|&nbsp
 								<span class="small mb-0"><a href="/member/join">회원가입</a></span>  
 							</div>
 			
