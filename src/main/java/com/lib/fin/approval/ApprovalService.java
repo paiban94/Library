@@ -99,6 +99,13 @@ public class ApprovalService {
 		return result;
 	}
 	
+	//기안 detail
+	public ApprovalDocVO getDraftDetail(ApprovalDocVO approvalDocVO)throws Exception {
+		
+		return approvalDAO.getDraftDetail(approvalDocVO);
+		
+	}
+	
 	//DOCList
 	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception{
 		

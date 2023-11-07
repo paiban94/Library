@@ -41,14 +41,12 @@ public class ApprovalController {
 	@PostMapping("draft")
 	public String setDraft(@AuthenticationPrincipal MemberVO memberVO, @RequestParam("midApp") String midApp, @RequestParam("lastApp") String lastApp, ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception {
 		
-		approvalDocVO.setEmp_no(memberVO.getEmp_no());  
 		
 		Map<String, String> params = new HashMap<>();
 	    params.put("midApp", midApp);
 	    params.put("lastApp", lastApp);
 	    
-	    
-		
+	    approvalDocVO.setEmp_no(memberVO.getEmp_no());  
 		approvalDocVO.setReg_id(memberVO.getEmp_no());
 		approvalDocVO.setMod_id(memberVO.getEmp_no());
 		approvalDocVO.setUse_yn("Y");
@@ -61,11 +59,12 @@ public class ApprovalController {
 	
 	//기안 detail
 	@GetMapping("draftDetail")
-	public void getDraftDetail(ApprovalDocVO approvalDocVO, Model model)throws Exception{
+	public String getDraftDetail(ApprovalDocVO approvalDocVO, Model model)throws Exception{
 		
-	approvalDocVO =	approvalService.getDraftDetail(approvalDocVO);
-		
-		
+	 approvalDocVO =approvalService.getDraftDetail(approvalDocVO);
+	 			   
+	 model.addAttribute("docVO",approvalDocVO);
+		return "approval/draftDetail";
 	}
 	
 	

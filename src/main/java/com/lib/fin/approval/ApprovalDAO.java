@@ -13,6 +13,9 @@ public interface ApprovalDAO {
 	
 	//draft Add
 	public int setDraft(ApprovalDocVO approvalDocVO)throws Exception;
+	
+	//draft detail
+	public ApprovalDocVO getDraftDetail(ApprovalDocVO approvalDocVO)throws Exception;
 
 	//his add
 	public int setApprovalHis(ApprovalHisVO approvalHisVO)throws Exception;
