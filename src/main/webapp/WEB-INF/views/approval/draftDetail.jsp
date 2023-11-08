@@ -61,7 +61,7 @@
 
 														<tr>
 															<th class="table-light">기안자</th>
-															<td>${docVO.name}</td>
+															<td >${docVO.name}</td>
 														</tr>
 
 
@@ -79,7 +79,7 @@
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
-															<td>1</td>
+															<td>${docVO.doc_no}</td>
 														</tr>
 
 													</table>
@@ -89,7 +89,7 @@
 												<!-- 상단 왼쪽 end -->
 												<div class="col-lg-4"></div>
 
-												<!-- 상단 오른쪽 strart -->
+												<!-- 신청 strart -->
 
 												<div class="col-lg-2">
 													<table class="table table-bordered custom_table">
@@ -106,7 +106,7 @@
 														
 														<tr>
 
-															<td>r</td>
+															<td>${docVO.emp_team} ${docVO.name}</td>
 														</tr>
 
 
@@ -116,8 +116,8 @@
 												</div>
 
 
-												<!-- 상단 오른쪽 end -->
-												<!-- 상단 오른쪽 strart -->
+												<!-- 신청 end -->
+												<!-- 중간 strart -->
 
 												<div class="col-lg-2">
 													<table class="table table-bordered custom_table">
@@ -128,13 +128,13 @@
 														</tr>
 
 
-														<tr id="sign">
+														<tr id="midsign">
 	
-															<td> </td>
+															
 														</tr>
-														<tr id="lastTr">
+														<tr>
 
-															<td id="midP"></td>
+															<td id="midP" data-midEmp="${appLine0.emp_no}" >${appLine0.emp_team} ${appLine0.name}</td>
 														</tr>
 
 
@@ -157,11 +157,12 @@
 
 
 														<tr id="sign">
+														
 															<td></td>
 														</tr>
 														
-														<tr id="lastTr">
-															<td id="lastP"></td>
+														<tr>
+															<td id="lastP" data-lastEmp="${appLine1.emp_no}">${appLine1.emp_team} ${appLine1.name}</td>
 														</tr>
 
 													</table>
@@ -214,19 +215,13 @@
 													</div>
 	
 													<!-- button  -->
-													
-													<c:if test="${vo.emp_no ne docVO.emp_no}">
-														<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
-													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
-													<button type="button" class="btn btn-primary btn-sm">취소</button>
-													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
-														
-													</c:if>
-													
+
+													<button type="button" id="btn_appr" onClick="doc_approval('S')" style="display:none" class="btn btn-primary btn-sm">승인</button>
+													<button type="button" id="btn_refusal" href="javascript:doc_approval('C')" style="display:none" class="btn btn-primary btn-sm">반려</button>
+													<button type="button" id="btn_cancle" style="display:none" class="btn btn-primary btn-sm">기안취소</button>
 													
 									 				<c:forEach items="${docVO.fileVOs}" var="f">
-														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_name}</a><div>
+														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_oriName}</a><div>
 													</c:forEach> 
 
 												</div>
@@ -272,9 +267,68 @@
 
 	<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 
+	<script type="text/javascript">
+	let midEmpNo = $("#midP").attr("data-midEmp");
+	let lastEmpNo = $("#lastP").attr("data-lastEmp");
+	let loginEmpNo = "${loginEmpNo}";
+	let docWriter = "${docVO.emp_no}";
+	
+	
+	$(document).ready(function(){
+		
+		if(loginEmpNo == docWriter){
+			if("${appLine0.approval_state}"=="R" && "${appLine1.approval_state}"=="R"){
+				$("#btn_cancle").css("display","block");
+			}
+		}else if(midEmpNo == loginEmpNo){
+			if("${appLine0.approval_state}"=="R"){
+				$("#btn_appr").css("display","block");
+				$("#btn_refusal").css("display","block");
+			}
+		}else if(lastEmpNo == loginEmpNo){
+			if("${appLine0.approval_state}"=="S" && "${appLine1.approval_state}"=="R"){
+				$("#btn_appr").css("display","block");
+				$("#btn_refusal").css("display","block");
+			}
+		}
+		
+		if("${appLine0.approval_state}"=="S"){
+			var strHtml = "<td><img id='sign_img' src='/files/draft/${appLine0.sign_name}'></td>";
+			
+			$("#midsign").append(strHtml);
+				
+		}
 
-
-
+	});
+	
+	function doc_approval(val){
+		var flag = "";
+		if(loginEmpNo == "${appLine0.emp_no}"){
+			flag = "G";
+		}else if(loginEmpNo == "${appLine1.emp_no}"){
+			flag = "O";
+		}
+		
+		$.ajax({
+			type: "post",
+			url : "/approval/docApproval",
+			data: {"approval_state":val, "EMP_NO" : loginEmpNo, "DOC_NO" : "${docVO.doc_no}", "flag" : flag},
+			dataType:"text" , 
+			success: function(result){
+				console.log(result);
+				if(result.code="0000"){
+					location.reload();
+				}else{
+					alert("다시시도해주세요.");
+				}
+			},
+			error:function(){  
+	            //에러가 났을 경우 실행시킬 코드
+			}
+		})
+	}
+	
+	</script>
 	<script src="/js/file.js"></script>
 
 </body>

@@ -1,5 +1,6 @@
 package com.lib.fin.approval;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lib.fin.commons.FileManager;
+import com.lib.fin.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -106,10 +108,44 @@ public class ApprovalService {
 		
 	}
 	
+	//결제라인
+	public List<ApprovalHisVO> getAppLine(String doc_no)throws Exception{
+		
+		return approvalDAO.getAppLine(doc_no);
+	}
 	//DOCList
 	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception{
 		
 		return approvalDAO.getAppDocList(emp_no);
+		
+	}
+	
+	//sign add
+	public int addSign(MultipartFile file, MemberVO memberVO)throws Exception{
+		
+		if(file != null) {
+			
+			String fileName = fileManager.save(filePath, file);
+			
+				
+				
+			
+		}
+		return 0;
+	}
+	//DOCList
+	public Map<String,Object> docApproval(Map<String,Object> param)throws Exception{
+		Map<String,Object> resultMap = new HashMap<>();
+		int resultInt = approvalDAO.docApproval(param);
+		
+		int resultInt1 = approvalDAO.docBaseApproval(param);
+		
+		if(resultInt > 0) {
+			resultMap.put("code", "0000");
+		}else {
+			resultMap.put("code", "9999");
+		}
+		return resultMap;
 		
 	}
 

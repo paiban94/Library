@@ -62,16 +62,16 @@
   	
   	</resultMap>
   	
-  	 <!-- 중간 결재자 -->
-  	<select id="getMidApp" parameterType="ApprovalDocVO" resultType="ApprovalHisVO">
-  		SELECT ah.*, mi.NAME , std.CD_NM 
-		FROM APPROVAL_HISTORY ah
-		LEFT JOIN MEM_INFO mi ON ah.EMP_NO = mi.EMP_NO
-		LEFT JOIN ST_STD_CD std ON std.GRP_CD = 'T001' AND std.CD = mi.EMP_TEAM;
-  		WHERE ah.APPROVAL_LEVEL = 1;
+  	 <!-- 결재자 정보 -->
+  	<select id="getAppLine" parameterType="String" resultType="ApprovalHisVO">
+			SELECT ah.*, mi.NAME AS name, std.CD_NM AS emp_team, mi.SIGN_NAME
+			FROM APPROVAL_HISTORY ah
+			LEFT JOIN MEM_INFO mi ON ah.EMP_NO = mi.EMP_NO
+			LEFT JOIN ST_STD_CD std ON std.GRP_CD = 'T001' AND std.CD = mi.EMP_TEAM
+			WHERE ah.DOC_NO = #{doc_no};
   	</select>
   	
-  	<!-- 최종 결재자 -->
+  
   	<!-- 결재선 -->
   	<insert id="setApprovalHis" parameterType="ApprovalHisVO">
   		INSERT INTO APPROVAL_HISTORY
@@ -92,5 +92,28 @@
 		ORDER BY DOC_NO DESC
   	
   	</select>
+  	
+  	<!-- 문서 리스트 -->
+  	<update id="docApproval"  parameterType="Map">
+  		UPDATE APPROVAL_HISTORY
+  		SET APPROVAL_STATE = #{approval_state}
+  		,MOD_ID = #{EMP_NO}
+  		,MOD_DATE = now()
+  		where DOC_NO = #{DOC_NO}
+  		AND EMP_NO = #{EMP_NO}
+  	
+  	</update>
+  	
+  		<!-- 문서 리스트 -->
+  	<update id="docBaseApproval"  parameterType="Map">
+  		UPDATE APPROVAL_DOC
+  		SET APPROVAL_STATE = #{flag}
+  		,MOD_ID = #{EMP_NO}
+  		,MOD_DATE = now()
+  		where DOC_NO = #{DOC_NO}
+  	
+  	</update>
+  	
+  	
   
   </mapper>

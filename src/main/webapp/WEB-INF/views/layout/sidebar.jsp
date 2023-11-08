@@ -104,14 +104,22 @@ pageEncoding="UTF-8"%>
           </li>
           <li>
             <a href="#">
-              <i class="bi bi-circle"></i><span>참조 문서함</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
               <i class="bi bi-circle"></i><span>결재 문서함</span>
             </a>
           </li>
+        
+        </ul>
+      </li><!-- End Components Nav -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#approval_sign" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-files"></i><span>싸인 등록</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="approval_sign" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/approval/signAdd">
+              <i class="bi bi-circle"></i><span>싸인 등록</span>
+            </a>
         
         </ul>
       </li><!-- End Components Nav -->

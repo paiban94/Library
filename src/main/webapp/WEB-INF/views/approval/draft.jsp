@@ -41,8 +41,7 @@
 					<section class="section dashboard">
 					
 						<div class="container">
-							<form action="/approval/draft" method="post" id="frm"
-								enctype="multipart/form-data">
+							<form action="/approval/draft" method="post" id="frm" enctype="multipart/form-data">
 
 								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
 								<input type="hidden" id="approval_state" name="approval_state" value="R">
