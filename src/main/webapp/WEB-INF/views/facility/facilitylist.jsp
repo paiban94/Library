@@ -105,6 +105,8 @@ left:150px;
 							      <div class="modal-body">
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd">
+									  <label for="taskId" class="col-form-label">상세구분</label>
+									  <input type="text" class="form-control" id="cd" name="cd">
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>

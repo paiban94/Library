@@ -6,12 +6,16 @@
   <mapper namespace="com.lib.fin.schedule.ScheduleDAO">
   <insert id="setScheduleAdd" parameterType="ScheduleVO">
 		INSERT INTO SCHEDULE_BASE 
-		values(0, #{emp_no}, #{schedule_start_time}, #{schedule_end_time}, #{schedule_contents}, #{schedule_title}, #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y',#{grp_cd});
+		values(0, #{emp_no}, #{schedule_start_time}, #{schedule_end_time}, #{schedule_contents}, #{schedule_title}, #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y', #{grp_cd}, #{cd});
    </insert>
    
    <select id="getScheduleList" resultType="Map">
-   		SELECT * FROM SCHEDULE_BASE
+   		SELECT SCHEDULE_TITLE as title
+	   		,to_char(SCHEDULE_START_TIME,'yyyy-mm-dd') as start
+	   		,to_char(SCHEDULE_END_TIME,'yyyy-mm-dd') as end
+	    FROM SCHEDULE_BASE
    		WHERE USE_YN='Y'
+	   		AND EMP_NO = #{EMP_NO}
    </select>
    
 	<update id="setScheduleUpdate" parameterType="ScheduleVO">

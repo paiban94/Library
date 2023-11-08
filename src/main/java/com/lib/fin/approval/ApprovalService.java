@@ -22,9 +22,7 @@ public class ApprovalService {
 	
 	@Value("${app.approval.draft}")
 	private String approvalName;
-	
-	
-	
+
 	@Autowired
 	private FileManager fileManager;
 	

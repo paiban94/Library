@@ -18,6 +18,7 @@ public class ScheduleVO extends CommonVO {
 	private int schedule_no;
 	private String emp_no;
 	private String grp_cd;
+	private String cd;
 	private Date schedule_start_time;
 	private Date schedule_end_time;
 	private String schedule_contents;

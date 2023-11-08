@@ -16,5 +16,5 @@ public interface ScheduleDAO {
 	
 	public int setScheduleDelete(ScheduleVO scheduleVO) throws Exception;
 	
-	public List<Map<String, Object>> getScheduleList() throws Exception;
+	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) throws Exception;
 }

@@ -29,7 +29,7 @@ public class ScheduleService {
 		return scheduleDAO.setScheduleDelete(scheduleVO);
 	}
 	
-	public List<Map<String, Object>> getScheduleList() throws Exception{
-		return scheduleDAO.getScheduleList();
+	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) throws Exception{
+		return scheduleDAO.getScheduleList(params);
 	}
 }
