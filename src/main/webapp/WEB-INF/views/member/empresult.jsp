@@ -38,9 +38,9 @@
 							<c:if test="${not empty error}">
 								<p class="card-text">${error}</p>
 							</c:if>
-							
+							<c:if test="${empty error}">
 								<p class="card-text">당신의 사원번호는 ${FindEmpNo.emp_no}입니다.</p>
-							
+							</c:if>
 						</div>
 					</div>
 					<button class="btn btn-primary btn-sm" type="button" onclick="location.href='/member/login'">확인</button>

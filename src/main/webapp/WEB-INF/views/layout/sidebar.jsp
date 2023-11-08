@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="forms-elements.html">
+            <a href="/member/memberList">
               <i class="bi bi-circle"></i><span>사원 리스트</span>
             </a>
           </li>
