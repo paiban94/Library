@@ -5,12 +5,12 @@
 <mapper namespace="com.lib.fin.book.BookDAO">
   <insert id="setBookAdd" parameterType="BookVO">
 		INSERT INTO BOOK_BASE 
-		values(0, #{book_author}, #{book_publisher}, '20231024001', sysdate(), '20231024001', sysdate(), 'Y',#{book_name});
+		values(0, #{book_author}, #{book_publisher}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{book_name});
    </insert>
    
    <select id="getBooklist" resultType="BookVO">
    		SELECT * FROM BOOK_BASE
-   		WHERE USE_YN='y'
+   		WHERE USE_YN='Y'
    </select>
    
    <update id="setBookDelete" parameterType="BookVO">

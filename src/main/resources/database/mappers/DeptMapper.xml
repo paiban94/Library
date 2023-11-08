@@ -15,7 +15,7 @@
   		
   	</select>
   	
-  	<select id="getEmpInfo" parameterType="String" resultType="MemberVO">
+  	<select id="getEmpInfo" parameterType="String" resultType="DeptVO">
   	
   	select mi.NAME,mi.emp_no,(
 	select cd_nm 

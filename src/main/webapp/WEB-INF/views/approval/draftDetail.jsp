@@ -4,8 +4,7 @@
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-	<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -14,16 +13,11 @@
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
 
-	 <%
-        // 현재 날짜를 가져오는 Java 코드
-        Date currentDate = new Date();
 
-        // 날짜를 원하는 형식으로 포맷팅
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(currentDate);
-    %>
+
 <link href="/css/doc.css" rel="stylesheet">
 </head>
+
 
 <body id="page-top">
 	<!-- Page Wrapper -->
@@ -39,7 +33,7 @@
 				<main id="main" class="main">
 
 					<section class="section dashboard">
-					
+
 						<div class="container">
 							<form action="/approval/draft" method="post" id="frm"
 								enctype="multipart/form-data">
@@ -54,8 +48,6 @@
 	 							
 			<sec:authentication property="principal" var="vo"></sec:authentication> 
 
-						
-
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
 									<div class="col-lg-12">
@@ -69,7 +61,7 @@
 
 														<tr>
 															<th class="table-light">기안자</th>
-															<td>${vo.name}</td>
+															<td>${docVO.name}</td>
 														</tr>
 
 
@@ -77,29 +69,13 @@
 															<th class="table-light">소속</th>
 															
 															<td>
-															<c:choose>
-																  <c:when test="${vo.emp_team eq 'A'}">
-																    대표
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'B'}">
-																    운영과
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'C'}">
-																   정책과
-																  </c:when>
-																   <c:when test="${vo.emp_team eq 'D'}">
-																   서비스과
-																  </c:when>
-																  <c:otherwise>
-																    가발령
-																  </c:otherwise>
-																</c:choose>
+																${docVO.emp_team}
 															</td>
 														</tr>
 
 														<tr>
 															<th class="table-light">기안일</th>
-															<td><%= formattedDate %></td>
+															<td> ${docVO.reg_date}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
@@ -203,17 +179,17 @@
 													<table class="table table-bordered">
 														<tr>
 															<th class="table-light" style="width: 10%">시행일자</th>
-															<td><input type="date" class="form-control w-25" id="startDate" name="start_date"></td>
+															<td>${docVO.start_date}</td>
 														</tr>
 														
 														<tr>
 															<th class="table-light">제목</th>
-															<td><input type="text" class="form-control w-75" id="title" name="doc_title"></td>
+															<td>${docVO.doc_title}</td>
 														</tr>
 														<tr>
 															<td colspan="2">
 																<div>
-																	<textarea id="summernote" name="doc_contents"></textarea>
+																	${docVO.doc_contents}
 																</div>
 															</td>
 
@@ -234,17 +210,24 @@
 
 													<div class="mb-3">
 														<button type="button" class="btn btn-outline-primary"
-															id="fileAdd">File추가</button>
+															id="fileAdd">File추가 </button>
 													</div>
-
+	
 													<!-- button  -->
-													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
+													
+													<c:if test="${vo.emp_no ne docVO.emp_no}">
+														<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
 													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
 													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
 															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
-
-															
+														
+													</c:if>
+													
+													
+									 				<c:forEach items="${docVO.fileVOs}" var="f">
+														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_name}</a><div>
+													</c:forEach> 
 
 												</div>
 
@@ -264,97 +247,16 @@
 								</div>
 							</form>
 
-
 						</div>
 			</div>
+
 
 			</section>
 
 			</main>
 			<!-- End #main -->
 
-			<!-- 모달 -->
-
-			<div class="modal fade" id="basicModal" tabindex="-1">
-				<div class="modal-dialog modal-lg" style="max-width: 60%; width: 60%;">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Basic Modal</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body style="max-height: 300px; overflow-y: auto;">
-						
-						<div class=row>
-							<div class="col-sm-3">
-						
-							<div>조직도</div>
-							<div class="card border scrollable-card">
-								<div class="overflow-auto " id="readyMem">
-									
-								</div>
-							</div>
-							
-							</div>
-							
-							<div class="col-sm-4">
-							
-							<div>사원목록</div>
-							<div class="card border scrollable-card">
-								<div class="overflow-auto" id="memList">
-									
-							
-									
-								</div>
-							
-							</div>
-							
-							</div>
-							
-							<div class="col-sm-1 ">
-							
-							
-							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center">
-								<i class="bi bi-arrow-right mt-5" id="midAW"></i>
-							</div>
-							
-							<div class="scrollable-card1 text-center d-flex flex-column justify-content-center align-items-center mt-5">
-								<i class="bi bi-arrow-right mt-5" id="lastAW"></i>
-							</div>
-							
-
-					
-							</div>
-								
-							
-							<div class="col-sm-4 scrollable-card">
-							<div>중간 승인자</div>
-							<div class="card border scrollable-card1 overflow-auto" id="fLine">
-								
-							</div>
-							
-							<div>최종 승인자</div>
-							<div class="card border scrollable-card1 overflow-auto" id="lLine">
-								
-							</div>
-							
-							
-							</div>
-						
-						</div>
-							</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" id="modalSave">Save
-								changes</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-
-			<!-- End Basic Modal-->
+		
 
 
 
@@ -374,32 +276,7 @@
 
 
 	<script src="/js/file.js"></script>
-	<script type="text/javascript">
-	
-		$('#doc_send').click(function() {
-	
-			if($('#lastApp').val()==""){
-				alert("최종 결재자는 필수 값입니다");
-				return false;
-			}
-				
-			$("#frm").submit();
-	
-		});
-	
-	
-		$('#temp_send').click(function() {
 
-			$("#temp_save").val("Y");
-			$("#approval_state").val("T");
-			$("#frm").submit();
-
-		});
-		
-			
-	
-	</script>
-	<script src="/js/appLine.js"></script>
 </body>
 
 </html>

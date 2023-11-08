@@ -13,14 +13,14 @@
 <style type="text/css">
 .add-btn{width:80px;
 position:relative;
-left:905px;
+left:1200px;
 top:20px}
 .title{
 text-align: center;
 }
 .del-btn{width:80px;
 position:relative;
-left:1000px;
+left:1300px;
 top:-10px}
 .card{width:1400px}
 .col-lg-6 {width:1400px }
@@ -68,6 +68,8 @@ top:-10px}
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
+							      		<input type="hidden" value="${member.emp_no}" id="reg_id" name="reg_id">
+							      		<input type="hidden" value="${member.emp_no}" id="mod_id" name="mod_id">
 							       <label for="taskId" class="col-form-label">도서명</label>
                         				<input type="text" class="form-control" id="book_name" name="book_name">
 							        <label for="taskId" class="col-form-label">저자명</label>
@@ -83,7 +85,8 @@ top:-10px}
 							  </div>
 							</div>
 							</form>
-						<button id="del" class="del-btn">폐기</button>
+							<form id="deleteForm" action="./delete" method="post">
+						<button type="submit" id="del" class="del-btn">폐기</button>
 						
 						<table class="tg">
 							<thead>
@@ -97,17 +100,20 @@ top:-10px}
 							  </tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${list}" var="list">
+							 <c:forEach items="${list}" var="vo">
 							  <tr>
-							    <td class="tg-0lax"> <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input"></td>
-							    <td class="tg-0lax">${list.book_no}</td>
-							    <td class="tg-0lax">${list.book_name}</td>
-							    <td class="tg-0lax">${list.book_author}</td>
-							    <td class="tg-0lax">${list.book_publisher}</td>
-							    <td class="tg-0lax">${list.reg_date}</td>
+							    <td class="tg-0lax">
+							    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
+							    </td>
+							    </form>
+							    <td class="tg-0lax">${vo.book_no}</td>
+							    <td class="tg-0lax">${vo.book_name}</td>
+							    <td class="tg-0lax">${vo.book_author}</td>
+							    <td class="tg-0lax">${vo.book_publisher}</td>
+							    <td class="tg-0lax">${vo.reg_date}</td>
 							   </tr>
+							   </c:forEach>
 							</tbody>
-							</c:forEach>
 							</table>
 						<div class=""></div>
 						</div>
@@ -135,5 +141,6 @@ top:-10px}
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+
 </body>
 </html>

@@ -39,10 +39,10 @@ public class DeptService {
 //		return EmpList;
 //	}
 	
-public List<MemberVO> getEmpInfo(String emp_team)throws Exception{
+public List<DeptVO> getEmpInfo(String emp_team)throws Exception{
 		
 		
-		List<MemberVO> EmpList=deptDAO.getEmpInfo(emp_team);
+		List<DeptVO> EmpList=deptDAO.getEmpInfo(emp_team);
 		
 		
 		return EmpList;

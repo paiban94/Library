@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.lib.fin.reservation.ReservationDAO">
+  <insert id="setReservationAdd" parameterType="ReservationVO">
+		INSERT INTO RESERVATION_BASE 
+		values(0, #{facility_no},#{emp_no},#{grp_cd}, #{res_start_time}, #{res_end_time},#{res_purpose} , #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y');
+   </insert>
+   
+   <select id="getReservationList" resultType="Map">
+   		SELECT * FROM RESERVATION_BASE
+   		WHERE USE_YN='Y'
+   </select>
+   
+	<update id="setReservationUpdate" parameterType="ScheduleVO">
+		UPDATE RESERVATION_BASE SET
+  		EMP_NO=#{emp_no}, RES_START_TIME=#{res_start_time}, RES_END_TIME=#{res_end_time}, RES_PURPOSE=#{res_purpose},GRP_CD=#{grp_cd},MOD_ID=#{mod_id},MOD_DATE#{mod_date}
+  		WHERE RESERVATION_NO=#{reservation_no}
+	</update>
+
+	<update id="setReservationDelete" parameterType="ReservationVO">
+			UPDATE RESERVATION_BASE SET
+			USE_YN='N'
+			WHERE RESERVATION_NO=#{reservation_no}
+	</update>
+
+	
+</mapper>

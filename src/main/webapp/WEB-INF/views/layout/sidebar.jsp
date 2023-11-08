@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="forms-elements.html">
+            <a href="/member/memberList">
               <i class="bi bi-circle"></i><span>사원 리스트</span>
             </a>
           </li>
@@ -121,7 +121,7 @@ pageEncoding="UTF-8"%>
       <li class="nav-heading">근태관리</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" href="/attendance/attendance">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" href="/attendance/attendanceHome">
           <i class="bi bi-layout-text-window-reverse"></i><span>근태관리</span>
         </a>
  
@@ -152,7 +152,7 @@ pageEncoding="UTF-8"%>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#icons-nav" href="/schedule/getSchedule">
-          <i class="bi bi-gem"></i><span>예약하기</span>
+          <i class="bi bi-gem"></i><span>일정관리</span>
         </a>
         
       </li><!-- End Icons Nav -->

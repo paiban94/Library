@@ -1,15 +1,19 @@
-// $(document).ready(function () { 
-//    $("#joinModal").click(function () {
-//        var emp_no = $(this).data('id');
-//        $(".modal-body").text('당신의 사원번호는 ' + emp_no + '입니다.');
-//    });
-// });
+let emo_no = document.getElementById("joinModal")
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    const joinModal = document.getElementById("joinModal");
-    joinModal.addEventListener("click", function() {
-        const emp_no = joinModal.getAttribute("data-id");
-        document.querySelector(".modal-body").textContent = '당신의 사원번호는 ' + emp_no + '입니다.';
+$(document).ready(function() {
+    $('#joinModal').click(function() {
+        //비동기방식으로 해야 사원번호를 가져올 수 있어서 ajax사용
+        $.ajax({
+            url: '/member/join', 
+            type: 'POST',
+            success: function(data-emp_no) {
+              if(data-emp_no){
+                $('#emp_info').text('당신의 사원번호는 ' + data-emp_no+ '입니다.');
+                }
+            },
+            error: function() {
+                alert('사원번호 가져오기에 실패했습니다.');
+            }
+        });
     });
 });

@@ -32,7 +32,7 @@ public class FacilityControl {
 			        
 		 int result = facilityService.setFacilityAdd(facilityVO);
 		
-		 return "redirect:./facilitylist";
+		 return "redirect:./getFacilitylist";
 	}
 		
 	
@@ -40,13 +40,13 @@ public class FacilityControl {
 	public String setFacilityUpdate(FacilityVO facilityVO)throws Exception{;
 		 
 		int result = facilityService.setFacilityUpdate(facilityVO);
-		return "redirect:./facilitylist";
+		return "redirect:./getFacilitylist";
 	}
 	
 	@PostMapping("delete")
 	public String setFacilityDelete(FacilityVO facilityVO) throws Exception{
 		int result = facilityService.setFacilityDelete(facilityVO);
-		return "redirect:./facilitylist";
+		return "redirect:./getFacilitylist";
 	}
 	
 
