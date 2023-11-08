@@ -5,10 +5,10 @@
 <mapper namespace="com.lib.fin.facility.FacilityDAO">
   <insert id="setFacilityAdd" parameterType="FacilityVO">
 		INSERT INTO FACILITY_BASE 
-		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{cd});
+		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y');
    </insert>
    
-   <select id="getFacilitylist" resultType="FacilityVO">
+   <select id="getFacilitylist" parameterType="Pager" resultType="FacilityVO">
    		SELECT * FROM FACILITY_BASE
    		WHERE USE_YN='Y'
    		ORDER BY GRP_CD ASC
