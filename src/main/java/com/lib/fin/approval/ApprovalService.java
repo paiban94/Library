@@ -35,7 +35,6 @@ public class ApprovalService {
 	//일반기안
 	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
 		
-			
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
 
@@ -98,6 +97,13 @@ public class ApprovalService {
 		}
 			
 		return result;
+	}
+	
+	//기안 detail
+	public ApprovalDocVO getDraftDetail(ApprovalDocVO approvalDocVO)throws Exception {
+		
+		return approvalDAO.getDraftDetail(approvalDocVO);
+		
 	}
 	
 	//DOCList

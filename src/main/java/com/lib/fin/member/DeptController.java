@@ -57,9 +57,9 @@ public class DeptController {
 	
 	@PostMapping("/getEmpInfo")
 	@ResponseBody
-	public List<MemberVO> getEmpInfo(String emp_team) throws Exception{
+	public List<DeptVO> getEmpInfo(String emp_team) throws Exception{
 	
-		List<MemberVO> EmpList= deptService.getEmpInfo(emp_team);
+		List<DeptVO> EmpList= deptService.getEmpInfo(emp_team);
 			
 		return EmpList;
 		

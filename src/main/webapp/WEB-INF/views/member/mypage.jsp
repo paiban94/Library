@@ -33,14 +33,21 @@
                         <h1>마이 페이지</h1>
 						
 				<form action="/member/update" method="post" enctype="multipart/form-data">		  
-					
+		
+
+                    <div class="form-group">
+						<br>
+				    	<label for="photo">프로필사진</label>
+				    	<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
+				    </div>
+					<br>
 
     	 			  <div class="form-group">
                         <label for="name">이름</label>
                         <input type="text" value="${memberVO.name}" name="name" class="form-control" readonly/>
 					  </div>
 					  
-                    
+			                    
                     
                     <div class="form-group">
                        <br>
@@ -74,23 +81,18 @@
                     <div class="form-group">
                         <br>
                         <label for="emp_team">부서</label>
-                        <input id="emp_team" type="text" value="${memberVO.emp_team}" class="form-control" readonly/>
+                        <input id="emp_team" type="text"  value="${memberVO.emp_team}" class="form-control" readonly/>
                     </div>
 
                     <div class="form-group">
                         <br>
                         <label for="emp_position">직급</label>
-                        <input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
+                        <input id="emp_position" type="text" value="${positionMap[memberVO.emp_position]}" class="form-control" readonly/>
                     </div>
     
                     
 				    
-				    <div class="form-group">    
-						<br>
-				    	<label for="proflie">프로필사진</label>
-				    	<input type="file"  name="proflie" class="form-control" id="proflie" aria-describedby="photoHelp" readonly />
-				    	  <small id="photoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-				    </div>
+                   
 					<br>
 				  <button type="submit" class="btn btn-primary" href="/member/update">정보수정</button> 
 							
