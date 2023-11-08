@@ -13,5 +13,5 @@ public class FileVO extends CommonVO {
 
 	private Long file_no;
 	private String file_name;
-	private String file_path;
+	private String file_oriName;
 }

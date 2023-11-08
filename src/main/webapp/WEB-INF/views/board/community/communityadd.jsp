@@ -41,7 +41,7 @@
                                   <input type="text" class="form-control" name="boardTitle" id="boardTitle" placeholder="제목을 입력하세요">
                               </div>
                               <div class="mb-3">
-                                  <label for="boardWriter" class="form-label">Writer</label>
+                                  <label for="boardWriter" class="form-label">${member.emp_no} ${member.name}</label>
                                   <input type="text" class="form-control" name="boardWriter" id="boardWriter">
                               </div>
                               <div class="mb-3">

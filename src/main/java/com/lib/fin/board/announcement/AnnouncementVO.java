@@ -10,13 +10,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Setter
 @Getter
 @ToString
-public class AnnouncementVO extends BoardVO{
+public class AnnouncementVO extends BoardVO {
 	
-	private String board_type;
 	private String board_kind;
-	  private List<CommentVO> comments; 
+	private List<CommentVO> comments;
 }

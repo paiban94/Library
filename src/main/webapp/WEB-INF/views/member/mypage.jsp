@@ -33,10 +33,7 @@
                         <h1>마이 페이지</h1>
 						
 				<form action="/member/update" method="post" enctype="multipart/form-data">		  
-					
-                    <c:set var="positionMap" value="${positionMap}" />
-                    <c:set var="teamMap" value="${teamMap}" />
-
+		
 
                     <div class="form-group">
 						<br>
@@ -84,13 +81,13 @@
                     <div class="form-group">
                         <br>
                         <label for="emp_team">부서</label>
-                        <input id="emp_team" type="text" value="${memberVO.emp_team}" class="form-control" readonly/>
+                        <input id="emp_team" type="text"  value="${memberVO.emp_team}" class="form-control" readonly/>
                     </div>
 
                     <div class="form-group">
                         <br>
                         <label for="emp_position">직급</label>
-                        <input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
+                        <input id="emp_position" type="text" value="${positionMap[memberVO.emp_position]}" class="form-control" readonly/>
                     </div>
     
                     

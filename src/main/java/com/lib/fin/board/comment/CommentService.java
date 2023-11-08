@@ -7,4 +7,5 @@ public interface CommentService {
     public List<CommentVO> getCommentsByBoardId(Long boardId);
     
     public int addComment(CommentVO comment);
+    
 }
