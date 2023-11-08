@@ -46,8 +46,7 @@
 																		<h3>${data.board_title}</h3>
 																	</div>
 																	<div class="pb-2 pt-1">
-																		<span class=""
-																			style="float: left;">${data.board_writer}</span>
+																		<span class="" style="float: left;">${data.board_wirter}</span>
 																		<span class="date m_no"
 																			style="float: right; width: 25%;">${data.reg_date}</span>
 																	</div>
@@ -71,6 +70,7 @@
 																<span id="likeCount">${data.board_like} 명이 이 글을 좋아합니다.</span>
 															</div>
 															<div id="logined">
+																<input type="hidden" id="view" name="view" data-view="${ready}">
 																<button id="modifyBtn" type="button" class="btn btn-primary btn-sm" data-val="${data.board_no}">수정</button>
 																<button id="deleteBtn" type="button" class="btn btn-primary btn-sm" onclick="deleteBoard(${data.board_no})">삭제</button>
 															</div>
@@ -92,6 +92,8 @@
 																<div id="reviewInfo" class="mb-5">
 																	<div class="d-flex mb-5 pt-3">
 																		<div class="col-sm-8">
+																			<input type="hidden" name="reg_id"
+																			value="${data.reg_id}">
 																			<input type="hidden" name="board_no"
 																				value="${data.board_no}">
 																			<textarea name="comment_content"

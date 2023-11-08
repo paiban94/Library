@@ -6,19 +6,15 @@
 <mapper
 	namespace="com.lib.fin.board.announcement.AnnouncementDAO">
 	<sql id="searchSql">
-		WHERE 1 =1
+		WHERE BOARD_NO>0 AND USE_YN = 'Y' AND BOARD_TYPE = 'A'
 		<choose>
-			<when test="searchFlag=='W'">
-				AND REG_ID LIKE '%'||#{emp_no}||'%'
+			<when test='kind=="W"'>
+				AND REG_ID LIKE '%'||#{search}||'%'
 			</when>
 
-			<when test="searchFlag=='N'">
-				AND BOARD_TITLE LIKE '%'||#{board_title}||'%'
+			<when test='kind=="N"'>
+				AND BOARD_TITLE LIKE '%'||#{search}||'%'
 			</when>
-
-			<otherwise>
-				AND BOARD_NO LIKE '%'||#{board_no}||'%'
-			</otherwise>
 		</choose>
 	</sql>
 
@@ -27,11 +23,17 @@
 		USE_YN = 'Y' AND BOARD_TYPE = 'A'
 		ORDER BY BOARD_NO DESC
 	</select>
+
+	<select id="getTotal" resultType="Long" parameterType="Pager">
+		SELECT COUNT(*) FROM BOARD_BASE
+		<include refid="searchSql"></include>
+	</select>
+
 	<insert id="addWriting" parameterType="AnnouncementVO">
 		INSERT INTO BOARD_BASE
 		(BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE,BOARD_KIND,BOARD_VIEWS,BOARD_LIKE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
 		VALUES
-		(#{board_title},#{board_content},'A','C',0,0,#{board_writer},#{board_writer},NOW(),NOW(),'Y')
+		(#{board_title},#{board_content},'A','C',0,0,#{reg_id},#{reg_id},NOW(),NOW(),'Y')
 	</insert>
 
 	<select id="getDetail">
@@ -42,7 +44,7 @@
 		INSERT INTO COMMENT_BASE
 		(BOARD_NO, COMMENT_CONTENT, REG_ID, MOD_ID,
 		REG_DATE, MOD_DATE, USE_YN)
-		VALUES (#{board_no}, #{comment_content}, 'admin', 'admin', NOW(),
+		VALUES (#{board_no}, #{comment_content}, #{reg_id}, #{reg_id}, NOW(),
 		NOW(),'Y')
 	</insert>
 
@@ -58,7 +60,7 @@
 		WHERE BOARD_NO = #{board_no}
 	</update>
 
-	<!-- 예제: 게시글 좋아요 수 감소 -->
+
 	<update id="unlikeAnnouncement" parameterType="AnnouncementVO">
 		UPDATE BOARD_BASE
 		SET BOARD_LIKE = BOARD_LIKE - 1
@@ -81,25 +83,67 @@
 	</update>
 
 	<select id="getPaginatedList" resultType="AnnouncementVO"
-		parameterType="AnnouncementVO">
-		SELECT * FROM BOARD_BASE WHERE
-		BOARD_TYPE = 'A' AND USE_YN = 'Y'
-<!-- 		<if test="searchFlag=W">
-			AND REG_ID LIKE '%'|| #{emp_no} || '%'
-		</if> -->
-<!-- 		<if test="searchFlag=N">
-			AND BOARD_TITLE LIKE '%'|| #{board_title} || '%'
-		</if>  -->
-		<!-- <include refid="searchSql"></include> -->
+		parameterType="map">
+		SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' AND USE_YN = 'Y'
+		<if test="search != null and kind != null">
+			<choose>
+				<when test='kind == "W"'>
+					AND REG_ID LIKE '%'||#{search}||'%'
+				</when>
+				<when test='kind == "N"'>
+					AND BOARD_TITLE LIKE '%'||#{search}||'%'
+				</when>
+			</choose>
+		</if>
 		ORDER BY BOARD_NO DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
-	
-	
+
+
 	<select id="getTotalAnnouncementCount" resultType="Long">
 		SELECT
 		COUNT(*) FROM BOARD_BASE WHERE
 		BOARD_TYPE = 'A'
 	</select>
+
+	<select id="hasLiked" resultType="LikeVO">
+		SELECT BOARD_NO, REG_ID
+		FROM
+		LIKE_BASE
+		WHERE BOARD_NO = #{board_no} AND REG_ID = #{reg_id}
+	</select>
+
+
+	<insert id="saveLike">
+		INSERT INTO LIKE_BASE (BOARD_NO,
+		REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
+		VALUES
+		(#{board_no},
+		#{reg_id},#{reg_id},NOW(),NOW(),'Y')
+	</insert>
+
+	<delete id="deleteLike">
+		DELETE FROM LIKE_BASE
+		WHERE BOARD_NO = #{board_no} AND
+		REG_ID = #{reg_id};
+	</delete>
+
+	<select id="getBoardwriter" parameterType="BoardVO"
+		resultType="MemberVO">
+		SELECT M.* FROM
+		MEM_INFO M
+		JOIN
+		BOARD_BASE B
+		ON M.EMP_NO =
+		B.REG_ID
+		WHERE B.REG_ID = #{reg_id} AND B.BOARD_NO = #{board_no}
+	</select>
+
+	<update id="increaseViews">
+		UPDATE BOARD_BASE
+		SET BOARD_VIEWS = BOARD_VIEWS + 1
+		WHERE BOARD_NO = #{board_no}
+	</update>
+
 
 </mapper>
