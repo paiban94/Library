@@ -7,8 +7,8 @@
   
   	<!-- file add -->
   	<insert id="setFileAdd" parameterType="ApprovalFileVO">
-  		INSERT INTO APPROVAL_FILE(APPROVAL_FILE_NO, DOC_NO, APPROVAL_FILENAME,APPROVAL_PATH, REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
-  		VALUES(#{file_no},#{doc_no},#{file_name},#{file_path},'1','1',now(),now(),'Y')
+  		INSERT INTO APPROVAL_FILE(APPROVAL_FILE_NO, DOC_NO, APPROVAL_FILENAME,APPROVAL_ORINAME, REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
+  		VALUES(#{file_no},#{doc_no},#{file_name},#{file_oriName},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
   	
   		
@@ -51,7 +51,7 @@
   	<collection property="fileVOs" javaType="List" ofType="ApprovalFileVO">
   		<id column="APPROVAL_NO" property="file_no"/>
   		<result column="APPROVAL_FILENAME" property="file_name"/>
-  		<result column="APPROVAL_PATH" property="file_path"/>
+  		<result column="APPROVAL_ORINAME" property="file_oriName"/>
   		<result column="REG_ID" property="reg_id"/>
 	  	<result column="MOD_ID" property="mod_id"/>
 	  	<result column="REG_DATE" property="reg_date"/>
@@ -59,8 +59,19 @@
 	  	<result column="USE_YN" property="use_yn"/>
   		
   	</collection>
-  		
+  	
   	</resultMap>
+  	
+  	 <!-- 중간 결재자 -->
+  	<select id="getMidApp" parameterType="ApprovalDocVO" resultType="ApprovalHisVO">
+  		SELECT ah.*, mi.NAME , std.CD_NM 
+		FROM APPROVAL_HISTORY ah
+		LEFT JOIN MEM_INFO mi ON ah.EMP_NO = mi.EMP_NO
+		LEFT JOIN ST_STD_CD std ON std.GRP_CD = 'T001' AND std.CD = mi.EMP_TEAM;
+  		WHERE ah.APPROVAL_LEVEL = 1;
+  	</select>
+  	
+  	<!-- 최종 결재자 -->
   	<!-- 결재선 -->
   	<insert id="setApprovalHis" parameterType="ApprovalHisVO">
   		INSERT INTO APPROVAL_HISTORY

@@ -63,6 +63,7 @@ public class ApprovalController {
 		
 	 approvalDocVO =approvalService.getDraftDetail(approvalDocVO);
 	 			   
+	 
 	 model.addAttribute("docVO",approvalDocVO);
 		return "approval/draftDetail";
 	}
