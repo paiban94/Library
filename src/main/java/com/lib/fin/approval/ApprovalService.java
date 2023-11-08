@@ -23,11 +23,8 @@ public class ApprovalService {
 	@Value("${app.approval.draft}")
 	private String approvalName;
 	
-	
-	
 	@Autowired
 	private FileManager fileManager;
-	
 	
 	@Autowired
 	private ApprovalDAO approvalDAO;
@@ -88,7 +85,10 @@ public class ApprovalService {
 				String fileName = fileManager.save(path, multipartFile);
 				approvalFileVO.setDoc_no(approvalDocVO.getDoc_no());
 				approvalFileVO.setFile_name(fileName);
-				approvalFileVO.setFile_path(path);
+				approvalFileVO.setFile_oriName(multipartFile.getOriginalFilename());
+				approvalFileVO.setReg_id(approvalDocVO.getEmp_no());
+				approvalFileVO.setMod_id(approvalDocVO.getEmp_no());
+				approvalFileVO.setUse_yn("Y");
 				result = approvalDAO.setFileAdd(approvalFileVO);
 				
 				

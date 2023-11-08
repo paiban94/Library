@@ -221,7 +221,7 @@
   		$("#lLine").on('click', '#lx', function () {
   		    $(this).parent().parent().parent().remove(); 
   		});
-  		
+  			
 
 	
 		$('#modalSave').click(function() {
