@@ -11,4 +11,5 @@ public class FacilityVO extends CommonVO {
 	private String grp_cd;
 	private String facility_name;
 	private String facility_contents;
+	private String cd;
 }

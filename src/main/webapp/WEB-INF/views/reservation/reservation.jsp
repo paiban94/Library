@@ -129,6 +129,13 @@
 						  <option value="R002">빔프로젝트2</option>
 						  <option value="R003">노트북</option>
 						</select>
+						<label for="taskId" class="col-form-label">예약상세종류</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
+						  <option selected>예약종류을 선택하세요</option>
+						  <option value="A">1</option>
+						  <option value="B">2</option>
+						  <option value="C">3</option>
+						</select>
 							                     
                         <label for="taskId" class="col-form-label">사용목적</label>
                         <textarea class="form-control" id="res_purpose" name="res_purpose"></textarea>

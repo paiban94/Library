@@ -13,18 +13,19 @@
 <style type="text/css">
 .update-btn{width:80px;
 	position:relative;
-	left:1250px;
+	left:970px;
 	margin:6px;
-	top:58px;
+	top:-100px;
 	}
 .add-btn{width:80px;
 position:relative;
 left:1070px;
-top:30px}
+top:37px
+}
 .del-btn{width:80px;
 position:relative;
 left:1170px;
-top:0px}
+top:8px}
 .title{
 text-align:center;
 }
@@ -105,6 +106,8 @@ left:150px;
 							      <div class="modal-body">
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd">
+							       <label for="taskId" class="col-form-label">상세구분</label>
+                        				<input type="text" class="form-control" id="cd" name="cd">
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name">
 							        <label for="taskId" class="col-form-label">상세내용</label>
@@ -129,7 +132,8 @@ left:150px;
 							<thead>
 							  <tr>
 							    <th class="tg-0pky th-0">선택</th>
-							    <th class="tg-0pky th-1">공용품번호</th>
+							    <th class="tg-0pky th-1">공용품코드</th>
+							    <th class="tg-0pky th-1">개별코드</th>
 							    <th class="tg-0pky th-2">공용품이름</th>
 							    <th class="tg-0pky th-3">상세내용</th>
 							  </tr>
@@ -137,22 +141,7 @@ left:150px;
 							<tbody>
 							  <c:forEach items="${list}" var="vo">
 							
-							  <tr>
-							    <td class="tg-0pky">
-							
-								    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
-								  
-							    </td>
-							    </form>
-							    <td class="tg-0pky mt-1">${vo.facility_no}</td>
-							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
-							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
-							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
-										
-							</div>
-							</tbody>
 													<!-- Modal -->
-						<form id="updateForm" action="./update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -161,12 +150,12 @@ left:150px;
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
-							      <label for="taskId" class="col-form-label" >공용품번호</label>
-							      		<input type="text" name="facility_no" value="${vo.facility_no}" ></input>
-							      		<br>
-							      		<input type="hidden" value="member.emp_no" name="mod_id"></input>
+							      
+							      		<input type="hidden" value="memberVO.emp_no" name="mod_id"></input>
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${vo.grp_cd}">
+							       <label for="taskId" class="col-form-label">상세구분</label>
+                        				<input type="text" class="form-control" id="cd" name="cd" value="${vo.cd}">
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name" value="${vo.facility_name}">
 							        <label for="taskId" class="col-form-label">상세내용</label>
@@ -179,8 +168,24 @@ left:150px;
 							    </div>
 							  </div>
 							</div>
-							</form>
+							  <tr>
+							    <td class="tg-0pky">
+						<form id="updateForm" action="./update" method="post">
+							
+								    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" aria-label="Checkbox for data">
+								  
+							    </td>
+							    </form>
+							    <td class="tg-0pky mt-1">${vo.grp_cd}</td>
+							    <td class="tg-0pky mt-1">${vo.cd}</td>
+							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
+							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
 							</c:forEach>
+    				 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
+										
+							</form>
+							</div>
+							</tbody>
 							  </tr>
 												<!-- modal -->
 							

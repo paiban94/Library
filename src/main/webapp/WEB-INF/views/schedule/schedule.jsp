@@ -128,13 +128,14 @@
                         <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
                         
                         <label for="taskId" class="col-form-label">일정 종류</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
+                        <input type="hidden" name="grp_cd" id="grp_cd" value="S001">
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
 						  <option selected>일정종류을 선택하세요</option>
-						  <option value="S001A">연차</option>
-						  <option value="S001B">회의</option>
-						  <option value="S001C">교육</option>
-						  <option value="S001D">외근</option>
-						  <option value="S001E">출장</option>
+						  <option value="A">연차</option>
+						  <option value="B">회의</option>
+						  <option value="C">교육</option>
+						  <option value="D">외근</option>
+						  <option value="E">출장</option>
 						</select>
 						
                         <label for="taskId" class="col-form-label">일정제목</label>
