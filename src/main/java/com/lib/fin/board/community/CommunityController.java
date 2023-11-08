@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lib.fin.board.BoardService;
 import com.lib.fin.board.BoardVO;
 import com.lib.fin.board.announcement.AnnouncementVO;
+import com.lib.fin.commons.Pager;
 
 @Controller
 @RequestMapping("/board/*")
@@ -23,9 +24,9 @@ public class CommunityController {
     private	CommunityService communityService;
 	
 	@GetMapping("community")
-	public ModelAndView goCommunity(ModelAndView mv) throws Exception{
+	public ModelAndView goCommunity(Pager pager,ModelAndView mv) throws Exception{
 		
-		List<BoardVO> list =  communityService.getList();
+		List<BoardVO> list =  communityService.getList(pager);
 		mv.addObject("list", list);
 		mv.setViewName("board/community/communitylist");
 		

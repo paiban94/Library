@@ -22,7 +22,9 @@ public class CommonJava {
 	              String paramName = (String)enums.nextElement();
 
 	              String[] parameters = request.getParameterValues(paramName);
-
+	               System.out.println("========paramName :"+paramName);
+	               System.out.println("========paramNValue :"+ request.getParameter(paramName));
+	               
 	        
 
 	              if(parameters.length > 1){

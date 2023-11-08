@@ -46,7 +46,7 @@ public class FileDownView extends AbstractView{
 		 response.setContentLengthLong(file.length());
 		 
 		 //다운로드시 파일의 이름을 인코딩
-		 String downName = URLEncoder.encode(fileVO.getFile_name(), "UTF-8");
+		 String downName = URLEncoder.encode(fileVO.getFile_oriName(), "UTF-8");
 		 
 		 //header 설정
 		 response.setHeader("Content-Disposition", "attachment;filename=\""+downName+"\"");

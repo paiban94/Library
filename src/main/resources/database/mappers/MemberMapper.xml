@@ -19,6 +19,12 @@
    	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y")
    	</insert>
 
+	<!-- 리스트 -->
+	<select id="getList" parameterType="MemberVO" resultType="memberVO">
+    SELECT *
+    FROM MEM_INFO
+	</select>
+
    	
   	<!-- emp_no modal용 -->
   	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
@@ -55,11 +61,12 @@
     WHERE M.EMP_NO = #{emp_no}
 </select> 
 
-	<!-- <select id="updateMember" parameterType="MemberVO" resultType="java.lang.Integer">
+<!-- 업데이트 -->
+	 <select id="updateMember" parameterType="MemberVO" >
 		UPDATE MEM_INFO
 		SET EMAIL=#{email}, PHONE=#{phone}, PASSWORD=#{password}
 		WHERE EMP_NO = #{emp_no}
-	</select>  -->
+	</select>  
 	
 <!-- 	<select id="updateMember" parameterType="MemberVO">
 		UPDATE MEM_INFO
@@ -80,11 +87,7 @@
 			WHERE EMP_NO = #{emp_no} AND PHONE = #{phone}
 		</select>
 	
-<!-- <select id="updateMember" parameterType="MemberVO" resultMap="getMemberResult">
-		UPDATE * FROM
-		MEM_INFO
-		WHERE EMP_NO = #{emp_no}
-	</select> -->
+
 
 	<resultMap type="MemberVO" id="getMemberResult">
 		<id column="EMP_NO" property="emp_no"/>

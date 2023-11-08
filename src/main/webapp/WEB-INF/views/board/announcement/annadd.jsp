@@ -76,7 +76,7 @@
                                                                     class="form-label">Writer</label>
                                                                 <input type="text" class="form-control"
                                                                     name="board_writer" id="board_writer"
-                                                                    value="${member.name}" readonly>
+                                                                    value="${member.emp_no}" readonly>
                                                             </div>
                                                             <div class="mb-3"  style="width: 100%;">
                                                                 <label for="board_contents"
@@ -96,8 +96,8 @@
                                                                     id="fileAdd">File추가</button>
                                                             </div>
     
-                                                            <button class="btn btn-danger">등록</button>
-                                                            <button class="btn btn-secondary">취소</button>
+                                                            <button class="btn btn-danger" id="add_btn">등록</button>
+                                                            <button class="btn btn-secondary" id="add_cancel">취소</button>
                                                         </form>
                                                     </div>
 
@@ -130,7 +130,7 @@
 
 
                     <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-
+                    <script src="/js/annadd.js"></script>
                     <script src="/js/boardnote.js"></script>
                 </body>
 

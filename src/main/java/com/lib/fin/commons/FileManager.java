@@ -1,6 +1,7 @@
 package com.lib.fin.commons;
 
 import java.io.File;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +20,8 @@ public class FileManager {
 				file.mkdirs();
 			}
 			
-			String fileName = multipartFile.getOriginalFilename();
-
+			String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
+			
 			file = new File(file, fileName);
 
 			multipartFile.transferTo(file);

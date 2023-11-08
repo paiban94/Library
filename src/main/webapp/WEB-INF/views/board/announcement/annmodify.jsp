@@ -61,7 +61,7 @@
                                                     </div>
 
                                                     <div class="row col-sm-8">
-                                                        <form action="modifyBoard" method="post"
+                                                        <form action="./modifyBoard" method="post"
                                                             enctype="multipart/form-data">
                                                             <!--  <sec:csrfInput/>-->
                                                             <div class="mb-3">
@@ -76,10 +76,10 @@
                                                                     class="form-label">Writer</label>
                                                                 <input type="text" class="form-control"
                                                                     name="board_writer" id="board_writer"
-                                                                    value="${member.name}" readonly>
+                                                                    value="${member.board_writer}" readonly>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="board_contents"
+                                                                <label for="board_content"
                                                                     class="form-label">Contents</label>
                                                                 <textarea class="form-control" id="board_content"
                                                                     name="board_content" rows="17">${board.board_content}</textarea>

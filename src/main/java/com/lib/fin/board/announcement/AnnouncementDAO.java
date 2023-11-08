@@ -1,18 +1,21 @@
 package com.lib.fin.board.announcement;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.lib.fin.board.BoardDAO;
 import com.lib.fin.board.BoardVO;
-import com.lib.fin.board.FileVO;
+import com.lib.fin.board.LikeVO;
 import com.lib.fin.board.comment.CommentVO;
+import com.lib.fin.commons.FileVO;
+import com.lib.fin.commons.Pager;
+import com.lib.fin.member.MemberVO;
 
 @Mapper
 public interface AnnouncementDAO {
 
-	public List<AnnouncementVO> getList() throws Exception;
+	public List<BoardVO> getList(Pager pager) throws Exception;
 
 	public int addWriting(AnnouncementVO boardVO) throws Exception;
 
@@ -27,6 +30,8 @@ public interface AnnouncementDAO {
 	public int setDelete(AnnouncementVO boardVO) throws Exception;
 
 	public FileVO getFileDetail(FileVO fileVO) throws Exception;
+	
+	public Long getTotal(Pager pager) throws Exception;
 
 	/**
 	 * comment
@@ -44,12 +49,27 @@ public interface AnnouncementDAO {
 	 **/
 	
 	public void likeAnnouncement(Long board_no) throws Exception;
+	
 
 	public void unlikeAnnouncement(Long board_no) throws Exception;
+	
 
-	public List<AnnouncementVO> getPaginatedList(int startRow, int pageSize)throws Exception;
+	public void saveLike(LikeVO likeVO) throws Exception;
+
+
+	public LikeVO hasLiked(Long board_no, String reg_id) throws Exception;
+
+	// 좋아요 기록 삭제
+	public void deleteLike(LikeVO likeVO) throws Exception;
+	
+	public void increaseViews(Long board_no) throws Exception;
+
+	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 
+	public MemberVO getBoardwriter(BoardVO boardVO) throws Exception;
+
+	public Long DiscLike(LikeVO likeVO) throws Exception;
 
 }
