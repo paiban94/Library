@@ -97,7 +97,7 @@
                                                             </div>
     
                                                             <button class="btn btn-danger" id="add_btn">등록</button>
-                                                            <button class="btn btn-secondary">취소</button>
+                                                            <button class="btn btn-secondary" id="add_cancel">취소</button>
                                                         </form>
                                                     </div>
 

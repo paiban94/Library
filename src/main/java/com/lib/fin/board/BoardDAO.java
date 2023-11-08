@@ -2,6 +2,8 @@ package com.lib.fin.board;
 
 import java.util.List;
 
+import com.lib.fin.commons.FileVO;
+
 
 
 public interface BoardDAO {
@@ -22,5 +24,7 @@ public interface BoardDAO {
 	public int setDelete(BoardVO boardVO)throws Exception;
 	
 	public FileVO getFileDetail(FileVO fileVO)throws Exception;
+	
+	;
 	
 }

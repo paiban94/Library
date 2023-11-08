@@ -8,8 +8,10 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +23,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lib.fin.board.BoardService;
 import com.lib.fin.board.BoardVO;
+import com.lib.fin.board.LikeVO;
 import com.lib.fin.board.comment.CommentVO;
-import com.lib.fin.board.community.CommunityVO;
-import com.lib.fin.commons.CommonJava;
+import com.lib.fin.commons.FileVO;
+import com.lib.fin.commons.Pager;
+import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 
+import io.netty.handler.codec.http.Cookie;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,89 +46,47 @@ public class AnnouncementController {
 	@Autowired
 	private AnnouncementServiceImp announcementService;
 
-	@ResponseBody
-	@GetMapping("announcementlist")
-	public List<AnnouncementVO> getList(@RequestParam(value = "page", required = false) Integer page, HttpServletRequest ret) throws Exception {
-		log.info("===============Page : "+ page);
+	@Autowired
+	private MemberService memberService;
 
-	    Map<String, Object> params = CommonJava.getParameterMap(ret);
-	    
-	    
-	    Object paramValue = params.get("page");
-
-	    if (paramValue != null) {
-	        if (paramValue instanceof String) {
-	            String startpage = (String) paramValue;
-	            page = Integer.valueOf(startpage);
-	        } else if (paramValue instanceof String[]) {
-	            String[] paramArray = (String[]) paramValue;
-	            if (paramArray.length > 0) {
-	                page = Integer.valueOf(paramArray[0]);
-	            } else {
-	                page = 1;
-	            }
-	        }
-	    } else {
-	        page = 1;
-	    }
-
-	    int pageSize = Integer.valueOf((String) params.getOrDefault("pageSize", "20"));
-	    
-	    
-	    String search = (String) params.get("search");
-	    
-		System.out.println("=================search :"+ search);
-		
-		log.info("seaech ========{}",search);
-
-	    
-	    String kind = (String) params.get("kind");
-	    
-		log.info("kind ========{}",kind);
-	    System.out.println("=================kind :");
-
-	    Map<String, Object> value = new HashMap<>();
-	    value.put("page", page);
-	    value.put("pageSize", pageSize);
-	    value.put("search", search);
-	    value.put("kind", kind);
-
-
-	    if (announcementService != null) {
-	        List<AnnouncementVO> paginatedList = announcementService.getPaginatedList(value);
-	        System.out.println("=====List Size : " + paginatedList.size());
-	        return paginatedList;
-	    } else {
-	        return Collections.emptyList(); 
-	    }
-	}
-
+	@Value("${app.upload}")
+	private String uploadPath;
 
 	@GetMapping("announcement")
-	public ModelAndView goAnnouncement(ModelAndView mv) throws Exception {
+	public ModelAndView goAnnouncement(@AuthenticationPrincipal MemberVO memberVO, Pager pager, ModelAndView mv)
+			throws Exception {
 
-		List<AnnouncementVO> list = announcementService.getList();
+		List<BoardVO> list = announcementService.getList(pager);
 		mv.addObject("list", list);
+		mv.addObject("pager", pager);
 		mv.setViewName("board/announcement/announcementlist");
-
 		return mv;
 	}
 
+	@GetMapping("fileDown")
+	public String getFileDown(FileVO fileVO, Model model) throws Exception {
+		fileVO = announcementService.getFileDetail(fileVO);
+		model.addAttribute("fileVO", fileVO);
+		return "fileDownView";
+	}
+
 	@GetMapping("annDetail")
-	public ModelAndView goAnnouncementDetail(@AuthenticationPrincipal MemberVO memberVO,AnnouncementVO announcementVO, ModelAndView mv) throws Exception {
+	public ModelAndView goAnnouncementDetail(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
+			ModelAndView mv,HttpSession session) throws Exception {
+		
+		
 
 		log.info("=================annDetail===================");
 		mv.setViewName("board/announcement/anndetail");
 		AnnouncementVO boardVO = announcementService.getDetail(announcementVO);
+		System.out.println("==================Controller annDetail Person :" + boardVO.getBoard_wirter());
 		List<CommentVO> comments = announcementService.getComments(boardVO.getBoard_no());
 		if (boardVO.getReg_id().equals(memberVO.getEmp_no())) {
 			mv.addObject("ready", "A");
-		}else {
+		} else {
 			mv.addObject("ready", "B");
 		}
-		 
 
-		
 		mv.addObject("data", boardVO);
 		mv.addObject("comments", comments);
 
@@ -139,8 +100,8 @@ public class AnnouncementController {
 	}
 
 	@PostMapping("addAnn")
-	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO,AnnouncementVO announcementVO, List<MultipartFile> list) throws Exception {
-		announcementVO.setBoard_writer(memberVO.getEmp_no());
+	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
+			List<MultipartFile> list) throws Exception {
 		announcementVO.setReg_id(memberVO.getEmp_no());
 		int result = announcementService.addWriting(announcementVO, list);
 
@@ -149,6 +110,7 @@ public class AnnouncementController {
 
 	@PostMapping("addComment")
 	public String addComment(CommentVO comment) throws Exception {
+
 		announcementService.addComment(comment);
 		return "redirect:./annDetail?board_no=" + comment.getBoard_no();
 	}
@@ -180,16 +142,37 @@ public class AnnouncementController {
 
 	@ResponseBody
 	@PostMapping("likeAnnouncement/{board_no}")
-	public String likeAnnouncement(@PathVariable Long board_no) throws Exception {
-		announcementService.likeAnnouncement(board_no);
-		return "Liked";
+	public ResponseEntity<String> likeAnnouncement(@PathVariable Long board_no,
+			@AuthenticationPrincipal MemberVO memberVO) throws Exception {
+		String reg_id = memberVO.getEmp_no();
+		if (!announcementService.hasLiked(board_no, reg_id)) {
+			LikeVO likeVO = new LikeVO();
+			likeVO.setBoard_no(board_no);
+			likeVO.setReg_id(reg_id);
+			announcementService.likeAnnouncement(board_no);
+			announcementService.saveLike(likeVO);
+			return new ResponseEntity<>("Liked", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Already Liked", HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	
 
 	@ResponseBody
 	@PostMapping("unlikeAnnouncement/{board_no}")
-	public String unlikeAnnouncement(@PathVariable Long board_no) throws Exception {
-		announcementService.unlikeAnnouncement(board_no);
-		return "Unliked";
+	public ResponseEntity<String> unlikeAnnouncement(@PathVariable Long board_no,
+			@AuthenticationPrincipal MemberVO memberVO) throws Exception {
+		String reg_id = memberVO.getEmp_no();
+		if (announcementService.hasLiked(board_no, reg_id)) {
+			LikeVO likeVO = new LikeVO();
+			likeVO.setBoard_no(board_no);
+			likeVO.setReg_id(reg_id);
+			announcementService.unlikeAnnouncement(board_no);
+			announcementService.deleteLike(likeVO);
+			return new ResponseEntity<>("Unliked", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Not Liked", HttpStatus.BAD_REQUEST);
 	}
 
 }

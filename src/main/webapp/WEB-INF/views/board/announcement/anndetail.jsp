@@ -46,8 +46,7 @@
 																		<h3>${data.board_title}</h3>
 																	</div>
 																	<div class="pb-2 pt-1">
-																		<span class=""
-																			style="float: left;">${data.reg_id}  ${member.name} ${member.emp_position}</span>
+																		<span class="" style="float: left;">${data.board_wirter}</span>
 																		<span class="date m_no"
 																			style="float: right; width: 25%;">${data.reg_date}</span>
 																	</div>
@@ -93,6 +92,8 @@
 																<div id="reviewInfo" class="mb-5">
 																	<div class="d-flex mb-5 pt-3">
 																		<div class="col-sm-8">
+																			<input type="hidden" name="reg_id"
+																			value="${data.reg_id}">
 																			<input type="hidden" name="board_no"
 																				value="${data.board_no}">
 																			<textarea name="comment_content"

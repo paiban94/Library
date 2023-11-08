@@ -1,3 +1,4 @@
+ $(document).ready(function() {
 let view = $('#view').data('view');
 
 if (view == 'A') {
@@ -7,7 +8,7 @@ if (view == 'A') {
     $('#logined').hide();
 }
 
-
+ });
 function likeAnnouncement(board_no) {
     $.ajax({
         type: "POST",
@@ -19,6 +20,11 @@ function likeAnnouncement(board_no) {
                 $("#unlikeButton").show();
                 var likeCount = parseInt($("#likeCount").text()) + 1;
                 $("#likeCount").text(likeCount + " 명이 이 글을 좋아합니다.");
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status === 400) {
+                alert("이미 좋아요를 누르셨습니다.");
             }
         }
     });
@@ -36,9 +42,15 @@ function unlikeAnnouncement(board_no) {
                 var likeCount = parseInt($("#likeCount").text()) - 1;
                 $("#likeCount").text(likeCount + " 명이 이 글을 좋아합니다.");
             }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status === 400) {
+                alert("아직 좋아요를 누르지 않으셨습니다.");
+            }
         }
     });
 }
+
 function updateBoard(board_no) {
     let result = confirm("수정 하시겠습니까?");
 
