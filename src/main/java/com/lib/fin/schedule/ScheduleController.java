@@ -53,7 +53,7 @@ public class ScheduleController {
 	}
 	
 	@PostMapping("add")
-	public String setScheduleAdd( HttpServletRequest request, ScheduleVO scheduleVO)throws Exception{
+	public String setScheduleAdd(@AuthenticationPrincipal MemberVO memberVO, HttpServletRequest request, ScheduleVO scheduleVO)throws Exception{
 			        
 		 int result = scheduleService.setScheduleAdd(scheduleVO);
 		

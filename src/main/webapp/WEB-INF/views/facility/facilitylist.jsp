@@ -201,7 +201,7 @@ left:150px;
 													<li class="page-item"><a class="page-link"
 															href="./facilitylist?page=${pager.startNum-1}"
 															aria-label="Previous">
-															<span aria-hidden="true">&laquo;</span>
+															<span aria-hidden="true">◁</span>
 														</a></li>
 												</c:if>
 												<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
@@ -211,7 +211,7 @@ left:150px;
 												<c:if test="${pager.next}">
 													<li class="page-item"><a class="page-link"
 															href="./facilitylist?page=${pager.lastNum+1}" aria-label="Next">
-															<span aria-hidden="true">&raquo;</span>
+															<span aria-hidden="true">▷</span>
 														</a></li>
 												</c:if>
 											</ul>
