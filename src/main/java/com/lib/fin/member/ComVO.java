@@ -1,4 +1,4 @@
-package com.lib.fin.member;
+	package com.lib.fin.member;
 
 import lombok.Getter;
 import lombok.Setter;

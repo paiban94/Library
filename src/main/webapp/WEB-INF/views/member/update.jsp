@@ -30,7 +30,7 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-                        <h1>정보 수정</h1>
+                        <h1>개인 정보 수정</h1>
 						
 				<form:form modelAttribute="memberVO" method="post" action="/member/update" enctype="multipart/form-data">  
 					
@@ -78,7 +78,7 @@
 					
 
 					<br>
-				  <button type="submit" class="btn btn-primary">정보수정</button> 
+				  <button type="submit" class="btn btn-primary">수정하기</button> 
 						
 						
 									

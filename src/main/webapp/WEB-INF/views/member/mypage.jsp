@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <br>
                         <label for="emp_position">직급</label>
-                        <input id="emp_position" type="text" value="${positionMap[memberVO.emp_position]}" class="form-control" readonly/>
+                        <input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
                     </div>
     
                     

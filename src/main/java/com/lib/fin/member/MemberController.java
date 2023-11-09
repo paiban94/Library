@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +52,13 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
+	//부서리스트 
+	@GetMapping("teamList")
+	public String TeamList(String emp_team,Model model)throws Exception{
+		List<MemberVO> teamList = memberService.getTeamList(emp_team);
+		model.addAttribute("teamList",teamList);
+		return "member/teamList";
+	}
 	
 	//회원가입 페이지 출력 요청
 	@GetMapping("join")
@@ -70,23 +78,35 @@ public class MemberController {
     	
     	   	
         int result = memberService.memJoin(memberVO, model);
+        
         log.info("===result:{}====", result);
+        
+       
+        
         if (result > 0) {
             // 회원 가입이 성공한 경우에 대한 처리
             log.info("===========회원 가입이 성공했습니다.=========");
-            
-            // 회원 가입 성공 후에 생성된 사원번호를 가져옵니다.
-            String empNo = memberVO.getEmp_no();
-           log.info("===========사원번호 {}=========", empNo);
-           // 
-            model.addAttribute("empNo", empNo);
-
-        	log.info("profile : name---: {} --- size : {}", profile.getName(), profile.getSize());
-    		return "redirect:../";
+             
+        	int empNo = memberService.memJoin(memberVO, model);
+        	model.addAttribute("empNo", empNo);
+        	//log.info("profile : name---: {} --- size : {}", profile.getName(), profile.getSize());
+ 
+        	return "member/login";
+    		
+        }else {
+             
+        return "member/join";
         }
-      
-        return "member/login";
-    }
+     }
+    //모달로 사원번호보내기
+//    @GetMapping("join")
+//    public String getEmpNoModal(String emp_no, Model model)throws Exception{
+//    	String empNo = memberService.getEmpNoModal(emp_no);
+//    	model.addAttribute("empNo", empNo);
+//    	return "member/join";
+//    }
+    
+    
     
 	@GetMapping("login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
@@ -139,14 +159,14 @@ public class MemberController {
 	    public String postUpdateMember(@Valid MemberVO memberVO, BindingResult bindingResult, Model model)throws Exception {
 	        	
 		 	boolean check = memberService.getMemberError(memberVO, bindingResult);
-
+			log.info("===업데이트check:{}====", check);
 		 	if (bindingResult.hasErrors()||check) {
 	            // 유효성 검사 에러가 있을 경우 처리
 	            return "member/update";
 	        }
 
 	        int result = memberService.updateMember(memberVO);
-
+	    	log.info("===업데이트RESULT:{}====",result);
 	        if (result > 0) {
 	            model.addAttribute("success", memberVO);
 	        } else {

@@ -25,6 +25,9 @@ public interface MemberDAO {
 	//회원목록
 	public List<MemberVO> getList(MemberVO memberVO)throws Exception;
 	
+	//부서목록
+	public List<MemberVO> getTeamList(String emp_team)throws Exception;
+	
 	//imagefile
 	public int setMemImage(MemberFileVO memberFileVO)throws Exception;
 	
@@ -38,7 +41,7 @@ public interface MemberDAO {
 	// public Integer updateMember(MemberVO memberVO)throws Exception;
 	
 	//회원가입 버튼 클릭 후 emp_no 모달창으로
-	public String getEmpNoModal(String emp_no)throws Exception;
+//	public String getEmpNoModal(String emp_no)throws Exception;
 
 	//profile
 	//public int getProfile(MemberFileVO memberFileVO)throws Exception;

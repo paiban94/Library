@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.security.core.userdetails.User;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,11 @@ import lombok.extern.slf4j.Slf4j;
 		        List<MemberVO> list = memberDAO.getList(memberVO);
 		        return list;
 		    }
+		//부서리스트
+		   public List<MemberVO> getTeamList(String emp_team)throws Exception{
+			   List<MemberVO> teamList = memberDAO.getTeamList(emp_team);
+			   return teamList;
+		   }
 		
 		
 		// 사원번호 모달에 전송
@@ -98,25 +104,29 @@ import lombok.extern.slf4j.Slf4j;
 		    public int memJoin(MemberVO memberVO, Model model) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 			 	
-		        Map<String, Object> teamMap=new HashMap<>();
-		        teamMap.put("A", "대표");
-		        teamMap.put("B", "운영과");
-		        teamMap.put("C", "정책과");
-		        teamMap.put("D", "서비스과");
-		        teamMap.put("E", "가발령");
-		        model.addAttribute("teamMap",teamMap);
-	
-		        Map<String, Object> positionMap=new HashMap<>();
-		        positionMap.put("A", "관장");
-		        positionMap.put("B", "팀장");
-		        positionMap.put("C", "주무관");
-		        positionMap.put("D", "사서");
-		        model.addAttribute("positionMap",positionMap);
+//		        Map<String, String> teamMap=new HashMap<>();
+//		        teamMap.put("A", "대표");
+//		        teamMap.put("B", "운영과");
+//		        teamMap.put("C", "정책과");
+//		        teamMap.put("D", "서비스과");
+//		        teamMap.put("E", "가발령");
+//		        model.addAttribute("teamMap",teamMap);
+//		        
+//		        System.out.println();
+//	
+//		        Map<String, String> positionMap=new HashMap<>();
+//		        positionMap.put("A", "관장");
+//		        positionMap.put("B", "팀장");
+//		        positionMap.put("C", "주무관");
+//		        positionMap.put("D", "사서");
+//		        model.addAttribute("positionMap",positionMap);
 		        
 		        //부서 및 직급 이름으로 설정
-		        memberVO.setEmp_team((String) teamMap.get(memberVO.getEmp_team()));
-		        memberVO.setEmp_position((String) positionMap.get(memberVO.getEmp_position()));
+//		        memberVO.setEmp_team(teamMap.get(memberVO.getEmp_team()));
+//		        memberVO.setEmp_position(positionMap.get(memberVO.getEmp_position()));
 
+		        
+		
 		        // 회원 정보 저장
 		        
 		        int result = memberDAO.memJoin(memberVO);
@@ -184,10 +194,11 @@ import lombok.extern.slf4j.Slf4j;
 //			    String newEmail = memberVO.getEmail();
 			    
 				log.info("====정보수정중{}====", memberVO);
-				  int result = memberDAO.updateMember(memberVO);
+				
+				int result = memberDAO.updateMember(memberVO);
 				
 				  
-				  if (result == 1) {
+				  if (result==1) {
 				      return result;
 				  } else {
 				      return 0;
@@ -196,71 +207,13 @@ import lombok.extern.slf4j.Slf4j;
 			   //return result;
 			}
 	
-//		   @Transactional(rollbackFor = Exception.class)
-//		   public int updateMember(MemberVO memberVO)throws Exception{
-//			   try {
-//				   
-//				   //비밀번호 변경여부
-//				   if(memberVO.getPassword() !=null && !memberVO.getPassword().isEmpty()) {
-//					// 비밀번호 변경, 암호화 처리
-//		                if (memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
-//		                    String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
-//		                    memberVO.setPassword(encodedPassword);
-//		                    log.info("====비밀번호{}=====");
-//		                } else {
-//		                    
-//		                    throw new Exception("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-//		                }
-//		            }
-//				   	// 이메일 
-//		            if (memberVO.getEmail() != null && !memberVO.getEmail().isEmpty()) {
-//		            	memberVO.setEmail(memberVO.getEmail());
-//		            }
-//
-//		            // 전화번호 
-//		            if (memberVO.getPhone() != null && !memberVO.getPhone().isEmpty()) {
-//		            	memberVO.setPhone(memberVO.getPhone());
-//		            }
-//
-//		            // MemberDAO를 사용하여 회원 정보 업데이트
-//	            int result = memberDAO.updateMember(memberVO);
-//
-//	            return result;
-//		          
-//		        } catch (Exception e) {
-//		            throw new Exception("회원 정보 업데이트 중 오류가 발생했습니다.");
-//		        }
-//		    }
-//		
+
 			
-//			   @Transactional(rollbackFor = Exception.class)
-//			    public Integer updateMember(MemberVO memberVO) throws Exception {
-//				   log.info("====updateMember 메서드 호출{}=====", memberVO);
-//			        int result = memberDAO.updateMember(memberVO);
-//			        return result;
-//			    }
-//			@Transactional(rollbackFor = Exception.class)
-//		    public int updateMember(MemberVO memberVO) throws Exception {
-//			   log.info("====updateMember 메서드 호출{}=====", memberVO);
-//		        int result = memberDAO.updateMember(memberVO);
-//		       	if(result <=0) {
-//		       		throw new Exception("업데이트에 실패했습니다");
-//		       	}
-//				return result;
-//		    }
-//			
-//			   @Transactional(rollbackFor = Exception.class)
-//			    public int memberUpdate(MemberVO memberVO) throws Exception {
-//			        //memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
-//				   //String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
-//				  //memberVO.setPassword(encodedPassword);
-//				   	int result = memberDAO.memberUpdate(memberVO);
-//			        return result;
-//			    }
-//	}
-			
-			
-			
+			//모달
+//			public String memjoin()throws Exception{
+//				String empNo = memberDAO.memJoin(emp_no);
+//				return empNo;
+//			}
 			
 			   //아이디찾기
 			   public MemberVO  findEmpNo(String name, String phone)throws Exception{
@@ -276,5 +229,7 @@ import lombok.extern.slf4j.Slf4j;
 				   log.info(emp_no);
 				   return memberDAO.findEmpNo(emp_no, phone);
 			   }
+
+
 			   
 }
