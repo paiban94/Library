@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lib.fin.board.BoardFileVO;
 import com.lib.fin.board.BoardVO;
 import com.lib.fin.board.LikeVO;
 import com.lib.fin.board.comment.CommentVO;
@@ -16,6 +17,9 @@ import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AnnouncementServiceImp implements AnnouncementService {
 
@@ -37,8 +41,8 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		pager.makePageNum(announcementDAO.getTotal(pager));
 		List<BoardVO> list = announcementDAO.getList(pager);
 		for (BoardVO boardVO : list) {
-			
-			System.out.println("=====Test id : "+boardVO.getReg_id());
+
+			System.out.println("=====Test id : " + boardVO.getReg_id());
 			MemberVO memberVO = announcementDAO.getBoardwriter(boardVO);
 			boardVO.setBoard_wirter(memberVO.getName() + " " + memberVO.getEmp_position());
 		}
@@ -52,8 +56,37 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception {
-		int result = announcementDAO.addWriting(boardVO);
+	    int result = announcementDAO.addWriting(boardVO);
+		try {
+		    String path = filePath + announceName;
+		    if (list != null) {
+		    
+		        for (MultipartFile multipartFile : list) {
+		    
+		            if (multipartFile.isEmpty()) {
+		                continue;
+		            }
+		            
+		            BoardFileVO boardFileVO = new BoardFileVO();
+		            String fileName = fileManager.save(path, multipartFile);
+		    
+		            boardFileVO.setBoard_no(boardVO.getBoard_no());
+		            boardFileVO.setFile_name(fileName);
+		            boardFileVO.setFile_oriName(multipartFile.getOriginalFilename());
+		            boardFileVO.setFile_type("A");
+		            boardFileVO.setReg_id(boardVO.getReg_id());
+		            boardFileVO.setMod_id(boardVO.getMod_id());
+		            boardFileVO.setUse_yn("Y");
+		            result = announcementDAO.setFileAdd(boardFileVO);
+		        }
+		    }
+		} catch (Exception e) {
+			System.out.println("step error");
+			System.out.println("파일 업로드 중 오류 발생: " + e.getMessage());
+		   
+		}
 		return result;
+		
 	}
 
 	@Override
@@ -100,20 +133,20 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public void likeAnnouncement(Long board_no) throws Exception {
-	    announcementDAO.likeAnnouncement(board_no);
-		
+		announcementDAO.likeAnnouncement(board_no);
+
 	}
 
 	@Override
 	public void unlikeAnnouncement(Long board_no) throws Exception {
-		  announcementDAO.unlikeAnnouncement(board_no);
-		
+		announcementDAO.unlikeAnnouncement(board_no);
+
 	}
 
 	@Override
 	public void saveLike(LikeVO likeVO) throws Exception {
-		 announcementDAO.saveLike(likeVO);
-		
+		announcementDAO.saveLike(likeVO);
+
 	}
 
 	@Override
@@ -123,13 +156,13 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public void deleteLike(LikeVO likeVO) throws Exception {
-		 announcementDAO.deleteLike(likeVO);
-		
-	}
-	@Override
-	public void increaseViews(Long board_no) throws Exception {
-	    announcementDAO.increaseViews(board_no);
+		announcementDAO.deleteLike(likeVO);
+
 	}
 
+	@Override
+	public void increaseViews(BoardVO boardVO) throws Exception {
+		announcementDAO.increaseViews(boardVO);
+	}
 
 }
