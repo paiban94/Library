@@ -139,24 +139,26 @@ td:first-child, th:first-child {
 										<nav aria-label="Page navigation example">
 											<ul class="pagination">
 												<c:if test="${pager.pre}">
-													<li class="page-item"><a class="page-link"
-															href="./announcement?page=${pager.startNum-1}"
-															aria-label="Previous">
-															<span aria-hidden="true">&laquo;</span>
-														</a></li>
+													<li class="page-item"><a class="page-link" href="./announcement?page=${pager.startNum-1}" aria-label="Previous">
+														<span aria-hidden="true">&laquo;</span>
+													</a></li>
 												</c:if>
+												
 												<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-													<li class="page-item"><a class="page-link"
-															href="./announcement?page=${i}">${i}</a></li>
+													<li class="page-item <c:if test='${pager.page eq i}'>active</c:if>">
+														<a class="page-link" href="./announcement?page=${i}">${i}</a>
+													</li>
 												</c:forEach>
+												
 												<c:if test="${pager.next}">
-													<li class="page-item"><a class="page-link"
-															href="./announcement?page=${pager.lastNum+1}" aria-label="Next">
-															<span aria-hidden="true">&raquo;</span>
-														</a></li>
+													<li class="page-item"><a class="page-link" href="./announcement?page=${pager.lastNum+1}" aria-label="Next">
+														<span aria-hidden="true">&raquo;</span>
+													</a></li>
 												</c:if>
 											</ul>
 										</nav>
+										
+										
 
 										<div class="input-group mb-3 searchCategory first">
 											<form action="./announcement" method="get">
@@ -170,12 +172,13 @@ td:first-child, th:first-child {
 													<input type="text" name="search" class="form-control"
 														aria-label="Amount (to the nearest dollar)">
 												</div>
-
 												<div class="col-auto searchBtn">
 													<button type="submit" class="btn btn-info">검색</button>
 												</div>
 											</form>
 										</div>
+
+										
 										<a class="btn btn-outline-success second" for="btn-check-outlined"
 											href="./addAnn">글쓰기</a>
 

@@ -70,40 +70,47 @@ public class AnnouncementController {
 		return "fileDownView";
 	}
 
-	@GetMapping("annDetail")
-	public ModelAndView goAnnouncementDetail(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
-			ModelAndView mv,HttpSession session) throws Exception {
-		
-		
+	   @GetMapping("annDetail")
+	    public ModelAndView goAnnouncementDetail(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO, ModelAndView mv, HttpSession session) throws Exception {
+	        log.info("=================annDetail===================");
+	        mv.setViewName("board/announcement/anndetail");
+	        AnnouncementVO boardVO = announcementService.getDetail(announcementVO);
 
-		log.info("=================annDetail===================");
-		mv.setViewName("board/announcement/anndetail");
-		AnnouncementVO boardVO = announcementService.getDetail(announcementVO);
-		System.out.println("==================Controller annDetail Person :" + boardVO.getBoard_wirter());
-		List<CommentVO> comments = announcementService.getComments(boardVO.getBoard_no());
-		if (boardVO.getReg_id().equals(memberVO.getEmp_no())) {
-			mv.addObject("ready", "A");
-		} else {
-			mv.addObject("ready", "B");
-		}
 
-		mv.addObject("data", boardVO);
-		mv.addObject("comments", comments);
+	        Boolean isViewed = (Boolean) session.getAttribute("viewed_" + boardVO.getBoard_no());
 
-		return mv;
-	}
+	        if (isViewed == null || !isViewed) {
+	            announcementService.increaseViews(boardVO);
+	            session.setAttribute("viewed_" + boardVO.getBoard_no(), true);
+	        }
+
+	        List<CommentVO> comments = announcementService.getComments(boardVO.getBoard_no());
+	        if (boardVO.getReg_id().equals(memberVO.getEmp_no())) {
+	            mv.addObject("ready", "A");
+	        } else {
+	            mv.addObject("ready", "B");
+	        }
+
+	        mv.addObject("data", boardVO);
+	        mv.addObject("comments", comments);
+
+	        return mv;
+	    }
 
 	@GetMapping("addAnn")
 	public String goAddAnn(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
+		System.out.println("===============add Ann1================");
 		model.addAttribute("member", memberVO);
 		return "board/announcement/annadd";
 	}
 
 	@PostMapping("addAnn")
 	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
-			List<MultipartFile> list) throws Exception {
+			List<MultipartFile> files1) throws Exception {
+		
 		announcementVO.setReg_id(memberVO.getEmp_no());
-		int result = announcementService.addWriting(announcementVO, list);
+		System.out.println("===============add Ann2================");
+		int result = announcementService.addWriting(announcementVO, files1);
 
 		return "redirect:./announcement";
 	}
@@ -155,9 +162,6 @@ public class AnnouncementController {
 		}
 		return new ResponseEntity<>("Already Liked", HttpStatus.BAD_REQUEST);
 	}
-	
-	
-	
 
 	@ResponseBody
 	@PostMapping("unlikeAnnouncement/{board_no}")

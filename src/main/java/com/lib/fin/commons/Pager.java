@@ -217,9 +217,4 @@ public class Pager {
 		this.search = search;
 	}
 	
-	
-	
-	
-	
-
 }

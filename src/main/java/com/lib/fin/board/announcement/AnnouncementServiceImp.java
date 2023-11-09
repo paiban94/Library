@@ -17,6 +17,9 @@ import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AnnouncementServiceImp implements AnnouncementService {
 
@@ -53,21 +56,37 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Override
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception {
-		
-		String path = filePath + announceName;
-		
-		int result = announcementDAO.addWriting(boardVO);
-		
-		if (list !=null) {
-			for (MultipartFile multipartFile : list) {
-				if (multipartFile.isEmpty()) {
-					continue;
-				}
-				BoardFileVO boardFileVO = new BoardFileVO();
-				String fileName = fileManager.save(path, multipartFile) ;
-			}
+	    int result = announcementDAO.addWriting(boardVO);
+		try {
+		    String path = filePath + announceName;
+		    if (list != null) {
+		    
+		        for (MultipartFile multipartFile : list) {
+		    
+		            if (multipartFile.isEmpty()) {
+		                continue;
+		            }
+		            
+		            BoardFileVO boardFileVO = new BoardFileVO();
+		            String fileName = fileManager.save(path, multipartFile);
+		    
+		            boardFileVO.setBoard_no(boardVO.getBoard_no());
+		            boardFileVO.setFile_name(fileName);
+		            boardFileVO.setFile_oriName(multipartFile.getOriginalFilename());
+		            boardFileVO.setFile_type("A");
+		            boardFileVO.setReg_id(boardVO.getReg_id());
+		            boardFileVO.setMod_id(boardVO.getMod_id());
+		            boardFileVO.setUse_yn("Y");
+		            result = announcementDAO.setFileAdd(boardFileVO);
+		        }
+		    }
+		} catch (Exception e) {
+			System.out.println("step error");
+			System.out.println("파일 업로드 중 오류 발생: " + e.getMessage());
+		   
 		}
 		return result;
+		
 	}
 
 	@Override
@@ -142,8 +161,8 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	}
 
 	@Override
-	public void increaseViews(Long board_no) throws Exception {
-		announcementDAO.increaseViews(board_no);
+	public void increaseViews(BoardVO boardVO) throws Exception {
+		announcementDAO.increaseViews(boardVO);
 	}
 
 }

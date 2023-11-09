@@ -13,5 +13,6 @@ import lombok.ToString;
 @ToString
 public class BoardFileVO  extends FileVO{
 	
+	private Long board_no;
 	private String file_type;
 }

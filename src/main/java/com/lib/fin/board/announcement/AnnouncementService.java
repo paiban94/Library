@@ -40,21 +40,16 @@ public interface AnnouncementService {
 		public List<CommentVO> getComments(Long board_no) throws Exception;
 
 
-		// 게시글 좋아요 증가
-
 		public void likeAnnouncement(Long board_no) throws Exception;
 
 		public void unlikeAnnouncement(Long board_no)throws Exception;
 		
-		// 좋아요 기록 저장
 		public void saveLike(LikeVO likeVO) throws Exception;
 
-		// 이미 좋아요를 누른 기록이 있는지 확인
 		public boolean hasLiked(Long board_no, String reg_id) throws Exception;
 
-		// 좋아요 기록 삭제
 		public void deleteLike(LikeVO likeVO) throws Exception;
 		
-		public void increaseViews(Long board_no) throws Exception;
+		public void increaseViews(BoardVO boardVO) throws Exception;
 
 }
