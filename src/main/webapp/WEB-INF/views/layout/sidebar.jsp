@@ -117,7 +117,7 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_sign" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/approval/signAdd">
+            <a href="/approval/addSign">
               <i class="bi bi-circle"></i><span>싸인 등록</span>
             </a>
         

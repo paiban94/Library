@@ -22,7 +22,7 @@ public class ApprovalService {
 	@Value("${app.upload}")
 	private String filePath;
 	
-	@Value("${app.approval.draft}")
+	@Value("${app.approval.doc}")
 	private String approvalName;
 	
 	@Autowired
@@ -121,17 +121,15 @@ public class ApprovalService {
 	}
 	
 	//sign add
-	public int addSign(MultipartFile file, MemberVO memberVO)throws Exception{
+	public int addSign(MemberVO memberVO,MultipartFile file)throws Exception{
+		String path = this.filePath+"sign";
 		
-		if(file != null) {
-			
-			String fileName = fileManager.save(filePath, file);
-			
+		String fileName = fileManager.save(path, file);
+		memberVO.setSign_name(fileName);
+		memberVO.setSign_oriName(file.getOriginalFilename());
+		int result = approvalDAO.addSign(memberVO);
 				
-				
-			
-		}
-		return 0;
+		return result;
 	}
 	//DOCList
 	public Map<String,Object> docApproval(Map<String,Object> param)throws Exception{

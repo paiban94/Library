@@ -128,13 +128,14 @@
 														</tr>
 
 
-														<tr id="midsign">
-	
+														<tr>
+														
+														 <td id="midSign"></td>
 															
 														</tr>
 														<tr>
 
-															<td id="midP" data-midEmp="${appLine0.emp_no}" >${appLine0.emp_team} ${appLine0.name}</td>
+															<td id="midP" data-midEmp="${appLine0.emp_no}"  data-a="${docVO}">${appLine0.emp_team} ${appLine0.name}</td>
 														</tr>
 
 
@@ -156,9 +157,9 @@
 														</tr>
 
 
-														<tr id="sign">
+														<tr >
 														
-															<td></td>
+															<td id="lastSign"></td>
 														</tr>
 														
 														<tr>
@@ -191,7 +192,7 @@
 															<td colspan="2">
 																<div>
 																	${docVO.doc_contents}
-																</div>
+																</div >
 															</td>
 
 														</tr>
@@ -206,19 +207,14 @@
 
 													<!-- file -->
 
-													<div id="fileList"></div>
+													<div id="fileList" ></div>
 
 
-													<div class="mb-3">
-														<button type="button" class="btn btn-outline-primary"
-															id="fileAdd">File추가 </button>
-													</div>
-	
 													<!-- button  -->
 
 													<button type="button" id="btn_appr" onClick="doc_approval('S')" style="display:none" class="btn btn-primary btn-sm">승인</button>
 													<button type="button" id="btn_refusal" href="javascript:doc_approval('C')" style="display:none" class="btn btn-primary btn-sm">반려</button>
-													<button type="button" id="btn_cancle" style="display:none" class="btn btn-primary btn-sm">기안취소</button>
+													<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm">기안취소</button>
 													
 									 				<c:forEach items="${docVO.fileVOs}" var="f">
 														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_oriName}</a><div>
@@ -273,6 +269,11 @@
 	let loginEmpNo = "${loginEmpNo}";
 	let docWriter = "${docVO.emp_no}";
 	
+	var midPElement = $("#midP");
+
+	// data() 메서드를 사용하여 "data-a" 데이터 속성의 값을 가져옵니다.
+	var dataAValue = midPElement.data("a");
+	console.log(dataAValue)
 	
 	$(document).ready(function(){
 		
@@ -293,11 +294,19 @@
 		}
 		
 		if("${appLine0.approval_state}"=="S"){
-			var strHtml = "<td><img id='sign_img' src='/files/draft/${appLine0.sign_name}'></td>";
+			var strHtml = "<img id='sign_img' src='/files/sign/${appLine0.sign_name}'>";
 			
-			$("#midsign").append(strHtml);
+			$("#midSign").append(strHtml);
 				
 		}
+		
+		if("${appLine1.approval_state}"=="S"){
+			var strHtml = "<img id='sign_img' src='/files/sign/${appLine1.sign_name}'>";
+			
+			$("#lastSign").append(strHtml);
+				
+		}
+		
 
 	});
 	
@@ -313,7 +322,7 @@
 			type: "post",
 			url : "/approval/docApproval",
 			data: {"approval_state":val, "EMP_NO" : loginEmpNo, "DOC_NO" : "${docVO.doc_no}", "flag" : flag},
-			dataType:"text" , 
+			dataType:"json" , 
 			success: function(result){
 				console.log(result);
 				if(result.code="0000"){

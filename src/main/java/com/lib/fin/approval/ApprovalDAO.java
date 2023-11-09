@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lib.fin.member.MemberVO;
+
 @Mapper
 public interface ApprovalDAO {
 	
@@ -29,6 +31,9 @@ public interface ApprovalDAO {
 	public int docApproval(Map<String,Object> param)throws Exception;
 	
 	public int docBaseApproval(Map<String,Object> param)throws Exception;
+	
+	//signAdd
+	public int addSign(MemberVO memberVO)throws Exception;
 	
 
 }

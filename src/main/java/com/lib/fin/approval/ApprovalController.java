@@ -72,13 +72,16 @@ public class ApprovalController {
 	 //결재자 정보가져오기
 	 java.util.List<ApprovalHisVO> ar = approvalService.getAppLine(doc_no);
 	 
+	 //로그인한 사원번호 담기
 	 model.addAttribute("loginEmpNo",memberVO.getEmp_no());
+	 
 	//모델에 중간,최종 결재자 담기
 	    for (int i = 0; i < ar.size(); i++) {
 	        ApprovalHisVO approvalHisVO = ar.get(i);
 	        model.addAttribute("appLine"+i, approvalHisVO);
 	    }
-	    
+	 
+	 //approvalDocVO 담기
 	 model.addAttribute("docVO",approvalDocVO);
 		return "approval/draftDetail";
 	}
@@ -110,17 +113,17 @@ public class ApprovalController {
 	}
 	
 	//싸인등록
-	@GetMapping("signAdd")
+	@GetMapping("addSign")
 	public String setSign()throws Exception{
 		
 		return "approval/signAdd";
 		
 	}
 	
-	@PostMapping("signAdd")
-	public String setSign(@AuthenticationPrincipal MemberVO memberVO, MultipartFile file)throws Exception{
+	@PostMapping("addSign")
+	public String addSign(@AuthenticationPrincipal MemberVO memberVO, MultipartFile file)throws Exception{
 		
-	
+		approvalService.addSign(memberVO, file);
 		return "approval/signAdd";
 		
 	}
