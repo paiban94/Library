@@ -10,8 +10,12 @@
    </insert>
    
    <select id="getReservationList" resultType="Map">
-   		SELECT * FROM RESERVATION_BASE
+   		SELECT  RES_NO as title
+   		,to_char(RES_START_TIME,'yyyy-mm-dd') as start
+   		,to_char(RES_END_TIME,'yyyy-mm-dd') as end
+   		FROM RESERVATION_BASE
    		WHERE USE_YN='Y'
+   			AND EMP_NO = #{EMP_NO}
    </select>
    
 	<update id="setReservationUpdate" parameterType="ScheduleVO">

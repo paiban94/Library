@@ -17,6 +17,7 @@ public class ReservationVO extends CommonVO{
 	private int facility_No;
 	private String emp_No;
 	private String grp_cd;
+	private String cd;
 	private Date res_start_time;
 	private Date res_end_time;
 	private String res_purpose;

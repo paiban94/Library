@@ -12,6 +12,7 @@
    		SELECT * FROM FACILITY_BASE
    		WHERE USE_YN='Y'
    		ORDER BY GRP_CD ASC
+   		limit #{startRow}, #{lastRow}
    </select>
    
    <update id="setFacilityUpdate" parameterType="facilityVO">

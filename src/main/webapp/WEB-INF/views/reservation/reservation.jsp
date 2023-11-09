@@ -174,58 +174,26 @@
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 <script type="text/javascript">
 
-		
-var obj = ${List};
-const arr = new Array();
-const res = arr.keys();
-function timeFormat(time){
-      return String(time).padStart(2, "0");
-   }
+	var resListJson;
+		const arr = new Array();
+		const res = arr.keys();
+		function timeFormat(time){
+		      return String(time).padStart(2, "0");
+		   }
 
- $.ajax({
-        url: "/reservation/reservation",
-        data: "json",
-        processData: false,    // 필수
-        contentType: false,    // 필수
-        method: "get",
-        cache: false,
-        enctype: 'resultMap',
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            if (data.success === "Y") {
-                $("#reservation_no").val(data.reservation_no);
-                $("#res_start_time").val(data.res_start_time);
-                $("#res_end_time").val(data.res_end_time);
-                console.log(data.reservation_no);
-               
-            } else {
-                alert("잠시 후 다시 시도해주세요.");
-            }
-        },
-        error: function (error) {
-            console.log("Error:", error);
-        }
-    });
-		/*
-		$.ajax({
-			  type: "GET", 
-			  url: "/schedule/scheduleList",
-			  async: false,
-			  success: function (res) {
-			   
-			    console.log(res);
-			    
-			    
-			
-			  },
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-			    console.log('error')
-			  }
-			});
-*/
+		   $(document).ready(function(){
+	            $.ajax({
+	                url: "/reservation/reservationList",
+	                data: {"EMP_NO":"${emp_no}"},
+	                method: "post",
+	                cache: false,
+	                dataType: "text",
+	                success: function (data) {
 
-	document.addEventListener('DOMContentLoaded', function() {
+	                    var test = JSON.parse(data);
+	                    resListJson=test.list;
+	                    console.log(resListJson);
+
 	    var calendarEl = document.getElementById('calendarR');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	    	 
@@ -234,7 +202,7 @@ function timeFormat(time){
 	      initialView: 'dayGridMonth',
 	      navLinks:true,
 	      eventLimit:true,
-	    
+	      editable:true,
 	      
 	      
 	      customButtons: {
@@ -260,15 +228,7 @@ function timeFormat(time){
 	    	  
 	      
 	      
-        	events:[
-        		{
-        			title:'test',
-        			start:'2023-11-01',
-        			end:'2023-11-01'
-        			
-        		}
-        		
-        	]
+        	events:resListJson
         
         	
         	
@@ -276,6 +236,11 @@ function timeFormat(time){
 	    });
 	    
 	    calendar.render();
+	          },
+	          error: function (error) {
+	              console.log("Error:", error);
+	          }
+	       });
 	  });
 	
 	

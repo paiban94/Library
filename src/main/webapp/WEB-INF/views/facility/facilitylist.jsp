@@ -150,11 +150,11 @@ left:150px;
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
 										
-							</div>
 							</c:forEach>
+							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
+							</div>
 							</tbody>
 													<!-- Modal -->
-							 	 <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updateFacilityModal">수정</button>
 						<form id="updateForm" action="./update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
@@ -187,6 +187,25 @@ left:150px;
 												<!-- modal -->
 							
 							</table>
+							<div class="col-sm-12 col-md-7">
+					                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+					                        <ul class="pagination">
+					                            <li class="paginate_button page-item previous disabled" id="dataTable_previous">
+					                                <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+					                            </li>
+					                            <li class="paginate_button page-item ">
+					                            	<a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link active">1</a>
+					                            </li>
+					                            <li class="paginate_button page-item ">
+					                            	<a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link active">2</a>
+					                            </li>
+					                            <li class="paginate_button page-item next" id="dataTable_next">
+					                            	<a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+					                            </li>
+					                            
+					                        </ul>
+					                    </div>
+					                </div>
 							
 <div class=""></div>
 						</div>

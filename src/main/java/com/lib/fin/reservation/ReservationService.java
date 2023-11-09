@@ -27,7 +27,7 @@ public class ReservationService {
 		return reservationDAO.setReservationDelete(reservationVO);
 	}
 	
-	public List<Map<String, Object>> getReservationList() throws Exception{
-		return reservationDAO.getReservationList();
+	public List<Map<String, Object>> getReservationList(Map<String, Object> params) throws Exception{
+		return reservationDAO.getReservationList(params);
 	}
 }
