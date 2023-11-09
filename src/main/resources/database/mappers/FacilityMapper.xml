@@ -12,8 +12,10 @@
    		SELECT * FROM FACILITY_BASE
    		WHERE USE_YN='Y'
    		ORDER BY GRP_CD ASC
-   		limit #{startRow}, #{lastRow}
    </select>
+   <select id="getTotal" resultType="Long" parameterType="Pager">
+		SELECT COUNT(*) FROM FACILITY_BASE
+		</select>
    
    <update id="setFacilityUpdate" parameterType="facilityVO">
    		UPDATE FACILITY_BASE SET
@@ -26,4 +28,11 @@
    			USE_YN='N'
    			WHERE FACILITY_NO=#{facility_no}
    </update>
+   
+   <select id="getPaginatedList" resultType="FacilityVO"
+		parameterType="map">
+		SELECT * FROM FACILITY_BASE WHERE USE_YN = 'Y'
+		ORDER BY GRP_CD DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
    </mapper>

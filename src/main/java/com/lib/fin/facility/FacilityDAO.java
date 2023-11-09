@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 public interface FacilityDAO {
 
-	public Long getCount(Pager pager)throws Exception;
+	public int getCount(Pager pager)throws Exception;
 	
 	public int setFacilityAdd(FacilityVO facilityVO) throws Exception;
 		
@@ -21,4 +21,7 @@ public interface FacilityDAO {
 	
 	public int setFacilityDelete(FacilityVO facilityVO) throws Exception;
 	
+	public Long getTotal(Pager pager) throws Exception;
+	
+	public int getTotalFacilityCount()throws Exception;
 }

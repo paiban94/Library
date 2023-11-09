@@ -6,26 +6,20 @@ import org.springframework.stereotype.Service;
 
 import com.lib.fin.commons.Pager;
 @Service
-public class FacilityService {
+public interface FacilityService {
 
-	@Autowired
-	private FacilityDAO facilityDAO;
+
 	
-	public int setFacilityAdd(FacilityVO facilityVO) throws Exception {
-		return facilityDAO.setFacilityAdd(facilityVO);
-	}
+	public int setFacilityAdd(FacilityVO facilityVO) throws Exception;
+		
+	public int getTotalFacilityCount()throws Exception;
 	
-	public List<FacilityVO> getFacilitylist(Pager pager) throws Exception{
-		return facilityDAO.getFacilitylist(pager);
-	}
+	public List<FacilityVO> getFacilityList(Pager pager) throws Exception;
 	
-	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception{
-		return facilityDAO.setFacilityUpdate(facilityVO);
-	}
+	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception;
 	
-	public int setFacilityDelete(FacilityVO facilityVO) throws Exception{
-		return facilityDAO.setFacilityDelete(facilityVO);
-	}
+	public int setFacilityDelete(FacilityVO facilityVO) throws Exception;
 	
+
 
 }

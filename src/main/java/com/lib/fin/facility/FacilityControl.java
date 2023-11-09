@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.lib.fin.commons.Pager;
 import com.lib.fin.schedule.ScheduleVO;
@@ -23,10 +24,12 @@ public class FacilityControl {
 	private FacilityService facilityService;
 	
 	@GetMapping("getFacilitylist")
-	public String getFacility(Pager pager,Model model) throws Exception {
-		List<FacilityVO> ar=facilityService.getFacilitylist(pager);
-		model.addAttribute("list",ar);
-		return "facility/facilitylist";
+	public ModelAndView getFacility(Pager pager,ModelAndView mv) throws Exception {
+		List<FacilityVO> ar=facilityService.getFacilityList(pager);
+		mv.addObject("list",ar);
+		mv.addObject("pager",pager);
+		mv.setViewName("facility/facilitylist");
+		return mv;
 	}
 	@PostMapping("add")
 	public String setFacilityAdd(HttpServletRequest request, FacilityVO facilityVO)throws Exception{ 

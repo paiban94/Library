@@ -12,10 +12,10 @@
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
 <style type="text/css">
 .update-btn{width:80px;
-	position:relative;
-	left:1250px;
+	position:absolute;
+	left:970px;
 	margin:6px;
-	top:58px;
+	top:80px;
 	}
 .add-btn{width:80px;
 position:relative;
@@ -25,6 +25,14 @@ top:30px}
 position:relative;
 left:1170px;
 top:0px}
+.pagination{
+position:relative;
+top:180px;
+}
+.page-item{
+position:relative;
+left:700px;
+}
 .title{
 text-align:center;
 }
@@ -137,7 +145,7 @@ left:150px;
 							  </tr>
 							</thead>
 							<tbody>
-							  <c:forEach items="${list}" var="vo">
+							  <c:forEach items="${list}" var="vo" varStatus="i">
 							
 							  <tr>
 							    <td class="tg-0pky">
@@ -187,25 +195,27 @@ left:150px;
 												<!-- modal -->
 							
 							</table>
-							<div class="col-sm-12 col-md-7">
-					                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-					                        <ul class="pagination">
-					                            <li class="paginate_button page-item previous disabled" id="dataTable_previous">
-					                                <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-					                            </li>
-					                            <li class="paginate_button page-item ">
-					                            	<a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link active">1</a>
-					                            </li>
-					                            <li class="paginate_button page-item ">
-					                            	<a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link active">2</a>
-					                            </li>
-					                            <li class="paginate_button page-item next" id="dataTable_next">
-					                            	<a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-					                            </li>
-					                            
-					                        </ul>
-					                    </div>
-					                </div>
+							<nav aria-label="Page navigation example">
+											<ul class="pagination">
+												<c:if test="${pager.pre}">
+													<li class="page-item"><a class="page-link"
+															href="./facilitylist?page=${pager.startNum-1}"
+															aria-label="Previous">
+															<span aria-hidden="true">&laquo;</span>
+														</a></li>
+												</c:if>
+												<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+													<li class="page-item"><a class="page-link"
+															href="./facilitylist?page=${i}">${i}</a></li>
+												</c:forEach>
+												<c:if test="${pager.next}">
+													<li class="page-item"><a class="page-link"
+															href="./facilitylist?page=${pager.lastNum+1}" aria-label="Next">
+															<span aria-hidden="true">&raquo;</span>
+														</a></li>
+												</c:if>
+											</ul>
+										</nav>
 							
 <div class=""></div>
 						</div>
