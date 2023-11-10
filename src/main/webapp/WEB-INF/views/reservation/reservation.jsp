@@ -113,8 +113,8 @@
                 <form id="addForm" action="./add" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                    	<input type="text" class="form-control" value="${member.emp_no}" name="emp_no" id="emp_no">
-						<input type="text" class="form-control" value="${CommonVO.red_id}" name="red_id" id="red_id">
+                    	<input type="hidden" class="form-control" value="${memberVO.emp_no}" name="emp_no" id="emp_no">
+						<input type="hidden" class="form-control" value="${memberVO.emp_no}" name="red_id" id="red_id">
                     					
                         <label for="taskId" class="col-form-label">예약시작일</label>
                         <input type="date" class="form-control" id="res_start_time" name="res_start_time">
@@ -126,8 +126,15 @@
                         <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
 						  <option selected>예약종류을 선택하세요</option>
 						  <option value="R001">회의실</option>
-						  <option value="R002">빔프로젝트2</option>
+						  <option value="R002">빔프로젝트</option>
 						  <option value="R003">노트북</option>
+						</select>
+						<label for="taskId" class="col-form-label">상세 종류</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
+						  <option selected>예약종류을 선택하세요</option>
+						  <option value="A">1</option>
+						  <option value="B">2</option>
+						  <option value="C">3</option>
 						</select>
 							                     
                         <label for="taskId" class="col-form-label">사용목적</label>
@@ -174,58 +181,26 @@
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 <script type="text/javascript">
 
-		
-var obj = ${List};
-const arr = new Array();
-const res = arr.keys();
-function timeFormat(time){
-      return String(time).padStart(2, "0");
-   }
+	var resListJson;
+		const arr = new Array();
+		const res = arr.keys();
+		function timeFormat(time){
+		      return String(time).padStart(2, "0");
+		   }
 
- $.ajax({
-        url: "/reservation/reservation",
-        data: "json",
-        processData: false,    // 필수
-        contentType: false,    // 필수
-        method: "get",
-        cache: false,
-        enctype: 'resultMap',
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            if (data.success === "Y") {
-                $("#reservation_no").val(data.reservation_no);
-                $("#res_start_time").val(data.res_start_time);
-                $("#res_end_time").val(data.res_end_time);
-                console.log(data.reservation_no);
-               
-            } else {
-                alert("잠시 후 다시 시도해주세요.");
-            }
-        },
-        error: function (error) {
-            console.log("Error:", error);
-        }
-    });
-		/*
-		$.ajax({
-			  type: "GET", 
-			  url: "/schedule/scheduleList",
-			  async: false,
-			  success: function (res) {
-			   
-			    console.log(res);
-			    
-			    
-			
-			  },
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-			    console.log('error')
-			  }
-			});
-*/
+		   $(document).ready(function(){
+	            $.ajax({
+	                url: "/reservation/reservationList",
+	                data: {"EMP_NO":"${emp_no}"},
+	                method: "post",
+	                cache: false,
+	                dataType: "text",
+	                success: function (data) {
 
-	document.addEventListener('DOMContentLoaded', function() {
+	                    var test = JSON.parse(data);
+	                    resListJson=test.list;
+	                    console.log(resListJson);
+
 	    var calendarEl = document.getElementById('calendarR');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	    	 
@@ -234,8 +209,8 @@ function timeFormat(time){
 	      initialView: 'dayGridMonth',
 	      navLinks:true,
 	      eventLimit:true,
-	    
-	      
+	      editable:true,
+	      dayMaxEvents: 1,
 	      
 	      customButtons: {
 	    	  myResButton:{
@@ -260,15 +235,57 @@ function timeFormat(time){
 	    	  
 	      
 	      
-        	events:[
-        		{
-        			title:'test',
-        			start:'2023-11-01',
-        			end:'2023-11-01'
-        			
-        		}
-        		
-        	]
+        	events:resListJson,
+        	eventDrop: function (info){
+            	console.log(info);
+            	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
+            		
+            	}
+            	 var events = new Array();
+                 var obj = new Object();
+
+                 obj.title = info.event._def.title;
+                 obj.start = info.event._instance.range.start;
+                 obj.end = info.event._instance.range.end;
+                 events.push(obj);
+
+                 console.log(events);
+                 $(function deleteData() {
+                     $.ajax({
+                         url: "/schedule/schedulelist",
+                         method: "PATCH",
+                         dataType: "json",
+                         data: JSON.stringify(events),
+                         contentType: 'application/json',
+                     })
+                 })
+            },
+            eventClick: function (info){
+                if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
+                   
+                    info.event.remove();
+                }
+
+                console.log(info.event);
+                var events = new Array();
+                var obj = new Object();
+                    obj.title = info.event._def.title;
+                    obj.start = info.event._instance.range.start;
+                    events.push(obj);
+
+                console.log(events);
+                $(function deleteData(){
+                    $.ajax({
+                        url: "/schedule/schedulelist",
+                        method: "DELETE",
+                        dataType: "json",
+                        data: JSON.stringify(events),
+                        contentType: 'application/json',
+                    })
+                })
+            },
+
+			
         
         	
         	
@@ -276,6 +293,11 @@ function timeFormat(time){
 	    });
 	    
 	    calendar.render();
+	          },
+	          error: function (error) {
+	              console.log("Error:", error);
+	          }
+	       });
 	  });
 	
 	

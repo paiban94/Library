@@ -6,12 +6,16 @@
   <mapper namespace="com.lib.fin.reservation.ReservationDAO">
   <insert id="setReservationAdd" parameterType="ReservationVO">
 		INSERT INTO RESERVATION_BASE 
-		values(0, #{facility_no},#{emp_no},#{grp_cd}, #{res_start_time}, #{res_end_time},#{res_purpose} , #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y');
+		values(0, #{emp_no},#{grp_cd},#{cd}, #{res_start_time}, #{res_end_time},#{res_purpose} , #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y');
    </insert>
    
    <select id="getReservationList" resultType="Map">
-   		SELECT * FROM RESERVATION_BASE
+   		SELECT  RES_NO as title
+   		,to_char(RES_START_TIME,'yyyy-mm-dd') as start
+   		,to_char(RES_END_TIME,'yyyy-mm-dd') as end
+   		FROM RESERVATION_BASE
    		WHERE USE_YN='Y'
+   			AND EMP_NO = #{EMP_NO}
    </select>
    
 	<update id="setReservationUpdate" parameterType="ScheduleVO">

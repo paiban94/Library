@@ -218,8 +218,9 @@
                         navLinks: true,
                         eventLimit: true,
                         editable:true,
-
-                        customButtons: {
+						droppable:true,
+						 dayMaxEvents: 1,
+						customButtons: {
 
                             myCustomButton: {
                                 text: '일정 추가',
@@ -240,10 +241,59 @@
                             center: 'prev,title,next',
                             right: 'myCustomButton'
                         },
+                        
+                        events: schListJson,
+                        
+                        eventDrop: function (info){
+                        	console.log(info);
+                        	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
+                        		
+                        	}
+                        	 var events = new Array();
+                             var obj = new Object();
+  
+                             obj.title = info.event._def.title;
+                             obj.start = info.event._instance.range.start;
+                             obj.end = info.event._instance.range.end;
+                             events.push(obj);
+  
+                             console.log(events);
+                             $(function deleteData() {
+                                 $.ajax({
+                                     url: "/schedule/schedulelist",
+                                     method: "PATCH",
+                                     dataType: "json",
+                                     data: JSON.stringify(events),
+                                     contentType: 'application/json',
+                                 })
+                             })
+                        },
+                        eventClick: function (info){
+                            if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
+                               
+                                info.event.remove();
+                            }
+ 
+                            console.log(info.event);
+                            var events = new Array();
+                            var obj = new Object();
+                                obj.title = info.event._def.title;
+                                obj.start = info.event._instance.range.start;
+                                events.push(obj);
+ 
+                            console.log(events);
+                            $(function deleteData(){
+                                $.ajax({
+                                    url: "/schedule/schedulelist",
+                                    method: "DELETE",
+                                    dataType: "json",
+                                    data: JSON.stringify(events),
+                                    contentType: 'application/json',
+                                })
+                            })
+                        },
 
-                        events: schListJson
-
-
+						
                     });
 
                     calendar.render();
