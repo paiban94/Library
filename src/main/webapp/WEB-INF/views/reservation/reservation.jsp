@@ -93,7 +93,7 @@
 							 <div id="calendarBox">
 						       <div class="hstack gap-3 text-decoration-underline">
 								  
-								  <a href="/schedule/getSchedule">일정</a>&emsp;
+								  <a href="/schedule/getSchedule">일정</a>
 								  <a href="/reservation/getReservation">예약</a>
 								</div>
 						        <div id="calendarR"></div>
