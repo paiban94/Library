@@ -13,16 +13,37 @@
    	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
    	</insert> 
    	
-   	<!-- 회원가입시 프로필사진, 서명이미지  -->
+   	<!-- 회원가입시 프로필사진  -->
    	<insert id="setMemImage" parameterType="MemberFileVO">
-   	INSERT INTO MEM_IMAGE (IMG_FILE, EMP_NO, IMG_FILE_NAME, IMG_FILE_PATH, IMG_ROLE,REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
-   	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y")
+   	INSERT INTO MEM_IMAGE(FILE_NO,EMP_NO,FILE_NAME,FILE_ORINAME,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN) 
+   	VALUES (#{file_no},#{emp_no},#{file_name},#{file_oriName}, #{emp_no},#{emp_no},NOW(),NOW(),#{use_yn})
    	</insert>
 
 	<!-- 회원리스트 -->
 	<select id="getList" parameterType="MemberVO" resultType="memberVO">
-    SELECT *
-    FROM MEM_INFO
+   <!--  SELECT *
+    FROM MEM_INFO -->
+<!--     SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION, U.CD_NM AS AUTHORITY
+FROM MEM_INFO M
+LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+LEFT JOIN ST_STD_CD U ON M.AUTHORITY = U.CD AND U.GRP_CD = 'U001' -->
+SELECT M.*,
+    (CASE
+        WHEN M.EMP_POSITION = 'A' THEN '관장'
+        WHEN M.EMP_POSITION = 'B' THEN '팀장'
+        WHEN M.EMP_POSITION = 'C' THEN '주무관'
+        WHEN M.EMP_POSITION = 'D' THEN '사서'
+    END) AS EMP_POSITION,
+    (CASE
+        WHEN M.EMP_TEAM = 'A' THEN '대표'
+        WHEN M.EMP_TEAM = 'B' THEN '운영과'
+        WHEN M.EMP_TEAM = 'C' THEN '정보과'
+        WHEN M.EMP_TEAM = 'D' THEN '서비스과'
+        WHEN M.EMP_TEAM = 'E' THEN '가발령'
+    END) AS EMP_TEAM
+FROM MEM_INFO M
 	</select>
 	
 	<!-- 부서리스트 -->
@@ -31,13 +52,12 @@
     FROM MEM_INFO
     WHERE EMP_TEAM =#{emp_team}
 	</select>
-
-<!--    	
-  	emp_no modal용
+   	
+  	<!-- emp_no modal용 -->
   	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
    		SELECT EMP_NO FROM MEM_INFO
-   		WHERE EMP_NO = ${emp_no}
-   	</select>  -->
+   		
+   	</select> 
    	
   	
    	<!-- 로그인 -->

@@ -128,7 +128,7 @@ td:first-child, th:first-child {
 													<tr>
 														<td class="board_no"><a href="./annDetail?board_no=${d.board_no}">${d.board_no}</a></td>
 														<td class="txt_line" id="board_title"><a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a></td>
-														<td class="reg_id">${d.board_wirter}</td>
+														<td class="reg_id">${d.memberVO.emp_team}</td>
 														<td class="reg_date">${d.reg_date}</td>
 														<td class="board_views">${d.board_views}</td>
 													</tr>

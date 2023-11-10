@@ -35,11 +35,12 @@
 				<form action="/member/update" method="post" enctype="multipart/form-data">		  
 		
 
-                    <div class="form-group">
+					<div class="form-group">
 						<br>
-				    	<label for="photo">프로필사진</label>
-				    	<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
-				    </div>
+						<label for="photo">프로필사진</label>
+						<input type="file" name="photo" class="form-control" id="photo	" aria-describedby="photoHelp" readonly/>
+						<small id="photoHelp" class="form-text text-muted"></small>
+					</div>
 					<br>
 
     	 			  <div class="form-group">

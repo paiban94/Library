@@ -9,10 +9,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberFileVO extends CommonVO{
-	private String img_file;
+public class MemberFileVO extends FileVO{
+	
 	private String emp_no;
-	private String img_file_name;
-	private String img_file_path;
-	private String img_role;
+
+	public void setFile_no(String emp_no) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

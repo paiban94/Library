@@ -30,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 	import org.springframework.web.multipart.MultipartFile;
 
+import com.lib.fin.commons.FileManager;
 import com.lib.fin.commons.FileManagerProfile;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,18 +45,21 @@ import lombok.extern.slf4j.Slf4j;
 		private MemberDAO memberDAO;
 		
 		@Autowired
+		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
 		
 		//local file 위치
-		@Value("${app.upload.mapping}")
+		@Value("${app.upload}")
 		private String filePath;
 			
-		//요청 URL 경로
-		@Value("${app.url.path}")
-		private String urlPath;
+	
+		@Value("${app.member.photo}")
+		private String photo;
+		
+	
 	
 		//멤버리스트
 		   public List<MemberVO> getList(MemberVO memberVO)throws Exception {
@@ -99,39 +103,48 @@ import lombok.extern.slf4j.Slf4j;
 //			Map<String, String> codeName = new HashMap<>();
 //			codeName.put(null, null)
 //		}	 
-		
+
+
+	
 		 @Transactional(rollbackFor = Exception.class)
 		    public int memJoin(MemberVO memberVO, Model model) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 			 	
-//		        Map<String, String> teamMap=new HashMap<>();
-//		        teamMap.put("A", "대표");
-//		        teamMap.put("B", "운영과");
-//		        teamMap.put("C", "정책과");
-//		        teamMap.put("D", "서비스과");
-//		        teamMap.put("E", "가발령");
-//		        model.addAttribute("teamMap",teamMap);
-//		        
-//		        System.out.println();
-//	
-//		        Map<String, String> positionMap=new HashMap<>();
-//		        positionMap.put("A", "관장");
-//		        positionMap.put("B", "팀장");
-//		        positionMap.put("C", "주무관");
-//		        positionMap.put("D", "사서");
-//		        model.addAttribute("positionMap",positionMap);
-		        
-		        //부서 및 직급 이름으로 설정
-//		        memberVO.setEmp_team(teamMap.get(memberVO.getEmp_team()));
-//		        memberVO.setEmp_position(positionMap.get(memberVO.getEmp_position()));
-
-		        
-		
+		     
 		        // 회원 정보 저장
 		        
 		        int result = memberDAO.memJoin(memberVO);
 		        return result;
 		    }   
+		 	//이미지저장
+		 	
+		 	public int setMemImage(MemberFileVO memberFileVO,MultipartFile photo, MemberVO memberVO)throws Exception{
+			 
+		 		
+		 		String path =filePath +photo;
+		 		String saveFileName = fileManagerProfile.save(path, photo, memberVO);
+	   
+			   try {
+				   if(photo != null) {
+					 
+					   
+					   memberFileVO.setFile_no(memberVO.getEmp_no());
+					   memberFileVO.setFile_name(saveFileName);
+					   memberFileVO.setFile_oriName(photo.getOriginalFilename());
+					   memberFileVO.setEmp_no(memberVO.getEmp_no());
+					   memberFileVO.setReg_id(memberFileVO.getEmp_no());
+					   memberFileVO.setMod_id(memberVO.getEmp_no());
+					   memberFileVO.setUse_yn("Y");
+					 
+				   }
+				
+			} catch (Exception e) {
+				log.info("파일업로드실패"+e.getMessage());
+			}
+		 		
+		 		
+		 		return 0;
+		 	}
 		        
 		 
 			//로그인
@@ -158,8 +171,10 @@ import lombok.extern.slf4j.Slf4j;
 				
 			}
 		
+			
+			//업데이트
 			@Transactional(rollbackFor = Exception.class)
-			public int updateMember(MemberVO memberVO)throws Exception{
+			public int updateMember(MemberVO memberVO, MultipartFile photo)throws Exception{
 				  MemberVO updatedMember = new MemberVO();
 				  updatedMember.setEmp_no(memberVO.getEmp_no()); // 
 				  log.info("===업데이트시 사원번호:{}===", updatedMember.getEmp_no());
@@ -188,10 +203,9 @@ import lombok.extern.slf4j.Slf4j;
 			    }else {
 			    	memberVO.setPhone(null);
 			    }
-			    //새로 설정한 값 추출
-//			    String newPassword = memberVO.getPassword();
-//			    String newPhone = memberVO.getPhone();
-//			    String newEmail = memberVO.getEmail();
+			    
+
+			  
 			    
 				log.info("====정보수정중{}====", memberVO);
 				

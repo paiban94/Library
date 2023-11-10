@@ -43,8 +43,6 @@ public interface MemberDAO {
 	//회원가입 버튼 클릭 후 emp_no 모달창으로
 //	public String getEmpNoModal(String emp_no)throws Exception;
 
-	//profile
-	//public int getProfile(MemberFileVO memberFileVO)throws Exception;
 	
 	//사원번호 찾기
 	public MemberVO findEmpNo(String name, String phone)throws Exception;
