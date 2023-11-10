@@ -75,11 +75,25 @@
 																<button id="deleteBtn" type="button" class="btn btn-primary btn-sm" onclick="deleteBoard(${data.board_no})">삭제</button>
 															</div>
 															<button id="goList" type="button" class="btn btn-primary btn-sm">목록</button>
+															<br>
+															
+															<div><span>첨부파일</span></div>
+															<br>
+															<br>
+															<div class="row">
+																<ul>
+																	<c:forEach items="${files}" var="file">
+																		<li>
+																			<a href="./fileDown/${file.file_no}">${file.file_oriName}</a>
+																		</li>
+																	</c:forEach>
+																</ul>
+															</div>
 
 
 
 															<div class="mb-3 border-bottom ">
-																<ul class="nav nav-underline">
+																<ul class="nav nav-underline">	
 																	<li class="nav-item"><a class="nav-link active fs-5"
 																			id="review" data-target="review"
 																			aria-current="page" href="#">댓글</a>

@@ -30,7 +30,7 @@ public interface AnnouncementDAO {
 
 	public int setDelete(AnnouncementVO boardVO) throws Exception;
 
-	public FileVO getFileDetail(FileVO fileVO) throws Exception;
+	public List<BoardFileVO> getFileDetail(AnnouncementVO boardVO) throws Exception;
 	
 	public Long getTotal(Pager pager) throws Exception;
 
@@ -67,7 +67,6 @@ public interface AnnouncementDAO {
 	
 	public int increaseViews(BoardVO boardVO) throws Exception;
 
-	public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 
@@ -75,5 +74,10 @@ public interface AnnouncementDAO {
 
 
 	public int setFileAdd(BoardFileVO boardFileVO) throws Exception;
+	
+	public AnnouncementVO getLastestBoard(AnnouncementVO boardVO) throws Exception;
+
+	public BoardFileVO getFileInfo(Long file_no) throws Exception;
+	
 
 }

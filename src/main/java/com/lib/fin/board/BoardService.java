@@ -13,7 +13,6 @@ public interface BoardService {
 
 	public List<BoardVO> getList(Pager pager) throws Exception;
 
-//public List<AnnouncementVO> getPaginatedList(Map<String, Object> params) throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 

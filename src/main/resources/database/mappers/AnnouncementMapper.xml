@@ -14,17 +14,35 @@
 			AND BOARD_TITLE LIKE CONCAT("%", #{search}, "%")
 		</if>
 	</sql>
+	
+	
+	<resultMap id="boardFileVOResultMap" type="com.lib.fin.board.BoardFileVO">
+    	<result column="FILE_SAVENAME" property="file_name"/>
+	</resultMap>
 
 
 	<select id="getList" resultType="AnnouncementVO"
 		parameterType="Pager">
-		SELECT * FROM 
+		SELECT * FROM
 		( SELECT *, ROW_NUMBER() OVER (ORDER BY BOARD_NO DESC) AS
 		ROWNUM
-		FROM BOARD_BASE
+		FROM
+		BOARD_BASE
 		<include refid="searchSql"></include>
 		) T
 		WHERE T.ROWNUM BETWEEN #{startRow} AND #{lastRow}
+	</select>
+	<!-- FileDetail query -->
+	<select id="getFileDetail" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
+		SELECT * FROM
+		FILE_BASE WHERE
+		BOARD_NO = #{board_no}
+	</select>
+
+	<select id="getFileInfo" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
+		SELECT * FROM
+		FILE_BASE WHERE
+		FILE_NO = #{file_no}
 	</select>
 
 
@@ -87,23 +105,6 @@
 		BOARD_NO=#{board_no}
 	</update>
 
-	<select id="getPaginatedList" resultType="AnnouncementVO"
-		parameterType="map">
-		SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' AND USE_YN = 'Y'
-		<if test="search != null and kind != null">
-			<choose>
-				<when test='kind == "W"'>
-					AND REG_ID LIKE '%'||#{search}||'%'
-				</when>
-				<when test='kind == "N"'>
-					AND BOARD_TITLE LIKE '%'||#{search}||'%'
-				</when>
-			</choose>
-		</if>
-		ORDER BY BOARD_NO DESC
-		LIMIT #{startRow}, #{pageSize}
-	</select>
-
 
 	<select id="getTotalAnnouncementCount" resultType="Long">
 		SELECT
@@ -129,9 +130,9 @@
 
 	<insert id="setFileAdd" parameterType="BoardFileVO">
 		INSERT INTO FILE_BASE
-		(BOARD_NO,FILE_SAVENAME,FILE_ORIGINALNAME,FILE_TYPE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
+		(BOARD_NO,FILE_SAVENAME,FILE_ORINAME,FILE_TYPE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
 		VALUES
-		(#{board_no},#{file_name},#{file_oriName},#{file_type},#{reg_id},#{reg_id},NOW(),NOW(),#{use_yn})
+		(#{board_no}, #{file_name} , #{file_oriName} , #{file_type} , #{reg_id} , #{reg_id} , NOW() , NOW(),#{use_yn})
 	</insert>
 
 	<delete id="deleteLike">
@@ -158,6 +159,11 @@
 		WHERE BOARD_NO = #{board_no}
 	</update>
 
-
+	<select id="getLastestBoard" parameterType="BoardVO">
+		SELECT * FROM
+		BOARD_BASE
+		WHERE REG_ID = #{reg_id}
+		ORDER BY BOARD_NO DESC LIMIT 1
+	</select>
 
 </mapper>

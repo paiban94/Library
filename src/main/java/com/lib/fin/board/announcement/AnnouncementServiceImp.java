@@ -41,7 +41,6 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		pager.makePageNum(announcementDAO.getTotal(pager));
 		List<BoardVO> list = announcementDAO.getList(pager);
 		for (BoardVO boardVO : list) {
-
 			System.out.println("=====Test id : " + boardVO.getReg_id());
 			MemberVO memberVO = announcementDAO.getBoardwriter(boardVO);
 			boardVO.setBoard_wirter(memberVO.getName() + " " + memberVO.getEmp_position());
@@ -53,41 +52,55 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	public int getTotalAnnouncementCount() throws Exception {
 		return announcementDAO.getTotalAnnouncementCount();
 	}
+	
+	@Override
+	public List<BoardFileVO> getFileDetail(AnnouncementVO boardVO) throws Exception {
+		List<BoardFileVO> ar = announcementDAO.getFileDetail(boardVO);
+		for (BoardFileVO boardFileVO : ar) {
+			System.out.println("=========boardFileVO :"+boardFileVO.toString());
+			System.out.println("=========boardFileVO Origin Name:"+boardFileVO.getFile_oriName());
+		}
+		return ar;
+	}
 
 	@Override
-	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception {
+	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> files1) throws Exception {
+		String reg_id = boardVO.getReg_id();
 	    int result = announcementDAO.addWriting(boardVO);
+	    boardVO = announcementDAO.getLastestBoard(boardVO);
 		try {
 		    String path = filePath + announceName;
-		    if (list != null) {
+		    if (files1 != null) {
 		    
-		        for (MultipartFile multipartFile : list) {
-		    
+		        for (MultipartFile multipartFile : files1) {
+		        	
 		            if (multipartFile.isEmpty()) {
 		                continue;
 		            }
 		            
 		            BoardFileVO boardFileVO = new BoardFileVO();
 		            String fileName = fileManager.save(path, multipartFile);
-		    
+		            System.out.println("saveName ===>> : "+fileName);
 		            boardFileVO.setBoard_no(boardVO.getBoard_no());
 		            boardFileVO.setFile_name(fileName);
 		            boardFileVO.setFile_oriName(multipartFile.getOriginalFilename());
 		            boardFileVO.setFile_type("A");
-		            boardFileVO.setReg_id(boardVO.getReg_id());
-		            boardFileVO.setMod_id(boardVO.getMod_id());
+		            boardFileVO.setReg_id(reg_id);
+		            boardFileVO.setMod_id(reg_id);
 		            boardFileVO.setUse_yn("Y");
+		            System.out.println("fileVO"+boardFileVO.toString());
 		            result = announcementDAO.setFileAdd(boardFileVO);
 		        }
 		    }
 		} catch (Exception e) {
-			System.out.println("step error");
 			System.out.println("파일 업로드 중 오류 발생: " + e.getMessage());
+			e.printStackTrace();
 		   
 		}
 		return result;
 		
 	}
+
 
 	@Override
 	public MemberVO getBoardwriter(BoardVO boardVO) throws Exception {
@@ -114,11 +127,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		return announcementDAO.setDelete(boardVO);
 	}
 
-	@Override
-	public FileVO getFileDetail(FileVO fileVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public int addComment(CommentVO comment) throws Exception {
@@ -164,5 +173,12 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	public void increaseViews(BoardVO boardVO) throws Exception {
 		announcementDAO.increaseViews(boardVO);
 	}
+
+	@Override
+	public BoardFileVO getFileInfo(Long file_no) throws Exception {
+		return announcementDAO.getFileInfo(file_no);
+	}
+
+
 
 }
