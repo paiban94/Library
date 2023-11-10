@@ -219,7 +219,8 @@
                         eventLimit: true,
                         editable:true,
 						droppable:true,
-                        customButtons: {
+						 dayMaxEvents: 2,
+						customButtons: {
 
                             myCustomButton: {
                                 text: '일정 추가',
