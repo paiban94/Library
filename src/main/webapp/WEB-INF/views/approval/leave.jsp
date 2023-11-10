@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 
@@ -33,7 +30,12 @@
 					<section class="section dashboard">
 
 						<div class="container">
-							<form action="./expense" method="post" id="frm" enctype="multipart/form-data">
+							<form action="./draft" method="post" id="frm" enctype="multipart/form-data">
+								<input type="hidden" id="grp_cd" name="grp_cd" value="B">
+								<input type="hidden" id="approval_state" name="approval_state" value="R">
+								<input type="hidden" id="temp_save" name="temp_save" value="N">
+								<input type="hidden" id="midApp" name="midApp" value="">
+								<input type="hidden" id="lastApp" name="lastApp" value="">
 
 
 							<div class="row">

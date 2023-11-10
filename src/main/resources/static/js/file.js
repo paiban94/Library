@@ -100,5 +100,3 @@ $("#summernote").summernote({
     }
 })
 
-
-

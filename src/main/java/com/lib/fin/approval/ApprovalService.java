@@ -113,10 +113,12 @@ public class ApprovalService {
 		
 		return approvalDAO.getAppLine(doc_no);
 	}
+	
 	//DOCList
-	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception{
+	public List<ApprovalDocVO> getAppDocList(Map<String, Object> parmas)throws Exception{
 		
-		return approvalDAO.getAppDocList(emp_no);
+		
+		return approvalDAO.getAppDocList(parmas);
 		
 	}
 	
@@ -131,7 +133,8 @@ public class ApprovalService {
 				
 		return result;
 	}
-	//DOCList
+	
+	//결재 상태 변화
 	public Map<String,Object> docApproval(Map<String,Object> param)throws Exception{
 		Map<String,Object> resultMap = new HashMap<>();
 		int resultInt = approvalDAO.docApproval(param);

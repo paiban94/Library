@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,13 +58,13 @@ public class ApprovalController {
 				
 		approvalService.setDraft(params,approvalDocVO, files1);
 		
-		return "approval/draft";
+		return "redirect:list?k=com";
 	}
 		
 	//기안 detail
 	@GetMapping("draftDetail")
-	public String getDraftDetail(@AuthenticationPrincipal MemberVO memberVO, ApprovalDocVO approvalDocVO, Model model)throws Exception{
-	
+	public String getDraftDetail(@AuthenticationPrincipal MemberVO memberVO, ApprovalDocVO approvalDocVO, Model model, String k)throws Exception{
+		log.info("Kind = {} ", k);
 	//기안문서 정보 가져오기
 	approvalDocVO = approvalService.getDraftDetail(approvalDocVO);
 	 
@@ -101,12 +102,29 @@ public class ApprovalController {
 	}
 	
 	//기안 list
-	@GetMapping("comDocList")
-	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
-		
+	@GetMapping("list")
+	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model, String k)throws Exception{
+		log.info("Kind = {} ", k);
+		String kindName="";
+		if(k.equals("ready")) {
+			kindName="결재대기";
+		}else if(k.equals("exp")){
+			kindName="결재예정";
+		}else if(k.equals("com")){
+			kindName="기안문서함";
+		}else if(k.equals("temp")){
+			kindName="임시문서함";
+		}else {
+			kindName="결재문서함";
+		}
+		model.addAttribute("kindName",kindName);
 		String emp_no = memberVO.getEmp_no(); //세션에서 사번 꺼내오기
 		
-		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(emp_no);
+		Map<String, Object> parmas = new HashMap<>();
+		parmas.put("emp_no",emp_no);
+		parmas.put("k",k);
+		
+		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(parmas);
 		model.addAttribute("list",ar);
 		
 		return "approval/comDocList";

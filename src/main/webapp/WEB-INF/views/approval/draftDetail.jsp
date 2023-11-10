@@ -35,17 +35,8 @@
 					<section class="section dashboard">
 
 						<div class="container">
-							<form action="/approval/draft" method="post" id="frm"
-								enctype="multipart/form-data">
-
-								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
-								<input type="hidden" id="approval_state" name="approval_state" value="R">
-								<input type="hidden" id="temp_save" name="temp_save" value="N">
-								<input type="hidden" id="midApp" name="midApp" value="">
-								<input type="hidden" id="lastApp" name="lastApp" value="">
-
-	
-	 							
+							
+		
 			<sec:authentication property="principal" var="vo"></sec:authentication> 
 
 								<div class="row">
@@ -101,7 +92,7 @@
 
 
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
+															<td><img id="sign_img" src="/files/sign/"></td>
 														</tr>
 														
 														<tr>
@@ -175,31 +166,20 @@
 												<!-- 상단 오른쪽 end -->
 											</div>
 
+										
 											<!-- 본문 -->
-											<div class="row mx-3" id="Body">
-												<div class="col-lg-12">
-													<table class="table table-bordered">
-														<tr>
-															<th class="table-light" style="width: 10%">시행일자</th>
-															<td>${docVO.start_date}</td>
-														</tr>
-														
-														<tr>
-															<th class="table-light">제목</th>
-															<td>${docVO.doc_title}</td>
-														</tr>
-														<tr>
-															<td colspan="2">
-																<div>
-																	${docVO.doc_contents}
-																</div >
-															</td>
-
-														</tr>
-													</table>
-												</div>
-
-											</div>
+											<c:choose>
+												<c:when test="${docVO.grp_cd eq 'A'}">
+													<c:import url="./temp_detail_d.jsp"></c:import>
+												</c:when>
+												<c:when test="${docVO.grp_cd eq 'B'}">
+													<c:import url="./temp_detail_e.jsp"></c:import>
+												</c:when>
+												<c:otherwise>
+													<c:import url="./temp_detail_l.jsp"></c:import>
+												</c:otherwise>
+											</c:choose>
+											
 											<!-- 본문 end  -->
 
 											<div class="row mx-3 my-3">
@@ -211,11 +191,13 @@
 
 
 													<!-- button  -->
-
-													<button type="button" id="btn_appr" onClick="doc_approval('S')" style="display:none" class="btn btn-primary btn-sm">승인</button>
-													<button type="button" id="btn_refusal" href="javascript:doc_approval('C')" style="display:none" class="btn btn-primary btn-sm">반려</button>
-													<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm">기안취소</button>
+													<div class="btn-group my-3" role="group" aria-label="Document Approval Buttons">
+														<button type="button" id="btn_appr" onClick="doc_approval('S')" style="display:none" class="btn btn-primary btn-sm mx-1">승인</button>
+														<button type="button" id="btn_refusal" href="javascript:doc_approval('C')" style="display:none" class="btn btn-primary btn-sm mx-1">반려</button>
+														<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm mx-1">기안취소</button>
+														<a href="./list?k=${param.k}">목록111</a>
 													
+													</div>
 									 				<c:forEach items="${docVO.fileVOs}" var="f">
 														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_oriName}</a><div>
 													</c:forEach> 
@@ -236,7 +218,7 @@
 
 
 								</div>
-							</form>
+						
 
 						</div>
 			</div>

@@ -37,7 +37,12 @@
 					<section class="section dashboard">
 
 						<div class="container">
-							<form action="./leave" method="post" id="frm" enctype="multipart/form-data">
+							<form action="./draft" method="post" id="frm" enctype="multipart/form-data">
+								<input type="hidden" id="grp_cd" name="grp_cd" value="H">
+								<input type="hidden" id="approval_state" name="approval_state" value="R">
+								<input type="hidden" id="temp_save" name="temp_save" value="N">
+								<input type="hidden" id="midApp" name="midApp" value="">
+								<input type="hidden" id="lastApp" name="lastApp" value="">
 
 
 							<div class="row">

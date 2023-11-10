@@ -24,7 +24,7 @@ public interface ApprovalDAO {
 	public int setApprovalHis(ApprovalHisVO approvalHisVO)throws Exception;
 	
 	//docLis
-	public List<ApprovalDocVO> getAppDocList(String emp_no)throws Exception;
+	public List<ApprovalDocVO> getAppDocList(Map<String, Object> parmas)throws Exception;
 	
 	public List<ApprovalHisVO> getAppLine(String doc_no)throws Exception;
 	

@@ -30,4 +30,12 @@ public class ApprovalDocVO extends CommonVO {
 	private String name;
 
 	private List<ApprovalFileVO> fileVOs;
+	
+	public Date getEnd_date() {
+		if(this.end_date == null) {
+			return new Date(System.currentTimeMillis());
+		}
+		
+		return this.end_date;
+	}
 }

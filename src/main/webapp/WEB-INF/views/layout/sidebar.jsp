@@ -48,17 +48,17 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_new" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/approval/draft">
+            <a href="/approval/draft?k=d">
               <i class="bi bi-circle"></i><span>업무기안</span>
             </a>
           </li>
           <li>
-            <a href="/approval/leave">
+            <a href="/approval/draft?k=l">
               <i class="bi bi-circle"></i><span>휴가신청서</span>
             </a>
           </li>
           <li>
-            <a href="/approval/expense">
+            <a href="/approval/draft?k=e">
               <i class="bi bi-circle"></i><span>지출결의서</span>
             </a>
           </li>
@@ -73,12 +73,12 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="/approval/list?k=ready">
               <i class="bi bi-circle"></i><span>결재 대기 문서</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/list?k=exp">
               <i class="bi bi-circle"></i><span>결재 예정 문서</span>
             </a>
           </li>
@@ -93,17 +93,17 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_doc" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/approval/comDocList">
+            <a href="/approval/list?k=com">
               <i class="bi bi-circle"></i><span>기안 문서함</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/list?k=temp">
               <i class="bi bi-circle"></i><span>임시 문서함</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/list?k=done">
               <i class="bi bi-circle"></i><span>결재 문서함</span>
             </a>
           </li>

@@ -43,7 +43,7 @@
 						<div class="container">
 							<form action="/approval/draft" method="post" id="frm" enctype="multipart/form-data">
 
-								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
+								
 								<input type="hidden" id="approval_state" name="approval_state" value="R">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 								<input type="hidden" id="midApp" name="midApp" value="">
@@ -59,7 +59,15 @@
 									<!-- 각 영역 크기조절하기 -->
 									<div class="col-lg-12">
 										<div class="card">
-											<h1 class="my-5 " align="center">업무 기안</h1>
+											<h1 class="my-5 " align="center">
+											<c:choose>
+												<c:when test="${param.k eq 'd'}"> 업무기안</c:when>
+												<c:when test="${param.k eq 'l'}"> 휴가신청서</c:when>
+												<c:otherwise>
+													지출결의서
+												</c:otherwise>
+											</c:choose>
+											</h1>
 
 											<!-- 상단 왼쪽 strart -->
 											<div class="row grid text-center mx-3">
@@ -197,30 +205,17 @@
 											</div>
 
 											<!-- 본문 -->
-											<div class="row mx-3" id="Body">
-												<div class="col-lg-12">
-													<table class="table table-bordered">
-														<tr>
-															<th class="table-light" style="width: 10%">시행일자</th>
-															<td><input type="date" class="form-control w-25" id="startDate" name="start_date"></td>
-														</tr>
-														
-														<tr>
-															<th class="table-light">제목</th>
-															<td><input type="text" class="form-control w-75" id="title" name="doc_title"></td>
-														</tr>
-														<tr>
-															<td colspan="2">
-																<div>
-																	<textarea id="summernote" name="doc_contents"></textarea>
-																</div>
-															</td>
-
-														</tr>
-													</table>
-												</div>
-
-											</div>
+											<c:choose>
+												<c:when test="${param.k eq 'l'}">
+												<c:import url="./temp_l.jsp"></c:import>
+												</c:when>
+												<c:when test="${param.k eq 'e'}">
+												<c:import url="./temp_e.jsp"></c:import>
+												</c:when>
+												<c:otherwise>
+												<c:import url="./temp_d.jsp"></c:import>
+												</c:otherwise>
+											</c:choose>
 											<!-- 본문 end  -->
 
 											<div class="row mx-3 my-3">
