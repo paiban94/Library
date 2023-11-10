@@ -126,7 +126,7 @@
                         <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
 						  <option selected>예약종류을 선택하세요</option>
 						  <option value="R001">회의실</option>
-						  <option value="R002">빔프로젝트2</option>
+						  <option value="R002">빔프로젝트</option>
 						  <option value="R003">노트북</option>
 						</select>
 						<label for="taskId" class="col-form-label">상세 종류</label>
@@ -210,7 +210,7 @@
 	      navLinks:true,
 	      eventLimit:true,
 	      editable:true,
-	      
+	      dayMaxEvents: 2,
 	      
 	      customButtons: {
 	    	  myResButton:{
