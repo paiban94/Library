@@ -93,7 +93,7 @@
 							 <div id="calendarBox">
 						       <div class="hstack gap-3 text-decoration-underline">
 								  
-								  <a href="/schedule/getSchedule">일정</a>
+								  <a href="/schedule/getSchedule">일정</a>&emsp;
 								  <a href="/reservation/getReservation">예약</a>
 								</div>
 						        <div id="calendarR"></div>
@@ -210,7 +210,7 @@
 	      navLinks:true,
 	      eventLimit:true,
 	      editable:true,
-	      dayMaxEvents: 2,
+	      dayMaxEvents: 1,
 	      
 	      customButtons: {
 	    	  myResButton:{
