@@ -6,7 +6,7 @@
   <mapper namespace="com.lib.fin.reservation.ReservationDAO">
   <insert id="setReservationAdd" parameterType="ReservationVO">
 		INSERT INTO RESERVATION_BASE 
-		values(0, #{facility_no},#{emp_no},#{grp_cd}, #{res_start_time}, #{res_end_time},#{res_purpose} , #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y');
+		values(0, #{emp_no},#{grp_cd},#{cd}, #{res_start_time}, #{res_end_time},#{res_purpose} , #{emp_no}, #{emp_no}, sysdate(), sysdate(), 'Y');
    </insert>
    
    <select id="getReservationList" resultType="Map">

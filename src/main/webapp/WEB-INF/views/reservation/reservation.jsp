@@ -113,8 +113,8 @@
                 <form id="addForm" action="./add" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                    	<input type="text" class="form-control" value="${member.emp_no}" name="emp_no" id="emp_no">
-						<input type="text" class="form-control" value="${CommonVO.red_id}" name="red_id" id="red_id">
+                    	<input type="hidden" class="form-control" value="${memberVO.emp_no}" name="emp_no" id="emp_no">
+						<input type="hidden" class="form-control" value="${memberVO.emp_no}" name="red_id" id="red_id">
                     					
                         <label for="taskId" class="col-form-label">예약시작일</label>
                         <input type="date" class="form-control" id="res_start_time" name="res_start_time">
@@ -128,6 +128,13 @@
 						  <option value="R001">회의실</option>
 						  <option value="R002">빔프로젝트2</option>
 						  <option value="R003">노트북</option>
+						</select>
+						<label for="taskId" class="col-form-label">상세 종류</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
+						  <option selected>예약종류을 선택하세요</option>
+						  <option value="A">1</option>
+						  <option value="B">2</option>
+						  <option value="C">3</option>
 						</select>
 							                     
                         <label for="taskId" class="col-form-label">사용목적</label>
@@ -228,7 +235,57 @@
 	    	  
 	      
 	      
-        	events:resListJson
+        	events:resListJson,
+        	eventDrop: function (info){
+            	console.log(info);
+            	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
+            		
+            	}
+            	 var events = new Array();
+                 var obj = new Object();
+
+                 obj.title = info.event._def.title;
+                 obj.start = info.event._instance.range.start;
+                 obj.end = info.event._instance.range.end;
+                 events.push(obj);
+
+                 console.log(events);
+                 $(function deleteData() {
+                     $.ajax({
+                         url: "/schedule/schedulelist",
+                         method: "PATCH",
+                         dataType: "json",
+                         data: JSON.stringify(events),
+                         contentType: 'application/json',
+                     })
+                 })
+            },
+            eventClick: function (info){
+                if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
+                   
+                    info.event.remove();
+                }
+
+                console.log(info.event);
+                var events = new Array();
+                var obj = new Object();
+                    obj.title = info.event._def.title;
+                    obj.start = info.event._instance.range.start;
+                    events.push(obj);
+
+                console.log(events);
+                $(function deleteData(){
+                    $.ajax({
+                        url: "/schedule/schedulelist",
+                        method: "DELETE",
+                        dataType: "json",
+                        data: JSON.stringify(events),
+                        contentType: 'application/json',
+                    })
+                })
+            },
+
+			
         
         	
         	

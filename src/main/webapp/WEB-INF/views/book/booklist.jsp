@@ -13,18 +13,18 @@
 <style type="text/css">
 .add-btn{width:80px;
 position:relative;
-left:1200px;
+left:1050px;
 top:20px}
 .title{
 text-align: center;
 }
 .del-btn{width:80px;
 position:relative;
-left:1300px;
+left:1150px;
 top:-10px}
 .card{width:1400px}
 .col-lg-6 {width:1400px }
-.tg  {border-collapse:collapse;border-spacing:0;width:1080px}
+.tg  {border-collapse:collapse;border-spacing:0;width:1080px;position:relative;left:150px;}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;

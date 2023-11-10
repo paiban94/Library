@@ -54,8 +54,10 @@ public class ReservationController {
 	}
 	
 	@PostMapping("add")
-	public String setReservationAdd(HttpServletRequest request, ReservationVO reservationVO)throws Exception{ 
-			        
+	public String setReservationAdd(@AuthenticationPrincipal MemberVO memberVO, HttpServletRequest request, ReservationVO reservationVO)throws Exception{ 
+			
+		reservationVO.setEmp_no(memberVO.getEmp_no());
+		
 		 int result = reservationService.setReservationAdd(reservationVO);
 		
 		 return "redirect:./getReservation";

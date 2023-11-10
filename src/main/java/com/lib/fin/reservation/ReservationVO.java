@@ -13,9 +13,8 @@ import lombok.ToString;
 
 public class ReservationVO extends CommonVO{
 
-	private int res_No;
-	private int facility_No;
-	private String emp_No;
+	private int res_no;
+	private String emp_no;
 	private String grp_cd;
 	private String cd;
 	private Date res_start_time;

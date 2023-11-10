@@ -55,6 +55,8 @@ public class ScheduleController {
 	@PostMapping("add")
 	public String setScheduleAdd(@AuthenticationPrincipal MemberVO memberVO, HttpServletRequest request, ScheduleVO scheduleVO)throws Exception{
 			        
+		scheduleVO.setEmp_no(memberVO.getEmp_no());
+		
 		 int result = scheduleService.setScheduleAdd(scheduleVO);
 		
 		 return "redirect:./getSchedule";
@@ -62,7 +64,7 @@ public class ScheduleController {
 	
 	@RequestMapping("scheduleList")
 	@ResponseBody
-	public void getEvents(HttpServletRequest request,
+	public void getEvents(@AuthenticationPrincipal MemberVO memberVO,HttpServletRequest request,
 								HttpServletResponse response) throws Exception{
 		JSONObject resultJson = new JSONObject();
 		Map<String, Object> params = CommonJava.getParameterMap(request);
