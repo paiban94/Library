@@ -140,6 +140,7 @@ left:150px;
 							  <tr>
 							    <th class="tg-0pky th-0">선택</th>
 							    <th class="tg-0pky th-1">공용품코드</th>
+							    <th class="tg-0pky th-1">상세코드</th>
 							    <th class="tg-0pky th-2">공용품이름</th>
 							    <th class="tg-0pky th-3">상세내용</th>
 							  </tr>
@@ -155,6 +156,7 @@ left:150px;
 							    </td>
 							    </form>
 							    <td class="tg-0pky mt-1">${vo.grp_cd}</td>
+							    <td class="tg-0pky mt-1">${vo.cd}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>
 										
@@ -172,12 +174,13 @@ left:150px;
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
-							      <label for="taskId" class="col-form-label" >공용품번호</label>
-							      		<input type="text" name="facility_no" value="${vo.facility_no}" ></input>
+							  
 							      		<br>
 							      		<input type="hidden" value="member.emp_no" name="mod_id"></input>
 							       <label for="taskId" class="col-form-label">종류구분</label>
                         				<input type="text" class="form-control" id="grp_cd" name="grp_cd" value="${vo.grp_cd}">
+							        <label for="taskId" class="col-form-label">상세구분</label>
+                        				<input type="text" class="form-control" id="cd" name="cd" value="${vo.cd}">
 							        <label for="taskId" class="col-form-label">공용품명</label>
                         				<input type="text" class="form-control" id="facility_name" name="facility_name" value="${vo.facility_name}">
 							        <label for="taskId" class="col-form-label">상세내용</label>

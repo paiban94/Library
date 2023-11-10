@@ -17,6 +17,8 @@ public class FacilityServiceImp implements FacilityService {
 		pager.makePageNum(facilityDAO.getTotal(pager));
 		List<FacilityVO> list = facilityDAO.getFacilitylist(pager);
 		for (FacilityVO facilityVO : list) {			
+		
+		
 		}
 		return list;
 	}

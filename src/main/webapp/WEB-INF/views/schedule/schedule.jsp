@@ -212,7 +212,7 @@
                     var calendarEl = document.getElementById('calendarS');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
 
-                        locale: "ko",
+                        locale: 'ko',
                         timeZone: 'Asia/Seoul',
                         initialView: 'dayGridMonth',
                         navLinks: true,
