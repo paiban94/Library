@@ -95,7 +95,7 @@
 		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y'
 		</if>
 		<if test="k=='done'">
-		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y' and ad.APPROVAL_STATE = "O"
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N' and ad.APPROVAL_STATE = "O"
 		</if>
 		
 		ORDER BY DOC_NO DESC
