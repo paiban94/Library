@@ -1,6 +1,6 @@
 package com.lib.fin.attendance;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.lib.fin.commons.CommonVO;
 
@@ -12,7 +12,7 @@ public class AttendanceVO extends CommonVO{
 
 	private int atd_no;
 	private String emp_no;
-	private Date gtw_time;
-	private Date lw_time;
-	private String status;
+	private Timestamp gtw_time;
+	private Timestamp lw_time;
+	private Timestamp attendanceDate;
 }

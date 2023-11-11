@@ -25,7 +25,7 @@
 	<typeAlias type="com.lib.fin.board.announcement.AnnouncementVO" alias="AnnouncementVO"/>
 	<typeAlias type="com.lib.fin.board.comment.CommentVO" alias="CommentVO"/>	
 	<typeAlias type="com.lib.fin.board.community.CommunityVO" alias="CommunityVO"/>
-
+	<typeAlias type="com.lib.fin.attendance.AttendanceVO" alias="AttendanceVO" />
 	<typeAlias type="com.lib.fin.board.LikeVO"  alias="LikeVO"/>
 
 	</typeAliases>
