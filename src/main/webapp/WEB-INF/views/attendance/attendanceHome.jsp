@@ -166,16 +166,16 @@ left:300px;
             success(data){
                 console.log(data);
                 if(data){
-                    const {no,startWork,endWork,overtime,regDate,state,dayWorkTime,empId} = data;
-                    var starttime = new Date(startWork);
-                    var endtime = new Date(endWork);
+                    const {atd_no,emp_no,gtw_time,lw_time,reg_id,reg_date,mod_id,mod_date,use_yn,status,overtime,dayWorkTime} = data;
+                    var starttime = new Date(gtw_time);
+                    var endtime = new Date(lw_time);
                     
                     //하루 근무시간 계산
                     const daytimes = endtime - starttime; //퇴근시간 - 출근시간
                     console.log(daytimes);
                     
-                    const workState = document.querySelector("#work-state");
-                    workState.textContent = state;
+                    const workState = document.querySelector("#work-status");
+                    workState.textContent = status;
                     
                     
                     if(startWork){
