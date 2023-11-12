@@ -108,10 +108,6 @@ float:left;
                                     <td class="font-14 font-bold">퇴근시간</td>
                                     <td class="text-right font-14" id="endwork-time">미등록</td>
                                 </tr>
-                                <tr>
-                                    <td class="font-14 font-bold">주간 누적 근무시간</td>
-                                    <td class="text-right font-14" id="totalwork-time">0h 0m 0s</td>
-                                </tr>
                                 <tr class="btn-tr">
                                     <td><button class="font-bold" id="btn-startwork">출근하기</button></td>
                                     <td class="text-right"><button class="font-bold" id="btn-endwork">퇴근하기</button></td>

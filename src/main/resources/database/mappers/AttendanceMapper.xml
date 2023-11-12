@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.lib.fin.attendance.AttendanceDAO">
+	  <insert id="setGtw_time">
+		  insert into ATTENDANCE_BASE
+		  values(0,#{emp_no},now(),null,#{emp_no},sysdate(),#{emp_no},sysdate(),'Y','출근',0,0)
+		  
+	  </insert>
+	  
+  </mapper>
