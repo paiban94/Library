@@ -56,6 +56,60 @@ public class MemberController {
 	@Value("${app.url.path}")
 	private String urlPath;
 	
+
+	
+	//관리자페이지
+	@GetMapping("adminPage")
+	public String adminPage()throws Exception{
+		  return "member/adminPage";
+	}
+	
+	
+	//멤버관리자페이지 멤버리스트
+	@RequestMapping("adminMemberPage")
+	public String AdminMemList(Model model, MemberVO memberVO)throws Exception{
+		List<MemberVO> adminMemList = memberService.getAdminMemList(memberVO);
+		log.info("=====authority{}",memberVO.getAuthority(),"=====authorities{}",memberVO.getAuthorities());
+		model.addAttribute("adminMemList",adminMemList);
+		return "member/adminMemberPage";
+	}
+	
+	//멤버관리자페이지 상세정보
+	@RequestMapping("adminDetailPage")
+	public String getAdminDetail(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
+		MemberVO memberVO = memberService.getAdminDetail(emp_no);
+		// memberVO를 adminDetailPage 뷰로 전달
+		model.addAttribute("memberVO",memberVO);
+		return "member/adminDetailPage";
+	}
+
+	
+	
+//		//멤버 관리자 상세정보 업데이트 페이지
+		@GetMapping("adminUpdate")
+		public String adminMemUpdate(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
+			//emp_no를 사용하여 회원정보가져오기
+			MemberVO memberVO = memberService.getAdminDetail(emp_no);
+			//memberVO 를 adminUpdate 뷰로 전달
+			model.addAttribute("memberVO",memberVO);
+			return "member/adminUpdate";
+	}
+		
+		@PostMapping("adminUpdate")
+		public String adminMemUpdate(@ModelAttribute MemberVO memberVO)throws Exception{
+			int result = memberService.adminMemUpdate(memberVO);
+			
+			if(result>0) {
+				log.info("관리자 멤버 정보 변경 성공");
+			}else {
+				log.info("관리자 멤버 정보 변경 실패");
+			}
+			return "member/adminDetailPage";
+			//return "redirect:/adminDetailPage?emp_no="+memberVO.getEmp_no();
+		}
+		
+		
+	
 	
 	//멤버리스트
 	@GetMapping("memberList")
@@ -65,13 +119,7 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
-	//부서리스트 
-	@GetMapping("teamList")
-	public String TeamList(String emp_team,Model model)throws Exception{
-		List<MemberVO> teamList = memberService.getTeamList(emp_team);
-		model.addAttribute("teamList",teamList);
-		return "member/teamList";
-	}
+	
 	
 	//회원가입 페이지 출력 요청
 	@GetMapping("join")
@@ -166,6 +214,7 @@ public class MemberController {
 	@GetMapping("mypage")
 	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
 		//String emp_no = memberVO.getEmp_no();
+
 		model.addAttribute("memberVO",memberVO);
 		return "member/mypage";	
 	}
@@ -194,6 +243,7 @@ public class MemberController {
 		 	
 		 	  try {
 		 		  
+		 		  	
 		 		  	String fileName = fileManagerProfile.save(filePath, photo, memberVO);
 		 	        int result = memberService.updateMember(memberVO, photo);
 
@@ -213,34 +263,10 @@ public class MemberController {
 		 	        model.addAttribute("errorImage", "프로필 이미지 또는 정보 수정 중 오류가 발생했습니다.");
 		 	    }
 
-//		 	 log.info("photo : name: {} " , photo.getName()  );
-//		 	 log.info("photo : size : {} ", photo.getSize());
-//		 	 log.info("photo : size : {} ", photo.getOriginalFilename());
-		 	  
+
 		 	    return "member/mypage";
 	 }
-          
-//          int result = memberService.updateMember(memberVO, photo);
-//          
-//          if (result > 0) {
-//              log.info("===========프로필 이미지 저장이 성공했습니다.=========");
-//          } else {
-//              log.info("===========프로필 이미지 저장이 실패했습니다.=========");
-//              
-//          }
-//          
-//
-//	        //int result = memberService.updateMember(memberVO,profile);
-//	    	log.info("===업데이트RESULT:{}====",result);
-//	        if (result > 0) {
-//	            model.addAttribute("success", memberVO);
-//	        } else {
-//	            model.addAttribute("error", "정보 수정에 실패했습니다.");
-//	        }
-//	        
-//	        
-//	        return "member/mypage";
-//	    }
+         
 
 	
 	@GetMapping("findEmpNo")

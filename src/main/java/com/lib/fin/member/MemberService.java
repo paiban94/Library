@@ -2,7 +2,8 @@
 	
 	import java.lang.reflect.Member;
 import java.security.Principal;
-	import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 	import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
-
-	import org.springframework.security.authentication.BadCredentialsException;
-	import org.springframework.security.core.annotation.AuthenticationPrincipal;
-	import org.springframework.security.core.context.SecurityContext;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.UserDetails;
 	import org.springframework.security.core.userdetails.UserDetailsService;
@@ -47,6 +50,9 @@ import lombok.extern.slf4j.Slf4j;
 		@Autowired
 		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
+		//이메일 전송	
+		@Autowired
+		private JavaMailSender javaMailSender;
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
@@ -60,18 +66,29 @@ import lombok.extern.slf4j.Slf4j;
 		private String photo;
 		
 	
-	
+		//관리자멤버리스트
+		   public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception {
+		        List<MemberVO> getAdminMemList = memberDAO.getAdminMemList(memberVO);
+		        return getAdminMemList;
+		    }
+	   //관리자 멤버 상세정보
+		   public MemberVO getAdminDetail(String emp_no) throws Exception {
+		        return memberDAO.getAdminDetail(emp_no);
+		    }
+		   
+
+		//관리자 멤버 정보 업데이트
+		  public int adminMemUpdate(MemberVO memberVO)throws Exception{
+			  return memberDAO.adminMemUpdate(memberVO);
+		  }
+		   
+		
 		//멤버리스트
 		   public List<MemberVO> getList(MemberVO memberVO)throws Exception {
 		        List<MemberVO> list = memberDAO.getList(memberVO);
 		        return list;
 		    }
-		//부서리스트
-		   public List<MemberVO> getTeamList(String emp_team)throws Exception{
-			   List<MemberVO> teamList = memberDAO.getTeamList(emp_team);
-			   return teamList;
-		   }
-		
+		   
 		
 		// 사원번호 모달에 전송
 		public String getEmpNoModal(MemberVO memberVO) {
@@ -110,15 +127,17 @@ import lombok.extern.slf4j.Slf4j;
 		    public int memJoin(MemberVO memberVO, Model model) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 			 	
-		     
 		        // 회원 정보 저장
-		        
 		        int result = memberDAO.memJoin(memberVO);
+		        Map<String, Object> map = new HashMap<>();
+		        map.put("roleNum",memberVO.getEmp_position());
+		        result = memberDAO.setMemberRole(map);
 		        return result;
 		    }   
-		 	//이미지저장
 		 	
-		 	public int setMemImage(MemberFileVO memberFileVO,MultipartFile photo, MemberVO memberVO)throws Exception{
+		 
+		 //이미지저장
+		public int setMemImage(MemberFileVO memberFileVO,MultipartFile photo, MemberVO memberVO)throws Exception{
 			 
 		 		
 		 		String path =filePath +photo;
@@ -135,7 +154,9 @@ import lombok.extern.slf4j.Slf4j;
 					   memberFileVO.setReg_id(memberFileVO.getEmp_no());
 					   memberFileVO.setMod_id(memberVO.getEmp_no());
 					   memberFileVO.setUse_yn("Y");
-					 
+					   
+					   //DB에 저장
+					   memberDAO.setMemImage(memberFileVO);
 				   }
 				
 			} catch (Exception e) {
@@ -167,7 +188,19 @@ import lombok.extern.slf4j.Slf4j;
 					memberVO=null;
 				}
 				
-				return memberVO;
+				List<GrantedAuthority> authorities = new ArrayList<>();
+				for(RoleVO roleVO : memberVO.getRoleVOs()) {
+					authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+				}
+				
+				UserDetails userDetails = new User(
+				memberVO.getEmp_no(),
+				memberVO.getPassword(),
+				authorities
+				);
+				
+				log.info("=====권한보기{}=====", authorities);
+				return userDetails;
 				
 			}
 		
@@ -175,9 +208,18 @@ import lombok.extern.slf4j.Slf4j;
 			//업데이트
 			@Transactional(rollbackFor = Exception.class)
 			public int updateMember(MemberVO memberVO, MultipartFile photo)throws Exception{
-				  MemberVO updatedMember = new MemberVO();
-				  updatedMember.setEmp_no(memberVO.getEmp_no()); // 
-				  log.info("===업데이트시 사원번호:{}===", updatedMember.getEmp_no());
+				  //MemberVO updatedMember = new MemberVO();
+				  MemberVO updatedMember = memberDAO.getLogin(memberVO);
+				  
+				  // 기존 정보를 유지하도록 설정
+				  memberVO.setEmp_team(updatedMember.getEmp_team());
+				  memberVO.setEmp_position(updatedMember.getEmp_position());
+				  memberVO.setBirth(updatedMember.getBirth());
+				  
+				  log.info("===업데이트시 사원번호:{}===", memberVO.getEmp_no());
+				  log.info("===업데이트시 생일:{}===", memberVO.getBirth());
+				  log.info("===업데이트시 부서:{}===", memberVO.getEmp_team());
+				  
 				  
 				  // 비밀번호가 입력된 경우에만 업데이트
 			    if (memberVO.getPassword() != null && !memberVO.getPassword().isEmpty()) {
@@ -190,12 +232,12 @@ import lombok.extern.slf4j.Slf4j;
 			    }
 			    
 			    //이메일과 전화번호
-			   // MemberVO updateMember = (MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			    //이메일이 null이 아니고 비어있지않으면 이메일 업데이트 처리
 			    if(memberVO.getEmail() != null && !memberVO.getEmail().isEmpty()) {
 			    	memberVO.setEmail(memberVO.getEmail());
 			    }else {
-			    	memberVO.setEmail(null);
+			    	//수정 안할 시 이전 이메일
+			    	memberVO.setEmail(memberVO.getEmail());
 			    }
 			    //전화번호가 null이 아니고 비어있지 않으면 전화번호 업데이트 처리
 			    if (memberVO.getPhone() != null && !memberVO.getPhone().isEmpty()) {
@@ -203,10 +245,15 @@ import lombok.extern.slf4j.Slf4j;
 			    }else {
 			    	memberVO.setPhone(null);
 			    }
-			    
-
-			  
-			    
+			    if(memberVO.getBirth()==null) {
+			    	memberVO.setBirth(memberVO.getBirth());
+			    }
+			    if(memberVO.getEmp_team()==null) {
+			    	memberVO.setEmp_team(memberVO.getEmp_team());
+			    }
+			    if(memberVO.getBirth()==null) {
+			    	memberVO.setEmp_position(memberVO.getEmp_position());
+			    }
 				log.info("====정보수정중{}====", memberVO);
 				
 				int result = memberDAO.updateMember(memberVO);

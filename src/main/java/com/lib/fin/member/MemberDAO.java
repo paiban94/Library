@@ -25,13 +25,19 @@ public interface MemberDAO {
 	//회원목록
 	public List<MemberVO> getList(MemberVO memberVO)throws Exception;
 	
-	//부서목록
-	public List<MemberVO> getTeamList(String emp_team)throws Exception;
+	//관리자 회원목록
+	public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception;
+	
+	//관리자 멤버 상세 정보 조회
+	public MemberVO getAdminDetail(String emp_no)throws Exception;
+	
+	//관리자 멤버 정보 변경
+	public int adminMemUpdate (MemberVO memberVO)throws Exception;
 	
 	//imagefile
 	public int setMemImage(MemberFileVO memberFileVO)throws Exception;
 	
-	//공통코드 테이블 
+	//권한부여
 	public int setMemberRole(Map<String, Object> map) throws Exception;
 
 	//업데이트
