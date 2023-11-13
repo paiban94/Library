@@ -35,4 +35,9 @@
 		ORDER BY GRP_CD DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
+	<select id="getTotalFacilityCount" resultType="Long">
+		SELECT 
+		COUNT(*) FROM FACILITY_BASE WHERE USE_YN='Y'
+	</select>
+	
    </mapper>

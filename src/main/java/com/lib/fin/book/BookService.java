@@ -1,25 +1,19 @@
 package com.lib.fin.book;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lib.fin.facility.FacilityVO;
+import com.lib.fin.commons.Pager;
+
 @Service
-public class BookService {
-	@Autowired
-	private BookDAO bookDAO;
+public interface BookService {
+
+	public int setBookAdd(BookVO bookVO)throws Exception;
 	
-	public int setBookAdd(BookVO bookVO) throws Exception {
-		return bookDAO.setBookAdd(bookVO);
-	}
+	public int getTotalBookCount()throws Exception;
 	
-	public List<BookVO> getBooklist() throws Exception{
-		return bookDAO.getBooklist();
-	}
-	public int setBookDelete(BookVO bookVO) throws Exception{
-		return bookDAO.setBookDelete(bookVO);
-	}
+	public List<BookVO> getBooklist(Pager pager)throws Exception;
+	
+	public int setBookDelete(BookVO bookVO)throws Exception;
 }
