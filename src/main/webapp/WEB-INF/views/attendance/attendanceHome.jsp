@@ -90,6 +90,7 @@ float:left;
                                 </tr>
                             </thead>
                             <tbody>
+                            	<form id="insertGtw_time" action="./add" method="post">
                                 <tr>
                                     <td id="year" colspan="2" class="font-14">clock</td>
                                 </tr>
@@ -108,8 +109,10 @@ float:left;
                                     <td class="font-14 font-bold">퇴근시간</td>
                                     <td class="text-right font-14" id="endwork-time">미등록</td>
                                 </tr>
+                                	<input type="hidden" value="${memberVO.emp_no}" id="emp_no" name="emp_no">
                                 <tr class="btn-tr">
-                                    <td><button class="font-bold" id="btn-startwork">출근하기</button></td>
+                                </form>
+                                    <td><button type="submit" "font-bold" id="insertGtw_time">출근하기</button></td>
                                     <td class="text-right"><button class="font-bold" id="btn-endwork">퇴근하기</button></td>
                                 </tr>
                             </tbody>
@@ -180,5 +183,6 @@ float:left;
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script src="/js/attendance.js"></script>		
 </body>
 </html>
