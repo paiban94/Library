@@ -3,6 +3,7 @@ package com.lib.fin.attendance;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 @Slf4j
 @RequestMapping("/attendance/*")
 public class AttendanceControl {
-
+	@Autowired
 	private AttendanceService attendanceService;
 	
 	DateTimeFormatter dayff = DateTimeFormatter.ofPattern("yy-MM"); //날짜 패턴 변경
@@ -36,7 +37,7 @@ public class AttendanceControl {
 	public String getAttendance()throws Exception{
 		return "attendance/attendanceHome";
 	}
-	@GetMapping("/checkWorkTime.do")
+	@GetMapping("checkWorkTime.do")
 	public ResponseEntity<AttendanceVO> checkWorkTime(Authentication authentication) {
 		 MemberVO principal = (MemberVO) authentication.getPrincipal();
 		 String emp_no = principal.getEmp_no();
@@ -54,7 +55,7 @@ public class AttendanceControl {
 	
 	//출근하기 버튼 누를시 근무 시작 일시,시간 저장
 	@ResponseBody
-	@PostMapping("/insertStartWork.do")
+	@PostMapping("insertStartWork.do")
 	public ResponseEntity<?> insertStartWork(Authentication authentication) {
 	    MemberVO principal = (MemberVO) authentication.getPrincipal();
 	    String emp_no = principal.getEmp_no();
@@ -87,7 +88,7 @@ public class AttendanceControl {
 	}
 	
 	//퇴근하기 버튼 누를시 퇴근시간 update
-	@PostMapping("/updateEndWork.do")
+	@PostMapping("updateEndWork.do")
 	public ResponseEntity<?> updateEndWork(Authentication authentication){
 		MemberVO principal = (MemberVO) authentication.getPrincipal();
 		String emp_no = principal.getEmp_no();
@@ -122,7 +123,7 @@ public class AttendanceControl {
 	}
 	
 	//퇴근버튼 눌렀을시 오늘 근무시간 업데이트
-	@PostMapping("/updateDayWorkTime.do")
+	@PostMapping("updateDayWorkTime.do")
 	public ResponseEntity<?> updateDayWorkTime(Long daytimes, Authentication authentication) {
 		log.debug("daytime = {}", daytimes);
 		
@@ -165,5 +166,36 @@ public class AttendanceControl {
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(state);
+	}
+	@GetMapping("weekTotalTime.do")
+	public ResponseEntity<?> weekTotalTime(String start, String end, Authentication authentication){
+		log.debug("start = {}",start);
+		log.debug("end = {}",end);
+		MemberVO principal = (MemberVO) authentication.getPrincipal();
+		String emp_no = principal.getEmp_no();
+		
+		String monthTime = now.format(dayfff);
+		
+		
+		Map<String,Object> param = new HashMap<>();
+		Map<String,Object> time = new HashMap<>();
+		param.put("emp_no", emp_no);
+		param.put("start", start);
+		param.put("end", end);
+		param.put("monthTime", monthTime);
+		
+		// 금주 누적시간 가져오기
+		int weekTotalTime = attendanceService.weekTotalTime(param);
+		time.put("weekTotalTime",weekTotalTime);
+		
+		// 금주 연장시간 가져오기
+		int weekOverTime = attendanceService.selectWeekOverTime(param);
+		time.put("weekOverTime",weekOverTime);
+		
+		
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+				.body(time);
 	}
 }

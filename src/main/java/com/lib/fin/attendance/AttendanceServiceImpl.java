@@ -32,4 +32,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public int updateDayWorkTime(Map<String, Object> param) {
 		return attendanceDAO.updateDayWorkTime(param);
 	}
+	@Override
+	public int weekTotalTime(Map<String, Object> param) {
+		return attendanceDAO.weekTotalTime(param);
+	}
+	@Override
+	public int selectWeekOverTime(Map<String, Object> startEndMap) {
+		return attendanceDAO.selectWeekOverTime(startEndMap);
+	}
+	
 }

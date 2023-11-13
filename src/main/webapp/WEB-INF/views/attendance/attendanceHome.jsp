@@ -24,6 +24,38 @@ position:relative;
 top:-400px;
 left:300px;
 }
+.font-14{
+float:left;
+}
+.main-color{
+float:left;
+}
+.color-gray{
+float:left;
+}
+#work-week-container{
+    position: relative;
+    border: .5px solid gray;
+    height: 100px;
+    width: 100%;
+}
+#work-week-time{
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    height: 100%;
+}
+#work-week-time div{
+    width: 180px;
+    padding-top: 17px;
+}
+#work-week-time p {
+    margin-bottom: 5px;
+}
+#date-box{
+    text-align: center;
+}
 </style>
 </head>
 <body id="page-top">
@@ -161,7 +193,7 @@ left:300px;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-            url : 'attendance/attendanceHome',
+            url : './attendanceHome',
             contentType : "application/json; charset=utf-8",
             success(data){
                 console.log(data);
@@ -218,7 +250,7 @@ left:300px;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-           url : 'attendance/attendanceHome',
+           url : 'attendance/insertStartWork.do',
            method : 'POST',
            headers,
            contentType : "application/json; charset=utf-8",
@@ -252,7 +284,7 @@ left:300px;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-           url : 'attendance/attendanceHome',
+           url : 'attendance/updateEndWork.do',
            method : 'POST',
            headers,
            contentType : "application/json; charset=utf-8",
@@ -289,7 +321,7 @@ left:300px;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-            url: 'attendance/attendanceHome',
+            url: 'attendance/updateDayWorkTime.do',
             method: 'POST',
             headers,
             data: {daytimes},
@@ -316,7 +348,7 @@ left:300px;
           const end = endDate.getFullYear() + "." + (endDate.getMonth() + 1) + "." + endDate.getDate();
           
           $.ajax({
-              url : "attendance/attendanceHome",
+              url : "./weekTotalTime.do",
               data : {start, end},
               contentType : "application/json; charset=utf-8",
               success(data){
@@ -340,6 +372,7 @@ left:300px;
         return `\${hours}h \${minutes}m \${seconds}s`;	
     }
     
-    </script>					
+    </script>			
+    <script src="/js/attendance.js"></script>		
 </body>
 </html>

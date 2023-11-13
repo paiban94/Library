@@ -16,5 +16,7 @@ public interface AttendanceService {
 	
 	int updateDayWorkTime(Map<String, Object> param);
 
+	int weekTotalTime(Map<String, Object> param);
 	
+	int selectWeekOverTime(Map<String, Object> startEndMap);
 }
