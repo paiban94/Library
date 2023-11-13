@@ -20,7 +20,7 @@
 .add-btn{width:80px;
 position:relative;
 left:1070px;
-top:37px
+top:30px
 }
 .del-btn{width:80px;
 position:relative;

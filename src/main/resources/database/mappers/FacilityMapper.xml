@@ -29,8 +29,7 @@
    			WHERE FACILITY_NO=#{facility_no}
    </update>
    
-   <select id="getPaginatedList" resultType="FacilityVO"
-		parameterType="map">
+   <select id="getPaginatedList" resultType="FacilityVO" parameterType="map">
 		SELECT * FROM FACILITY_BASE WHERE USE_YN = 'Y'
 		ORDER BY GRP_CD DESC
 		LIMIT #{startRow}, #{pageSize}
