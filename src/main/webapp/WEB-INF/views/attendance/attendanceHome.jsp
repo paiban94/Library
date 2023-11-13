@@ -236,8 +236,8 @@ float:left;
                     var endtime = new Date(lw_time);
                     
                     //하루 근무시간 계산
-                    const daytimes = endtime - starttime; //퇴근시간 - 출근시간
-                    console.log(daytimes);
+                    const dayWorkTimes = endtime - starttime; //퇴근시간 - 출근시간
+                    console.log(dayWorkTimes);
                     
                     const workState = document.querySelector("#work-status");
                     workState.textContent = status;
@@ -283,7 +283,7 @@ float:left;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-           url : 'attendance/insertStartWork.do',
+           url : './insertStartWork.do',
            method : 'POST',
            headers,
            contentType : "application/json; charset=utf-8",
@@ -317,7 +317,7 @@ float:left;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-           url : 'attendance/updateEndWork.do',
+           url : './updateEndWork.do',
            method : 'POST',
            headers,
            contentType : "application/json; charset=utf-8",
@@ -354,7 +354,7 @@ float:left;
         headers[csrfHeader] = csrfToken;
         
         $.ajax({
-            url: 'attendance/updateDayWorkTime.do',
+            url: './updateDayWorkTime.do',
             method: 'POST',
             headers,
             data: {daytimes},
@@ -386,7 +386,7 @@ float:left;
               contentType : "application/json; charset=utf-8",
               success(data){
                   console.log(data);
-                  const {totalMonthOverTime ,totalMonthTime, weekOverTime ,weekTotalTime} = data;
+                  const {weekOverTime ,weekTotalTime} = data;
                   const totalWorkTime = document.querySelector("#totalwork-time");
                   
                   totalWorkTime.textContent = chageWorkTime(weekTotalTime + weekOverTime);
