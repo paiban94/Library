@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lib.fin.commons.Pager;
 import com.lib.fin.schedule.ScheduleVO;
 
 @Controller
@@ -22,7 +23,7 @@ public class FacilityControl {
 	private FacilityService facilityService;
 	
 	@GetMapping("getFacilitylist")
-	public String getFacility(Model model) throws Exception {
+	public String getFacility(Pager pager,Model model) throws Exception {
 		List<FacilityVO> ar=facilityService.getFacilitylist(null);
 		model.addAttribute("list",ar);
 		return "facility/facilitylist";

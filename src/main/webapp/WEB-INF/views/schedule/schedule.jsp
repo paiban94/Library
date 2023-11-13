@@ -199,11 +199,8 @@
 		 $.ajax({
 		        url: "/schedule/schedule",
 		        data: "json",
-		        processData: false,    // 필수
-		        contentType: false,    // 필수
 		        method: "get",
 		        cache: false,
-		        enctype: 'resultMap',
 		        dataType: "json",
 		        success: function (data) {
 		            console.log(data);
@@ -221,23 +218,7 @@
 		            console.log("Error:", error);
 		        }
 		    });
-		/*
-		$.ajax({
-			  type: "GET", 
-			  url: "/schedule/scheduleList",
-			  async: false,
-			  success: function (res) {
-			   
-			    console.log(res);
-			    
-			    
-			
-			  },
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-			    console.log('error')
-			  }
-			});
-*/
+		
 
 	document.addEventListener('DOMContentLoaded', function() {
 	    var calendarEl = document.getElementById('calendarS');
@@ -275,16 +256,7 @@
 	    	  
 	      
 	      
-        	events:[
-        		{
-        			title:'test',
-        			start:'2023-11-01',
-        			end:'2023-11-01'
-        			
-        		}
-        		
-        	]
-        
+        	events:Jsondata
         	
         	
 	    	  

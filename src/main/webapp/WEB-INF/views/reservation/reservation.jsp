@@ -114,7 +114,6 @@
                 <div class="modal-body">
                     <div class="form-group">
                     	<input type="text" class="form-control" value="${member.emp_no}" name="emp_no" id="emp_no">
-						<input type="text" class="form-control" value="${CommonVO.red_id}" name="red_id" id="red_id">
                     					
                         <label for="taskId" class="col-form-label">예약시작일</label>
                         <input type="date" class="form-control" id="res_start_time" name="res_start_time">

@@ -103,7 +103,7 @@ top:-10px}
 							 <c:forEach items="${list}" var="vo">
 							  <tr>
 							    <td class="tg-0lax">
-							    <input class="form-check-input mt-0" name="facility_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
+							    <input class="form-check-input mt-0" name="book_no" type="checkbox" value="${vo.facility_no}" " aria-label="Checkbox for delete data">
 							    </td>
 							    </form>
 							    <td class="tg-0lax">${vo.book_no}</td>
