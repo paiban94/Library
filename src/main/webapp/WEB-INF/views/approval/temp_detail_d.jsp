@@ -6,26 +6,26 @@
 	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 		<div class="row mx-3" id="Body">
-												<div class="col-lg-12">
-													<table class="table table-bordered">
-														<tr>
-															<th class="table-light" style="width: 10%">시행일자</th>
-															<td>${docVO.start_date}</td>
-														</tr>
-														
-														<tr>
-															<th class="table-light">제목</th>
-															<td>${docVO.doc_title}</td>
-														</tr>
-														<tr>
-															<td colspan="2">
-																<div>
-																	${docVO.doc_contents}
-																</div >
-															</td>
-
-														</tr>
-													</table>
-												</div>
-
-											</div>
+			<div class="col-lg-12">
+				<table class="table table-bordered">
+					<tr>
+						<th class="table-light" style="width: 10%">시행일자</th>
+						<td>${docVO.start_date}</td>
+					</tr>
+					
+					<tr>
+						<th class="table-light">제목</th>
+						<td>${docVO.doc_title}</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div>
+								${docVO.doc_contents}
+							</div >
+						</td>
+	
+					</tr>
+				</table>
+			</div>
+	
+		</div>

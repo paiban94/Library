@@ -43,7 +43,21 @@
 									<!-- 각 영역 크기조절하기 -->
 									<div class="col-lg-12">
 										<div class="card">
-											<h1 class="my-5 " align="center">업무 기안</h1>
+											<h1 class="my-5 " align="center">
+												<c:choose>
+												<c:when test="${docVO.grp_cd eq 'H'}">
+												휴가신청서
+												</c:when>
+												<c:when test="${docVO.grp_cd eq 'B'}">
+												지출결의서
+												
+												</c:when>
+												<c:otherwise>
+												업무 기안
+												
+												</c:otherwise>
+												</c:choose>
+											</h1>
 
 											<!-- 상단 왼쪽 strart -->
 											<div class="row grid text-center mx-3">
@@ -92,7 +106,7 @@
 
 
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/sign/"></td>
+															<td><img id="sign_img" src="/files/sign/${docVO.sign_name}"></td>
 														</tr>
 														
 														<tr>

@@ -11,6 +11,11 @@
 				<style>
 				    th, td {
 				        text-align: center;
+				       
+				    }
+				    
+				    .card{
+				    	height:1000px;
 				    }
 				</style>
 				</head>
@@ -38,7 +43,7 @@
 												<div class="col-lg-12">
 													<div class="card">
 													
-														<h1>${kindName}</h1>
+														<h1 class="my-5 " align="center">${kindName}</h1>
 													<table class="table mt-5">
 														    <colgroup>
 													        <col style="width: 15%;">
@@ -66,7 +71,7 @@
 																<td><a style="text-decoration: none; color: black;" href="./draftDetail?k=${param.k}&doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																</c:when>
 																<c:otherwise>
-																<td><a style="text-decoration: none; color: black;" href="#?k=${param.k}&doc_no=${d.doc_no}">${d.doc_title}</a></td>
+																<td><a style="text-decoration: none; color: black;" href="./update?doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																</c:otherwise>
 																</c:choose>
 <%-- 																<c:choose>

@@ -89,18 +89,17 @@ public class ApprovalController {
 	
 	
 	
-	//휴가신청서
-	@GetMapping("leave")
-	public String getLeave()throws Exception{
-		return "approval/leave";
-	}
-	
-	//지출결의서
-	@GetMapping("expense")
-	public String getExpense()throws Exception{
-		return "approval/expense";
-	}
-	
+	/*
+	 * //휴가신청서
+	 * 
+	 * @GetMapping("leave") public String getLeave()throws Exception{ return
+	 * "approval/leave"; }
+	 * 
+	 * //지출결의서
+	 * 
+	 * @GetMapping("expense") public String getExpense()throws Exception{ return
+	 * "approval/expense"; }
+	 */
 	//기안 list
 	@GetMapping("list")
 	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model, String k)throws Exception{
@@ -108,8 +107,6 @@ public class ApprovalController {
 		String kindName="";
 		if(k.equals("ready")) {
 			kindName="결재대기";
-		}else if(k.equals("exp")){
-			kindName="결재예정";
 		}else if(k.equals("com")){
 			kindName="기안문서함";
 		}else if(k.equals("temp")){
@@ -128,6 +125,33 @@ public class ApprovalController {
 		model.addAttribute("list",ar);
 		
 		return "approval/comDocList";
+	}
+	
+	//임시저장문서 업데이트
+	@GetMapping("update")
+	public String setTempUpdate(@AuthenticationPrincipal MemberVO memberVO, ApprovalDocVO approvalDocVO, Model model)throws Exception{
+		
+		//기안문서 정보 가져오기
+	     approvalDocVO = approvalService.getDraftDetail(approvalDocVO);
+		 
+		 String doc_no = approvalDocVO.getDoc_no().toString();
+		 
+		 //결재자 정보가져오기
+		 java.util.List<ApprovalHisVO> ar = approvalService.getAppLine(doc_no);
+		 
+		 //로그인한 사원번호 담기
+		 model.addAttribute("loginEmpNo",memberVO.getEmp_no());
+		 
+		//모델에 중간,최종 결재자 담기
+		    for (int i = 0; i < ar.size(); i++) {
+		        ApprovalHisVO approvalHisVO = ar.get(i);
+		      model.addAttribute("appLine"+i, approvalHisVO);
+		    }
+		 
+		 //approvalDocVO 담기
+		 model.addAttribute("docVO",approvalDocVO);
+		
+		 return "approval/update";
 	}
 	
 	//싸인등록

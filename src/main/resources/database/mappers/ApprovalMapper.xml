@@ -15,12 +15,12 @@
   	<!-- 기안 add -->
   	<insert id="setDraft" parameterType="ApprovalDocVO" useGeneratedKeys="true" keyProperty="doc_no">
   	
-  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},#{end_date},#{adtn_info1},#{adtn_info2},#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
+  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},#{end_date},#{adtn_info1},#{adtn_info2},#{adtn_info3},#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
   	
   	<!-- 기안 detail -->
   	<select id="getDraftDetail" parameterType="ApprovalDocVO" resultMap="getDetailResult">
-		SELECT ad.*, af.*, mi.NAME AS name, st.CD_NM AS emp_team
+		SELECT ad.*, af.*, mi.NAME AS name, st.CD_NM AS emp_team, mi.sign_name
 		FROM APPROVAL_DOC ad
 		LEFT JOIN APPROVAL_FILE af ON ad.DOC_NO = af.DOC_NO
 		LEFT JOIN MEM_INFO mi ON ad.EMP_NO = mi.EMP_NO
@@ -47,6 +47,8 @@
 	  	<result column="REG_DATE" property="reg_date"/>
 	  	<result column="MOD_DATE" property="mod_date"/>
 	  	<result column="USE_YN" property="use_yn"/>
+	  	<result column="SIGN_NAME" property="sign_name"/>
+	  	<result column="ADTN_INFO3" property="adtn_info3"/>
   	
   	<collection property="fileVOs" javaType="List" ofType="ApprovalFileVO">
   		<id column="APPROVAL_NO" property="file_no"/>
@@ -95,7 +97,13 @@
 		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y'
 		</if>
 		<if test="k=='done'">
-		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y' and ad.APPROVAL_STATE = "O"
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N' and (ad.APPROVAL_STATE = "O" or ad.APPROVAL_STATE = "C")
+		</if>
+		<if test="k=='ready'">
+			JOIN
+   			 APPROVAL_HISTORY ah ON ad.DOC_NO = ah.DOC_NO
+			WHERE
+    		ah.EMP_NO = #{emp_no} AND ah.APPROVAL_STATE ='R' AND ad.USE_YN ='Y' AND ad.TEMP_SAVE = "N"
 		</if>
 		
 		ORDER BY DOC_NO DESC

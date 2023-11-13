@@ -77,11 +77,7 @@ pageEncoding="UTF-8"%>
               <i class="bi bi-circle"></i><span>결재 대기 문서</span>
             </a>
           </li>
-          <li>
-            <a href="/approval/list?k=exp">
-              <i class="bi bi-circle"></i><span>결재 예정 문서</span>
-            </a>
-          </li>
+ 
           
         
         </ul>
