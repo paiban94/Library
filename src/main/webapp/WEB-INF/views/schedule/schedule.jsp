@@ -47,17 +47,18 @@
 		width:1200px;
 		height:850px;	
 		}
+        .fc-daygrid-day-number {
+
+            padding: 4px;
+            color: black;
+        }
   .fc-day-sun{
   color:red;
   }
   .fc-day-sat{
   color:blue;
   }
-		.fc-daygrid-day-number {
- 
-    padding: 4px;
-    color: black;
-  }
+
   .fc-prev-button{
   position:relative;
   top:35px;
@@ -126,9 +127,9 @@
                         
                         <label for="taskId" class="col-form-label">일정종료일</label>
                         <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
-                        
+
+                        <input type="hidden" class="col-form-control" value="S001" name="grp_cd" id="grp_cd">
                         <label for="taskId" class="col-form-label">일정 종류</label>
-                        <input type="hidden" name="grp_cd" id="grp_cd" value="S001">
                         <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
 						  <option selected>일정종류을 선택하세요</option>
 						  <option value="A">연차</option>
@@ -187,88 +188,123 @@
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 <script type="text/javascript">
 
-		
-		
-		var obj = ${List};
+
+
+    var schListJson;
 		const arr = new Array();
 		const res = arr.keys();
 		function timeFormat(time){
 		      return String(time).padStart(2, "0");
 		   }
-		
-		 $.ajax({
-		        url: "/schedule/schedule",
-		        data: "json",
-		        method: "get",
-		        cache: false,
-		        dataType: "json",
-		        success: function (data) {
-		            console.log(data);
-		            if (data.success === "Y") {
-		                $("#schedule_title").val(data.schedule_title);
-		                $("#schedule_start_time").val(data.schedule_start_time);
-		                $("#schedule_end_time").val(data.schedule_end_time);
-		                console.log(data.schedule_title);
-		               
-		            } else {
-		                alert("잠시 후 다시 시도해주세요.");
-		            }
-		        },
-		        error: function (error) {
-		            console.log("Error:", error);
-		        }
-		    });
-		
+        $(document).ready(function(){
+            $.ajax({
+                url: "/schedule/scheduleList",
+                data: {"EMP_NO":"${emp_no}"},
+                method: "post",
+                cache: false,
+                dataType: "text",
+                success: function (data) {
 
-	document.addEventListener('DOMContentLoaded', function() {
-	    var calendarEl = document.getElementById('calendarS');
-	    var calendar = new FullCalendar.Calendar(calendarEl, {
-	    	 
-	    	locale: "ko",
-	      timeZone: 'Asia/Seoul',
-	      initialView: 'dayGridMonth',
-	      navLinks:true,
-	      eventLimit:true,
-	     	      
-	      
-	      customButtons: {
-	    	 
-	    	    myCustomButton: {
-	    	      text: '일정 추가',
-	    	      click: function() {
-	    	    	  $("#calendarAddModal").modal("show");
-	    	    	  
-	    	    
-	    	    		
-	    	    	  $('#sprintSettingModalClose').click(function(){
-	    	    			$('#calendarAddModal').modal('hide')	
-	    	    		})
-	    	    	  
-	    	      }
-	    	    }
-	    	  },
-	    	    	  
-	      headerToolbar: {
-	    	    left: '',
-	    	    center: 'prev,title,next',
-	    	    right: 'myCustomButton'
-	    	  },
-	    	  
-	      
-	      
-        	events:Jsondata
-        	
-        	
-	    	  
-	    });
-	    
-	    calendar.render();
-	  });
-	
-	
-	
-		
+                    var test = JSON.parse(data);
+                    schListJson=test.list;
+                    console.log(schListJson);
+
+                    var calendarEl = document.getElementById('calendarS');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                        locale: 'ko',
+                        timeZone: 'Asia/Seoul',
+                        initialView: 'dayGridMonth',
+                        navLinks: true,
+                        eventLimit: true,
+                        editable:true,
+						droppable:true,
+						 dayMaxEvents: 1,
+						customButtons: {
+
+                            myCustomButton: {
+                                text: '일정 추가',
+                                click: function () {
+                                    $("#calendarAddModal").modal("show");
+
+
+                                    $('#sprintSettingModalClose').click(function () {
+                                        $('#calendarAddModal').modal('hide')
+                                    })
+
+                                }
+                            }
+                        },
+
+                        headerToolbar: {
+                            left: '',
+                            center: 'prev,title,next',
+                            right: 'myCustomButton'
+                        },
+                        
+                        events: schListJson,
+                        
+                        eventDrop: function (info){
+                        	console.log(info);
+                        	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
+                        		
+                        	}
+                        	 var events = new Array();
+                             var obj = new Object();
+  
+                             obj.title = info.event._def.title;
+                             obj.start = info.event._instance.range.start;
+                             obj.end = info.event._instance.range.end;
+                             events.push(obj);
+  
+                             console.log(events);
+                             $(function deleteData() {
+                                 $.ajax({
+                                     url: "/schedule/schedulelist",
+                                     method: "PATCH",
+                                     dataType: "json",
+                                     data: JSON.stringify(events),
+                                     contentType: 'application/json',
+                                 })
+                             })
+                        },
+                        eventClick: function (info){
+                            if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
+                               
+                                info.event.remove();
+                            }
+ 
+                            console.log(info.event);
+                            var events = new Array();
+                            var obj = new Object();
+                                obj.title = info.event._def.title;
+                                obj.start = info.event._instance.range.start;
+                                events.push(obj);
+ 
+                            console.log(events);
+                            $(function deleteData(){
+                                $.ajax({
+                                    url: "/schedule/schedulelist",
+                                    method: "DELETE",
+                                    dataType: "json",
+                                    data: JSON.stringify(events),
+                                    contentType: 'application/json',
+                                })
+                            })
+                        },
+
+						
+                    });
+
+                    calendar.render();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        };
+
 
 	</script>
 </body>
-</html></html>
+</html>
