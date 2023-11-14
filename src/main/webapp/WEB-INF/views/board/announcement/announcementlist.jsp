@@ -128,7 +128,23 @@ td:first-child, th:first-child {
 													<tr>
 
 														<td class="board_no">${d.board_no}</td>
-														<td><a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a></td>
+														<c:choose>
+															<c:when test="${d.board_kind == 'on'}">
+																<!-- 비밀글인 경우 -->
+																<sec:authorize access="hasRole('ADMIN') or ${d.reg_id eq member.emp_no}">
+																	<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+																</sec:authorize>
+																<sec:authorize access="!hasRole('ADMIN') and ${d.reg_id ne member.emp_no}">
+																	<span>읽기 권한이 없습니다.</span>
+																</sec:authorize>
+															</c:when>
+															<c:when test="${d.board_kind == 'off'}">
+																<!-- 비밀글이 아닌 경우 -->
+																<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+															</c:when>
+														</c:choose>
+
+														<!-- <td><a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a></td> -->
 														<td class="reg_id">${d.board_wirter}</td>
 														<td>${d.reg_date}</td>
 														<td class="board_views">${d.board_views}</td>

@@ -52,8 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
 		//이메일 전송	
-		@Autowired
-		private JavaMailSender javaMailSender;
+
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;

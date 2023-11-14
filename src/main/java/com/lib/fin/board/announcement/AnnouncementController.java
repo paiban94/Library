@@ -67,7 +67,7 @@ public class AnnouncementController {
 	@GetMapping("announcement")
 	public ModelAndView goAnnouncement(@AuthenticationPrincipal MemberVO memberVO, Pager pager, ModelAndView mv,Model model)
 			throws Exception {
-		log.info("****************role : {}",memberVO.getAuthority());
+		
 		model.addAttribute("member", memberVO);
 		List<BoardVO> list = announcementService.getList(pager);
 		mv.addObject("list", list);
