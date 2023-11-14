@@ -56,6 +56,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	              .antMatchers("/member/findpassword").permitAll()
 	              .antMatchers("/assets/img/**").permitAll()
 	              .antMatchers("/member/adminPage").hasRole("ADMIN")
+	              .antMatchers("/member/adminMemberPage").hasRole("ADMIN")
+	              .antMatchers("/member/adminDetailPage").hasRole("ADMIN")
+	              .antMatchers("/board/**").hasAnyRole("ADMIN", "USER")
 	              //.antMatchers("/member/postLogin").authenticated()
 //	            
 	              .antMatchers("/").hasAnyRole("ADMIN", "USER")
