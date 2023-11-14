@@ -112,7 +112,7 @@ public class AttendanceControl {
 		else if(work.getLw_time() == null || work.getStatus().equals("반차")) {
 			//퇴근시간 업데이트
 			int result = attendanceService.updateEndWork(param);
-			status.put("status", "정상");	
+			status.put("status", "성공");	
 		}
 		else {
 			 status.put("status", "실패");
