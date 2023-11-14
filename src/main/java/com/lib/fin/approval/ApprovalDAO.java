@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
 @Mapper
@@ -23,8 +24,8 @@ public interface ApprovalDAO {
 	//his add
 	public int setApprovalHis(ApprovalHisVO approvalHisVO)throws Exception;
 	
-	//docLis
-	public List<ApprovalDocVO> getAppDocList(Map<String, Object> parmas)throws Exception;
+	//docList
+	public List<ApprovalDocVO> getAppDocList(Map<String, Object> params)throws Exception;
 	
 	public List<ApprovalHisVO> getAppLine(String doc_no)throws Exception;
 	
@@ -35,5 +36,8 @@ public interface ApprovalDAO {
 	//signAdd
 	public int addSign(MemberVO memberVO)throws Exception;
 	
+	//update
+	public int setTempUpdate(ApprovalDocVO approvalDocVO)throws Exception;
 
+	public Long getTotal(Map<String, Object> params)throws Exception;
 }

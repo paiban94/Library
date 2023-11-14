@@ -94,6 +94,39 @@
 															</tbody>
 															</table>	
 											
+											
+												<nav aria-label="Page navigation example">
+												  <ul class="pagination">
+												    <li class="page-item ${pager.pre?'':'disabled'}">
+												      <a class="page-link" href="./list?k=${param.k}&page=${pager.startNum-1}&kind=${pager.kind}&search=${pager.search}" aria-label="Previous">
+												        <span aria-hidden="true">&laquo;</span>
+												      </a>
+												    </li>
+												    <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+													    <li class="page-item"><a class="page-link" href="./list?k=${param.k}&page=${i}&kind=${pager.kind}&search=${pager.search}">${i}<a></a></li>
+												    </c:forEach>
+												    <li class="page-item ${pager.next?'':'disabled'}">
+												      <a class="page-link" href="./list?k=${param.k}&page=${pager.lastNum+1}&kind=${pager.kind}&search=${pager.search}" aria-label="Next">
+												        <span aria-hidden="true">&raquo;</span>
+												      </a>
+												    </li>
+												  </ul>
+												</nav>
+													<div class="search">
+														<form method="get" action="./list">
+															<table class="pull-right">
+															<input type="hidden" name="k" value="${param.k}"/>
+																<tr>
+																	<td><select class="form-select" name="kind">
+																			<option value="grp_cd">결재양식</option>
+																			<option value="title">제목</option>
+																			<option value="cotents">내용</option>
+																			<option value="state">상태</option>
+																	</select></td>
+																	<td><input type="text" class="form-control" name="search" maxlength="100"></td>
+																	<td><button type="submit" class="btn btn-danger">검색</button></td>
+																</tr>
+															</table>
 														
 														
 													</div>

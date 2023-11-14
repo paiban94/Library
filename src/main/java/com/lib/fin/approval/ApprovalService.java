@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lib.fin.commons.FileManager;
+import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class ApprovalService {
 	private ApprovalDAO approvalDAO;
 	
 	//일반기안
+	@Transactional
 	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
 		
 		String path = this.filePath+this.approvalName;
@@ -108,6 +110,78 @@ public class ApprovalService {
 		
 	}
 	
+	//update
+	public int setTempUpdate(Map<String, String> params, ApprovalDocVO approvalDocVO, MultipartFile[] files)throws Exception{
+		
+		String path = this.filePath+this.approvalName;
+		
+		log.info("{} ==============", approvalDocVO);
+		
+		int result = approvalDAO.setTempUpdate(approvalDocVO);
+		
+		ApprovalHisVO approvalHisVO = new ApprovalHisVO();
+		
+		String midApp = params.getOrDefault("midApp","");
+		String lastApp = params.getOrDefault("lastApp","");
+		
+		
+//				//중간 결재자 update
+//				if(!"".equals(midApp)) {
+//					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+//					approvalHisVO.setEmp_no(midApp);
+//					approvalHisVO.setApproval_level(1);
+//					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+//					approvalHisVO.setReg_id(midApp);
+//					approvalHisVO.setMod_id(midApp);
+//					approvalHisVO.setUse_yn("Y");
+//					result = approvalDAO.setApprovalHis(approvalHisVO);
+//				
+//				}
+//				
+//				//최종결재자 update
+//				if(!"".equals(lastApp)) {
+//					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+//					approvalHisVO.setEmp_no(lastApp);
+//					approvalHisVO.setApproval_level(2);
+//					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+//					approvalHisVO.setReg_id(lastApp);
+//					approvalHisVO.setMod_id(lastApp);
+//					approvalHisVO.setUse_yn("Y");
+//					result = approvalDAO.setApprovalHis(approvalHisVO);
+//				
+//				}
+		
+		
+		
+		
+		
+		//파일 업로드
+		if(files != null) {
+			for(MultipartFile multipartFile: files) {
+				
+				if(multipartFile.isEmpty()) {
+					continue;
+				}
+				
+				ApprovalFileVO approvalFileVO = new ApprovalFileVO();
+				String fileName = fileManager.save(path, multipartFile);
+				approvalFileVO.setDoc_no(approvalDocVO.getDoc_no());
+				approvalFileVO.setFile_name(fileName);
+				approvalFileVO.setFile_oriName(multipartFile.getOriginalFilename());
+				approvalFileVO.setReg_id(approvalDocVO.getEmp_no());
+				approvalFileVO.setMod_id(approvalDocVO.getEmp_no());
+				approvalFileVO.setUse_yn("Y");
+				result = approvalDAO.setFileAdd(approvalFileVO);
+				
+				
+			}
+		}
+		
+		return result;
+		
+		
+	}
+	
 	//결제라인
 	public List<ApprovalHisVO> getAppLine(String doc_no)throws Exception{
 		
@@ -115,10 +189,17 @@ public class ApprovalService {
 	}
 	
 	//DOCList
-	public List<ApprovalDocVO> getAppDocList(Map<String, Object> parmas)throws Exception{
+	public List<ApprovalDocVO> getAppDocList(Map<String, Object> params, Pager pager)throws Exception{
+		
+		params.put("pager", pager);
+		
+		pager.setPerPage(5L);
+		pager.makeRowNum();
+		Long total = approvalDAO.getTotal(params);
+		pager.makePageNum(total);
 		
 		
-		return approvalDAO.getAppDocList(parmas);
+		return approvalDAO.getAppDocList(params);
 		
 	}
 	

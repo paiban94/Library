@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lib.fin.commons.CommonJava;
+import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -102,7 +103,7 @@ public class ApprovalController {
 	 */
 	//기안 list
 	@GetMapping("list")
-	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model, String k)throws Exception{
+	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model, String k, Pager pager)throws Exception{
 		log.info("Kind = {} ", k);
 		String kindName="";
 		if(k.equals("ready")) {
@@ -117,41 +118,52 @@ public class ApprovalController {
 		model.addAttribute("kindName",kindName);
 		String emp_no = memberVO.getEmp_no(); //세션에서 사번 꺼내오기
 		
-		Map<String, Object> parmas = new HashMap<>();
-		parmas.put("emp_no",emp_no);
-		parmas.put("k",k);
+		Map<String, Object> paramas = new HashMap<>();
+		paramas.put("emp_no",emp_no);
+		paramas.put("k",k);
 		
-		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(parmas);
+		
+		java.util.List<ApprovalDocVO> ar = approvalService.getAppDocList(paramas,pager);
 		model.addAttribute("list",ar);
+		model.addAttribute("pager",pager);
 		
 		return "approval/comDocList";
 	}
 	
-	//임시저장문서 업데이트
+	//문서 업데이트
 	@GetMapping("update")
 	public String setTempUpdate(@AuthenticationPrincipal MemberVO memberVO, ApprovalDocVO approvalDocVO, Model model)throws Exception{
 		
 		//기안문서 정보 가져오기
 	     approvalDocVO = approvalService.getDraftDetail(approvalDocVO);
-		 
-		 String doc_no = approvalDocVO.getDoc_no().toString();
-		 
-		 //결재자 정보가져오기
-		 java.util.List<ApprovalHisVO> ar = approvalService.getAppLine(doc_no);
-		 
-		 //로그인한 사원번호 담기
-		 model.addAttribute("loginEmpNo",memberVO.getEmp_no());
-		 
-		//모델에 중간,최종 결재자 담기
-		    for (int i = 0; i < ar.size(); i++) {
-		        ApprovalHisVO approvalHisVO = ar.get(i);
-		      model.addAttribute("appLine"+i, approvalHisVO);
-		    }
-		 
+		
 		 //approvalDocVO 담기
 		 model.addAttribute("docVO",approvalDocVO);
 		
 		 return "approval/update";
+	}
+	
+	@PostMapping("update")
+	public String setTempUpdate(@AuthenticationPrincipal MemberVO memberVO, @RequestParam("midApp") String midApp, @RequestParam("lastApp") String lastApp, ApprovalDocVO approvalDocVO,MultipartFile[] files1)throws Exception{
+		
+
+		//결재자 정보 받음
+		Map<String, String> params = new HashMap<>();
+	    params.put("midApp", midApp);
+	    params.put("lastApp", lastApp);
+	    
+	   
+	    
+	    //세션에서 수정자 사번 받기
+	    approvalDocVO.setEmp_no(memberVO.getEmp_no());
+		//mapper에서 쓰기위해
+		approvalDocVO.setGrp_cd(approvalDocVO.getGrp_cd()+"1");
+		
+	    approvalService.setTempUpdate(params,approvalDocVO,files1);
+			    
+		
+			    
+		return "redirect:list?k=temp";
 	}
 	
 	//싸인등록

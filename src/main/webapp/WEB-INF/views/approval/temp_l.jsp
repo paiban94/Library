@@ -10,13 +10,12 @@
 		<table class="table table-bordered">
 			<tr>
 				<th class="table-light" style="width: 12%">제목</th>
-				<td><input type="text" class="form-control w-75" id="title"
-					name="doc_title"></td>
+				<td><input type="text" class="form-control w-75" id="title" name="doc_title" value="${docVO.doc_title}"></td>
 			</tr>
 			<tr>
 				<th class="table-light">휴가종류</th>
 				<td><select class="form-select"
-					aria-label="Default select example" name="adtn_info1" id="leaveVal">
+					aria-label="Default select example" name="adtn_info1" id="leaveVal" value="${docVO.adtn_info1}" >
 						<option id="leaveVal1" value="B">연차</option>
 						<option id="leaveVal2" value="A">조퇴</option>
 						<option id="leaveVal3"value="C">반차</option>
@@ -27,8 +26,8 @@
 				<td>
 					<div style="display: flex; gap: 10px;">
 						<input type="date" class="form-control w-25" id="startDate"
-							name="start_date"> <span>~</span> <input type="date"
-							class="form-control w-25" id="endDate" name="end_date">
+							name="start_date" value="${docVO.start_date}"> <span>~</span> <input type="date"
+							class="form-control w-25" id="endDate" name="end_date" value="${docVO.end_date}" >
 					</div>
 				</td>
 			</tr>
@@ -58,8 +57,7 @@
 			<tr>
 				<td colspan="2">
 					<div>
-						<textarea id="summernote" name="doc_contents"
-							></textarea>
+						<textarea id="summernote" name="doc_contents">${docVO.doc_contents}</textarea>
 					</div>
 				</td>
 

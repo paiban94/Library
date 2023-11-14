@@ -4,8 +4,7 @@
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-	<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -14,14 +13,6 @@
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
 
-	 <%
-        // 현재 날짜를 가져오는 Java 코드
-        Date currentDate = new Date();
-
-        // 날짜를 원하는 형식으로 포맷팅
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(currentDate);
-    %>
 <link href="/css/doc.css" rel="stylesheet">
 </head>
 
@@ -41,9 +32,9 @@
 					<section class="section dashboard">
 					
 						<div class="container">
-							<form action="/approval/draft" method="post" id="frm" enctype="multipart/form-data">
+							<form action="/approval/update" method="post" id="frm" enctype="multipart/form-data">
 								
-								<input type="hidden" name="doc_no" value="${doc_no}">
+								<input type="hidden" name="doc_no" value="${docVO.doc_no}">
 					
 							
 								<input type="hidden" id="approval_state" name="approval_state" value="R">
@@ -114,11 +105,11 @@
 
 														<tr>
 															<th class="table-light">기안일</th>
-															<td><%= formattedDate %></td>
+															<td>${docVO.reg_date}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
-															<td>1</td>
+															<td>${docVO.doc_no}</td>
 														</tr>
 
 													</table>
@@ -140,12 +131,12 @@
 
 
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
+															<td><img id="sign_img" src="/files/sign/${docVO.sign_name}"></td>
 														</tr>
 														
 														<tr>
 
-															<td>r</td>
+															<td>${docVO.emp_team} ${docVO.name}</td>
 														</tr>
 
 
@@ -169,7 +160,8 @@
 
 														<tr id="sign">
 	
-															<td> </td>
+														<td> </td>
+
 														</tr>
 														<tr id="lastTr">
 
@@ -241,14 +233,24 @@
 														<button type="button" class="btn btn-outline-primary"
 															id="fileAdd">File추가</button>
 													</div>
+													
+													<div class="my-5">
+													<c:forEach items="${docVO.fileVOs}" var="f">
+															<span class="alert alert-primary me-2" role="alert" id="${f.file_no}" >
+																첨부파일 : ${f.file_oriName}
+															 </span>
+														<span class="delets" data-delete-num="${f.file_no}" >x</span>
+													</c:forEach>
+													</div>
 
+													<div class="my-3">
 													<!-- button  -->
 													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
 													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
 													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
 															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
-
+													</div>
 															
 
 												</div>
