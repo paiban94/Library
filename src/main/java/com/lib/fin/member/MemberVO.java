@@ -19,10 +19,12 @@ import com.lib.fin.commons.CommonVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class MemberVO extends CommonVO implements UserDetails{
 	
 	private String emp_no;
@@ -76,6 +78,7 @@ public class MemberVO extends CommonVO implements UserDetails{
 			}
 			for(RoleVO roleVO:roleVOs) {
 				authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+				log.info("=====role{}====",roleVO.getRoleName());
 			}
 			
 			return authorities;
