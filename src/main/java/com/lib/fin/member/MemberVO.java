@@ -56,7 +56,8 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private Date emp_out_date;
 	
-	private List<RoleVO> roleVOs;
+	private List<RoleVO> roleVOs = new ArrayList<>();
+
 
 	
 	
@@ -123,7 +124,6 @@ public class MemberVO extends CommonVO implements UserDetails{
 		return true;
 	}
 	
-
 
 	
 	
