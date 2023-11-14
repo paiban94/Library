@@ -19,6 +19,7 @@ public class BoardVO extends CommonVO {
 	private String board_title;
 	private String board_content;
 	private String board_wirter;
+	private String board_kind;
 	private Long board_views;
 	private Long board_like;
 	private String board_type;

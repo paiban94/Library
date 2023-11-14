@@ -3,6 +3,7 @@ package com.lib.fin.board.announcement;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
@@ -11,17 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.util.file.ConfigurationSource.Resource;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +29,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
 import com.lib.fin.board.BoardFileVO;
 import com.lib.fin.board.BoardVO;
 import com.lib.fin.board.LikeVO;
@@ -56,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AnnouncementController {
 
 	@Autowired
-	private AnnouncementServiceImp announcementService;
+	private AnnouncementService announcementService;
 
 	@Autowired
 	private MemberService memberService;
@@ -68,9 +65,10 @@ public class AnnouncementController {
 	private String directory;
 
 	@GetMapping("announcement")
-	public ModelAndView goAnnouncement(@AuthenticationPrincipal MemberVO memberVO, Pager pager, ModelAndView mv)
+	public ModelAndView goAnnouncement(@AuthenticationPrincipal MemberVO memberVO, Pager pager, ModelAndView mv,Model model)
 			throws Exception {
-
+		log.info("****************role : {}",memberVO.getAuthority());
+		model.addAttribute("member", memberVO);
 		List<BoardVO> list = announcementService.getList(pager);
 		mv.addObject("list", list);
 		mv.addObject("pager", pager);
@@ -132,6 +130,15 @@ public class AnnouncementController {
 	    in.close();
 	    response.getOutputStream().close();
 	}
+	
+	
+	@ResponseBody
+	@PostMapping("/deleteFile")
+	 public int deleteFile(@RequestParam("fileNo") Long fileNo) throws Exception {
+		System.out.println("deleteFile");
+		int result = announcementService.deleteFile(fileNo);
+        return result;
+    }
 
 	
 	
@@ -143,11 +150,23 @@ public class AnnouncementController {
 
 	@PostMapping("addAnn")
 	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
-			List<MultipartFile> files1) throws Exception {
-
+			List<MultipartFile> files1,Model model) throws Exception {
+		model.addAttribute("member", memberVO);
 		announcementVO.setReg_id(memberVO.getEmp_no());
+		log.info("************************ BaordString : {}",announcementVO.getBoard_kind());
+		if (announcementVO.getBoard_kind() == null) {
+			announcementVO.setBoard_kind("off");
+		}
 		int result = announcementService.addWriting(announcementVO, files1);
 
+		return "redirect:./announcement";
+	}
+	@PostMapping(value = "modifyBoard")
+	public String modifyBoard(AnnouncementVO announcementVO, Model model, List<MultipartFile> files1,@AuthenticationPrincipal MemberVO memberVO) throws Exception {
+		System.out.println("======> modifyBoard board no : "+ announcementVO.getBoard_no());
+		announcementVO.setReg_id(memberVO.getEmp_no());
+		announcementVO.setMod_id(memberVO.getEmp_no());
+		int result = announcementService.setUpdate(announcementVO,files1);
 		return "redirect:./announcement";
 	}
 
@@ -171,17 +190,18 @@ public class AnnouncementController {
 	}
 
 	@GetMapping(value = "updateBoard")
-	public String setUpdate(AnnouncementVO announcementVO, Model model) throws Exception {
+	public String setUpdate(AnnouncementVO announcementVO, Model model,@AuthenticationPrincipal MemberVO memberVO) throws Exception {
+		log.info("======>>board no :{}", announcementVO.getBoard_no());
 		announcementVO = announcementService.getDetail(announcementVO);
+		List<BoardFileVO> filelist = announcementService.getFileDetail(announcementVO);
 		model.addAttribute("board", announcementVO);
+		model.addAttribute("member",memberVO);
+		model.addAttribute("files", filelist);
 		return "board/announcement/annmodify";
 	}
 
-	@PostMapping(value = "modifyBoard")
-	public String modifyBoard(AnnouncementVO announcementVO, Model model) throws Exception {
-		int result = announcementService.setUpdate(announcementVO);
-		return "redirect:./announcement";
-	}
+
+
 
 	@ResponseBody
 	@PostMapping("likeAnnouncement/{board_no}")
@@ -214,7 +234,11 @@ public class AnnouncementController {
 		}
 		return new ResponseEntity<>("Not Liked", HttpStatus.BAD_REQUEST);
 	}
-
-
+	
+	@GetMapping("/getMembers")
+	@ResponseBody
+	public List<MemberVO> getMembers(@PathVariable String name) throws Exception {
+	    return announcementService.searchMembersByName(name);
+	}
 
 }

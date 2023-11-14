@@ -83,7 +83,7 @@
 															<div class="row">
 																<ul>
 																	<c:forEach items="${files}" var="file">
-																		<li>
+																		<li id="file_${file.file_no}" class="attachment">
 																			<a href="./fileDown/${file.file_no}">${file.file_oriName}</a>
 																		</li>
 																	</c:forEach>

@@ -22,6 +22,7 @@ public interface AnnouncementService {
 
 	public int getTotalAnnouncementCount() throws Exception;
 
+	
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> list) throws Exception;
 	
 
@@ -29,7 +30,7 @@ public interface AnnouncementService {
 
 	public AnnouncementVO getDetail(AnnouncementVO boardVO) throws Exception;
 
-	public int setUpdate(AnnouncementVO boardVO) throws Exception;
+	public int setUpdate(AnnouncementVO boardVO, List<MultipartFile> files1) throws Exception;
 
 	public int setDelete(AnnouncementVO boardVO) throws Exception;
 
@@ -52,5 +53,13 @@ public interface AnnouncementService {
 	public void increaseViews(BoardVO boardVO) throws Exception;
 	
 	public BoardFileVO getFileInfo(Long file_no) throws Exception;
+	
+	public List<String> uploadImages(List<MultipartFile> files) throws Exception;
+	
+	public List<MemberVO> searchMembersByName(String name) throws Exception;
+
+	public int deleteFile(Long fileNo) throws Exception;
+
+//	
 
 }

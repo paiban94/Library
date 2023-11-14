@@ -87,7 +87,6 @@
     </div>
     <c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
     <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-    <script src="/js/annadd.js"></script>
     <script src="/js/boardnote.js"></script>
 </body>
 </html>

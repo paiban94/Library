@@ -1,11 +1,13 @@
 package com.lib.fin.board.announcement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lib.fin.board.BoardFileVO;
@@ -31,6 +33,9 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 	@Value("${app.board.announce}")
 	private String announceName;
+	
+	@Value("${app.board.announce.summernote}")
+	private String summernote;
 
 	@Autowired
 	private FileManager fileManager;
@@ -64,6 +69,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	}
 
 	@Override
+    @Transactional
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> files1) throws Exception {
 		String reg_id = boardVO.getReg_id();
 	    int result = announcementDAO.addWriting(boardVO);
@@ -100,6 +106,47 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		return result;
 		
 	}
+	@Override
+	public int setUpdate(AnnouncementVO boardVO, List<MultipartFile> files1) throws Exception {
+
+		
+		String reg_id = boardVO.getReg_id();
+		System.out.println("boardNo1 ===>> : "+boardVO.getBoard_no());
+		 
+		  int result =  announcementDAO.setUpdate(boardVO);
+		  
+			try {
+			    String path = filePath + announceName;
+			    if (files1 != null) {
+			    
+			        for (MultipartFile multipartFile : files1) {
+			        	log.info("filenames : " + files1);
+			            if (multipartFile.isEmpty()) {
+			                continue;
+			            }
+			            
+			            BoardFileVO boardFileVO = new BoardFileVO();
+			            String fileName = fileManager.save(path, multipartFile);
+			            System.out.println("boardNo2 ===>> : "+boardVO.getBoard_no());
+			            System.out.println("saveName ===>> : "+fileName);
+			            boardFileVO.setBoard_no(boardVO.getBoard_no());
+			            boardFileVO.setFile_name(fileName);
+			            boardFileVO.setFile_oriName(multipartFile.getOriginalFilename());
+			            boardFileVO.setFile_type("A");
+			            boardFileVO.setReg_id(reg_id);
+			            boardFileVO.setMod_id(reg_id);
+			            boardFileVO.setUse_yn("Y");
+			            System.out.println("fileVO"+boardFileVO.toString());
+			            result = announcementDAO.setFileAdd(boardFileVO);
+			        }
+			    }
+			} catch (Exception e) {
+				System.out.println("파일 업로드 중 오류 발생: " + e.getMessage());
+				e.printStackTrace();
+			   
+			}
+		return result;
+	}
 
 
 	@Override
@@ -116,10 +163,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		return boardVO;
 	}
 
-	@Override
-	public int setUpdate(AnnouncementVO boardVO) throws Exception {
-		return announcementDAO.setUpdate(boardVO);
-	}
+
 
 	@Override
 	public int setDelete(AnnouncementVO boardVO) throws Exception {
@@ -178,6 +222,29 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	public BoardFileVO getFileInfo(Long file_no) throws Exception {
 		return announcementDAO.getFileInfo(file_no);
 	}
+
+	public List<MemberVO> searchMembersByName(String name) throws Exception{
+		return announcementDAO.searchMembersByName(name);
+	}
+
+
+	public List<String> uploadImages(List<MultipartFile> files) throws Exception{
+
+	    List<String> imageUrls = new ArrayList<>();
+
+	    for (MultipartFile file : files) {
+	        imageUrls.add(announcementDAO.saveImageFile(file.getOriginalFilename()));
+	    }
+
+	    return imageUrls;
+	}
+
+	@Override
+	public int deleteFile(Long fileNo) throws Exception {
+		return announcementDAO.deleteFile(fileNo);
+	}
+
+
 
 
 

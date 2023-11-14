@@ -36,13 +36,13 @@
 	<select id="getFileDetail" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
 		SELECT * FROM
 		FILE_BASE WHERE
-		BOARD_NO = #{board_no}
+		BOARD_NO = #{board_no} AND USE_YN = 'Y'
 	</select>
 
 	<select id="getFileInfo" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
 		SELECT * FROM
 		FILE_BASE WHERE
-		FILE_NO = #{file_no}
+		FILE_NO = #{file_no} AND USE_YN = 'Y'
 	</select>
 
 
@@ -70,6 +70,10 @@
 		VALUES (#{board_no}, #{comment_content}, #{reg_id}, #{reg_id}, NOW(),
 		NOW(),'Y')
 	</insert>
+	
+	<select id="searchMembersByName" parameterType="String" resultType="MemberVO">
+	    SELECT * FROM MEM_INFO WHERE NAME LIKE CONCAT("%", #{name}, "%")
+	</select>
 
 	<select id="getComments" parameterType="Long"
 		resultType="CommentVO">
@@ -165,5 +169,11 @@
 		WHERE REG_ID = #{reg_id}
 		ORDER BY BOARD_NO DESC LIMIT 1
 	</select>
+	<update id="deleteFile" parameterType="Long">
+		UPDATE FILE_BASE
+		SET USE_YN = 'N'
+		WHERE FILE_NO = #{fileNo}
+	</update>
+
 
 </mapper>
