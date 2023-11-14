@@ -34,8 +34,18 @@ public interface MemberDAO {
 	//관리자 멤버 정보 변경
 	public int adminMemUpdate (MemberVO memberVO)throws Exception;
 	
-	//imagefile
+	//image저장
 	public int setMemImage(MemberFileVO memberFileVO)throws Exception;
+	
+	//이미지업데이트
+	public void updateMemImage(MemberFileVO memberFileVO)throws Exception;
+	
+	//이미지파일 출력 가져오기
+	public MemberFileVO getMemImage(String emp_no)throws Exception;
+	
+	//이전프로필사진삭제
+	public void deleteMemImage(Long file_no)throws Exception;
+	
 	
 	//권한부여
 	public int setMemberRole(Map<String, Object> map) throws Exception;

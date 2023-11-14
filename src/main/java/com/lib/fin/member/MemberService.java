@@ -1,6 +1,7 @@
 	package com.lib.fin.member;
 	
-	import java.lang.reflect.Member;
+	import java.io.File;
+import java.lang.reflect.Member;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,8 +63,8 @@ import lombok.extern.slf4j.Slf4j;
 		private String filePath;
 			
 	
-		@Value("${app.member.photo}")
-		private String photo;
+//		@Value("${app.member.photo}")
+//		private String photo;
 		
 	
 		//관리자멤버리스트
@@ -137,35 +138,76 @@ import lombok.extern.slf4j.Slf4j;
 		 	
 		 
 		 //이미지저장
-		public int setMemImage(MemberFileVO memberFileVO,MultipartFile photo, MemberVO memberVO)throws Exception{
-			 
+		 public boolean setMemImage(MultipartFile photo, MemberVO memberVO)throws Exception{
+			boolean flag = true;
 		 		
-		 		String path =filePath +photo;
-		 		String saveFileName = fileManagerProfile.save(path, photo, memberVO);
+		 		//String path =filePath +photo;
+			
+				String saveFileName = fileManagerProfile.save(filePath, photo, memberVO);
+		 		log.info("===saveFileName{}=========",saveFileName);
+		 		log.info("===이미지사원번호{}=========",memberVO.getEmp_no());
 	   
 			   try {
+				   //이미지가져오기
+				   MemberFileVO existImage = memberDAO.getMemImage(memberVO.getEmp_no());
+				   
 				   if(photo != null) {
-					 
-					   
-					   memberFileVO.setFile_no(memberVO.getEmp_no());
-					   memberFileVO.setFile_name(saveFileName);
-					   memberFileVO.setFile_oriName(photo.getOriginalFilename());
-					   memberFileVO.setEmp_no(memberVO.getEmp_no());
-					   memberFileVO.setReg_id(memberFileVO.getEmp_no());
-					   memberFileVO.setMod_id(memberVO.getEmp_no());
-					   memberFileVO.setUse_yn("Y");
-					   
-					   //DB에 저장
-					   memberDAO.setMemImage(memberFileVO);
+					   //이전에 설정한 프로필 사진 삭제
+					   if (existImage != null) { // 기존회원 이미지 변경시
+						   existImage = memberDAO.getMemImage(memberVO.getEmp_no());
+				            String filePath = "C:/STS4/upload/"; // 파일 경로 
+				            File existFile = new File(filePath + existImage.getFile_name());
+				          
+				     	   //이미지 존재하면 업데이트
+							   //emp_no는 String , file_no는 Long이라 valueOf사용, db에 long타입 emp_no로 저장
+							   existImage.setFile_no(Long.valueOf(memberVO.getEmp_no()));
+							   existImage.setFile_name(saveFileName);
+							   existImage.setEmp_no(memberVO.getEmp_no());
+							   existImage.setFile_oriName(photo.getOriginalFilename());
+					           existImage.setMod_id(memberVO.getEmp_no());
+					           existImage.setReg_id(memberVO.getEmp_no());
+					           existImage.setUse_yn("Y");
+					           memberDAO.updateMemImage(existImage);
+					           
+					           flag=false;
+				        }else {//새로운 이미지 올릴때
+				        	  //이미지없으면 추가
+							   MemberFileVO memberFileVO = new MemberFileVO();
+							   log.info("===memberFileVO{}=========",memberFileVO);
+							   memberFileVO.setFile_no(Long.valueOf(memberVO.getEmp_no()));
+							   log.info("===memberFileVO{}=========",memberFileVO.getFile_no());
+							   memberFileVO.setEmp_no(memberVO.getEmp_no());
+							   memberFileVO.setFile_name(saveFileName);
+							   memberFileVO.setFile_oriName(photo.getOriginalFilename());
+							   memberFileVO.setReg_id(memberVO.getEmp_no());
+							   memberFileVO.setMod_id(memberVO.getEmp_no());
+							   memberFileVO.setUse_yn("Y");
+							   log.info("======{}====",memberFileVO);
+							   //DB에 저장
+							   memberDAO.setMemImage(memberFileVO);
+							   
+				        }
+				
+				   } else {
+					   log.info("=====사진없음=====");
 				   }
 				
 			} catch (Exception e) {
 				log.info("파일업로드실패"+e.getMessage());
+		
 			}
-		 		
-		 		
-		 		return 0;
-		 	}
+			return flag;
+		}
+	
+		
+		//프로필사진보기
+		public MemberFileVO getMemImage(String emp_no)throws Exception{
+			return memberDAO.getMemImage(emp_no);
+		}
+		//프로필이미지 존재시 업데이트
+		public void updateMemImage(MemberFileVO memberFileVO)throws Exception{
+			memberDAO.updateMemImage(memberFileVO);
+		}
 		        
 		 
 			//로그인
@@ -192,15 +234,10 @@ import lombok.extern.slf4j.Slf4j;
 				for(RoleVO roleVO : memberVO.getRoleVOs()) {
 					authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
 				}
-				
-				UserDetails userDetails = new User(
-				memberVO.getEmp_no(),
-				memberVO.getPassword(),
-				authorities
-				);
+
 				
 				log.info("=====권한보기{}=====", authorities);
-				return userDetails;
+				return memberVO;
 				
 			}
 		

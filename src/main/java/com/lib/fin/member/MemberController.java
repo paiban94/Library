@@ -1,5 +1,6 @@
 package com.lib.fin.member;
 
+import java.io.File;
 import java.lang.reflect.Member;
 import java.security.Principal;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public class MemberController {
 	@RequestMapping("adminMemberPage")
 	public String AdminMemList(Model model, MemberVO memberVO)throws Exception{
 		List<MemberVO> adminMemList = memberService.getAdminMemList(memberVO);
-		log.info("=====authority{}",memberVO.getAuthority(),"=====authorities{}",memberVO.getAuthorities());
+		log.info("=====authorities{}",memberVO.getAuthorities());
 		model.addAttribute("adminMemList",adminMemList);
 		return "member/adminMemberPage";
 	}
@@ -149,23 +150,7 @@ public class MemberController {
             // 회원 가입이 성공한 경우에 대한 처리
             log.info("===========회원 가입이 성공했습니다.=========");
              
-        	//int emp_no = memberService.memJoin(memberVO, model);
-        	//model.addAttribute("emp_no", emp_no);
-            
-            //프로필이미지저장
-//            MemberFileVO memberFileVO = new MemberFileVO();
-//            
-//            int profileResult = memberService.setMemImage(memberFileVO, profile, memberVO);
-//            
-//            if (profileResult > 0) {
-//                log.info("===========프로필 이미지 저장이 성공했습니다.=========");
-//            } else {
-//                log.info("===========프로필 이미지 저장이 실패했습니다.=========");
-//                
-//            }
-//            
-//            log.info("profile : ----name: {} --- size : {}", profile.getName(), profile.getSize());
-// 
+
         	return "member/login";
     		
         }else {
@@ -212,14 +197,13 @@ public class MemberController {
 	
 	//마이페이지
 	@GetMapping("mypage")
-	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
-		//String emp_no = memberVO.getEmp_no();
-
+	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model, String emp_no)throws Exception{
+		//프로필 사진 가져오기
+		MemberFileVO profileImage = memberService.getMemImage(emp_no);
+		model.addAttribute("profileImage",profileImage);
 		model.addAttribute("memberVO",memberVO);
 		return "member/mypage";	
 	}
-	
-	
 	
 
 	
@@ -240,28 +224,28 @@ public class MemberController {
 	            // 유효성 검사 에러가 있을 경우 처리
 	            return "member/update";
 	        }
-		 	
-		 	  try {
-		 		  
+		
 		 		  	
-		 		  	String fileName = fileManagerProfile.save(filePath, photo, memberVO);
-		 	        int result = memberService.updateMember(memberVO, photo);
+		 		  	int result = memberService.updateMember(memberVO, photo);
 
 		 	        if (result > 0) {
 		 	            log.info("===========프로필 이미지 및 정보 수정이 성공했습니다.=========");
-		 	            log.info("photo : name: {} " , fileName);
+		 	           // log.info("photo : name: {} " , fileName);
 		 			 	log.info("photo : size : {} ", photo.getSize());
 		 			 	log.info("photo : size : {} ", photo.getOriginalFilename());
 		 	            
-		 	            model.addAttribute("successImage", memberVO);
+		 			 	//이미지저장
+		 			 	boolean imageResult = memberService.setMemImage(photo, memberVO);
+		 			 	MemberFileVO memberFileVO = memberService.getMemImage(memberVO.getEmp_no());
+		 				log.info("===업데이트memberFileVO:{}====", memberFileVO.toString());
+		 	            model.addAttribute("memberVO", memberVO);
+		 	            model.addAttribute("photo",memberFileVO);
+		 	           log.info("===업데이트photo:{}====", memberFileVO.getFile_name());
 		 	        } else {
 		 	            log.info("===========프로필 이미지 또는 정보 수정이 실패했습니다.=========");
 		 	            model.addAttribute("error", "프로필 이미지 또는 정보 수정에 실패했습니다.");
 		 	        }
-		 	    } catch (Exception e) {
-		 	        log.error("업데이트 중 오류 발생: {}", e.getMessage());
-		 	        model.addAttribute("errorImage", "프로필 이미지 또는 정보 수정 중 오류가 발생했습니다.");
-		 	    }
+		 	  
 
 
 		 	    return "member/mypage";

@@ -50,8 +50,6 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private int remain_holiday;
 	
-	private String authority;
-	
 	private Date emp_in_date;
 	
 	private Date emp_out_date;
@@ -66,7 +64,6 @@ public class MemberVO extends CommonVO implements UserDetails{
 //		return null;
 //	}
 		@Override
-		
 		public Collection<? extends GrantedAuthority> getAuthorities() {
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			

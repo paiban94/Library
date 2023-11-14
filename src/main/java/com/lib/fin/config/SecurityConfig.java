@@ -58,7 +58,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	              //.antMatchers("/member/postLogin").authenticated()
 	              .antMatchers("/").hasAnyRole("ADMIN", "USER")
 	            //로그인한 사람만 접속가능
-	              .antMatchers("/").authenticated()
+	              .antMatchers("/**").authenticated()
 	              //.antMatchers("/").permitAll()
 	              //나머지 모든 요청은 로그인한 사용자 가능
 	              //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")

@@ -11,12 +11,9 @@ import lombok.ToString;
 @ToString
 public class MemberFileVO extends FileVO{
 	
-	private String emp_no;
 
-	public void setFile_no(String emp_no) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	private String emp_no;
 
 	
 }
