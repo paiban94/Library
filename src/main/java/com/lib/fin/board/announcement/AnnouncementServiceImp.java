@@ -244,6 +244,11 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		return announcementDAO.deleteFile(fileNo);
 	}
 
+	@Override
+	public LikeVO checkLike(LikeVO likeVO) throws Exception {
+		return announcementDAO.checkLike(likeVO);
+	}
+
 
 
 

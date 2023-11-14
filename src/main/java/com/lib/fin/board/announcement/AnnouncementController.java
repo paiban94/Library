@@ -94,6 +94,21 @@ public class AnnouncementController {
 
 		
 		List<BoardFileVO> filelist = announcementService.getFileDetail(announcementVO);
+		
+		LikeVO likeVO = new LikeVO();
+		likeVO.setBoard_no(boardVO.getBoard_no());
+		System.out.println("^^^^^^^^^^^^^^^^^^boardVO : " + likeVO.getBoard_no());
+		likeVO.setReg_id(memberVO.getEmp_no());
+		System.out.println("^^^^^^^^^^^^^^^^^^memberVO : " + likeVO.getReg_id());
+		likeVO = announcementService.checkLike(likeVO);
+	
+		
+		if (likeVO == null) {
+			mv.addObject("checkLike", "N");
+		}else {
+			mv.addObject("checkLike", "Y");	
+		}
+		
 
 		List<CommentVO> comments = announcementService.getComments(boardVO.getBoard_no());
 		if (boardVO.getReg_id().equals(memberVO.getEmp_no())) {

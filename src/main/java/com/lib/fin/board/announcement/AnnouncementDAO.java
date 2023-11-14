@@ -84,6 +84,8 @@ public interface AnnouncementDAO {
 	public String saveImageFile(String originalFilename) throws Exception;
 
 	public int deleteFile(Long fileNo) throws Exception;
+
+	public LikeVO checkLike(LikeVO likeVO) throws Exception;
 	
 
 }

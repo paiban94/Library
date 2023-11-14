@@ -60,6 +60,10 @@ public interface AnnouncementService {
 
 	public int deleteFile(Long fileNo) throws Exception;
 
+	public LikeVO checkLike(LikeVO likeVO) throws Exception;
+
+
+
 //	
 
 }

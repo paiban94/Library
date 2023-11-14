@@ -1,4 +1,16 @@
  $(document).ready(function() {
+let likecheck = $('#likediv').data('like');
+
+console.log("check like : "+likecheck);
+if (likecheck == 'Y') {
+    $('#likeButton').hide();
+    $('#unlikeButton').show();
+}else{
+    $('#unlikeButton').hide();
+    $('#likeButton').show();
+}
+
+
 let view = $('#view').data('view');
 
 if (view == 'A') {

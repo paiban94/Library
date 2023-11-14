@@ -61,7 +61,7 @@
 																</div>
 															</div>
 
-															<div>
+															<div id="likediv" data-like="${checkLike}">
 																<button id="likeButton"
 																	onclick="likeAnnouncement(${data.board_no})">좋아요</button>
 																<button id="unlikeButton"
