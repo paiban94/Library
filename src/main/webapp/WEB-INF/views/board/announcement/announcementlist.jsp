@@ -126,6 +126,7 @@ td:first-child, th:first-child {
 											<tbody>
 												<c:forEach items="${list}" var="d" varStatus="i">
 													<tr>
+
 														<td class="board_no">${d.board_no}</td>
 														<td><a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a></td>
 														<td class="reg_id">${d.board_wirter}</td>

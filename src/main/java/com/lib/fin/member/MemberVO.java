@@ -19,10 +19,12 @@ import com.lib.fin.commons.CommonVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class MemberVO extends CommonVO implements UserDetails{
 	
 	private String emp_no;
@@ -50,13 +52,11 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private int remain_holiday;
 	
-	private String authority;
-	
 	private Date emp_in_date;
 	
 	private Date emp_out_date;
 	
-	private List<ComVO> comVOs;
+	private List<RoleVO> roleVOs;
 
 	
 	
@@ -65,17 +65,24 @@ public class MemberVO extends CommonVO implements UserDetails{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-	@Override
-	
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		
-		for(ComVO comVO:comVOs) {
-			authorities.add(new SimpleGrantedAuthority(comVO.getCd_nm()));
-		}
+		@Override
+		public Collection<? extends GrantedAuthority> getAuthorities() {
+			List<GrantedAuthority> authorities = new ArrayList<>();
 			
-		return authorities;
-	}
+			// mem_info와 role 조인 시킨 곳에서 authority 이부분에서 권한이 확인가능
+			// 직책 변경 시 권한 변경
+			if ("A".equals(emp_position) || "B".equals(emp_position)) {
+				authorities.add(new SimpleGrantedAuthority("ADMIN"));
+			} else {
+				authorities.add(new SimpleGrantedAuthority("USER"));
+			}
+			for(RoleVO roleVO:roleVOs) {
+				authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+				log.info("=====role{}====",roleVO.getRoleName());
+			}
+			
+			return authorities;
+		}
 
     // 시큐리티의 userName
     // -> 따라서 얘는 인증할 때 id를 봄

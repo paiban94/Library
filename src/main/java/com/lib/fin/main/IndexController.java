@@ -11,6 +11,8 @@ public class IndexController {
 	public String getIndex() {
 		return "/index";
 	}
-	
-
+	@GetMapping("/member/assets/img/logo.png")
+	public String getIndex1() {
+		return "/index";
+	}
 }

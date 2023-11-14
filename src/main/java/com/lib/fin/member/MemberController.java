@@ -1,13 +1,20 @@
 package com.lib.fin.member;
 
+import java.io.File;
 import java.lang.reflect.Member;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,6 +49,68 @@ public class MemberController {
 	private FileManagerProfile fileManagerProfile;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	//local file 위치
+	@Value("${app.upload}")
+	private String filePath;
+		
+	//요청 URL 경로
+	@Value("${app.url.path}")
+	private String urlPath;
+	
+
+	
+	//관리자페이지
+	@GetMapping("adminPage")
+	public String adminPage()throws Exception{
+		  return "member/adminPage";
+	}
+	
+	
+	//멤버관리자페이지 멤버리스트
+	@RequestMapping("adminMemberPage")
+	public String AdminMemList(Model model, MemberVO memberVO)throws Exception{
+		List<MemberVO> adminMemList = memberService.getAdminMemList(memberVO);
+		log.info("=====authorities{}",memberVO.getAuthorities());
+		model.addAttribute("adminMemList",adminMemList);
+		return "member/adminMemberPage";
+	}
+	
+	//멤버관리자페이지 상세정보
+	@RequestMapping("adminDetailPage")
+	public String getAdminDetail(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
+		MemberVO memberVO = memberService.getAdminDetail(emp_no);
+		// memberVO를 adminDetailPage 뷰로 전달
+		model.addAttribute("memberVO",memberVO);
+		return "member/adminDetailPage";
+	}
+
+	
+	
+//		//멤버 관리자 상세정보 업데이트 페이지
+		@GetMapping("adminUpdate")
+		public String adminMemUpdate(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
+			//emp_no를 사용하여 회원정보가져오기
+			MemberVO memberVO = memberService.getAdminDetail(emp_no);
+			//memberVO 를 adminUpdate 뷰로 전달
+			model.addAttribute("memberVO",memberVO);
+			return "member/adminUpdate";
+	}
+		
+		@PostMapping("adminUpdate")
+		public String adminMemUpdate(@ModelAttribute MemberVO memberVO)throws Exception{
+			int result = memberService.adminMemUpdate(memberVO);
+			
+			if(result>0) {
+				log.info("관리자 멤버 정보 변경 성공");
+			}else {
+				log.info("관리자 멤버 정보 변경 실패");
+			}
+			return "member/adminDetailPage";
+			//return "redirect:/adminDetailPage?emp_no="+memberVO.getEmp_no();
+		}
+		
+		
+	
 	
 	//멤버리스트
 	@GetMapping("memberList")
@@ -52,15 +121,17 @@ public class MemberController {
 	}
 	
 	
+	
 	//회원가입 페이지 출력 요청
 	@GetMapping("join")
 	public void memJoin (@ModelAttribute MemberVO memberVO) throws Exception {
 		
 	}
 	
+	
+	
     @PostMapping("join")
-    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult,Model model, MultipartFile profile) throws Exception {
-    	
+    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult,Model model) throws Exception {
     	boolean check = memberService.getMemberError(memberVO, bindingResult);
     	log.info("===check:{}====", check);
     	if(bindingResult.hasErrors() || check) {
@@ -70,23 +141,37 @@ public class MemberController {
     	
     	   	
         int result = memberService.memJoin(memberVO, model);
+        
         log.info("===result:{}====", result);
+        
+       
+        
         if (result > 0) {
             // 회원 가입이 성공한 경우에 대한 처리
             log.info("===========회원 가입이 성공했습니다.=========");
-            
-            // 회원 가입 성공 후에 생성된 사원번호를 가져옵니다.
-            String empNo = memberVO.getEmp_no();
-           log.info("===========사원번호 {}=========", empNo);
-           // 
-            model.addAttribute("empNo", empNo);
+             
 
-        	log.info("profile : name---: {} --- size : {}", profile.getName(), profile.getSize());
-    		return "redirect:../";
+        	return "member/login";
+    		
+        }else {
+             
+        return "member/join";
         }
-      
-        return "member/login";
-    }
+     }
+  
+    
+    
+    
+    
+    //모달로 사원번호보내기
+//    @GetMapping("join")
+//    public String getEmpNoModal(String emp_no, Model model)throws Exception{
+//    	String empNo = memberService.getEmpNoModal(emp_no);
+//    	model.addAttribute("empNo", empNo);
+//    	return "member/join";
+//    }
+    
+    
     
 	@GetMapping("login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
@@ -108,22 +193,17 @@ public class MemberController {
 		
 	}
 
-//	//topbar
-//	@GetMapping("../layout/topbar")
-//	public String logInfo(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
-//		String name = memberVO.getName();
-//		
-//	}
+
 	
 	//마이페이지
 	@GetMapping("mypage")
-	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
-		//String emp_no = memberVO.getEmp_no();
+	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model, String emp_no)throws Exception{
+		//프로필 사진 가져오기
+		MemberFileVO profileImage = memberService.getMemImage(emp_no);
+		model.addAttribute("profileImage",profileImage);
 		model.addAttribute("memberVO",memberVO);
 		return "member/mypage";	
 	}
-	
-	
 	
 
 	
@@ -136,94 +216,45 @@ public class MemberController {
 	}
 	
 	 @PostMapping("/update")
-	    public String postUpdateMember(@Valid MemberVO memberVO, BindingResult bindingResult, Model model)throws Exception {
+	    public String postUpdateMember(@Valid MemberVO memberVO, BindingResult bindingResult, Model model,MultipartFile photo)throws Exception {
 	        	
 		 	boolean check = memberService.getMemberError(memberVO, bindingResult);
-
+			log.info("===업데이트check:{}====", check);
 		 	if (bindingResult.hasErrors()||check) {
 	            // 유효성 검사 에러가 있을 경우 처리
 	            return "member/update";
 	        }
+		
+		 		  	
+		 		  	int result = memberService.updateMember(memberVO, photo);
 
-	        int result = memberService.updateMember(memberVO);
-
-	        if (result > 0) {
-	            model.addAttribute("success", memberVO);
-	        } else {
-	            model.addAttribute("error", "정보 수정에 실패했습니다.");
-	        }
-	        
-	        
-	        return "member/mypage";
-	    }
-	
-	
-	//정보수정 프로필 출력, 정보읽어와 뷰로 전달
-//	@GetMapping("update")
-//	public String getUpdateMember(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception{
-//		MemberUpdateVO memberUpdateVO = new MemberUpdateVO();
-//		memberUpdateVO.setNewEmail(memberVO.getEmail());
-//		memberUpdateVO.setNewPhone(memberVO.getPhone());
-//		memberUpdateVO.setNewPassword(memberVO.getPassword());
-//		
-//		model.addAttribute("memberUpdateVO",memberUpdateVO);
-//		return "member/update";
-//	}
-	
+		 	        if (result > 0) {
+		 	            log.info("===========프로필 이미지 및 정보 수정이 성공했습니다.=========");
+		 	           // log.info("photo : name: {} " , fileName);
+		 			 	log.info("photo : size : {} ", photo.getSize());
+		 			 	log.info("photo : size : {} ", photo.getOriginalFilename());
+		 	            
+		 			 	//이미지저장
+		 			 	boolean imageResult = memberService.setMemImage(photo, memberVO);
+		 			 	MemberFileVO memberFileVO = memberService.getMemImage(memberVO.getEmp_no());
+		 				log.info("===업데이트memberFileVO:{}====", memberFileVO.toString());
+		 	            model.addAttribute("memberVO", memberVO);
+		 	            model.addAttribute("photo",memberFileVO);
+		 	           log.info("===업데이트photo:{}====", memberFileVO.getFile_name());
+		 	        } else {
+		 	            log.info("===========프로필 이미지 또는 정보 수정이 실패했습니다.=========");
+		 	            model.addAttribute("error", "프로필 이미지 또는 정보 수정에 실패했습니다.");
+		 	        }
+		 	  
 
 
-//	@PostMapping("update")
-//    public String postUpdateMember(@Valid MemberVO memberVO, BindingResult bindingResult)throws Exception{
-//		
-//		boolean check = memberService.getMemberError(memberVO, bindingResult);
-//	  	if(bindingResult.hasErrors() || check) {
-// 		log.info("==========수정에 실패했습니다{}==========", check);
-//    		  // bindingResult.rejectValue("passwordCheck", "password.mismatch", "비밀번호가 일치해야 합니다.");
-//    	        return "member/update";
-//    	}
-//
-//		
-//		 // 비밀번호가 입력된 경우에만 업데이트
-//	    if (memberVO.getPassword() != null && !memberVO.getPassword().isEmpty()) {
-//	        // 비밀번호 변경, 암호화처리
-//	    	String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
-//	        memberVO.setPassword(encodedPassword);
-//	    }else {
-//	    	//비밀번호 변경하지않을경우 null로 설정해서 업데이트에서 제외
-//	    	memberVO.setPassword("");
-//	    }
-//	    
-//	    //이메일과 전화번호
-//	   // MemberVO updateMember = (MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//	    //이메일이 null이 아니고 비어있지않으면 이메일 업데이트 처리
-//	    if(memberVO.getEmail() != null && !memberVO.getEmail().isEmpty()) {
-//	    	memberVO.setEmail(memberVO.getEmail());
-//	    }else {
-//	    	memberVO.setEmail("");
-//	    }
-//	    //전화번호가 null이 아니고 비어있지 않으면 전화번호 업데이트 처리
-//	    if (memberVO.getPhone() != null && !memberVO.getPhone().isEmpty()) {
-//	    	memberVO.setPhone(memberVO.getPhone());
-//	    }else {
-//	    	memberVO.setPhone("");
-//	    }
-//
-//
-//		log.info("====정보수정중{}====", memberVO);
-//		int result = memberService.updateMember(memberVO);
-//
-//		if (result>0) {
-//		    log.info("===========정보 수정이 성공했습니다.=========");
-//		} else {
-//		    log.info("===========정보 수정에 실패했습니다.=========");
-//		}
-//
-//		
-//	   return "member/mypage";
-//	}
+		 	    return "member/mypage";
+	 }
+         
+
 	
 	@GetMapping("findEmpNo")
-	public String getFindEmpNo()throws Exception {
+	public String findEmpNo()throws Exception {
 		return "member/findEmpNo";
 	}
 	
