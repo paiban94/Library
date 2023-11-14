@@ -2,15 +2,16 @@ package com.lib.fin.attendance;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.Map;
 @Mapper
 public interface AttendanceDAO {
 
 	int insertStartWork(String emp_no);
-	
+	@Select("select count(*) from ATTENDANCE_BASE where emp_no = #{emp_no} AND #{reg_date} = #{time}")
 	AttendanceVO checkWorkTime(Map<String, Object> param);
-	
+	@Update("update ATTENDANCE_BASE set lw_time = sysdate(), status = '업무종료',mod_date= sysdate(),mod_id=#{emp_no} where emp_no = #{emp_no} AND #{reg_date} = #{time}")
 	int updateEndWork(Map<String, Object> param);
 	
 	int updateDayWorkTime(Map<String, Object> param);

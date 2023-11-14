@@ -84,7 +84,8 @@ public class AttendanceControl {
 	    
 	    return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
-				.body(state);
+				.body(state)
+				;
 	}
 	
 	//퇴근하기 버튼 누를시 퇴근시간 update
@@ -94,7 +95,7 @@ public class AttendanceControl {
 		String emp_no = principal.getEmp_no();
 		String time = now.format(dayf);
 		Map<String,Object> param = new HashMap<>();
-		Map<String,Object> state = new HashMap<>();
+		Map<String,Object> status = new HashMap<>();
 		param.put("emp_no", emp_no);
 		param.put("time", time);
 		 
@@ -102,24 +103,24 @@ public class AttendanceControl {
 		log.debug("work = {}",work);
 		
 		if(work == null) {
-			state.put("status","출근전");
+			status.put("status","출근전");
 		}else if(work.getStatus().equals("출장")) {
-			state.put("status", "출장");
+			status.put("status", "출장");
 		}else if(work.getStatus().equals("연차")) {
-			state.put("status", "연차");
+			status.put("status", "연차");
 		}
 		else if(work.getLw_time() == null || work.getStatus().equals("반차")) {
 			//퇴근시간 업데이트
-			int result = attendanceService.updateEndWok(param);
-			state.put("status", "성공");	
+			int result = attendanceService.updateEndWork(param);
+			status.put("status", "성공");	
 		}
 		else {
-			 state.put("status", "실패");
+			 status.put("status", "실패");
 		}
 			
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
-				.body(state);
+				.body(status);
 	}
 	
 	//퇴근버튼 눌렀을시 오늘 근무시간 업데이트

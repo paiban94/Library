@@ -214,6 +214,7 @@
                     var calendarEl = document.getElementById('calendarS');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
 
+                    	langL:'ko',
                         locale: 'ko',
                         timeZone: 'Asia/Seoul',
                         initialView: 'dayGridMonth',
