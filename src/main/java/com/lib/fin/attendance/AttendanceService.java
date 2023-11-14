@@ -10,7 +10,7 @@ public interface AttendanceService {
 	
 	int updateStartWork(Map<String, Object> param);
 	
-	int updateEndWok(Map<String, Object> param);
+	int updateEndWork(Map<String, Object> param);
 	
 	int updateDayWorkTimeHalf(Map<String, Object> param);
 	

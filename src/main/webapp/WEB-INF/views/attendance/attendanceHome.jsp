@@ -3,7 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,7 +126,8 @@ float:left;
                                 </tr>
                             </thead>
                             <tbody>
-                            	<form id="insertGtw_time" action="./add" method="post">
+                            	<form id="insertGtw_time" action="./insertStartWork.do" method="post">
+                                 <input type="hidden" name="_csrf" value="{{#_csrf}}token{{/_csrf}}" />
                                 <tr>
                                     <td id="year" colspan="2" class="font-14">clock</td>
                                 </tr>
@@ -131,21 +136,43 @@ float:left;
                                 </tr>
                                 <tr>
                                     <td class="font-14 font-bold">업무상태</td>
-                                    <td class="text-right font-14 color-red font-bold" id="work-state">출근전</td>
+                                    <input type="hidden" value="G001" id="grp_cd" name="grp_cd">
+                                    <td class="text-right font-14 color-red font-bold" id="work-state">
+                                    <select class="form-select" aria-label="Default select example" id="status" name="status">
+									  <option selected>출근전</option>
+									  <option value="A">조퇴</option>
+									  <option value="B">연차</option>
+									  <option value="C">반차</option>
+									  <option value="D">정상</option>
+									  <option value="E">출장</option>
+									  <option value="F">외근</option>
+									</select></td>
                                 </tr>            
                                 <tr>
                                     <td class="font-14 font-bold">출근시간</td>
                                     <td class="text-right font-14" id="startwork-time">미등록</td>
+                                    <input type="hidden" value="${sysdate}" id="gtw_time" name="gtw_time"></input>
+                                    <input type="hidden" value="${sysdate}" id="startwork-time" name="startwork-time"></input>
+
                                 </tr>
                                 <tr>
                                     <td class="font-14 font-bold">퇴근시간</td>
                                     <td class="text-right font-14" id="endwork-time">미등록</td>
+                                    <input type="hidden" value="${sysdate}" id="lw_time" name="lw_time">
                                 </tr>
                                 	<input type="hidden" value="${memberVO.emp_no}" id="emp_no" name="emp_no">
                                 <tr class="btn-tr">
+                                    <td>
+                                    <button type="submit" id="insertGtw_time">출근하기</button>
                                 </form>
-                                    <td><button type="submit" "font-bold" id="insertGtw_time">출근하기</button></td>
-                                    <td class="text-right"><button class="font-bold" id="btn-endwork">퇴근하기</button></td>
+                                    </td>
+                                <form id="updateLw-time" action="./updateEndWork.do" method="post">
+                                    <td class="text-right">
+                                    <input type="hidden" value="${sysdate}" id="endwork-time" name="endwork-time">
+                                    <input type="hidden" value="${memberVO.emp_no}" id="emp_no" name="emp_no">
+                                    <button type="submit" id="updateLw-time">퇴근하기</button>
+                                    </td>
+                                    </form>
                                 </tr>
                             </tbody>
                         </table>
@@ -215,6 +242,7 @@ float:left;
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+
 <script>
     window.addEventListener('load', function(){
         
@@ -236,8 +264,8 @@ float:left;
                     var endtime = new Date(lw_time);
                     
                     //하루 근무시간 계산
-                    const dayWorkTimes = endtime - starttime; //퇴근시간 - 출근시간
-                    console.log(dayWorkTimes);
+                    const daytimes = endtime - starttime; //퇴근시간 - 출근시간
+                    console.log(daytimes);
                     
                     const workState = document.querySelector("#work-status");
                     workState.textContent = status;
@@ -406,6 +434,9 @@ float:left;
     }
     
     </script>			
-    <script src="/js/attendance.js"></script>		
+    <script src="/js/attendance.js"></script>
 </body>
+<!-- CSRF -->
+		<s:csrf/>	
+	
 </html>

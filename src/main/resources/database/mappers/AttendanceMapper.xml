@@ -11,15 +11,15 @@
 		values(
 			0,
 			#{emp_NO},
-			default,
+			now(),
 			null,
 			#{emp_no},
-			default,
-			null,
-			null,
+			sysdate(),
+			#{emp_no},
+			sysdate(),
 			'Y',
-			'업무중',
-			null,
+			'정상',
+			0,
 			0
 			)
 	</insert>

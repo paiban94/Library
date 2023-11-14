@@ -21,7 +21,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceDAO.updateStartWork(param);
 	}
 	@Override
-	public int updateEndWok(Map<String, Object> param) {
+	public int updateEndWork(Map<String, Object> param) {
 		return attendanceDAO.updateEndWork(param);
 	}
 	@Override
