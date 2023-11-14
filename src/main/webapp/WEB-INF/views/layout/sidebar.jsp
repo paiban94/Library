@@ -27,16 +27,10 @@ pageEncoding="UTF-8"%>
             </a>
           </li>
           <li>
-            <a href="forms-layouts.html">
-              <i class="bi bi-circle"></i><span>부서 리스트</span>
+            <a href="/member/adminPage">
+              <i class="bi bi-circle"></i><span>관리자 기능</span>
             </a>
           </li>
-          <li>
-            <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>차트</span>
-            </a>
-          </li>
-          
         </ul>
       </li><!-- End Forms Nav -->
 

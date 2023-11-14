@@ -1,22 +1,27 @@
 	package com.lib.fin.member;
 	
-	import java.lang.reflect.Member;
+	import java.io.File;
+import java.lang.reflect.Member;
 import java.security.Principal;
-	import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.security.core.userdetails.User;
 	import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 	import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
-
-	import org.springframework.security.authentication.BadCredentialsException;
-	import org.springframework.security.core.annotation.AuthenticationPrincipal;
-	import org.springframework.security.core.context.SecurityContext;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.UserDetails;
 	import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +34,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 	import org.springframework.web.multipart.MultipartFile;
 
+import com.lib.fin.commons.FileManager;
 import com.lib.fin.commons.FileManagerProfile;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,25 +49,47 @@ import lombok.extern.slf4j.Slf4j;
 		private MemberDAO memberDAO;
 		
 		@Autowired
+		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
+		//이메일 전송	
+		@Autowired
+		private JavaMailSender javaMailSender;
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
 		
 		//local file 위치
-		@Value("${app.upload.mapping}")
+		@Value("${app.upload}")
 		private String filePath;
 			
-		//요청 URL 경로
-		@Value("${app.url.path}")
-		private String urlPath;
 	
+//		@Value("${app.member.photo}")
+//		private String photo;
+		
+	
+		//관리자멤버리스트
+		   public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception {
+		        List<MemberVO> getAdminMemList = memberDAO.getAdminMemList(memberVO);
+		        return getAdminMemList;
+		    }
+	   //관리자 멤버 상세정보
+		   public MemberVO getAdminDetail(String emp_no) throws Exception {
+		        return memberDAO.getAdminDetail(emp_no);
+		    }
+		   
+
+		//관리자 멤버 정보 업데이트
+		  public int adminMemUpdate(MemberVO memberVO)throws Exception{
+			  return memberDAO.adminMemUpdate(memberVO);
+		  }
+		   
+		
 		//멤버리스트
 		   public List<MemberVO> getList(MemberVO memberVO)throws Exception {
 		        List<MemberVO> list = memberDAO.getList(memberVO);
 		        return list;
 		    }
-		
+		   
 		
 		// 사원번호 모달에 전송
 		public String getEmpNoModal(MemberVO memberVO) {
@@ -93,35 +121,93 @@ import lombok.extern.slf4j.Slf4j;
 //			Map<String, String> codeName = new HashMap<>();
 //			codeName.put(null, null)
 //		}	 
-		
+
+
+	
 		 @Transactional(rollbackFor = Exception.class)
 		    public int memJoin(MemberVO memberVO, Model model) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 			 	
-		        Map<String, Object> teamMap=new HashMap<>();
-		        teamMap.put("A", "대표");
-		        teamMap.put("B", "운영과");
-		        teamMap.put("C", "정책과");
-		        teamMap.put("D", "서비스과");
-		        teamMap.put("E", "가발령");
-		        model.addAttribute("teamMap",teamMap);
-	
-		        Map<String, Object> positionMap=new HashMap<>();
-		        positionMap.put("A", "관장");
-		        positionMap.put("B", "팀장");
-		        positionMap.put("C", "주무관");
-		        positionMap.put("D", "사서");
-		        model.addAttribute("positionMap",positionMap);
-		        
-		        //부서 및 직급 이름으로 설정
-		        memberVO.setEmp_team((String) teamMap.get(memberVO.getEmp_team()));
-		        memberVO.setEmp_position((String) positionMap.get(memberVO.getEmp_position()));
-
 		        // 회원 정보 저장
-		        
 		        int result = memberDAO.memJoin(memberVO);
+		        Map<String, Object> map = new HashMap<>();
+		        map.put("roleNum",memberVO.getEmp_position());
+		        result = memberDAO.setMemberRole(map);
 		        return result;
 		    }   
+		 	
+		 
+		 //이미지저장
+		 public boolean setMemImage(MultipartFile photo, MemberVO memberVO)throws Exception{
+			boolean flag = true;
+		 		
+		 		//String path =filePath +photo;
+			
+				String saveFileName = fileManagerProfile.save(filePath, photo, memberVO);
+		 		log.info("===saveFileName{}=========",saveFileName);
+		 		log.info("===이미지사원번호{}=========",memberVO.getEmp_no());
+	   
+			   try {
+				   //이미지가져오기
+				   MemberFileVO existImage = memberDAO.getMemImage(memberVO.getEmp_no());
+				   
+				   if(photo != null) {
+					   //이전에 설정한 프로필 사진 삭제
+					   if (existImage != null) { // 기존회원 이미지 변경시
+						   existImage = memberDAO.getMemImage(memberVO.getEmp_no());
+				            String filePath = "C:/STS4/upload/"; // 파일 경로 
+				            File existFile = new File(filePath + existImage.getFile_name());
+				          
+				     	   //이미지 존재하면 업데이트
+							   //emp_no는 String , file_no는 Long이라 valueOf사용, db에 long타입 emp_no로 저장
+							   existImage.setFile_no(Long.valueOf(memberVO.getEmp_no()));
+							   existImage.setFile_name(saveFileName);
+							   existImage.setEmp_no(memberVO.getEmp_no());
+							   existImage.setFile_oriName(photo.getOriginalFilename());
+					           existImage.setMod_id(memberVO.getEmp_no());
+					           existImage.setReg_id(memberVO.getEmp_no());
+					           existImage.setUse_yn("Y");
+					           memberDAO.updateMemImage(existImage);
+					           
+					           flag=false;
+				        }else {//새로운 이미지 올릴때
+				        	  //이미지없으면 추가
+							   MemberFileVO memberFileVO = new MemberFileVO();
+							   log.info("===memberFileVO{}=========",memberFileVO);
+							   memberFileVO.setFile_no(Long.valueOf(memberVO.getEmp_no()));
+							   log.info("===memberFileVO{}=========",memberFileVO.getFile_no());
+							   memberFileVO.setEmp_no(memberVO.getEmp_no());
+							   memberFileVO.setFile_name(saveFileName);
+							   memberFileVO.setFile_oriName(photo.getOriginalFilename());
+							   memberFileVO.setReg_id(memberVO.getEmp_no());
+							   memberFileVO.setMod_id(memberVO.getEmp_no());
+							   memberFileVO.setUse_yn("Y");
+							   log.info("======{}====",memberFileVO);
+							   //DB에 저장
+							   memberDAO.setMemImage(memberFileVO);
+							   
+				        }
+				
+				   } else {
+					   log.info("=====사진없음=====");
+				   }
+				
+			} catch (Exception e) {
+				log.info("파일업로드실패"+e.getMessage());
+		
+			}
+			return flag;
+		}
+	
+		
+		//프로필사진보기
+		public MemberFileVO getMemImage(String emp_no)throws Exception{
+			return memberDAO.getMemImage(emp_no);
+		}
+		//프로필이미지 존재시 업데이트
+		public void updateMemImage(MemberFileVO memberFileVO)throws Exception{
+			memberDAO.updateMemImage(memberFileVO);
+		}
 		        
 		 
 			//로그인
@@ -144,15 +230,33 @@ import lombok.extern.slf4j.Slf4j;
 					memberVO=null;
 				}
 				
+				List<GrantedAuthority> authorities = new ArrayList<>();
+				for(RoleVO roleVO : memberVO.getRoleVOs()) {
+					authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+				}
+
+				
+				log.info("=====권한보기{}=====", authorities);
 				return memberVO;
 				
 			}
 		
+			
+			//업데이트
 			@Transactional(rollbackFor = Exception.class)
-			public int updateMember(MemberVO memberVO)throws Exception{
-				  MemberVO updatedMember = new MemberVO();
-				  updatedMember.setEmp_no(memberVO.getEmp_no()); // 
-				  log.info("===업데이트시 사원번호:{}===", updatedMember.getEmp_no());
+			public int updateMember(MemberVO memberVO, MultipartFile photo)throws Exception{
+				  //MemberVO updatedMember = new MemberVO();
+				  MemberVO updatedMember = memberDAO.getLogin(memberVO);
+				  
+				  // 기존 정보를 유지하도록 설정
+				  memberVO.setEmp_team(updatedMember.getEmp_team());
+				  memberVO.setEmp_position(updatedMember.getEmp_position());
+				  memberVO.setBirth(updatedMember.getBirth());
+				  
+				  log.info("===업데이트시 사원번호:{}===", memberVO.getEmp_no());
+				  log.info("===업데이트시 생일:{}===", memberVO.getBirth());
+				  log.info("===업데이트시 부서:{}===", memberVO.getEmp_team());
+				  
 				  
 				  // 비밀번호가 입력된 경우에만 업데이트
 			    if (memberVO.getPassword() != null && !memberVO.getPassword().isEmpty()) {
@@ -165,12 +269,12 @@ import lombok.extern.slf4j.Slf4j;
 			    }
 			    
 			    //이메일과 전화번호
-			   // MemberVO updateMember = (MemberVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			    //이메일이 null이 아니고 비어있지않으면 이메일 업데이트 처리
 			    if(memberVO.getEmail() != null && !memberVO.getEmail().isEmpty()) {
 			    	memberVO.setEmail(memberVO.getEmail());
 			    }else {
-			    	memberVO.setEmail(null);
+			    	//수정 안할 시 이전 이메일
+			    	memberVO.setEmail(memberVO.getEmail());
 			    }
 			    //전화번호가 null이 아니고 비어있지 않으면 전화번호 업데이트 처리
 			    if (memberVO.getPhone() != null && !memberVO.getPhone().isEmpty()) {
@@ -178,16 +282,21 @@ import lombok.extern.slf4j.Slf4j;
 			    }else {
 			    	memberVO.setPhone(null);
 			    }
-			    //새로 설정한 값 추출
-//			    String newPassword = memberVO.getPassword();
-//			    String newPhone = memberVO.getPhone();
-//			    String newEmail = memberVO.getEmail();
-			    
+			    if(memberVO.getBirth()==null) {
+			    	memberVO.setBirth(memberVO.getBirth());
+			    }
+			    if(memberVO.getEmp_team()==null) {
+			    	memberVO.setEmp_team(memberVO.getEmp_team());
+			    }
+			    if(memberVO.getBirth()==null) {
+			    	memberVO.setEmp_position(memberVO.getEmp_position());
+			    }
 				log.info("====정보수정중{}====", memberVO);
-				  int result = memberDAO.updateMember(memberVO);
+				
+				int result = memberDAO.updateMember(memberVO);
 				
 				  
-				  if (result == 1) {
+				  if (result==1) {
 				      return result;
 				  } else {
 				      return 0;
@@ -196,71 +305,13 @@ import lombok.extern.slf4j.Slf4j;
 			   //return result;
 			}
 	
-//		   @Transactional(rollbackFor = Exception.class)
-//		   public int updateMember(MemberVO memberVO)throws Exception{
-//			   try {
-//				   
-//				   //비밀번호 변경여부
-//				   if(memberVO.getPassword() !=null && !memberVO.getPassword().isEmpty()) {
-//					// 비밀번호 변경, 암호화 처리
-//		                if (memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
-//		                    String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
-//		                    memberVO.setPassword(encodedPassword);
-//		                    log.info("====비밀번호{}=====");
-//		                } else {
-//		                    
-//		                    throw new Exception("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-//		                }
-//		            }
-//				   	// 이메일 
-//		            if (memberVO.getEmail() != null && !memberVO.getEmail().isEmpty()) {
-//		            	memberVO.setEmail(memberVO.getEmail());
-//		            }
-//
-//		            // 전화번호 
-//		            if (memberVO.getPhone() != null && !memberVO.getPhone().isEmpty()) {
-//		            	memberVO.setPhone(memberVO.getPhone());
-//		            }
-//
-//		            // MemberDAO를 사용하여 회원 정보 업데이트
-//	            int result = memberDAO.updateMember(memberVO);
-//
-//	            return result;
-//		          
-//		        } catch (Exception e) {
-//		            throw new Exception("회원 정보 업데이트 중 오류가 발생했습니다.");
-//		        }
-//		    }
-//		
+
 			
-//			   @Transactional(rollbackFor = Exception.class)
-//			    public Integer updateMember(MemberVO memberVO) throws Exception {
-//				   log.info("====updateMember 메서드 호출{}=====", memberVO);
-//			        int result = memberDAO.updateMember(memberVO);
-//			        return result;
-//			    }
-//			@Transactional(rollbackFor = Exception.class)
-//		    public int updateMember(MemberVO memberVO) throws Exception {
-//			   log.info("====updateMember 메서드 호출{}=====", memberVO);
-//		        int result = memberDAO.updateMember(memberVO);
-//		       	if(result <=0) {
-//		       		throw new Exception("업데이트에 실패했습니다");
-//		       	}
-//				return result;
-//		    }
-//			
-//			   @Transactional(rollbackFor = Exception.class)
-//			    public int memberUpdate(MemberVO memberVO) throws Exception {
-//			        //memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
-//				   //String encodedPassword = passwordEncoder.encode(memberVO.getPassword());
-//				  //memberVO.setPassword(encodedPassword);
-//				   	int result = memberDAO.memberUpdate(memberVO);
-//			        return result;
-//			    }
-//	}
-			
-			
-			
+			//모달
+//			public String memjoin()throws Exception{
+//				String empNo = memberDAO.memJoin(emp_no);
+//				return empNo;
+//			}
 			
 			   //아이디찾기
 			   public MemberVO  findEmpNo(String name, String phone)throws Exception{
@@ -276,5 +327,7 @@ import lombok.extern.slf4j.Slf4j;
 				   log.info(emp_no);
 				   return memberDAO.findEmpNo(emp_no, phone);
 			   }
+
+
 			   
 }

@@ -29,8 +29,18 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-12">
-                        <h1>사원 목록</h1>
+                        <h1>부서 목록</h1>
                         
+                        <div class="departments">
+                            <ul>
+                                <li class="department" data-department="A">부서 A</li>
+                                <li class="department" data-department="B">부서 B</li>
+                                <li class="department" data-department="C">부서 C</li>
+                                <!-- 추가적으로 부서 항목을 나열하십시오 -->
+                            </ul>
+                        </div>
+                
+
                         <table class="table">
                             <thead>
                                 <tr id="sector">

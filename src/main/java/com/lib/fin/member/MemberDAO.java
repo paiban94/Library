@@ -25,10 +25,29 @@ public interface MemberDAO {
 	//회원목록
 	public List<MemberVO> getList(MemberVO memberVO)throws Exception;
 	
-	//imagefile
+	//관리자 회원목록
+	public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception;
+	
+	//관리자 멤버 상세 정보 조회
+	public MemberVO getAdminDetail(String emp_no)throws Exception;
+	
+	//관리자 멤버 정보 변경
+	public int adminMemUpdate (MemberVO memberVO)throws Exception;
+	
+	//image저장
 	public int setMemImage(MemberFileVO memberFileVO)throws Exception;
 	
-	//공통코드 테이블 
+	//이미지업데이트
+	public void updateMemImage(MemberFileVO memberFileVO)throws Exception;
+	
+	//이미지파일 출력 가져오기
+	public MemberFileVO getMemImage(String emp_no)throws Exception;
+	
+	//이전프로필사진삭제
+	public void deleteMemImage(Long file_no)throws Exception;
+	
+	
+	//권한부여
 	public int setMemberRole(Map<String, Object> map) throws Exception;
 
 	//업데이트
@@ -38,10 +57,8 @@ public interface MemberDAO {
 	// public Integer updateMember(MemberVO memberVO)throws Exception;
 	
 	//회원가입 버튼 클릭 후 emp_no 모달창으로
-	public String getEmpNoModal(String emp_no)throws Exception;
+//	public String getEmpNoModal(String emp_no)throws Exception;
 
-	//profile
-	//public int getProfile(MemberFileVO memberFileVO)throws Exception;
 	
 	//사원번호 찾기
 	public MemberVO findEmpNo(String name, String phone)throws Exception;
