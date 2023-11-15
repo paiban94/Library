@@ -32,7 +32,9 @@
 			emp_no = #{emp_no}
 			and TRUNC(reg_date) = TO_DATE(#{time})
 	</update>
-	
+	<update id="updateEndWork">
+		update ATTENDANCE_BASE set lw_time = now(), status = '업무종료',mod_date= sysdate(),mod_id=#{emp_no} where emp_no = #{emp_no} AND #{reg_date} = sysdate()
+	</update>
 	<update id="updateDayWorkTime">
 		update
 			ATTENDANCE_BASE

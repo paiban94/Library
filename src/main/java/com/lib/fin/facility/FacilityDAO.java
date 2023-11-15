@@ -15,7 +15,7 @@ public interface FacilityDAO {
 	
 	public int setFacilityAdd(FacilityVO facilityVO) throws Exception;
 		
-	public List<FacilityVO> getFacilitylist(Pager pager) throws Exception;
+	public List<FacilityVO> getFacilitylist() throws Exception;
 	
 	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception;
 	
@@ -24,4 +24,6 @@ public interface FacilityDAO {
 	public Long getTotal(Pager pager) throws Exception;
 	
 	public int getTotalFacilityCount()throws Exception;
+	
+	public List<FacilityVO> getPaginatedList(int startRow, int pageSize)throws Exception;
 }

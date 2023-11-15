@@ -3,19 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.fin.facility.FacilityDAO">
+   <select id="getFacilitylist" resultType="FacilityVO">
+   		SELECT * FROM FACILITY_BASE
+   		WHERE USE_YN='Y'
+   		ORDER BY GRP_CD ASC
+   </select>
   <insert id="setFacilityAdd" parameterType="FacilityVO">
 		INSERT INTO FACILITY_BASE 
 		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{cd});
    </insert>
    
-   <select id="getFacilitylist" parameterType="Pager" resultType="FacilityVO">
-   		SELECT * FROM FACILITY_BASE
-   		WHERE USE_YN='Y'
-   		ORDER BY GRP_CD ASC
-   </select>
-   <select id="getTotal" resultType="Long" parameterType="Pager">
-		SELECT COUNT(*) FROM FACILITY_BASE
-		</select>
    
    <update id="setFacilityUpdate" parameterType="facilityVO">
    		UPDATE FACILITY_BASE SET
@@ -29,14 +26,15 @@
    			WHERE FACILITY_NO=#{facility_no}
    </update>
    
-   <select id="getPaginatedList" resultType="FacilityVO" parameterType="map">
+   <select id="getPaginatedList" resultType="FacilityVO" parameterType="FacilityVO">
 		SELECT * FROM FACILITY_BASE WHERE USE_YN = 'Y'
 		ORDER BY GRP_CD DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	<select id="getTotalFacilityCount" resultType="Long">
 		SELECT 
-		COUNT(*) FROM FACILITY_BASE WHERE USE_YN='Y'
+		COUNT(*) FROM FACILITY_BASE 
+		WHERE USE_YN='Y'
 	</select>
 	
    </mapper>
