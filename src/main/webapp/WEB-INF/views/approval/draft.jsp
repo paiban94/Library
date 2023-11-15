@@ -130,9 +130,8 @@
 															
 														</tr>
 
-
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/sign/${vo.sign_name}"></td>
+															<td><img id="sign_img" src="/files/sign/${member.sign_name}"></td>
 														</tr>
 														
 														<tr>

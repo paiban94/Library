@@ -20,6 +20,7 @@
 
 
 <body id="page-top">
+		<sec:authentication property="principal" var="vo"></sec:authentication> 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sidebar -->
@@ -37,7 +38,7 @@
 						<div class="container">
 							
 		
-			<sec:authentication property="principal" var="vo"></sec:authentication> 
+	
 
 								<div class="row">
 									<!-- 각 영역 크기조절하기 -->
@@ -206,10 +207,11 @@
 
 													<!-- button  -->
 													<div class="btn-group my-3" role="group" aria-label="Document Approval Buttons">
-														<button type="button" id="btn_appr" onClick="doc_approval('S')" style="display:none" class="btn btn-primary btn-sm mx-1">승인</button>
-														<button type="button" id="btn_refusal" href="javascript:doc_approval('C')" style="display:none" class="btn btn-primary btn-sm mx-1">반려</button>
+														<button type="button" id="btn_appr" style="display:none" class="btn btn-primary btn-sm mx-1">승인</button>
+														<button type="button" id="btn_refusal"  style="display:none" class="btn btn-primary btn-sm mx-1">반려</button>
 														<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm mx-1">기안취소</button>
-														<a href="./list?k=${param.k}">목록111</a>
+														<%-- <a class="btn btn-primary btn-sm mx-1" href="./update?doc_no=${docVO.doc_no}">재기안</a> --%>
+														<a class="btn btn-primary btn-sm mx-1" href="./list?k=${param.k}">목록</a>
 													
 													</div>
 									 				<c:forEach items="${docVO.fileVOs}" var="f">
@@ -260,64 +262,108 @@
 	<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 
 	<script type="text/javascript">
-	let midEmpNo = $("#midP").attr("data-midEmp");
-	let lastEmpNo = $("#lastP").attr("data-lastEmp");
-	let loginEmpNo = "${loginEmpNo}";
-	let docWriter = "${docVO.emp_no}";
+	let midEmpNo = $("#midP").attr("data-midEmp"); //중간결재자 사원번호
+	let lastEmpNo = $("#lastP").attr("data-lastEmp"); //최종결재자 사원번호
+	let loginEmpNo = "${loginEmpNo}"; // 로그인 사원번호
+	let docWriter = "${docVO.emp_no}"; // 작성자 사원번호
+	let stateLv1 = "${appLine0.approval_state}"; //중간결재자 상태
+	let stateLv2 = "${appLine1.approval_state}"; //최종결재자 상태
+	let empNoLv1 = "${appLine0.emp_no}"; //중간결재자 사원번호
+	let empNoLv2 = "${appLine1.emp_no}"; // 최종결재자사원번호
 	
-	var midPElement = $("#midP");
-
-	// data() 메서드를 사용하여 "data-a" 데이터 속성의 값을 가져옵니다.
-	var dataAValue = midPElement.data("a");
-	console.log(dataAValue)
+	console.log("midEmpNo:", midEmpNo);
+	console.log("lastEmpNo:", lastEmpNo);
+	console.log("loginEmpNo:", loginEmpNo);
+	console.log("docWriter:", docWriter);
+	console.log("stateLv1:", stateLv1);
+	console.log("stateLv2:", stateLv2);
+	console.log("empNoLv1:", empNoLv1);
+	console.log("empNoLv2:", empNoLv2);
 	
 	$(document).ready(function(){
 		
+		//로그인한 사람과 작성자가같다면
 		if(loginEmpNo == docWriter){
-			if("${appLine0.approval_state}"=="R" && "${appLine1.approval_state}"=="R"){
-				$("#btn_cancle").css("display","block");
+			if(stateLv1=="R" && stateLv2 =="R"){
+				$("#btn_cancle").css("display","block"); //결재취소 버튼 보여줌
 			}
-		}else if(midEmpNo == loginEmpNo){
-			if("${appLine0.approval_state}"=="R"){
-				$("#btn_appr").css("display","block");
-				$("#btn_refusal").css("display","block");
+		}else if(midEmpNo == loginEmpNo){   //중간결재자와 로그인한사람이 같다면
+			if(stateLv1 =="R"){ 			//중간결재 상태가 대기 라면
+				$("#btn_appr").css("display","block");  	//결재승인
+				$("#btn_refusal").css("display","block");	//반려
 			}
-		}else if(lastEmpNo == loginEmpNo){
-			if("${appLine0.approval_state}"=="S" && "${appLine1.approval_state}"=="R"){
+		}else if(lastEmpNo == loginEmpNo){ //최종결재자와 로그인한사람이 같다면
+			if(stateLv1 =="S" && stateLv2 =="R"){  //중간 승인, 최종 대기
 				$("#btn_appr").css("display","block");
 				$("#btn_refusal").css("display","block");
 			}
 		}
 		
-		if("${appLine0.approval_state}"=="S"){
+		if(stateLv1 =="S"){ //중간결재자 승인상태면
 			var strHtml = "<img id='sign_img' src='/files/sign/${appLine0.sign_name}'>";
 			
 			$("#midSign").append(strHtml);
 				
+		}else if(stateLv1 == "C"){  //중간결재자가 반려상태면
+			var strHtml = "<img id='sign_img' src='/files/sign/반려.jpg'>";
+			
+			$("#midSign").append(strHtml);
 		}
 		
-		if("${appLine1.approval_state}"=="S"){
+		
+		if(stateLv2 =="S"){// 최종결재자가 승인 상태면
 			var strHtml = "<img id='sign_img' src='/files/sign/${appLine1.sign_name}'>";
 			
 			$("#lastSign").append(strHtml);
 				
 		}
 		
+		 // 승인 버튼 클릭 이벤트
+        $("#btn_appr").on("click", function () {
+        	doc_approval("S"); //승인
+        });
+
+        // 반려 버튼 클릭 이벤트
+        $("#btn_refusal").on("click", function () {
+        	doc_approval("C"); //반려
+        	
+
+        });
+
+        // 기안취소 버튼 클릭 이벤트
+        $("#btn_cancle").on("click", function () {
+          /*   // 기안취소 버튼에 대한 처리 추가
+            $.ajax({
+        		type:'post',
+        		url:"/approval/cancle"
+        		data : {
+        			
+        		}
+        	}) */
+        });
+		
 
 	});
 	
 	function doc_approval(val){
-		var flag = "";
-		if(loginEmpNo == "${appLine0.emp_no}"){
-			flag = "G";
-		}else if(loginEmpNo == "${appLine1.emp_no}"){
-			flag = "O";
+		var flag = ""; // approval_doc State 바꾸기 위함
+		if(loginEmpNo == empNoLv1 ){
+			flag = "G"; //진행
+		}else if(loginEmpNo == empNoLv2 ){
+			flag = "O"; // 완료
+		}else if(val == 'C'){
+			flag = "C" 
 		}
 		
 		$.ajax({
 			type: "post",
 			url : "/approval/docApproval",
-			data: {"approval_state":val, "EMP_NO" : loginEmpNo, "DOC_NO" : "${docVO.doc_no}", "flag" : flag},
+			data: {
+					"approval_state":val, 
+					"EMP_NO" : loginEmpNo, 
+					"DOC_NO" : "${docVO.doc_no}",
+					"flag" : flag
+					},
 			dataType:"json" , 
 			success: function(result){
 				console.log(result);

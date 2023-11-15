@@ -29,8 +29,10 @@ public interface ApprovalDAO {
 	
 	public List<ApprovalHisVO> getAppLine(String doc_no)throws Exception;
 	
+	//결재 히스토리 상태 업데이트
 	public int docApproval(Map<String,Object> param)throws Exception;
 	
+	//결재 상태 업데이트
 	public int docBaseApproval(Map<String,Object> param)throws Exception;
 	
 	//signAdd
@@ -38,6 +40,9 @@ public interface ApprovalDAO {
 	
 	//update
 	public int setTempUpdate(ApprovalDocVO approvalDocVO)throws Exception;
+	
+	//결재자 업데이트
+	public int setUpdateHis(ApprovalHisVO approvalHisVO)throws Exception;
 
 	public Long getTotal(Map<String, Object> params)throws Exception;
 }

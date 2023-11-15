@@ -39,7 +39,10 @@ public class ApprovalController {
 	
 	//기안
 	@GetMapping("draft")
-	public String setDraft()throws Exception {
+	public String setDraft(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception {
+		
+		model.addAttribute("member",memberVO);
+
 		return "approval/draft";
 	}
 	
@@ -89,25 +92,13 @@ public class ApprovalController {
 	}
 	
 	
-	
-	/*
-	 * //휴가신청서
-	 * 
-	 * @GetMapping("leave") public String getLeave()throws Exception{ return
-	 * "approval/leave"; }
-	 * 
-	 * //지출결의서
-	 * 
-	 * @GetMapping("expense") public String getExpense()throws Exception{ return
-	 * "approval/expense"; }
-	 */
 	//기안 list
 	@GetMapping("list")
 	public String getAppDocList(@AuthenticationPrincipal MemberVO memberVO, Model model, String k, Pager pager)throws Exception{
-		log.info("Kind = {} ", k);
+	
 		String kindName="";
 		if(k.equals("ready")) {
-			kindName="결재대기";
+			kindName="결재대기 문서";
 		}else if(k.equals("com")){
 			kindName="기안문서함";
 		}else if(k.equals("temp")){
@@ -152,7 +143,6 @@ public class ApprovalController {
 	    params.put("midApp", midApp);
 	    params.put("lastApp", lastApp);
 	    
-	   
 	    
 	    //세션에서 수정자 사번 받기
 	    approvalDocVO.setEmp_no(memberVO.getEmp_no());
@@ -163,7 +153,7 @@ public class ApprovalController {
 			    
 		
 			    
-		return "redirect:list?k=temp";
+		return "redirect:list?k=com";
 	}
 	
 	//싸인등록

@@ -105,7 +105,7 @@
 
 														<tr>
 															<th class="table-light">기안일</th>
-															<td>${docVO.reg_date}</td>
+															<td>${docVO.mod_date}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
@@ -236,13 +236,14 @@
 													
 													<div class="my-5">
 													<c:forEach items="${docVO.fileVOs}" var="f">
+													<c:if test="${not empty f.file_no}">
 															<span class="alert alert-primary me-2" role="alert" id="${f.file_no}" >
 																첨부파일 : ${f.file_oriName}
 															 </span>
 														<span class="delets" data-delete-num="${f.file_no}" >x</span>
+													</c:if>
 													</c:forEach>
 													</div>
-
 													<div class="my-3">
 													<!-- button  -->
 													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>

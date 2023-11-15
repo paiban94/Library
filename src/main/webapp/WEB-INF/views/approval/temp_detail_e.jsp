@@ -31,7 +31,7 @@
 		
 
 			<tr >
-				<td colspan="2"> <div><textarea id="summernote"></textarea></div></td>
+				<td colspan="2"> ${docVO.doc_contents}</td>
 				
 			</tr>
 		</table>	

@@ -17,7 +17,8 @@
 		 		AND	DOC_TITLE LIKE concat('%',#{pager.search},'%')
 		 	</if>
 		 	<if test="pager.kind == 'state'">
-		 		AND	APPROVAL_STATE LIKE concat('%',#{pager.search},'%')
+		 		AND	APPROVAL_STATE 
+		 		in( (SELECT CD FROM ST_STD_CD where cd_nm LIKE concat('%',#{pager.search},'%')))
 		 	</if>
   	</sql>
   
@@ -160,6 +161,7 @@
   		<if test="grp_cd == 'A1'">
   		  START_DATE = #{start_date}
   		 ,DOC_TITLE = #{doc_title}
+  		 ,APPROVAL_STATE = #{approval_state}
   		 ,DOC_CONTENTS = #{doc_contents}
   		 ,TEMP_SAVE = #{temp_save}
   		 ,MOD_ID = #{emp_no}
@@ -169,6 +171,7 @@
   		 START_DATE = #{start_date}
   		 ,DOC_TITLE = #{doc_title}
   		 ,DOC_CONTENTS = #{doc_contents}
+  		 ,APPROVAL_STATE = #{approval_state}
   		 ,TEMP_SAVE = #{temp_save}
   		 ,ADTN_INFO1 = #{adtn_info1}
   		 ,MOD_ID = #{emp_no}
@@ -179,6 +182,7 @@
   		 ,END_DATE = #{end_date}
   		 ,DOC_TITLE = #{doc_title}
   		 ,DOC_CONTENTS = #{doc_contents}
+  		 ,APPROVAL_STATE = #{approval_state}
   		 ,TEMP_SAVE = #{temp_save}
   		 ,ADTN_INFO1 = #{adtn_info1}
   		 ,ADTN_INFO2 = #{adtn_info2}
@@ -192,12 +196,15 @@
   	</update>
   	
   	<!-- 결재자 update-->
-  	<update id="set" parameterType="ApprovalHisVO">
+  	<update id="setUpdateHis" parameterType="ApprovalHisVO">
   		UPDATE APPROVAL_HISTORY
   		SET EMP_NO = #{emp_no}
-  		,MOD_ID = #{EMP_NO}
+  		,APPROVAL_STATE = #{approval_state}
+  		,MOD_ID = #{emp_no}
+  		,REG_ID = #{emp_no}
   		,MOD_DATE = now()
-  		WHERE DOC_NO = #{doc_no}
+  		,REG_DATE = now()
+  		WHERE DOC_NO = #{doc_no} AND APPROVAL_LEVEL = #{approval_level}
   	</update>
   	
   	
@@ -221,7 +228,7 @@
   		where DOC_NO = #{DOC_NO}
   	
   	</update>
-  	
+  		
   	<!-- sign add -->
   	<update id="addSign" parameterType="MemberVO">
   		UPDATE MEM_INFO

@@ -125,31 +125,31 @@ public class ApprovalService {
 		String lastApp = params.getOrDefault("lastApp","");
 		
 		
-//				//중간 결재자 update
-//				if(!"".equals(midApp)) {
-//					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
-//					approvalHisVO.setEmp_no(midApp);
-//					approvalHisVO.setApproval_level(1);
-//					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
-//					approvalHisVO.setReg_id(midApp);
-//					approvalHisVO.setMod_id(midApp);
-//					approvalHisVO.setUse_yn("Y");
-//					result = approvalDAO.setApprovalHis(approvalHisVO);
-//				
-//				}
-//				
-//				//최종결재자 update
-//				if(!"".equals(lastApp)) {
-//					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
-//					approvalHisVO.setEmp_no(lastApp);
-//					approvalHisVO.setApproval_level(2);
-//					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
-//					approvalHisVO.setReg_id(lastApp);
-//					approvalHisVO.setMod_id(lastApp);
-//					approvalHisVO.setUse_yn("Y");
-//					result = approvalDAO.setApprovalHis(approvalHisVO);
-//				
-//				}
+				//중간 결재자 update
+				if(!"".equals(midApp)) {
+					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+					approvalHisVO.setEmp_no(midApp);
+					approvalHisVO.setApproval_level(1);
+					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+					approvalHisVO.setReg_id(midApp);
+					approvalHisVO.setMod_id(midApp);
+					
+					result = approvalDAO.setUpdateHis(approvalHisVO);
+				
+				}
+				
+				//최종결재자 update
+				if(!"".equals(lastApp)) {
+					approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
+					approvalHisVO.setEmp_no(lastApp);
+					approvalHisVO.setApproval_level(2);
+					approvalHisVO.setApproval_state(approvalDocVO.getApproval_state());
+					approvalHisVO.setReg_id(lastApp);
+					approvalHisVO.setMod_id(lastApp);
+				
+					result = approvalDAO.setUpdateHis(approvalHisVO);
+				
+				}
 		
 		
 		
@@ -194,7 +194,7 @@ public class ApprovalService {
 		params.put("pager", pager);
 		
 		pager.setPerPage(5L);
-		pager.makeRowNum();
+		pager.makeRowNum2();
 		Long total = approvalDAO.getTotal(params);
 		pager.makePageNum(total);
 		
