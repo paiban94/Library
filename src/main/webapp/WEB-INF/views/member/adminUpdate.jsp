@@ -32,15 +32,9 @@
 					<div class="col-lg-6">
                         <h1>개인 정보 수정</h1>
 						
-				<form:form modelAttribute="memberVO" method="post" action="/member/update" enctype="multipart/form-data">  
+				<form:form modelAttribute="memberVO" method="post" action="/member/adminUpdate" enctype="multipart/form-data">  
 					
-				<div class="form-group">
-					<br>
-					<label for="photo">프로필사진</label>
-					<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
-					<small id="photoHelp" class="form-text text-muted"></small>
-				</div>
-				<br>
+			
 
 				<div class="form-group">
 					<label for="name">이름</label>
@@ -53,19 +47,7 @@
 							<input type="text" value="${memberVO.emp_no}" name="emp_no" class="form-control" readonly/>
 						</div>
 				
-					<div class="form-group">
-						<br>
-						<form:label path="password">비밀번호</form:label>
-					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
-						<small id="pwstyle" class="form-text text-muted">비밀번호는 6~12자 이며 소문자,특수문자,숫자를 하나 이상씩 넣어야합니다.</small>
-					    
-					</div> 
-				    <div class="form-group">
-						<br>
-					    <form:label path="passwordCheck">비밀번호확인</form:label>
-					    <form:password path="passwordCheck" cssClass="form-control" id="passwordCheck"/>
-					    <form:errors path="passwordCheck"></form:errors>
-				    </div>
+				
 
 					<div class="form-group">
 						<br>
@@ -84,6 +66,48 @@
 					</div>
 
 					
+                    <div class="form-group">
+						<br>
+						<form:label path="emp_in_date">입사일</form:label>
+						<form:input id="emp_in_date" type="date" path="emp_in_date" cssClass="form-control"/>
+						<form:errors path="emp_in_date"></form:errors>
+					</div>
+
+                    <div class="form-group">
+						<br>
+						<form:label path="emp_out_date">퇴사일</form:label>
+						<form:input id="emp_out_date" type="date" path="emp_out_date" cssClass="form-control"/>
+						<form:errors path="emp_out_date"></form:errors>
+					</div>
+                    
+                    <div class="form-group">
+                        <br>
+                        <form:label path="emp_team">부서</form:label>
+                        <form:select name="selectTeam" id="emp_team" path="emp_team" cssClass="form-control">
+                            <form:option value="" label="부서 선택 시 클릭하세요" /> 	
+                            <form:option value="A" label="대표" />
+                            <form:option value="B" label="운영과" />
+                            <form:option value="C" label="정책과" />
+                            <form:option value="D" label="서비스과" />
+                            <form:option value="E" label="미정" />
+                            </form:select>
+                        <form:errors path="emp_team"></form:errors>
+                    </div>
+						
+                    <div class="form-group">
+						<br>
+						<form:label path="emp_position">직급</form:label>
+						<form:select name="selectPosition" id="emp_position"  path="emp_position" cssClass="form-control">
+							<form:option value="" label="직급 선택 시 클릭하세요" /> 
+							<form:option value="A" label="관장" /> 
+							<form:option value="B" label="팀장" /> 
+							<form:option value="C" label="주무관" /> 
+							<form:option value="D" label="사서" /> 
+						</form:select>
+						<form:errors path="emp_position"></form:errors>
+					</div>
+						
+
 
 					<br>
 				  <button type="submit" class="btn btn-primary">수정하기</button> 
