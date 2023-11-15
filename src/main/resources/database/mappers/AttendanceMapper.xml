@@ -23,6 +23,16 @@
 			0
 			)
 	</insert>
+	<select id="checkWorkTime">
+	select 
+	count(*) from ATTENDANCE_BASE 
+	where emp_no = #{emp_no} AND #{reg_date} = #{time}
+	</select>
+	<update id="updateEndWork" parameterType="AttendanceVO">
+	update ATTENDANCE_BASE set
+	 lw_time = now(), status = '업무종료',mod_date= sysdate(),mod_id=#{emp_no} 
+	 where emp_no = #{emp_no} AND #{reg_date} = #{time}
+	</update>
 <update id="updateStartWork">
 		update
 			ATTENDANCE_BASE
