@@ -195,6 +195,7 @@ float:left;
                                     <p class="font-14">이번주 누적</p><br>
                                     <h4 class="main-color" id="main-totalwork-time">0h 0m 0s</h4>
                                 </div>
+                                
                                 <div>
                                     <p class="font-14">이번주 초과</p><br>
                                     <h4 class="main-color" id="main-week-over-time">0h 0m 0s</h4>
@@ -203,14 +204,7 @@ float:left;
                                     <p class="font-14">이번주 잔여</p><br>
                                     <h4 class="main-color" id="main-work-time">40h 0m 0s</h4>
                                 </div>
-                                <div>
-                                    <p class="font-14">이번달 누적</p><br>
-                                    <h4 class="color-gray" id="main-month-work-time">0h 0m 0s</h4>
-                                </div>
-                                <div>
-                                    <p class="font-14">이번달 연장</p><br>
-                                    <h4 class="color-gray" id="main-month-over-time">0h 0m 0s</h4>
-                                </div>
+                                
                             </div>
                         </div>
 
