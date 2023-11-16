@@ -35,6 +35,7 @@ public class ScheduleController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/schedule/schedule");
 		mv.addObject("emp_no", memberVO.getEmp_no());
+		
 		/*
 		List<Map<String, Object>> events = scheduleService.getScheduleList();
 
@@ -68,8 +69,10 @@ public class ScheduleController {
 		List<Map<String, Object>> scheList = scheduleService.getScheduleList(params);
 
 		resultJson.put("list", scheList );
-
-		response.getWriter().write(resultJson.toJSONString());
+		log.info("한글  {}", scheList);
+		response.setCharacterEncoding("UTF-8");
+		response .getWriter().write(resultJson.toJSONString());
+		
 	}
 	
 	

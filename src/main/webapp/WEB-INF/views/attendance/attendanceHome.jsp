@@ -168,9 +168,9 @@ float:left;
                                     </td>
                                 <form id="updateLw-time" action="./updateEndWork.do" method="post">
                                     <td class="text-right">
-                                    <input type="hidden" value="${sysdate}" id="endwork-time" name="endwork-time">
+                                    <input type="hidden" value="${sysdate}" id="lw_time" name="lw_time">
                                     <input type="hidden" value="${memberVO.emp_no}" id="emp_no" name="emp_no">
-                                    <button type="submit" id="updateLw-time">퇴근하기</button>
+                                    <button type="submit" id="updateLw_time">퇴근하기</button>
                                     </td>
                                     </form>
                                 </tr>
@@ -183,7 +183,7 @@ float:left;
                         <div id="date-box">
                             <h4>
                                 <button id="prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
-                                <span id="date-text">2023.03</span>
+                                <span id="date-text">2023.11</span>
                                 <button id="next-btn"><i class="fa-solid fa-chevron-right"></i></button>
                             </h4>
                         </div>
@@ -195,6 +195,7 @@ float:left;
                                     <p class="font-14">이번주 누적</p><br>
                                     <h4 class="main-color" id="main-totalwork-time">0h 0m 0s</h4>
                                 </div>
+                                
                                 <div>
                                     <p class="font-14">이번주 초과</p><br>
                                     <h4 class="main-color" id="main-week-over-time">0h 0m 0s</h4>
@@ -203,14 +204,7 @@ float:left;
                                     <p class="font-14">이번주 잔여</p><br>
                                     <h4 class="main-color" id="main-work-time">40h 0m 0s</h4>
                                 </div>
-                                <div>
-                                    <p class="font-14">이번달 누적</p><br>
-                                    <h4 class="color-gray" id="main-month-work-time">0h 0m 0s</h4>
-                                </div>
-                                <div>
-                                    <p class="font-14">이번달 연장</p><br>
-                                    <h4 class="color-gray" id="main-month-over-time">0h 0m 0s</h4>
-                                </div>
+                                
                             </div>
                         </div>
 

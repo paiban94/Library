@@ -21,9 +21,9 @@ public class FileManagerProfile {
                 file.mkdirs();
             }
             //2. 저장할 파일명 생성
-        	String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
-            //String fileName = memberVO.getEmp_no() + "_" + multipartFile.getOriginalFilename();
-            
+        	//String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
+            String fileName = memberVO.getEmp_no()+ "_"+ multipartFile.getOriginalFilename();
+            	
             //파일을 저장
             file = new File(file, fileName);
 

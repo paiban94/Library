@@ -6,34 +6,57 @@
 <mapper
 	namespace="com.lib.fin.board.announcement.AnnouncementDAO">
 	<sql id="searchSql">
-		WHERE BOARD_NO>0 AND USE_YN = 'Y' AND BOARD_TYPE = 'A'
-		<choose>
-			<when test='kind=="W"'>
-				AND REG_ID LIKE '%'||#{search}||'%'
-			</when>
-
-			<when test='kind=="N"'>
-				AND BOARD_TITLE LIKE '%'||#{search}||'%'
-			</when>
-		</choose>
+		WHERE BOARD_NO >0 AND USE_YN = 'Y' AND BOARD_TYPE = 'A'
+		<if test='kind == "W"'>
+			AND REG_ID LIKE CONCAT("%", #{search}, "%")
+		</if>
+		<if test='kind == "N"'>
+			AND BOARD_TITLE LIKE CONCAT("%", #{search}, "%")
+		</if>
 	</sql>
+	
+	
+	<resultMap id="boardFileVOResultMap" type="com.lib.fin.board.BoardFileVO">
+    	<result column="FILE_SAVENAME" property="file_name"/>
+	</resultMap>
 
-	<select id="getList" resultType="AnnouncementVO">
-		SELECT * FROM BOARD_BASE WHERE
-		USE_YN = 'Y' AND BOARD_TYPE = 'A'
-		ORDER BY BOARD_NO DESC
+
+	<select id="getList" resultType="AnnouncementVO"
+		parameterType="Pager">
+		SELECT * FROM
+		( SELECT *, ROW_NUMBER() OVER (ORDER BY BOARD_NO DESC) AS
+		ROWNUM
+		FROM
+		BOARD_BASE
+		<include refid="searchSql"></include>
+		) T
+		WHERE T.ROWNUM BETWEEN #{startRow} AND #{lastRow}
 	</select>
+	<!-- FileDetail query -->
+	<select id="getFileDetail" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
+		SELECT * FROM
+		FILE_BASE WHERE
+		BOARD_NO = #{board_no} AND USE_YN = 'Y'
+	</select>
+
+	<select id="getFileInfo" parameterType="BoardFileVO" resultMap="boardFileVOResultMap">
+		SELECT * FROM
+		FILE_BASE WHERE
+		FILE_NO = #{file_no} AND USE_YN = 'Y'
+	</select>
+
 
 	<select id="getTotal" resultType="Long" parameterType="Pager">
 		SELECT COUNT(*) FROM BOARD_BASE
 		<include refid="searchSql"></include>
 	</select>
 
+
 	<insert id="addWriting" parameterType="AnnouncementVO">
 		INSERT INTO BOARD_BASE
 		(BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE,BOARD_KIND,BOARD_VIEWS,BOARD_LIKE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
 		VALUES
-		(#{board_title},#{board_content},'A','C',0,0,#{reg_id},#{reg_id},NOW(),NOW(),'Y')
+		(#{board_title},#{board_content},'A',#{board_kind},0,0,#{reg_id},#{reg_id},NOW(),NOW(),'Y')
 	</insert>
 
 	<select id="getDetail">
@@ -47,6 +70,10 @@
 		VALUES (#{board_no}, #{comment_content}, #{reg_id}, #{reg_id}, NOW(),
 		NOW(),'Y')
 	</insert>
+	
+	<select id="searchMembersByName" parameterType="String" resultType="MemberVO">
+	    SELECT * FROM MEM_INFO WHERE NAME LIKE CONCAT("%", #{name}, "%")
+	</select>
 
 	<select id="getComments" parameterType="Long"
 		resultType="CommentVO">
@@ -82,23 +109,6 @@
 		BOARD_NO=#{board_no}
 	</update>
 
-	<select id="getPaginatedList" resultType="AnnouncementVO"
-		parameterType="map">
-		SELECT * FROM BOARD_BASE WHERE BOARD_TYPE = 'A' AND USE_YN = 'Y'
-		<if test="search != null and kind != null">
-			<choose>
-				<when test='kind == "W"'>
-					AND REG_ID LIKE '%'||#{search}||'%'
-				</when>
-				<when test='kind == "N"'>
-					AND BOARD_TITLE LIKE '%'||#{search}||'%'
-				</when>
-			</choose>
-		</if>
-		ORDER BY BOARD_NO DESC
-		LIMIT #{startRow}, #{pageSize}
-	</select>
-
 
 	<select id="getTotalAnnouncementCount" resultType="Long">
 		SELECT
@@ -122,6 +132,13 @@
 		#{reg_id},#{reg_id},NOW(),NOW(),'Y')
 	</insert>
 
+	<insert id="setFileAdd" parameterType="BoardFileVO">
+		INSERT INTO FILE_BASE
+		(BOARD_NO,FILE_SAVENAME,FILE_ORINAME,FILE_TYPE,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
+		VALUES
+		(#{board_no}, #{file_name} , #{file_oriName} , #{file_type} , #{reg_id} , #{reg_id} , NOW() , NOW(),#{use_yn})
+	</insert>
+
 	<delete id="deleteLike">
 		DELETE FROM LIKE_BASE
 		WHERE BOARD_NO = #{board_no} AND
@@ -139,11 +156,29 @@
 		WHERE B.REG_ID = #{reg_id} AND B.BOARD_NO = #{board_no}
 	</select>
 
-	<update id="increaseViews">
+	<update id="increaseViews" parameterType="BoardVO">
 		UPDATE BOARD_BASE
-		SET BOARD_VIEWS = BOARD_VIEWS + 1
+		SET
+		BOARD_VIEWS = BOARD_VIEWS + 1
 		WHERE BOARD_NO = #{board_no}
 	</update>
+
+	<select id="getLastestBoard" parameterType="BoardVO">
+		SELECT * FROM
+		BOARD_BASE
+		WHERE REG_ID = #{reg_id}
+		ORDER BY BOARD_NO DESC LIMIT 1
+	</select>
+	<update id="deleteFile" parameterType="Long">
+		UPDATE FILE_BASE
+		SET USE_YN = 'N'
+		WHERE FILE_NO = #{fileNo}
+	</update>
+	<select id="checkLike" parameterType="LikeVO" resultType="LikeVO">
+		SELECT * FROM 
+		LIKE_BASE WHERE 
+		BOARD_NO = #{board_no} AND REG_ID=#{reg_id}
+	</select>
 
 
 </mapper>

@@ -63,6 +63,7 @@
                                                     <div class="row col-sm-8">
                                                         <form action="./modifyBoard" method="post"
                                                             enctype="multipart/form-data">
+                                                            <input type="hidden" name="board_no" id="board_no" value="${board.board_no}">
                                                             <!--  <sec:csrfInput/>-->
                                                             <div class="mb-3">
                                                                 <label for="board_title"
@@ -76,7 +77,7 @@
                                                                     class="form-label">Writer</label>
                                                                 <input type="text" class="form-control"
                                                                     name="board_writer" id="board_writer"
-                                                                    value="${member.board_writer}" readonly>
+                                                                    value="${member.emp_no}" readonly>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="board_content"
@@ -85,11 +86,17 @@
                                                                     name="board_content" rows="17">${board.board_content}</textarea>
                                                             </div>
 
+                                                            <div class="row">
+                                                                <ul>
+                                                                    <c:forEach items="${files}" var="file">
+                                                                        <li  class="attachment" id="file_${file.file_no}"><span>${file.file_oriName}</span><a href="#"><span >X</span></a></li>
+                                                                    </c:forEach>
+                                                                </ul>
+                                                            </div>
+
+
+
                                                             <div id="fileList"></div>
-
-
-
-
 
                                                             <div class="mb-3">
                                                                 <button type="button" class="btn btn-outline-primary"

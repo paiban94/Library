@@ -15,6 +15,6 @@ import lombok.ToString;
 @ToString
 public class AnnouncementVO extends BoardVO {
 	
-	private String board_kind;
+
 	private List<CommentVO> comments;
 }

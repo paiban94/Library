@@ -30,10 +30,18 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-                        <h1>정보 수정</h1>
+                        <h1>개인 정보 수정</h1>
 						
 				<form:form modelAttribute="memberVO" method="post" action="/member/update" enctype="multipart/form-data">  
 					
+				<div class="form-group">
+					<br>
+					<label for="photo">프로필사진</label>
+					<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
+					<small id="photoHelp" class="form-text text-muted"></small>
+				</div>
+				<br>
+
 				<div class="form-group">
 					<label for="name">이름</label>
 					<input type="text" value="${memberVO.name}" name="name" class="form-control" readonly/>
@@ -78,7 +86,7 @@
 					
 
 					<br>
-				  <button type="submit" class="btn btn-primary">정보수정</button> 
+				  <button type="submit" class="btn btn-primary">수정하기</button> 
 						
 						
 									

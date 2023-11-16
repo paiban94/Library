@@ -4,16 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
-public class ComVO {
+public class RoleVO {
 
-	  private String grp_cd;
-	  
-	  private String cd;
-	  
-	  private String cd_nm;
-
-	
+	private Long roleNum;
+	private String roleName;
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 public interface AttendanceDAO {
 
 	int insertStartWork(String emp_no);
-	@Select("select count(*) from ATTENDANCE_BASE where emp_no = #{emp_no} AND #{reg_date} = #{time}")
+	
 	AttendanceVO checkWorkTime(Map<String, Object> param);
 	
 	int updateEndWork(Map<String, Object> param);

@@ -6,73 +6,158 @@
 <mapper namespace="com.lib.fin.member.MemberDAO">
 
 
-	<!-- 회원가입 -->
+	<!-- 회원가입 -->	
 	<!-- reg_id / mod_id emp_no로 되어있어서 변경해야함, 다른컬럼들도 변경 필요 -->
 	<insert id="memJoin" parameterType="MemberVO">
 	INSERT INTO MEM_INFO (EMP_NO, PASSWORD, NAME, EMAIL, BIRTH, PHONE, EMP_TEAM, EMP_POSITION, REMAIN_HOLIDAY, AUTHORITY, EMP_IN_DATE, EMP_OUT_DATE, REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
-   	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15", "USER", #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
+   	VALUES  (#{emp_no},#{password}, #{name}, #{email}, #{birth}, #{phone}, #{emp_team}, #{emp_position}, "15",
+   	       <!--회원가입 시 직책에 따른 권한 설정  -->
+   	     <choose>
+		  	<when test='emp_position == "A" or emp_position == "B"'> "ADMIN" </when>
+		    <otherwise> "USER" </otherwise>
+		</choose>,
+   	 #{emp_in_date}, #{emp_out_date}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y"); 
    	</insert> 
    	
-   	<!-- 회원가입시 프로필사진, 서명이미지  -->
+   	<!-- 마이페이지 프로필사진  -->
    	<insert id="setMemImage" parameterType="MemberFileVO">
-   	INSERT INTO MEM_IMAGE (IMG_FILE, EMP_NO, IMG_FILE_NAME, IMG_FILE_PATH, IMG_ROLE,REG_DATE, REG_ID, MOD_DATE, MOD_ID, USE_YN)
-   	VALUES (#{img_file},#{emp_no},#{img_file_name},#{img_file_path},#{img_role}, SYSDATE(), #{emp_no}, SYSDATE(),#{emp_no},"y")
+   	INSERT INTO MEM_IMAGE(FILE_NO,EMP_NO,FILE_NAME,FILE_ORINAME,REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN) 
+   	VALUES (#{file_no},#{emp_no},#{file_name},#{file_oriName}, #{emp_no},#{emp_no},NOW(),NOW(),#{use_yn})
    	</insert>
 
-	<!-- 리스트 -->
-	<select id="getList" parameterType="MemberVO" resultType="memberVO">
-    SELECT *
-    FROM MEM_INFO
+	<!-- 프로필사진출력 -->	
+	<select id="getMemImage" parameterType="MemberFileVO">
+	SELECT * FROM MEM_IMAGE
+	WHERE EMP_NO =#{emp_no}	
 	</select>
+	
+	<!-- 이미지 업데이트 -->
+	<update id="updateMemImage" parameterType="MemberFileVO">
+	    UPDATE MEM_IMAGE
+	    SET FILE_NO = #{file_no},
+	    	FILE_NAME = #{file_name},
+	        EMP_NO =#{emp_no},
+	        FILE_ORINAME = #{file_oriName},
+	        MOD_ID = #{emp_no},
+	       	REG_ID = #{emp_no},
+	       	REG_DATE = NOW(),
+	       	MOD_DATE = NOW(),
+	       	USE_YN =#{use_yn}
+	    WHERE FILE_NO = #{file_no}
+	</update>
+	<!-- 이전프로필사진삭제 -->
+	<delete id="deleteMemImage" parameterType="MemberFileVO">
+		DELETE FROM MEM_IMAGE
+    	WHERE FILE_NO = #{file_no}
+	</delete>
+
+	<!-- 회원리스트 -->
+	<select id="getList" parameterType="MemberVO" resultType="memberVO">
+  
+    SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION
+	FROM MEM_INFO M
+	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+	LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+
+	</select>
+	
+	<!-- 관리자회원리스트 -->
+	<select id="getAdminMemList" parameterType="MemberVO" resultType="memberVO">
+  
+    SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION
+	FROM MEM_INFO M
+	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+	LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+
+	</select>
+	   
+	    <!-- 관리자 멤버 상세정보 조회 -->
+    <select id="getAdminDetail" parameterType="MemberVO" resultType="MemberVO">
+        SELECT * FROM MEM_INFO WHERE EMP_NO = #{empNo}
+    </select>
+	
+	
+
+	<!-- 관리자 멤버 상세정보 업데이트  -->
+	<update id="adminMemUpdate" parameterType="MemberVO">
+		UPDATE MEM_INFO
+		SET EMP_OUT_DATE =#{emp_out_date}, EMP_TEAM=#{emp_team}, EMP_POSITION=#{emp_position}
+		WHERE EMP_NO = #{emp_no}
+	</update>  
 
    	
-  	<!-- emp_no modal용 -->
-  	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
-   		SELECT EMP_NO FROM MEM_INFO
-   		WHERE EMP_NO = ${emp_no}
+  	<!-- emp_no 이메일 / 가장최신 내림차순 사원번호 가져오기  -->
+ <select id="getNewEmpNo" parameterType="MemberVO">
+	    SELECT EMP_NO
+	    FROM MEM_INFO
+	    ORDER BY EMP_NO DESC
+	    LIMIT 1;
+   	</select>  
+   	
+ <!--   	<select id="getNewEmpNo" resultType="String">
+	    SELECT EMP_NO
+	    FROM MEM_INFO
+	    ORDER BY EMP_NO DESC
+	    LIMIT 1;
    	</select> 
-   	
+   	 -->
   	
-   	<!-- 로그인 -->
+   	<!-- 관리자 -->
+<!-- 	
+   <select id="getAdmin" resultType="boolean">
+        SELECT * FROM MEM_INFO 
+        WHERE emp_no = #{emp_no} 
+        AND position IN ('A', 'B');
+    </select> -->
 	
-	<!-- <select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
-    SELECT *
-    FROM MEM_INFO
-    WHERE EMP_NO = #{emp_no}
-	</select> -->
-	
-	<!-- 공통코드 권한,부서,직급 -->
+	<!-- 권한 부여 -->
 	 <insert id="setMemberRole" parameterType="java.util.Map">
-	INSERT INTO ST_STD_CD
-	VALUES (#{grp_cd}, #{cd}, #{cd_nm})
-	</insert> 
- 	
+	  INSERT INTO MEMBER_ROLE (EMP_NO, ROLENUM)
+    SELECT EMP_NO,
+        CASE 
+            WHEN emp_position IN ('A', 'B') THEN (SELECT ROLENUM FROM ROLE WHERE ROLENAME = 'ROLE_ADMIN')
+            WHEN emp_position IN ('C', 'D') THEN (SELECT ROLENUM FROM ROLE WHERE ROLENAME = 'ROLE_USER')
+            ELSE (SELECT ROLENUM FROM ROLE WHERE ROLENAME = 'ROLE_USER')
+        END AS ROLENUM
+    FROM MEM_INFO
+    WHERE EMP_POSITION IN ('A', 'B', 'C', 'D');
+</insert>
+				    
+	    
+	
 
-
- <select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
-    SELECT M.*,
-           T.CD_NM AS EMP_TEAM,
-           L.CD_NM AS EMP_POSITION,
-           U.CD_NM AS AUTHORITY
-    FROM MEM_INFO M
-    LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
-    LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
-    LEFT JOIN ST_STD_CD U ON M.AUTHORITY = U.CD AND U.GRP_CD = 'U001'
-    WHERE M.EMP_NO = #{emp_no}
-</select> 
+	<!-- 로그인 // 별칭으로 컬럼 지정 -->
+	<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
+	SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+	       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION, MR.ROLENUM, R.ROLENAME 
+	FROM MEM_INFO M
+	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+	LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+	LEFT JOIN MEMBER_ROLE MR ON M.EMP_NO = MR.EMP_NO
+	LEFT JOIN ROLE R ON MR.ROLENUM = R.ROLENUM
+	WHERE M.EMP_NO = #{emp_no}
+	</select> 
+	
+		<!-- 별칭으로 컬럼 지정 -->
+<!-- 	<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
+	SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+	       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION
+	FROM MEM_INFO M
+	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+	LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+	LEFT JOIN ST_STD_CD U ON M.AUTHORITY = U.CD AND U.GRP_CD = 'U001'
+	WHERE M.EMP_NO = #{emp_no}
+	</select> 
+ -->
 
 <!-- 업데이트 -->
-	 <select id="updateMember" parameterType="MemberVO" >
+<update id="updateMember" parameterType="MemberVO">
 		UPDATE MEM_INFO
 		SET EMAIL=#{email}, PHONE=#{phone}, PASSWORD=#{password}
 		WHERE EMP_NO = #{emp_no}
-	</select>  
-	
-<!-- 	<select id="updateMember" parameterType="MemberVO">
-		UPDATE MEM_INFO
-		SET EMAIL=#{email}, PHONE=#{phone}, PASSWORD=#{password}
-		WHERE EMP_NO = #{emp_no}
-	</select>  -->
+	</update>  
 	
 	<!-- 아이디찾기 -->
 		<select id="findEmpNo" resultType="memberVO">
@@ -84,9 +169,15 @@
 		<select id="findPassword" resultType="memberVO">
 			SELECT EMP_NO
 			FROM MEM_INFO 
-			WHERE EMP_NO = #{emp_no} AND PHONE = #{phone}
+			WHERE EMP_NO = #{emp_no} AND EMAIL = #{email}
 		</select>
 	
+		<!-- 임시비밀번호 저장 -->
+		<update id="updateTempPassword" parameterType="MemberVO">
+			UPDATE MEM_INFO
+			SET PASSWORD = #{password}
+			WHERE EMP_NO = #{emp_no} AND EMAIL = #{email}
+		</update>
 
 
 	<resultMap type="MemberVO" id="getMemberResult">
@@ -108,14 +199,12 @@
 		<result column="MOD_ID" property="mod_id"/>
 		<result column="USE_YN" property="use_yn"/>
 		
-		<collection property="comVOs" javaType="List" ofType="ComVO">
-			<id column="GRP_CD" property="grp_cd"/>
-			<id column="CD" property="cd"/>
-			<result column="CD_NM" property="cd_nm"/>
+  		<collection property="roleVOs" javaType="List" ofType="RoleVO">
+  			<id column="ROLENUM" property="roleNum"/>
+  			<result column="ROLENAME" property="roleName"/>
 		</collection>
 		
 	</resultMap>
 	
-
 
 </mapper>

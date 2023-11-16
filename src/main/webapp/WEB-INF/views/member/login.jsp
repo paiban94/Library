@@ -91,7 +91,7 @@
 							  </div>
 							  <div class="col-12 text-center">
 								<span class="small mb-0"><a href="/member/findEmpNo">사원번호 찾기</a></span>&nbsp|&nbsp
-								<span class="small mb-0"><a href="/member/findpassword">비밀번호 찾기</a></span>&nbsp|&nbsp
+								<span class="small mb-0"><a href="/member/findPassword">비밀번호 찾기</a></span>&nbsp|&nbsp
 								<span class="small mb-0"><a href="/member/join">회원가입</a></span>  
 							</div>
 			
