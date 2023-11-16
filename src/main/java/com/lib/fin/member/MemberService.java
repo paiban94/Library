@@ -56,11 +56,14 @@ import lombok.extern.slf4j.Slf4j;
 		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
 		//이메일 전송	
+
+
 		@Autowired
 		private JavaMailSender mailSender;
 		//보내는사람
 		@Value("${spring.mail.username}")
 		private String sender;
+
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
