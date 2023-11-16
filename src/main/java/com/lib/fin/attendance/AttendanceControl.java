@@ -102,7 +102,7 @@ public class AttendanceControl {
 		AttendanceVO work = attendanceService.checkWorkTime(param);
 		log.debug("work = {}",work);
 		
-		if(work == null) {
+		if(work!=null) {
 			status.put("status","출근전");
 		}else if(work.getStatus().equals("출장")) {
 			status.put("status", "출장");
