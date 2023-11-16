@@ -56,6 +56,11 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private Date emp_out_date;
 	
+	private String sign_oriName;
+
+	private String sign_name;
+
+	
 	private List<RoleVO> roleVOs = new ArrayList<>();
 
 
@@ -124,16 +129,7 @@ public class MemberVO extends CommonVO implements UserDetails{
 		return true;
 	}
 
-	public void setSign_name(String fileName) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	public void setSign_oriName(String originalFilename) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
 	
 	
