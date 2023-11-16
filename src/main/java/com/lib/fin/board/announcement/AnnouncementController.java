@@ -6,7 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -69,10 +72,6 @@ public class AnnouncementController {
 			throws Exception {
 		model.addAttribute("member", memberVO);
 		List<BoardVO> list = announcementService.getList(pager);
-		for (BoardVO boardVO : list) {
-			log.info("==============Board List log  : {}",boardVO.getBoard_kind());
-		}
-	
 		mv.addObject("member", memberVO);
 		mv.addObject("list", list);
 		mv.addObject("pager", pager);
@@ -98,6 +97,9 @@ public class AnnouncementController {
 
 		
 		List<BoardFileVO> filelist = announcementService.getFileDetail(announcementVO);
+		for (BoardFileVO boardFileVO : filelist) {
+			System.out.println("file info : " + boardFileVO.toString());
+		}
 		
 		LikeVO likeVO = new LikeVO();
 		likeVO.setBoard_no(boardVO.getBoard_no());
@@ -259,5 +261,29 @@ public class AnnouncementController {
 	public List<MemberVO> getMembers(@PathVariable String name) throws Exception {
 	    return announcementService.searchMembersByName(name);
 	}
-
+	
+	
+	@PostMapping("/uploadImages")
+	@ResponseBody
+	public ResponseEntity<List<Map<String, String>>> uploadImages(@RequestParam("files") List<MultipartFile> files,@AuthenticationPrincipal MemberVO memberVO) {
+	    try {
+	        List<Map<String, String>> imageUrls = new ArrayList<>();
+	        
+	        for (MultipartFile file : files) {
+	        	
+	        	if (file.isEmpty()) {
+					continue;
+				}
+	
+	        	String imageUrl = announcementService.uploadImage(file,memberVO);
+	            Map<String, String> response = new HashMap<>();
+	            response.put("imageUrl", imageUrl);
+	            imageUrls.add(response);
+	        }
+	        return new ResponseEntity<>(imageUrls, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 }

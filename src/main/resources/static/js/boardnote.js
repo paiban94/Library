@@ -1,5 +1,5 @@
 
-$(document).ready(function () {
+
     let idx = 1;
 
     $(document).ready(function() {
@@ -65,10 +65,9 @@ $(document).ready(function () {
     $('#board_content').summernote({
         height: 500,
         lang: "ko-KR",
-        // data: json,
         callbacks: {
-            onImageUpload: function (files1) {
-                uploadImages(files1);
+            onImageUpload: function (files,editor,) {
+                uploadImages(files);
             },
             onMediaDelete: function (target) {
                 handleImageDelete(target[0].src);
@@ -76,29 +75,31 @@ $(document).ready(function () {
         }
     });
 
-    function uploadImages(files1) {
+    function uploadImages(files) {
         var formData = new FormData();
-        for (var i = 0; i < files1.length; i++) {
-            formData.append("files1", files1[i]);
+        for (var i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
         }
 
         $.ajax({
-            url: "/board/uploadImages",
-            type: "POST",
+            url: '/board/uploadImages', 
+            type: 'POST',
             data: formData,
             contentType: false,
+            enctype : 'multipart/form-data',
             processData: false,
-            success: function (data) {
-                var imageUrls = data;
-                for (var i = 0; i < imageUrls.length; i++) {
-                    $('#board_content').summernote('insertImage', imageUrls[i]);
+            success: function(response) {
+                for (var i = 0; i < response.length; i++) {
+                    $('#board_content').summernote('insertImage', response[i].imageUrl);
                 }
             },
-            error: function () {
-                console.log('upload image fail ... error...');
+            error: function(error) {
+                console.error('Error uploading images:', error);
             }
         });
     }
+
+    
 
     function handleImageDelete(imageUrl) {
         $.ajax({
@@ -112,5 +113,28 @@ $(document).ready(function () {
             }
         });
     }
-});
+
+    // function uploadImages(files1) {
+    //     var formData = new FormData();
+    //     for (var i = 0; i < files1.length; i++) {
+    //         formData.append("files1", files1[i]);
+    //     }
+
+    //     $.ajax({
+    //         url: "/board/uploadImages",
+    //         type: "POST",
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) {
+    //             var imageUrls = data;
+    //             for (var i = 0; i < imageUrls.length; i++) {
+    //                 $('#board_content').summernote('insertImage', imageUrls[i]);
+    //             }
+    //         },
+    //         error: function () {
+    //             console.log('upload image fail ... error...');
+    //         }
+    //     });
+    // }
 
