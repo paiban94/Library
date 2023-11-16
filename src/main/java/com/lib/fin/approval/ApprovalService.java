@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lib.fin.commons.FileManager;
+import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
@@ -111,6 +112,7 @@ public class ApprovalService {
 	}
 	
 	//update
+	@Transactional
 	public int setTempUpdate(Map<String, String> params, ApprovalDocVO approvalDocVO, MultipartFile[] files)throws Exception{
 		
 		String path = this.filePath+this.approvalName;
@@ -216,11 +218,12 @@ public class ApprovalService {
 	}
 	
 	//결재 상태 변화
+	@Transactional
 	public Map<String,Object> docApproval(Map<String,Object> param)throws Exception{
 		Map<String,Object> resultMap = new HashMap<>();
-		int resultInt = approvalDAO.docApproval(param);
-		
-		int resultInt1 = approvalDAO.docBaseApproval(param);
+		int resultInt = approvalDAO.docApproval(param); // history
+		 
+		int resultInt1 = approvalDAO.docBaseApproval(param); //doc
 		
 		if(resultInt > 0) {
 			resultMap.put("code", "0000");
@@ -230,5 +233,49 @@ public class ApprovalService {
 		return resultMap;
 		
 	}
+	
+	//summernote 이미지 업로드
+	public String setContentsImg(MultipartFile files) throws Exception{
+		
+		String path = this.filePath+"docImg";
+		String fileName = fileManager.save(path, files);
+		return "/files/docImg/"+fileName;
+	}
+	
+	//summernote 이미지 삭제
+		public boolean setContentsImgDelete(String path)throws Exception{
+			
+			FileVO fileVO = new FileVO();
+			fileVO.setFile_name(path.substring(path.lastIndexOf("/")+1));
+		
+			path = this.filePath+"docImg";
+			return fileManager.fileDelete(fileVO, path);
+		}
+		
+	//fileDown
+		public ApprovalFileVO getFileDetail(ApprovalFileVO approvalFileVO) throws Exception {
+			
+			
+			return approvalDAO.getFileDetail(approvalFileVO);
+		}
+		
+		//fileDelete
+		@Transactional
+		public int setFileDelete(ApprovalFileVO approvalFileVO)throws Exception{
+			String path = this.filePath + this.approvalName;
+			
+			approvalFileVO = approvalDAO.getFileDetail(approvalFileVO);
+			boolean flag = fileManager.fileDelete(approvalFileVO, path);
+			
+			if(flag) {
+				return approvalDAO.setFileDelete(approvalFileVO); //de 삭제
+			}
+			return 0;
+		}
+		
+		public int setAppCancel(String doc_no)throws Exception{
+			
+			return approvalDAO.setAppCancel(doc_no);
+		}
 
 }

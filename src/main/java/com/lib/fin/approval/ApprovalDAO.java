@@ -1,11 +1,13 @@
 package com.lib.fin.approval;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
@@ -45,4 +47,12 @@ public interface ApprovalDAO {
 	public int setUpdateHis(ApprovalHisVO approvalHisVO)throws Exception;
 
 	public Long getTotal(Map<String, Object> params)throws Exception;
+	
+	//file detail
+	public ApprovalFileVO getFileDetail(ApprovalFileVO approvalFileVO)throws Exception;
+	
+	//file del
+	public int setFileDelete(ApprovalFileVO approvalFileVO)throws Exception;
+
+	public int setAppCancel(String doc_no)throws Exception;
 }

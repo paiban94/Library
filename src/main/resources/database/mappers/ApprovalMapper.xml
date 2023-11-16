@@ -236,6 +236,22 @@
   		WHERE EMP_NO = #{emp_no}
   	</update>
   	
+  	<!-- file detail -->
+  	<select id="getFileDetail" parameterType="ApprovalFileVO" resultType="ApprovalFileVO">
+  		SELECT APPROVAL_FILE_NO as file_no, APPROVAL_fILENAME as file_name, APPROVAL_ORINAME as file_oriName 
+  		FROM APPROVAL_FILE WHERE APPROVAL_FILE_NO = #{file_no}
+  	</select>
   	
+  	<!-- file del -->
+  	<delete id="setFileDelete" parameterType="ApprovalFileVO">
+  		DELETE FROM APPROVAL_FILE WHERE APPROVAL_FILE_NO = #{file_no}
+  	</delete>
+  	
+  	<!-- 기안취소 -->
+  	<update id="setAppCancel" parameterType="String">
+  		UPDATE APPROVAL_DOC
+  		SET USE_YN = 'N'
+  		WHERE DOC_NO = ${doc_no}
+  	</update>
   
   </mapper>

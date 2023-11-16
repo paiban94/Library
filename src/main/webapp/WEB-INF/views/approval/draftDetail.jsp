@@ -141,7 +141,7 @@
 														</tr>
 														<tr>
 
-															<td id="midP" data-midEmp="${appLine0.emp_no}"  data-a="${docVO}">${appLine0.emp_team} ${appLine0.name}</td>
+															<td id="midP" data-midEmp="${appLine0.emp_no}">${appLine0.emp_team} ${appLine0.name}</td>
 														</tr>
 
 
@@ -210,12 +210,12 @@
 														<button type="button" id="btn_appr" style="display:none" class="btn btn-primary btn-sm mx-1">승인</button>
 														<button type="button" id="btn_refusal"  style="display:none" class="btn btn-primary btn-sm mx-1">반려</button>
 														<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm mx-1">기안취소</button>
-														<%-- <a class="btn btn-primary btn-sm mx-1" href="./update?doc_no=${docVO.doc_no}">재기안</a> --%>
+													    <a class="btn btn-primary btn-sm mx-1" id="re" style="display:none" href="./update?doc_no=${docVO.doc_no}">재기안</a>
 														<a class="btn btn-primary btn-sm mx-1" href="./list?k=${param.k}">목록</a>
 													
 													</div>
 									 				<c:forEach items="${docVO.fileVOs}" var="f">
-														<div>첨부파일 <a href="./fileDown?fileNo=">${f.file_oriName}</a><div>
+														<div>첨부파일 <a href="./fileDown?file_no=${f.file_no}">${f.file_oriName}</a><div>
 													</c:forEach> 
 
 												</div>
@@ -270,6 +270,7 @@
 	let stateLv2 = "${appLine1.approval_state}"; //최종결재자 상태
 	let empNoLv1 = "${appLine0.emp_no}"; //중간결재자 사원번호
 	let empNoLv2 = "${appLine1.emp_no}"; // 최종결재자사원번호
+	let doc_no = "${docVO.doc_no}";
 	
 	console.log("midEmpNo:", midEmpNo);
 	console.log("lastEmpNo:", lastEmpNo);
@@ -279,13 +280,16 @@
 	console.log("stateLv2:", stateLv2);
 	console.log("empNoLv1:", empNoLv1);
 	console.log("empNoLv2:", empNoLv2);
+	console.log("doc_no", doc_no);
 	
 	$(document).ready(function(){
 		
 		//로그인한 사람과 작성자가같다면
 		if(loginEmpNo == docWriter){
-			if(stateLv1=="R" && stateLv2 =="R"){
+			if((stateLv1=="R" && stateLv2 =="R") || (stateLv1=="C" || stateLv2 =="C")){
 				$("#btn_cancle").css("display","block"); //결재취소 버튼 보여줌
+				$("#re").css("display","block"); //결재취소 버튼 보여줌
+				
 			}
 		}else if(midEmpNo == loginEmpNo){   //중간결재자와 로그인한사람이 같다면
 			if(stateLv1 =="R"){ 			//중간결재 상태가 대기 라면
@@ -314,8 +318,11 @@
 		if(stateLv2 =="S"){// 최종결재자가 승인 상태면
 			var strHtml = "<img id='sign_img' src='/files/sign/${appLine1.sign_name}'>";
 			
+			$("#lastSign").append(strHtml);		
+		}else if(stateLv2 == "C"){  //중간결재자가 반려상태면
+			var strHtml = "<img id='sign_img' src='/files/sign/반려.jpg'>";
+			
 			$("#lastSign").append(strHtml);
-				
 		}
 		
 		 // 승인 버튼 클릭 이벤트
@@ -332,14 +339,25 @@
 
         // 기안취소 버튼 클릭 이벤트
         $("#btn_cancle").on("click", function () {
-          /*   // 기안취소 버튼에 대한 처리 추가
+          
             $.ajax({
         		type:'post',
-        		url:"/approval/cancle"
+        		url:"/approval/AppCancel",
         		data : {
+        			doc_no : doc_no
         			
-        		}
-        	}) */
+        		}, 
+			   success:function(result){
+				   console.log(result)
+				   if(result ==1){
+				
+					window.location.replace("/approval/list?k=${param.k}"); 
+				   }
+			   },
+			   error:function(){
+					alert("다시시도해주세요.");
+			   }
+        	}) 
         });
 		
 
@@ -352,7 +370,7 @@
 		}else if(loginEmpNo == empNoLv2 ){
 			flag = "O"; // 완료
 		}else if(val == 'C'){
-			flag = "C" 
+			flag = "C" //반려
 		}
 		
 		$.ajax({
@@ -361,7 +379,7 @@
 			data: {
 					"approval_state":val, 
 					"EMP_NO" : loginEmpNo, 
-					"DOC_NO" : "${docVO.doc_no}",
+					"DOC_NO" : doc_no,
 					"flag" : flag
 					},
 			dataType:"json" , 
