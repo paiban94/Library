@@ -51,13 +51,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	          .disable()
 	          .authorizeRequests()
 	              .antMatchers("/member/join").permitAll()
+	              .antMatchers("/member/newEmpNo").permitAll()
 	              .antMatchers("/member/login").permitAll()
 	              .antMatchers("/member/findEmpNo").permitAll()
-	              .antMatchers("/member/findpassword").permitAll()
+	              .antMatchers("/member/empResult").permitAll()
+	              .antMatchers("/member/findPassword").permitAll()
+	              .antMatchers("/assets/img/**").permitAll()
+	              .antMatchers("/member/adminPage").hasRole("ADMIN")
+	              .antMatchers("/member/adminMemberPage").hasRole("ADMIN")
+	              .antMatchers("/member/adminDetailPage").hasRole("ADMIN")
+	              .antMatchers("/board/**").hasAnyRole("ADMIN", "USER")
 	              //.antMatchers("/member/postLogin").authenticated()
+//	            
 	              .antMatchers("/").hasAnyRole("ADMIN", "USER")
 	            //로그인한 사람만 접속가능
-	              .antMatchers("/").authenticated()
+	              .antMatchers("/**").authenticated()
 	              //.antMatchers("/").permitAll()
 	              //나머지 모든 요청은 로그인한 사용자 가능
 	              //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
