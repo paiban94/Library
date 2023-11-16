@@ -47,17 +47,18 @@
 		width:1200px;
 		height:850px;	
 		}
+        .fc-daygrid-day-number {
+
+            padding: 4px;
+            color: black;
+        }
   .fc-day-sun{
   color:red;
   }
   .fc-day-sat{
   color:blue;
   }
-		.fc-daygrid-day-number {
- 
-    padding: 4px;
-    color: black;
-  }
+
   .fc-prev-button{
   position:relative;
   top:35px;
@@ -126,15 +127,16 @@
                         
                         <label for="taskId" class="col-form-label">일정종료일</label>
                         <input type="date" class="form-control" id="schedule_end_time" name="schedule_end_time">
-                        
+
+                        <input type="hidden" class="col-form-control" value="S001" name="grp_cd" id="grp_cd">
                         <label for="taskId" class="col-form-label">일정 종류</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="grp_cd" name="grp_cd">
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="cd" name="cd">
 						  <option selected>일정종류을 선택하세요</option>
-						  <option value="S001A">연차</option>
-						  <option value="S001B">회의</option>
-						  <option value="S001C">교육</option>
-						  <option value="S001D">외근</option>
-						  <option value="S001E">출장</option>
+						  <option value="A">연차</option>
+						  <option value="B">회의</option>
+						  <option value="C">교육</option>
+						  <option value="D">외근</option>
+						  <option value="E">출장</option>
 						</select>
 						
                         <label for="taskId" class="col-form-label">일정제목</label>
@@ -186,116 +188,125 @@
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 <script type="text/javascript">
 
-		
-		
-		var obj = ${List};
+
+
+    var schListJson;
 		const arr = new Array();
 		const res = arr.keys();
 		function timeFormat(time){
 		      return String(time).padStart(2, "0");
 		   }
-		
-		 $.ajax({
-		        url: "/schedule/schedule",
-		        data: "json",
-		        processData: false,    // 필수
-		        contentType: false,    // 필수
-		        method: "get",
-		        cache: false,
-		        enctype: 'resultMap',
-		        dataType: "json",
-		        success: function (data) {
-		            console.log(data);
-		            if (data.success === "Y") {
-		                $("#schedule_title").val(data.schedule_title);
-		                $("#schedule_start_time").val(data.schedule_start_time);
-		                $("#schedule_end_time").val(data.schedule_end_time);
-		                console.log(data.schedule_title);
-		               
-		            } else {
-		                alert("잠시 후 다시 시도해주세요.");
-		            }
-		        },
-		        error: function (error) {
-		            console.log("Error:", error);
-		        }
-		    });
-		/*
-		$.ajax({
-			  type: "GET", 
-			  url: "/schedule/scheduleList",
-			  async: false,
-			  success: function (res) {
-			   
-			    console.log(res);
-			    
-			    
-			
-			  },
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-			    console.log('error')
-			  }
-			});
-*/
+        $(document).ready(function(){
+            $.ajax({
+                url: "/schedule/scheduleList",
+                data: {"EMP_NO":"${emp_no}"},
+                method: "post",
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "text",
+                success: function (data) {
+					console.log(data);
+                    var test = JSON.parse(data);
+                    schListJson=test.list;
+                    console.log(schListJson);
 
-	document.addEventListener('DOMContentLoaded', function() {
-	    var calendarEl = document.getElementById('calendarS');
-	    var calendar = new FullCalendar.Calendar(calendarEl, {
-	    	 
-	    	locale: "ko",
-	      timeZone: 'Asia/Seoul',
-	      initialView: 'dayGridMonth',
-	      navLinks:true,
-	      eventLimit:true,
-	     	      
-	      
-	      customButtons: {
-	    	 
-	    	    myCustomButton: {
-	    	      text: '일정 추가',
-	    	      click: function() {
-	    	    	  $("#calendarAddModal").modal("show");
-	    	    	  
-	    	    
-	    	    		
-	    	    	  $('#sprintSettingModalClose').click(function(){
-	    	    			$('#calendarAddModal').modal('hide')	
-	    	    		})
-	    	    	  
-	    	      }
-	    	    }
-	    	  },
-	    	    	  
-	      headerToolbar: {
-	    	    left: '',
-	    	    center: 'prev,title,next',
-	    	    right: 'myCustomButton'
-	    	  },
-	    	  
-	      
-	      
-        	events:[
-        		{
-        			title:'test',
-        			start:'2023-11-01',
-        			end:'2023-11-01'
-        			
-        		}
-        		
-        	]
-        
-        	
-        	
-	    	  
-	    });
-	    
-	    calendar.render();
-	  });
-	
-	
-	
-		
+                    var calendarEl = document.getElementById('calendarS');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                    	
+                        locale: 'ko',
+                        timeZone: 'Asia/Seoul',
+                        initialView: 'dayGridMonth',
+                        navLinks: true,
+                        eventLimit: true,
+                        editable:true,
+						droppable:true,
+						 dayMaxEvents: 1,
+						customButtons: {
+
+                            myCustomButton: {
+                                text: '일정 추가',
+                                click: function () {
+                                    $("#calendarAddModal").modal("show");
+
+
+                                    $('#sprintSettingModalClose').click(function () {
+                                        $('#calendarAddModal').modal('hide')
+                                    })
+
+                                }
+                            }
+                        },
+
+                        headerToolbar: {
+                            left: '',
+                            center: 'prev,title,next',
+                            right: 'myCustomButton'
+                        },
+                        
+                        events: schListJson,
+                        
+                        eventDrop: function (info){
+                        	console.log(info);
+                        	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
+                        		
+                        	}
+                        	 var events = new Array();
+                             var obj = new Object();
+  
+                             obj.title = info.event._def.title;
+                             obj.start = info.event._instance.range.start;
+                             obj.end = info.event._instance.range.end;
+                             events.push(obj);
+  
+                             console.log(events);
+                             $(function deleteData() {
+                                 $.ajax({
+                                     url: "/schedule/schedulelist",
+                                     method: "PATCH",
+                                     dataType: "json",
+                                     data: JSON.stringify(events),
+                                     contentType: 'application/json',
+                                 })
+                             })
+                        },
+                        eventClick: function (info){
+                            if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
+                               
+                                info.event.remove();
+                            }
+ 
+                            console.log(info.event);
+                            var events = new Array();
+                            var obj = new Object();
+                                obj.title = info.event._def.title;
+                                obj.start = info.event._instance.range.start;
+                                events.push(obj);
+ 
+                            console.log(events);
+                            $(function deleteData(){
+                                $.ajax({
+                                    url: "/schedule/schedulelist",
+                                    method: "DELETE",
+                                    dataType: "json",
+                                    data: JSON.stringify(events),
+                                    contentType: 'application/json',
+                                })
+                            })
+                        },
+
+						
+                    });
+
+                    calendar.render();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+
 
 	</script>
 </body>
-</html></html>
+</html>

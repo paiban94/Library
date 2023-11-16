@@ -20,37 +20,37 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class ApprovalService {
-	
+
 	@Value("${app.upload}")
 	private String filePath;
-	
+
 	@Value("${app.approval.doc}")
 	private String approvalName;
-	
+
 	@Autowired
 	private FileManager fileManager;
-	
+
 	@Autowired
 	private ApprovalDAO approvalDAO;
-	
+
 	//일반기안
 	@Transactional
 	public int setDraft(Map<String, String> params,ApprovalDocVO approvalDocVO ,MultipartFile[] files)throws Exception{
-		
+
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
 
 		log.info("===============path: {} =========",path);
 		log.info("===============path: {} =========",filePath);
 		log.info("===============path: {} =========",approvalName);
-		
-		
+
+
 		ApprovalHisVO approvalHisVO = new ApprovalHisVO();
-		
+
 		String midApp = params.getOrDefault("midApp","");
 		String lastApp = params.getOrDefault("lastApp","");
-	
-		
+
+
 		//중간 결재자 insert
 		if(!"".equals(midApp)) {
 			approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
@@ -61,9 +61,9 @@ public class ApprovalService {
 			approvalHisVO.setMod_id(midApp);
 			approvalHisVO.setUse_yn("Y");
 			result = approvalDAO.setApprovalHis(approvalHisVO);
-		
+
 		}
-		
+
 		//최종결재자 insert
 		if(!"".equals(lastApp)) {
 			approvalHisVO.setDoc_no(approvalDocVO.getDoc_no());
@@ -74,18 +74,18 @@ public class ApprovalService {
 			approvalHisVO.setMod_id(lastApp);
 			approvalHisVO.setUse_yn("Y");
 			result = approvalDAO.setApprovalHis(approvalHisVO);
-		
+
 		}
-	
-	
-				
+
+
+
 		if(files != null) {
 			for(MultipartFile multipartFile: files) {
-				
+
 				if(multipartFile.isEmpty()) {
 					continue;
 				}
-				
+
 				ApprovalFileVO approvalFileVO = new ApprovalFileVO();
 				String fileName = fileManager.save(path, multipartFile);
 				approvalFileVO.setDoc_no(approvalDocVO.getDoc_no());
@@ -95,22 +95,22 @@ public class ApprovalService {
 				approvalFileVO.setMod_id(approvalDocVO.getEmp_no());
 				approvalFileVO.setUse_yn("Y");
 				result = approvalDAO.setFileAdd(approvalFileVO);
-				
-				
+
+
 			}
-			
+
 		}
-			
+
 		return result;
 	}
-	
+
 	//기안 detail
 	public ApprovalDocVO getDraftDetail(ApprovalDocVO approvalDocVO)throws Exception {
-		
+
 		return approvalDAO.getDraftDetail(approvalDocVO);
-		
+
 	}
-	
+
 	//update
 	@Transactional
 	public int setTempUpdate(Map<String, String> params, ApprovalDocVO approvalDocVO, MultipartFile[] files)throws Exception{
@@ -215,6 +215,7 @@ public class ApprovalService {
 		int result = approvalDAO.addSign(memberVO);
 				
 		return result;
+
 	}
 	
 	//결재 상태 변화
