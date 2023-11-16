@@ -88,7 +88,9 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		            BoardFileVO boardFileVO = new BoardFileVO();
 		            String fileName = fileManager.save(path, multipartFile);
 		            System.out.println("saveName ===>> : "+fileName);
+		            System.out.println("!!!!!!!board no !!!!!!! : "+boardVO.getBoard_no());
 		            boardFileVO.setBoard_no(boardVO.getBoard_no());
+		            
 		            boardFileVO.setFile_name(fileName);
 		            boardFileVO.setFile_oriName(multipartFile.getOriginalFilename());
 		            boardFileVO.setFile_type("A");
