@@ -42,7 +42,7 @@
   <li class="nav-item dropdown pe-3">
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
       <i class="bi bi-award-fill"></i>
-      <!-- <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+   <img src="/static/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
       <span class="d-none d-md-block dropdown-toggle ps-2">${memberName}님</span>
     </a>
 

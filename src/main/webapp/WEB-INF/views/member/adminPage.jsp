@@ -29,28 +29,21 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-12">
-                        <h1>사원 목록</h1>
+                        <h1>관리자 기능</h1>
                         
                         <table class="table">
                             <thead>
                                 <tr id="sector">
-                                    <th scope="col">사원번호</th>
-                                    <th scope="col">이름</th>
-                                    <th scope="col">부서</th>
-                                    <th scope="col">직급</th>
-                                    <th scope="col">전화번호</th>
+                                    <th scope="col">수정목록</th>
+                                  
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${memberList}" var="memberVO">
+                            
                                     <tr>
-                                        <td>${memberVO.emp_no}</td>
-                                        <td><a href="#">${memberVO.name}</a></td>
-                                        <td>${memberVO.emp_team}</td>
-                                        <td>${memberVO.emp_position}</td>
-                                        <td>${memberVO.phone}</td>
+                                        <td><button class="btn btn-primary w-50" type="button" onclick="location.href='/member/adminMemberPage'">사원목록</button></td>
                                     </tr>
-                                </c:forEach>
+                          
                             </tbody>
                         </table>
                     </div>

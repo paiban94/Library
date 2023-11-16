@@ -21,7 +21,7 @@ public class FileManager {
 			}
 			
 			String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
-			
+			System.out.println("===========>> FileManager :"+fileName);
 			file = new File(file, fileName);
 
 			multipartFile.transferTo(file);

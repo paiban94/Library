@@ -30,17 +30,11 @@
 				<div class="row">
 					<!-- 각 영역 크기조절하기 -->
 					<div class="col-lg-6">
-                        <h1>개인 정보 수정</h1>
+                        <h1>개인 상세 정보</h1>
 						
-				<form:form modelAttribute="memberVO" method="post" action="/member/update" enctype="multipart/form-data">  
+				<form:form modelAttribute="memberVO" method="post" action="/member/adminUpdate" enctype="multipart/form-data">  
 					
-				<div class="form-group">
-					<br>
-					<label for="photo">프로필사진</label>
-					<input type="file" name="photo" class="form-control" id="photo" aria-describedby="photoHelp">
-					<small id="photoHelp" class="form-text text-muted"></small>
-				</div>
-				<br>
+			
 
 				<div class="form-group">
 					<label for="name">이름</label>
@@ -53,24 +47,12 @@
 							<input type="text" value="${memberVO.emp_no}" name="emp_no" class="form-control" readonly/>
 						</div>
 				
-					<div class="form-group">
-						<br>
-						<form:label path="password">비밀번호</form:label>
-					    <form:password path="password" cssClass="form-control" id="password" aria-describedby="pwstyle"/>
-						<small id="pwstyle" class="form-text text-muted">비밀번호는 6~12자 이며 소문자,특수문자,숫자를 하나 이상씩 넣어야합니다.</small>
-					    
-					</div> 
-				    <div class="form-group">
-						<br>
-					    <form:label path="passwordCheck">비밀번호확인</form:label>
-					    <form:password path="passwordCheck" cssClass="form-control" id="passwordCheck"/>
-					    <form:errors path="passwordCheck"></form:errors>
-				    </div>
+				
 
 					<div class="form-group">
 						<br>
 				    	<form:label path="email">이메일</form:label>
-				    	<form:input  value="${memberVO.email}" id="email" type="email" path="email" cssClass="form-control"/>
+				    	<form:input  value="${memberVO.email}" id="email" type="email" path="email" cssClass="form-control" readonly="true"/>
 				    	<form:errors path="email"></form:errors>
 				    </div>
 
@@ -80,10 +62,32 @@
 					<div class="form-group">
 						<br>
 						<label for="phone">전화번호</label>
-						<input id="phone" type="tel" value="${memberVO.phone}" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control"/>
+						<input id="phone" type="tel" value="${memberVO.phone}" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control" readonly/>
 					</div>
 
 					
+                    <div class="form-group">
+						<br>
+						<form:label path="emp_in_date">입사일</form:label>
+						<form:input id="emp_in_date" type="date" path="emp_in_date" cssClass="form-control" readonly="true"/>
+						<form:errors path="emp_in_date"></form:errors>
+					</div>
+
+
+                    
+					<div class="form-group">
+                        <br>
+                        <label for="emp_team">부서</label>
+                        <input id="emp_team" type="text"  value="${memberVO.emp_team}" class="form-control" readonly/>
+                    </div>
+
+                    <div class="form-group">
+                        <br>
+                        <label for="emp_position">직급</label>
+                        <input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
+                    </div>
+
+
 
 					<br>
 				  <button type="submit" class="btn btn-primary">수정하기</button> 
