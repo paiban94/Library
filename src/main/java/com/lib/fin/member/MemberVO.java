@@ -123,6 +123,16 @@ public class MemberVO extends CommonVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	public void setSign_name(String fileName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setSign_oriName(String originalFilename) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	
