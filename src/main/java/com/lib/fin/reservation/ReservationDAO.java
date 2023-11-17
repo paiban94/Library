@@ -15,5 +15,5 @@ public interface ReservationDAO {
 	
 	public int setReservationDelete(ReservationVO reservationVO) throws Exception;
 	
-	public List<Map<String, Object>> getReservationList() throws Exception;
+	public List<Map<String, Object>> getReservationList(Map<String, Object> params) throws Exception;
 }

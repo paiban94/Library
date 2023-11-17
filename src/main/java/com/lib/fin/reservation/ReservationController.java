@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lib.fin.commons.CommonJava;
+import com.lib.fin.member.MemberVO;
 import com.lib.fin.schedule.ScheduleService;
 import com.lib.fin.schedule.ScheduleVO;
 
@@ -26,11 +30,13 @@ public class ReservationController {
 	private ReservationService reservationService;
 	
 	@GetMapping("getReservation")
-	public ModelAndView getReservation() throws Exception{
+	public ModelAndView getReservation(@AuthenticationPrincipal MemberVO memberVO) throws Exception{
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> listMap = new HashMap<>();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/reservation/reservation");
+		mv.addObject("emp_no",memberVO.getEmp_no());
+		/*
 		List<Map<String, Object>> events = reservationService.getReservationList();
 		
 		JSONObject json = new JSONObject();
@@ -38,7 +44,7 @@ public class ReservationController {
 		
 		
 		mv.addObject("List" ,json);
-		
+		*/
 		
 		
 		
@@ -48,19 +54,27 @@ public class ReservationController {
 	}
 	
 	@PostMapping("add")
-	public String setReservationAdd(HttpServletRequest request, ReservationVO reservationVO)throws Exception{ 
-			        
+	public String setReservationAdd(@AuthenticationPrincipal MemberVO memberVO, HttpServletRequest request, ReservationVO reservationVO)throws Exception{ 
+			
+		reservationVO.setEmp_no(memberVO.getEmp_no());
+		
 		 int result = reservationService.setReservationAdd(reservationVO);
 		
 		 return "redirect:./getReservation";
 	}
 	
-	@GetMapping("reservationList")
+	@RequestMapping("reservationList")
 	@ResponseBody
-	public JSONObject getEvents(ReservationVO reservationVO) throws Exception{
+	public void getEvents(HttpServletRequest request,
+									HttpServletResponse response) throws Exception{
 		JSONObject resultJson = new JSONObject();
+		Map<String, Object> params = CommonJava.getParameterMap(request);
+		params.put("EMP_NO", params.get("EMP_NO"));
+		List<Map<String, Object>> resList=reservationService.getReservationList(params);
 
-	    return resultJson;
+		resultJson.put("list", resList);
+		
+	    response.getWriter().write(resultJson.toJSONString());
 	}
 	
 	
