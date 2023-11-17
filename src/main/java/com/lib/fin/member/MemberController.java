@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,8 @@ public class MemberController {
 	@GetMapping("login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
 		SecurityContext context = SecurityContextHolder.getContext();
-				
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		
 		
 		String check=context.getAuthentication().getPrincipal().toString();
 		
@@ -190,6 +192,8 @@ public class MemberController {
 			return "redirect:../";
 		}
 		
+		
+		
 		return "member/login";
 		
 	}
@@ -199,18 +203,24 @@ public class MemberController {
 	//마이페이지
 	@GetMapping("mypage")
 	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model, String emp_no)throws Exception{
-		//프로필 사진 가져오기
 		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		//프로필 사진 가져오기
+		
+		if(profileImage != null) {
 		String filePath = "/files/" + profileImage.getFile_name(); // 파일 경로 설정
 		model.addAttribute("profileImage",profileImage);
 		model.addAttribute("filePath", filePath);
 		log.info("===profileImage:{}===",profileImage);
 		log.info("===filePath:{}===",filePath);
 		model.addAttribute("memberVO",memberVO);
+		}else {
+			 model.addAttribute("filePath", "/files/default_profile_image.jpg");
+			model.addAttribute("memberVO",memberVO);
+		}
 		return "member/mypage";	
 	}
 
-
+		
 	
 	//정보수정 프로필 출력, 정보읽어와 뷰로 전달
 	@GetMapping("update")

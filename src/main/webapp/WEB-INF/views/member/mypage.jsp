@@ -36,14 +36,43 @@
 					<form action="/member/update" method="post" enctype="multipart/form-data">		  
 			
 
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<br>
 							<label for="photo">프로필사진</label>
-							<img src="${filePath}"  alt="프로필사진">
-							<!-- "../../upload/${photo.file_name}" <input type="file" name="photo" class="form-control" id="photo	" aria-describedby="photoHelp" readonly/> -->
+							<c:choose>
+								<c:when test="${not empty profileImage.getFile_name()}">
+									  <img src="${filePath}" alt="프로필사진" class="rounded-circle">
+								</c:when>
+								<c:otherwise>
+									<img src="assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
+								</c:otherwise>
+							</c:choose>   
+						 
 							<small id="photoHelp" class="form-text text-muted"></small>
 						</div>
-						
+						 -->
+
+						<div class="card">
+							<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+				
+								<c:choose>
+									<c:when test="${not empty profileImage.getFile_name()}">
+										  <img src="${filePath}" alt="프로필사진" class="rounded-circle">
+									</c:when>
+									<c:otherwise>
+										<img src="assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
+									</c:otherwise>
+								</c:choose>
+							  <h2>${memberVO.name}</h2>
+							  <h3>${memberVO.emp_position}</h3>
+							  <div class="social-links mt-2">
+								<a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+								<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+								<a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+								<a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+							  </div>
+							</div>
+						  </div>
 					
 						<div class="form-group">
 							<br>	
