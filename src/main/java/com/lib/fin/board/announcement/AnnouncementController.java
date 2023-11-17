@@ -160,6 +160,7 @@ public class AnnouncementController {
 	@PostMapping("addAnn")
 	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
 			List<MultipartFile> files1, Model model) throws Exception {
+		
 		model.addAttribute("member", memberVO);
 		announcementVO.setReg_id(memberVO.getEmp_no());
 		log.info("************************ BaordString : {}", announcementVO.getBoard_kind());
@@ -167,6 +168,9 @@ public class AnnouncementController {
 			announcementVO.setBoard_kind("off");
 		}
 		int result = announcementService.addWriting(announcementVO, files1);
+
+		
+		
 
 		return "redirect:./announcement";
 	}

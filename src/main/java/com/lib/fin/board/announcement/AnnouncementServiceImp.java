@@ -70,12 +70,11 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	}
 
 	@Override
-	@Transactional
 	public int addWriting(AnnouncementVO boardVO, List<MultipartFile> files1) throws Exception {
 		String reg_id = boardVO.getReg_id();
 		int result = announcementDAO.addWriting(boardVO);
 		boardVO = announcementDAO.getLastestBoard();
-		System.out.println("board info : " + boardVO);
+	//	System.out.println("Lastest board info : " + boardVO.getBoard_no());
 		try {
 			String path = filePath + announceName;
 			if (files1 != null) {
