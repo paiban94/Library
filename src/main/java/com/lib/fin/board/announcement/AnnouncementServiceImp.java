@@ -246,17 +246,17 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	}
 
 	@Override
-	public String uploadImage(MultipartFile file,MemberVO memberVO) throws Exception {
+	public String uploadImage(MultipartFile file, MemberVO memberVO) throws Exception {
 		try {
-			String filePath = this.filePath +"/" +summernote;
+			String filePath = this.filePath + "/" + summernote;
 
 			String fileName = fileManager.save(filePath, file);
-			String url =  "/files" + summernote +"/"+fileName;
-			
+			String url = "/files" + summernote + "/" + fileName;
+
 			BoardFileVO boardFileVO = new BoardFileVO();
 			BoardVO boardVO = announcementDAO.getLastNum();
-	
-			boardFileVO.setBoard_no(boardVO.getBoard_no()+1);
+
+			boardFileVO.setBoard_no(boardVO.getBoard_no() + 1);
 			boardFileVO.setFile_name(url);
 			boardFileVO.setFile_oriName(file.getOriginalFilename());
 			boardFileVO.setFile_type("A");
@@ -265,13 +265,25 @@ public class AnnouncementServiceImp implements AnnouncementService {
 			boardFileVO.setUse_yn("Y");
 			System.out.println("fileVO" + boardFileVO.toString());
 			int result = announcementDAO.setFileAdd(boardFileVO);
-			
+
 			return url; // uri link
 		} catch (Exception e) {
-			throw new Exception("summernote save error:...{}"+e);
+			throw new Exception("summernote save error:...{}" + e);
 		}
 	}
 
+	@Override
+	public String setContentsImg(MultipartFile files) throws Exception {
+		
+		String path = this.filePath + summernote;
+		String fileName = fileManager.save(path, files);
+		return "/files" + summernote + "/" + fileName;
+	}
 
+	@Override
+	public boolean setContentsImgDelete(String path) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

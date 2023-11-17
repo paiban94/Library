@@ -65,6 +65,10 @@ public interface AnnouncementService {
 
 	public String uploadImage(MultipartFile file,MemberVO memberVO) throws Exception;
 
+	public String setContentsImg(MultipartFile files) throws Exception;
+
+	public boolean setContentsImgDelete(String path)throws Exception;
+
 
 
 //	
