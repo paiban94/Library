@@ -56,7 +56,7 @@
 							<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 				
 								<c:choose>
-									<c:when test="${not empty profileImage.getFile_name()}">
+									<c:when test="${not empty filePath}">
 										  <img src="${filePath}" alt="프로필사진" class="rounded-circle">
 									</c:when>
 									<c:otherwise>
