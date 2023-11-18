@@ -34,6 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lib.fin.commons.FileManager;
 import com.lib.fin.commons.FileManagerProfile;
+import com.lib.fin.commons.Pager;
+import com.lib.fin.commons.ProfileImage;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,8 +113,8 @@ public class MemberController {
 	
 	//멤버리스트
 	@GetMapping("memberList")
-	public String memList(Model model, MemberVO memberVO)throws Exception{
-		List<MemberVO> memberList = memberService.getList(memberVO);
+	public String memList(Model model, MemberVO memberVO, Pager pager)throws Exception{
+		List<MemberVO> memberList = memberService.getList(pager);
 		model.addAttribute("memberList",memberList);
 		return "member/memberList";
 	}
@@ -178,7 +180,7 @@ public class MemberController {
 	@GetMapping("login")
 	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
 		SecurityContext context = SecurityContextHolder.getContext();
-		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+
 		
 		
 		String check=context.getAuthentication().getPrincipal().toString();
@@ -198,6 +200,11 @@ public class MemberController {
 		
 	}
 
+	//잘못된접근일때 페이지
+	@GetMapping("lostPage")
+	public String showLostPage() {
+		return "member/lostPage";
+	}
 
 	
 	//마이페이지
@@ -252,10 +259,10 @@ public class MemberController {
 		 			 	//이미지저장
 		 			 	boolean imageResult = memberService.setMemImage(photo, memberVO);
 		 			 	MemberFileVO memberFileVO = memberService.getMemImage(memberVO.getEmp_no());
-		 				log.info("===업데이트memberFileVO:{}====", memberFileVO.toString());
+		 			
 		 	            model.addAttribute("memberVO", memberVO);
 		 	            model.addAttribute("photo",memberFileVO);
-		 	           log.info("===업데이트photo:{}====", memberFileVO.getFile_name());
+		 	           log.info("===업데이트photo:{}====", memberFileVO);
 		 	        } else {
 		 	            log.info("===========프로필 이미지 또는 정보 수정이 실패했습니다.=========");
 		 	            model.addAttribute("error", "프로필 이미지 또는 정보 수정에 실패했습니다.");

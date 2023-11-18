@@ -88,7 +88,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	            	.deleteCookies("JSESSIONID")
 	               .and()
 	               .userDetailsService(memberService)//사용자정보로드
-	               
+	               	.exceptionHandling()//권한이없을때
+	               	.accessDeniedPage("/member/lostPage");//페이지이동
 	//          .sessionManagement()
 	//              .maximumSessions(1)
 	//              .maxSessionsPreventsLogin(false)

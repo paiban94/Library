@@ -41,6 +41,7 @@ import com.lib.fin.board.LikeVO;
 import com.lib.fin.board.comment.CommentVO;
 import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
+import com.lib.fin.commons.ProfileImage;
 import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 

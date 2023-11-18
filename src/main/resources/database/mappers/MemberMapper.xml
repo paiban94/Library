@@ -52,7 +52,7 @@
 	</delete>
 
 	<!-- 회원리스트 -->
-	<select id="getList" parameterType="MemberVO" resultType="memberVO">
+	<select id="getList" parameterType="Pager" resultType="memberVO">
   
     SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
        T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION
@@ -199,6 +199,8 @@
 		<result column="MOD_DATE" property="mod_date"/>
 		<result column="MOD_ID" property="mod_id"/>
 		<result column="USE_YN" property="use_yn"/>
+		<result column="SIGN_NAME" property="sign_name"/>
+		<result column="SIGN_ORINAME" property="sign_oriName"/>
 		
   		<collection property="roleVOs" javaType="List" ofType="RoleVO">
   			<id column="ROLENUM" property="roleNum"/>
