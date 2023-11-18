@@ -59,82 +59,64 @@ $(document).ready(function () {
                 memberList.hide();
             }
         }
-    });
+
     
 
-    $('#board_content').summernote({
+
+
+    $("#board_content").summernote({
         height: 500,
-        lang: "ko-KR",
-        // data: json,
         callbacks: {
-            onImageUpload: function (files1) {
-                uploadImages(files1);
+            onImageUpload: function(files){
+                alert('이미지 업로드');
+                //이미지를 server로 전송하고
+                //응답으로 이미지경로와 파일명을 받아서
+                //img 태그를 만들어서 src속성에 이미지 경로를 넣는것
+                let formData = new FormData(); // <form></form>
+                formData.append("files",files[0]); // <input type="file" name="files"> 를 폼안에 추가
+    
+                $.ajax({
+                    type:"post",
+                    url:'./setContentsImg',
+                    data:formData,
+                    enctype: 'multipart/form-data',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:function(result){
+                        console.log(result)
+                        $("#board_content").summernote('insertImage', result.trim());
+                    },
+                    error:function(){
+                        console.log('error');
+                    }	
+                });
+    
             },
-            onMediaDelete: function (target) {
-                handleImageDelete(target[0].src);
+            onMediaDelete:function(files){
+                let path = $(files[0]).attr("src"); // /resources/upload/notice/파일명
+                console.log("del");
+                $.ajax({
+                    type:'post',
+                    url:'./setContentsImgDelete',
+                    data:{
+                        path:path
+                    },
+                    success:function(result){
+                        console.log(result);
+                    },
+                    error:function(){
+                        console.log('error');
+                    }
+                })
             }
+    
         }
-    });
-
-    function uploadImages(files) {
-        var formData = new FormData();
-        for (var i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
-
-        $.ajax({
-            url: '/board/uploadImages', 
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                for (var i = 0; i < response.length; i++) {
-                    $('#board_content').summernote('insertImage', response[i].imageUrl);
-                }
-            },
-            error: function(error) {
-                console.error('Error uploading images:', error);
-            }
-        });
-    }
-
+    })
+    
     
 
-    function handleImageDelete(imageUrl) {
-        $.ajax({
-            url: "/board/deleteImage/" + encodeURIComponent(imageUrl),
-            type: "DELETE",
-            success: function () {
-                console.log('success delete image');
-            },
-            error: function () {
-                console.log('fail delete image..fk...');
-            }
-        });
-    }
+});
+    
 
-    // function uploadImages(files1) {
-    //     var formData = new FormData();
-    //     for (var i = 0; i < files1.length; i++) {
-    //         formData.append("files1", files1[i]);
-    //     }
-
-    //     $.ajax({
-    //         url: "/board/uploadImages",
-    //         type: "POST",
-    //         data: formData,
-    //         contentType: false,
-    //         processData: false,
-    //         success: function (data) {
-    //             var imageUrls = data;
-    //             for (var i = 0; i < imageUrls.length; i++) {
-    //                 $('#board_content').summernote('insertImage', imageUrls[i]);
-    //             }
-    //         },
-    //         error: function () {
-    //             console.log('upload image fail ... error...');
-    //         }
-    //     });
-    // }
-
+ 

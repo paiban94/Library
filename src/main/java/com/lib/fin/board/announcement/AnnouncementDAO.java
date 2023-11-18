@@ -88,6 +88,8 @@ public interface AnnouncementDAO {
 	public int deleteFile(Long fileNo) throws Exception;
 
 	public LikeVO checkLike(LikeVO likeVO) throws Exception;
+
+	public AnnouncementVO getLastestBoard(AnnouncementVO boardVO)throws Exception;
 	
 
 }

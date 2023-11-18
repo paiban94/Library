@@ -63,7 +63,6 @@ public interface AnnouncementService {
 
 	public LikeVO checkLike(LikeVO likeVO) throws Exception;
 
-	public String uploadImage(MultipartFile file,MemberVO memberVO) throws Exception;
 
 	public String setContentsImg(MultipartFile files) throws Exception;
 

@@ -254,6 +254,25 @@ public class AnnouncementServiceImp implements AnnouncementService {
 
 
 
+	@Override
+	public String setContentsImg(MultipartFile files) throws Exception {
+
+		
+		String path = this.filePath+summernote;
+		String fileName = fileManager.save(path, files);
+		return "/files"+summernote+fileName;
+		
+	}
+
+	@Override
+	public boolean setContentsImgDelete(String path) throws Exception {
+
+		FileVO fileVO = new FileVO();
+		fileVO.setFile_name(path.substring(path.lastIndexOf("/")+1));
+	
+		path = this.filePath+summernote;
+		return fileManager.fileDelete(fileVO, path);
+	}
 
 
 }
