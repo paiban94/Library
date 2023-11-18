@@ -11,21 +11,22 @@ public class FacilityServiceImp implements FacilityService {
 	
 	@Autowired
 	private FacilityDAO facilityDAO;
+	
 	@Override
-	public List<FacilityVO> getFacilityList(Pager pager)throws Exception{
-		pager.makeRowNum();
-		pager.makePageNum(facilityDAO.getTotal(pager));
-		List<FacilityVO> list = facilityDAO.getFacilitylist(pager);
-		for (FacilityVO facilityVO : list) {			
-		
-		
-		}
-		return list;
+	public List<FacilityVO> getFacilityList() throws Exception {
+		return facilityDAO.getFacilitylist();
+	}
+	
+	@Override
+	public List<FacilityVO> getPaginatedList(int page, int pageSize) throws Exception {
+		int startRow = (page - 1) * pageSize;
+		return facilityDAO.getPaginatedList(startRow, pageSize);
 	}
 	@Override
 	public int getTotalFacilityCount() throws Exception{
 		return facilityDAO.getTotalFacilityCount();
 	}
+	
 	@Override
 	public int setFacilityAdd(FacilityVO facilityVO) throws Exception{
 		return facilityDAO.setFacilityAdd(facilityVO);

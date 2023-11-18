@@ -9,17 +9,17 @@ import com.lib.fin.commons.Pager;
 public interface FacilityService {
 
 
+	public List<FacilityVO> getFacilityList()throws Exception;
 	
+	public List<FacilityVO> getPaginatedList(int page, int pageSize) throws Exception;
+
+	public int getTotalFacilityCount()throws Exception;
+
 	public int setFacilityAdd(FacilityVO facilityVO) throws Exception;
 		
-	public int getTotalFacilityCount()throws Exception;
-	
-	public List<FacilityVO> getFacilityList(Pager pager) throws Exception;
-	
 	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception;
 	
 	public int setFacilityDelete(FacilityVO facilityVO) throws Exception;
 	
-
 
 }
