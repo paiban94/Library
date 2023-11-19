@@ -191,6 +191,10 @@
 		 		<img src="/assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
 		 	</c:otherwise>
 		 </c:choose>   
+
+     <script>
+      console.log("===filePath: ", "${filePath}");
+    </script>
       
       <span class="d-none d-md-block dropdown-toggle ps-2">${memberName}님</span>
     </a>

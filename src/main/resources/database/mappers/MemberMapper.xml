@@ -29,7 +29,9 @@
 	<select id="getMemImage" parameterType="MemberFileVO">
 	SELECT * FROM MEM_IMAGE
 	WHERE EMP_NO =#{emp_no}	
-	</select>
+	</select> 
+	
+	
 	
 	<!-- 이미지 업데이트 -->
 	<update id="updateMemImage" parameterType="MemberFileVO">

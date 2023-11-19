@@ -113,7 +113,17 @@ public class MemberController {
 	
 	//멤버리스트
 	@GetMapping("memberList")
-	public String memList(Model model, MemberVO memberVO, Pager pager)throws Exception{
+	public String memList(Model model,@AuthenticationPrincipal MemberVO memberVO, Pager pager)throws Exception{
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		log.info("===멤버리스트용memberVO.getEmp_no():{}===",memberVO.getEmp_no());
+		if (profileImage != null) {
+	        String filePath = "/files/" + profileImage.getFile_name();
+	        model.addAttribute("profileImage", profileImage);
+	        model.addAttribute("filePath", filePath);
+	    } else {
+	        model.addAttribute("filePath", "/files/default_profile_image.jpg");
+	    }
+		
 		List<MemberVO> memberList = memberService.getList(pager);
 		model.addAttribute("memberList",memberList);
 		return "member/memberList";
@@ -211,6 +221,7 @@ public class MemberController {
 	@GetMapping("mypage")
 	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model, String emp_no)throws Exception{
 		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		log.info("===memberVO.getEmp_no():{}===",memberVO.getEmp_no());
 		//프로필 사진 가져오기
 		
 		if(profileImage != null) {
