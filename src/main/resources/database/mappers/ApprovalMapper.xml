@@ -230,6 +230,24 @@
   	
   	</update>
   	
+  	<!-- 연차 -->
+  	 <update id="setDocInfo"  parameterType="Map">
+	UPDATE MEM_INFO
+	SET 
+	REMAIN_HOLIDAY = REMAIN_HOLIDAY - ${adtn_info3}
+	,MOD_ID = #{emp_no}
+	,MOD_DATE = now()	
+	where EMP_NO = #{emp_no}
+	</update>
+	
+	<!-- 달력 -->
+	<insert id="setSchedule" parameterType="Map">
+	
+		INSERT INTO SCHEDULE_BASE
+		    (SCHEDULE_NO, EMP_NO, SCHEDULE_START_TIME, SCHEDULE_END_TIME, SCHEDULE_TITLE, REG_ID, MOD_ID, REG_DATE, MOD_DATE, USE_YN)
+		VALUES
+		    (0, #{emp_no}, #{start_date}, #{end_date}, #{adtn_info1}, #{emp_no}, #{emp_no}, NOW(), NOW(), 'Y');
+	</insert>
   		<!-- 문서 상태 update -->
   	<update id="docBaseApproval"  parameterType="Map">
   		UPDATE APPROVAL_DOC
@@ -264,5 +282,20 @@
   		SET USE_YN = 'N'
   		WHERE DOC_NO = ${doc_no}
   	</update>
+  	
+  	<select id="indexAppDocList" resultType="ApprovalDocVO" parameterType="MemberVO">
+  		SELECT ad.REG_DATE,
+ 		 (SELECT cd_nm 
+  		  	FROM ST_STD_CD 
+  		 WHERE grp_cd='A001' AND CD= ad.GRP_CD) as grp_cd , ad.DOC_TITLE, ad.DOC_NO,
+   		(SELECT cd_nm 
+  			FROM ST_STD_CD 
+  		 WHERE grp_cd='A002' AND CD= ad.APPROVAL_STATE) as approval_state
+			FROM APPROVAL_DOC ad
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N'
+		ORDER BY DOC_NO DESC
+  		LIMIT 5
+  	</select>
+	
   
   </mapper>

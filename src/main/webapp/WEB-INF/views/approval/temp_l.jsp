@@ -16,9 +16,9 @@
 				<th class="table-light">휴가종류</th>
 				<td><select class="form-select"
 					aria-label="Default select example" name="adtn_info1" id="leaveVal" value="${docVO.adtn_info1}" >
-						<option id="leaveVal1" value="B">연차</option>
-						<option id="leaveVal2" value="A">조퇴</option>
-						<option id="leaveVal3"value="C">반차</option>
+						<option id="leaveVal1" value="연차">연차</option>
+						<option id="leaveVal2" value="조퇴">조퇴</option>
+						<option id="leaveVal3"value="반차">반차</option>
 				</select></td>
 			</tr>
 			<tr>
@@ -50,7 +50,7 @@
 			<tr>
 				<th class="table-light">연차일수</th>
 
-				<td>잔여연차: <span id="id1"><%-- <sec:authentication property="principal.remain_holiday" /> --%>15</span>   신청연차:<span id="id2"></span>
+				<td>잔여연차: <span id="id1"><sec:authentication property="principal.remain_holiday"/></span>   신청연차:<span id="id2"> </span>
 				</td>
 			</tr>
 
@@ -93,7 +93,7 @@
 	            let leaveType = $("#leaveVal").val();
 	            let halfDayOptions = $("input[name='adtn_info2']");
 
-	            if (leaveType === "C") { // "C"는 반차
+	            if (leaveType == "반차") { //  반차
 	                halfDayOptions.prop("disabled", false); // 활성화
 	            } else {
 	                halfDayOptions.prop("disabled", true); // 비활성화
@@ -106,12 +106,13 @@
 	            let endDate = new Date($("#endDate").val());
 	            
 	            
-	            if (leaveType === "B") { // 연차
+	            if (leaveType == "연차") { // 연차
 	                var daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24)+1;
 	                $("#id2").text(daysDiff);
-	            } else if (leaveType === "A") { // 조퇴
-	                $("#id2").text("0");
-	            } else if (leaveType === "C") { // 반차
+	            } else if (leaveType == "조퇴") { // 조퇴
+	            	var daysDiff = 0;
+	            	$("#id2").text(dayDiff);
+	            } else if (leaveType == "반차") { // 반차
 	                var daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24) * 0.5 +0.5;
 	               
 	                $("#id2").text(daysDiff);
@@ -120,6 +121,10 @@
 	            
 	            $("#adtn_info3").val(daysDiff);
 	        }
+	        
+	        $("#leaveVal").val("${docVO.adtn_info1}");
+	        
+	        $("input[name='adtn_info2'][value='${docVO.adtn_info2}']").prop("checked", true);
 	        
 	      
 
