@@ -241,3 +241,84 @@
 			
 			
 		});
+		
+		
+		
+		//결재요청 클릭이벤트
+		$('#doc_send').click(function() {
+	
+			
+		
+			let id1 = parseFloat($("#id1").text());
+			let id2 = parseFloat($("#id2").text());
+		
+			
+			if($('#lastApp').val()=="" || $('#midApp').val()==""){
+				alert("결재자는 필수 값입니다");
+				return false;
+			}
+			
+			if (id1 < id2) {
+			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
+			    alert("잔여연차가 부족합니다.");
+			    return false; 
+			   }
+
+				
+			$("#frm").submit();
+	
+		});
+	
+	
+	//임시저장 버튼 클릭 이벤트
+		$('#temp_send').click(function() {
+
+			let id1 = parseFloat($("#id1").text());
+			let id2 = parseFloat($("#id2").text());
+			
+			if($('#lastApp').val()=="" || $('#midApp').val()==""){
+				alert("결재자는 필수 값입니다");
+				return false;
+			}
+			
+			console.log(id1,id2)
+			if (id1 < id2) {
+			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
+			    alert("잔여연차가 부족합니다.");
+			    return false; // 폼 제출 취소
+			   }
+			
+			$("#temp_save").val("Y");
+			$("#approval_state").val("T");
+			$("#frm").submit();
+
+		});
+		
+	 // 기안취소 버튼 클릭 이벤트
+        $("#btn_cancle").on("click", function () {
+          
+          let doc_no = $("#doc_no").attr("data-docNo");
+          
+          console.log(doc_no);
+          
+            $.ajax({
+        		type:'post',
+        		url:"/approval/AppCancel",
+        		data : {
+        			doc_no : doc_no
+        			
+        		}, 
+			   success:function(result){
+				   console.log(result)
+				   if(result ==1){
+				
+					window.location.replace("/approval/list?k=temp"); 
+				   }
+			   },
+			   error:function(){
+					alert("다시시도해주세요.");
+			   }
+        	}) 
+        });
+		
+

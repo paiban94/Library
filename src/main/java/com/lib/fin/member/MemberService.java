@@ -211,6 +211,9 @@ import lombok.extern.slf4j.Slf4j;
 		
 		//프로필사진보기
 		public MemberFileVO getMemImage(String emp_no)throws Exception{
+			MemberFileVO memImage = memberDAO.getMemImage(emp_no);
+			log.info("====memberFile emp_no:{}===",emp_no);
+			log.info("====memberFile empNo:{}===",memImage);
 			return memberDAO.getMemImage(emp_no);
 		}
 	

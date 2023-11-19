@@ -19,7 +19,9 @@ import com.lib.fin.board.announcement.AnnouncementService;
 import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class IndexController {
 	
@@ -31,9 +33,11 @@ public class IndexController {
 
 	@Autowired
 	private MemberService memberService;
+
 	
 
 	@GetMapping("/")
+
 	public ModelAndView getIndex(@AuthenticationPrincipal MemberVO memberVO,ModelAndView mv) throws Exception {
 		mv.setViewName("/index");
 		
@@ -56,9 +60,12 @@ public class IndexController {
 		return mv;
 	}
 
+
+
 	@GetMapping("/member/assets/img/logo.png")
-	public String getIndex1() {
-		
+	public String getIndex1(@AuthenticationPrincipal MemberVO memberVO, Model model)throws Exception {
+
+
 		return "redirect:/";
 	}
 	

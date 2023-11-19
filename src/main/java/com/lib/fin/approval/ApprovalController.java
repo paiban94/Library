@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lib.fin.commons.CommonJava;
 import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
+import com.lib.fin.commons.ProfileImage;
+import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -39,6 +41,7 @@ public class ApprovalController {
 
 	@Autowired
 	private ApprovalService approvalService;
+
 	
 	@ModelAttribute("name")
 	public String getApproval() {
@@ -51,7 +54,7 @@ public class ApprovalController {
 	public String setDraft(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
 
 		model.addAttribute("member", memberVO);
-
+		ProfileImage.addProfileImage(model, memberService, memberVO.getEmp_no());
 		return "approval/draft";
 	}
 
@@ -195,6 +198,23 @@ public class ApprovalController {
 
 	}
 
+	@RequestMapping("setDocInfo")
+	@ResponseBody
+	public Map<String, Object> setDocInfo(HttpServletRequest request) throws Exception {
+
+		
+		
+		Map<String, Object> params = CommonJava.getParameterMap(request);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+
+		 resultMap = approvalService.setDocInfo(params);
+
+		return resultMap;
+
+	}
+
+	
 	// summernote 이미지 업로드
 	@PostMapping("setContentsImg")
 	@ResponseBody

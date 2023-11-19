@@ -230,6 +230,24 @@
   	
   	</update>
   	
+  	<!-- 연차 -->
+  	 <update id="setDocInfo"  parameterType="Map">
+	UPDATE MEM_INFO
+	SET 
+	REMAIN_HOLIDAY = REMAIN_HOLIDAY - ${adtn_info3}
+	,MOD_ID = #{emp_no}
+	,MOD_DATE = now()	
+	where EMP_NO = #{emp_no}
+	</update>
+	
+	<!-- 달력 -->
+	<insert id="setSchedule" parameterType="Map">
+	
+		INSERT INTO SCHEDULE_BASE
+		    (SCHEDULE_NO, EMP_NO, SCHEDULE_START_TIME, SCHEDULE_END_TIME, SCHEDULE_TITLE, REG_ID, MOD_ID, REG_DATE, MOD_DATE, USE_YN)
+		VALUES
+		    (0, #{emp_no}, #{start_date}, #{end_date}, #{adtn_info1}, #{emp_no}, #{emp_no}, NOW(), NOW(), 'Y');
+	</insert>
   		<!-- 문서 상태 update -->
   	<update id="docBaseApproval"  parameterType="Map">
   		UPDATE APPROVAL_DOC

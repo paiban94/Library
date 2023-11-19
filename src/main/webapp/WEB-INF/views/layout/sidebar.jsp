@@ -103,12 +103,12 @@ pageEncoding="UTF-8"%>
       
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#approval_sign" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-files"></i><span>싸인 등록</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-file-check"></i><span>싸인 등록</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="approval_sign" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/approval/addSign">
-              <i class="bi bi-circle"></i><span>싸인 등록</span>
+              <i class="bi bi-file-check"></i><span>싸인 등록</span>
             </a>
         
         </ul>
