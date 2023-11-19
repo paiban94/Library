@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lib.fin.commons.Pager;
 import com.lib.fin.facility.FacilityVO;
 import com.lib.fin.schedule.ScheduleVO;
 @Controller
@@ -24,10 +25,12 @@ public class BookControl {
 	private BookService bookService;
 	
 	@GetMapping("getBooklist")
-	public String getBooklist(Model model) throws Exception {
-		List<BookVO> ar=bookService.getBooklist();
-		model.addAttribute("list",ar);
-		return "book/booklist";
+	public ModelAndView getBooklist(Pager pager, ModelAndView mv)throws Exception{
+		List<BookVO> ar=bookService.getBooklist(pager);
+		mv.addObject("list",ar);
+		mv.addObject("pager",pager);
+		mv.setViewName("book/booklist");
+		return mv;
 	
 	}
 	
