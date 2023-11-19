@@ -16,6 +16,7 @@ import com.lib.fin.approval.ApprovalDocVO;
 import com.lib.fin.approval.ApprovalService;
 import com.lib.fin.board.BoardVO;
 import com.lib.fin.board.announcement.AnnouncementService;
+import com.lib.fin.commons.ProfileImage;
 import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 
@@ -34,11 +35,12 @@ public class IndexController {
 	@Autowired
 	private MemberService memberService;
 
-	
+	@Autowired
+	private ProfileImage profileImage;
 
 	@GetMapping("/")
 
-	public ModelAndView getIndex(@AuthenticationPrincipal MemberVO memberVO,ModelAndView mv) throws Exception {
+	public ModelAndView getIndex(@AuthenticationPrincipal MemberVO memberVO,ModelAndView mv, Model model) throws Exception {
 		mv.setViewName("/index");
 		
 		
@@ -56,6 +58,7 @@ public class IndexController {
 		
 		mv.addObject("list", list);
 		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		
 		return mv;
 	}
