@@ -40,11 +40,6 @@ public class ApprovalService {
 		String path = this.filePath+this.approvalName;
 		int result= approvalDAO.setDraft(approvalDocVO);
 
-		log.info("===============path: {} =========",path);
-		log.info("===============path: {} =========",filePath);
-		log.info("===============path: {} =========",approvalName);
-
-
 		ApprovalHisVO approvalHisVO = new ApprovalHisVO();
 
 		String midApp = params.getOrDefault("midApp","");
@@ -226,7 +221,33 @@ public class ApprovalService {
 		
 		int resultInt = approvalDAO.docApproval(param); // history
 		 
-		int resultInt1 = approvalDAO.docBaseApproval(param); //doc
+		resultInt = approvalDAO.docBaseApproval(param); //doc
+		
+		if(resultInt > 0) {
+			resultMap.put("code", "0000");
+		}else {
+			resultMap.put("code", "9999");
+		}
+		return resultMap;
+		
+	}
+	
+	@Transactional
+	public Map<String,Object> setDocInfo(Map<String,Object> param)throws Exception{
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		
+		String adtnInfoValue = (String) param.get("adtn_info3");
+		double adtnInfoDouble = Double.parseDouble(adtnInfoValue);
+
+		// adtn_info 키에 해당하는 값을 double로 변환한 값으로 다시 맵에 넣어주기
+		param.put("adtn_info", adtnInfoDouble);
+			
+		int resultInt = approvalDAO.setDocInfo(param); // 연차 update
+		
+		//달력
+		resultInt = approvalDAO.setSchedule(param);
+		
 		
 		if(resultInt > 0) {
 			resultMap.put("code", "0000");
