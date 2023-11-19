@@ -42,6 +42,9 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 
+	@Autowired
+	private ProfileImage profileImage;
+
 	
 	@ModelAttribute("name")
 	public String getApproval() {
@@ -54,7 +57,7 @@ public class ApprovalController {
 	public String setDraft(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
 
 		model.addAttribute("member", memberVO);
-		ProfileImage.addProfileImage(model, memberService, memberVO.getEmp_no());
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "approval/draft";
 	}
 
@@ -100,8 +103,11 @@ public class ApprovalController {
 			model.addAttribute("appLine" + i, approvalHisVO);
 		}
 
+		
 		// approvalDocVO 담기
 		model.addAttribute("docVO", approvalDocVO);
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "approval/draftDetail";
 	}
 
@@ -131,6 +137,7 @@ public class ApprovalController {
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
 
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "approval/comDocList";
 	}
 
@@ -145,6 +152,8 @@ public class ApprovalController {
 		// approvalDocVO 담기
 		model.addAttribute("docVO", approvalDocVO);
 
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "approval/update";
 	}
 
@@ -170,8 +179,9 @@ public class ApprovalController {
 
 	// 싸인등록
 	@GetMapping("addSign")
-	public String setSign() throws Exception {
+	public String setSign(Model model, @AuthenticationPrincipal MemberVO memberVO) throws Exception {
 
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "approval/signAdd";
 
 	}

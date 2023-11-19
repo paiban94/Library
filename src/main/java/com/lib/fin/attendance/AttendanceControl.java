@@ -8,12 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lib.fin.commons.ProfileImage;
 import com.lib.fin.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,9 @@ import java.util.HashMap;
 public class AttendanceControl {
 	@Autowired
 	private AttendanceService attendanceService;
+	@Autowired
+	private ProfileImage profileImage;
+
 	
 	DateTimeFormatter dayff = DateTimeFormatter.ofPattern("yy-MM"); //날짜 패턴 변경
 	DateTimeFormatter dayfff = DateTimeFormatter.ofPattern("yy/MM"); //날짜 패턴 변경
@@ -34,7 +40,8 @@ public class AttendanceControl {
 	
 	
 	@GetMapping("attendanceHome")
-	public String getAttendance()throws Exception{
+	public String getAttendance(Model model, @AuthenticationPrincipal MemberVO memberVO)throws Exception{
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "attendance/attendanceHome";
 	}
 	@GetMapping("checkWorkTime.do")

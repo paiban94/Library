@@ -163,6 +163,7 @@ public class AnnouncementController {
 	@GetMapping("addAnn")
 	public String goAddAnn(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
 		model.addAttribute("member", memberVO);
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "board/announcement/annadd";
 	}
 
@@ -176,7 +177,7 @@ public class AnnouncementController {
 			announcementVO.setBoard_kind("off");
 		}
 		int result = announcementService.addWriting(announcementVO, files1);
-
+		
 		return "redirect:./announcement";
 	}
 
@@ -218,6 +219,8 @@ public class AnnouncementController {
 		model.addAttribute("board", announcementVO);
 		model.addAttribute("member", memberVO);
 		model.addAttribute("files", filelist);
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "board/announcement/annmodify";
 	}
 
