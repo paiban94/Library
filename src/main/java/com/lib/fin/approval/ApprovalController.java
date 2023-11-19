@@ -198,6 +198,23 @@ public class ApprovalController {
 
 	}
 
+	@RequestMapping("setDocInfo")
+	@ResponseBody
+	public Map<String, Object> setDocInfo(HttpServletRequest request) throws Exception {
+
+		
+		
+		Map<String, Object> params = CommonJava.getParameterMap(request);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+
+		 resultMap = approvalService.setDocInfo(params);
+
+		return resultMap;
+
+	}
+
+	
 	// summernote 이미지 업로드
 	@PostMapping("setContentsImg")
 	@ResponseBody

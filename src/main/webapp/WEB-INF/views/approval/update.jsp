@@ -34,7 +34,7 @@
 						<div class="container">
 							<form action="/approval/update" method="post" id="frm" enctype="multipart/form-data">
 								
-								<input type="hidden" name="doc_no" value="${docVO.doc_no}">
+								<input type="hidden" id="doc_no" name="doc_no" data-docNo="${docVO.doc_no}" value="${docVO.doc_no}">
 					
 							
 								<input type="hidden" id="approval_state" name="approval_state" value="R">
@@ -83,23 +83,7 @@
 															<th class="table-light">소속</th>
 															
 															<td>
-															<c:choose>
-																  <c:when test="${vo.emp_team eq 'A'}">
-																    대표
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'B'}">
-																    운영과
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'C'}">
-																   정책과
-																  </c:when>
-																   <c:when test="${vo.emp_team eq 'D'}">
-																   서비스과
-																  </c:when>
-																  <c:otherwise>
-																    가발령
-																  </c:otherwise>
-																</c:choose>
+															${vo.emp_team}
 															</td>
 														</tr>
 
@@ -247,6 +231,7 @@
 													<div class="my-3">
 													<!-- button  -->
 													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
+													<button type="button"  id="btn_cancle" class="btn btn-primary btn-sm mx-1">기안취소</button>
 													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
 													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -381,31 +366,7 @@
 
 
 	<script src="/js/file.js"></script>
-	<script type="text/javascript">
 	
-		$('#doc_send').click(function() {
-	
-			if($('#lastApp').val()==""){
-				alert("최종 결재자는 필수 값입니다");
-				return false;
-			}
-				
-			$("#frm").submit();
-	
-		});
-	
-	
-		$('#temp_send').click(function() {
-
-			$("#temp_save").val("Y");
-			$("#approval_state").val("T");
-			$("#frm").submit();
-
-		});
-		
-			
-	
-	</script>
 	<script src="/js/appLine.js"></script>
 </body>
 

@@ -76,23 +76,7 @@
 															<th class="table-light">소속</th>
 															
 															<td>
-															<c:choose>
-																  <c:when test="${vo.emp_team eq 'A'}">
-																    대표
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'B'}">
-																    운영과
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'C'}">
-																   정책과
-																  </c:when>
-																   <c:when test="${vo.emp_team eq 'D'}">
-																   서비스과
-																  </c:when>
-																  <c:otherwise>
-																    가발령
-																  </c:otherwise>
-																</c:choose>
+																${vo.emp_team}
 															</td>
 														</tr>
 
@@ -123,29 +107,14 @@
 														</tr>
 
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/sign/${member.sign_name}"></td>
+															<td><img id="sign_img" src="/files/sign/${vo.sign_name}"></td>
 														</tr>
 														
 														<tr>
 
 															<td>
-															<c:choose>
-																  <c:when test="${vo.emp_team eq 'A'}">
-																    대표
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'B'}">
-																    운영과
-																  </c:when>
-																  <c:when test="${vo.emp_team eq 'C'}">
-																   정책과
-																  </c:when>
-																   <c:when test="${vo.emp_team eq 'D'}">
-																   서비스과
-																  </c:when>
-																  <c:otherwise>
-																    가발령
-																  </c:otherwise>
-																  </c:choose> ${vo.name}</td>
+													
+																${vo.emp_team}  ${vo.name}</td>
 														</tr>
 
 
@@ -375,57 +344,7 @@
 
 
 	<script src="/js/file.js"></script>
-	<script type="text/javascript">
-	
-		$('#doc_send').click(function() {
-	
-			if($('#lastApp').val()==""){
-				alert("최종 결재자는 필수 값입니다");
-				return false;
-			}
-			
-			let id1 = $("#id1").text(); //잔여연차
-			let id2 = $("#id2").text(); //신청연차
-			console.log(id1)
-			console.log(id2)
 
-			if (id1 < id2 ) {
-			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
-			    alert("잔여연차가 부족합니다.");
-			    return false; 
-			   }
-				
-			$("#frm").submit();
-	
-		});
-	
-	
-		$('#temp_send').click(function() {
-
-			$("#temp_save").val("Y");
-			$("#approval_state").val("T");
-			
-			if($('#lastApp').val()==""){
-				alert("최종 결재자는 필수 값입니다");
-				return false;
-			}
-			
-			let id1 = $("#id1").text();
-			let id2 = $("#id2").text();
-
-			if (id2 < id1) {
-			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
-			    alert("잔여연차가 부족합니다.");
-			    return false; // 폼 제출 취소
-			   }
-			
-			$("#frm").submit();
-
-		});
-		
-			
-	
-	</script>
 	<script src="/js/appLine.js"></script>
 </body>
 

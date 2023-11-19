@@ -11,6 +11,15 @@
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
 
+<style type="text/css">
+	.container-fluid{
+	height: 800px;
+	}
+	.card{
+	height: 500px;
+	}
+	
+</style>
 </head>
 
 <body id="page-top">
@@ -56,26 +65,15 @@
 			</main>
 			<!-- End #main -->
 
-			<div class="container-fluid">
-
-				<div class="row">
-					<!-- 각 영역 크기조절하기 -->
-					<div class="col-lg-6">
-						<div class="card">
-
-
-							<div class=""></div>
-						</div>
-
-					</div>
+			
 
 					<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
 
-				</div>
-
+				
 
 
 				<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 </body>
+
 
 </html>

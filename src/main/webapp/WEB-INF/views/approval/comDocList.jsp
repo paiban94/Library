@@ -71,21 +71,10 @@
 																<td><a style="text-decoration: none; color: black;" href="./draftDetail?k=${param.k}&doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																</c:when>
 																<c:otherwise>
-																<td><a style="text-decoration: none; color: black;" href="./update?doc_no=${d.doc_no}">${d.doc_title}</a></td>
+																<td><a style="text-decoration: none; color: black;" href="./update?k=${param.k}&doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																</c:otherwise>
 																</c:choose>
-<%-- 																<c:choose>
-																  <c:when test="${d.grp_cd eq '업무기안'}">
-																   	<td><a style="text-decoration: none; color: black;" href="./draftDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
-																  </c:when>
-																  <c:when test="${d.grp_cd eq '휴가신청서'}">
-																    <td><a style="text-decoration: none; color: black;" href="./draftDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
-																  </c:when>
-																  <c:when test="${d.grp_cd eq '지출결의서'}">
-																 	 <td><a style="text-decoration: none; color: black;" href="./expenseDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
-																  </c:when>
-																</c:choose> --%>
-																
+
 																<td>${d.doc_no}</td>
 																<td>${d.approval_state}</td>
 															</tr>
