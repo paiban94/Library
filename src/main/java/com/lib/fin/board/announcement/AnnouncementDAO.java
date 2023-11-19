@@ -90,6 +90,8 @@ public interface AnnouncementDAO {
 	public LikeVO checkLike(LikeVO likeVO) throws Exception;
 
 	public AnnouncementVO getLastestBoard(AnnouncementVO boardVO)throws Exception;
+
+	public List<BoardVO> getIndexList() throws Exception;
 	
 
 }

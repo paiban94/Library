@@ -1,6 +1,6 @@
 package com.lib.fin.main;
 
-public interface MainService {
+public interface IndexService {
 
 	
 }

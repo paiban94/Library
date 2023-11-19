@@ -137,12 +137,6 @@ pageEncoding="UTF-8"%>
               <i class="bi bi-circle"></i><span>공지사항</span>
             </a>
           </li>
-          <li>
-            <a href="/board/community">
-              <i class="bi bi-circle"></i><span>자유 게시판</span>
-            </a>
-          </li>
-         
         </ul>
       </li><!-- End Charts Nav -->
 

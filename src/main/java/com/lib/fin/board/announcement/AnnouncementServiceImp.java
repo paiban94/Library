@@ -274,5 +274,16 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		return fileManager.fileDelete(fileVO, path);
 	}
 
+	@Override
+	public List<BoardVO> getIndexList() throws Exception {
+		List<BoardVO> list = announcementDAO.getIndexList();
+		for (BoardVO boardVO : list) {
+			System.out.println("=====Test id : " + boardVO.getReg_id());
+			MemberVO memberVO = announcementDAO.getBoardwriter(boardVO);
+			boardVO.setBoard_wirter(memberVO.getName());
+		}
+		return list;
+	}
+
 
 }

@@ -19,6 +19,8 @@ import com.lib.fin.member.MemberVO;
 public interface AnnouncementService {
 
 	public List<BoardVO> getList(Pager pager) throws Exception;
+	
+	public List<BoardVO> getIndexList() throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 

@@ -12,29 +12,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
+<style type="text/css">
+.container-fluid {
+	height: 800px;
+}
+</style>
 
 </head>
-.card-body {
- 	width: 60%;
-    padding: 0 20px 20px 20px;
-}
-.box {
-  width: 150px;
-  height: 100px;
-  background: lightskyblue;
-  margin: 4px;
-}
 
-.fixed {
-  position: fixed;
-}
 
-.top-right {
-  	top: 10px;
-	right: 10px;
-}
-<style>
-</style>
 <body id="page-top">
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -54,77 +40,91 @@
 
 
 							<div class="row">
-								<!-- 각 영역 크기조절하기 -->
-								<div class="col-lg-6 box card-body fixed top-right">
-									<!-- Recent Activity -->
-									<div class="card">
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
 
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
+								<div class="col-lg-6">
+									<div class="card-body pb-0">
+										<h5 class="card-title">최근 공지사항</h5>
 
-										<div class="card-body">
-											<h5 class="card-title">
-												 <span>결재 대기</span>
-											</h5>
+										<table class="table table-borderless">
+											<colgroup>
+												<col style="width: 18%;">
+												<col style="width: 45%;">
+												<col style="width: 20%;">
+												<col style="width: 17%;">
+											</colgroup>
+											<thead>
+												<tr>
+													<th class="board_no">번호</th>
+													<th class="board_title">제목</th>
+													<th class="reg_id">작성자</th>
+													<th class="reg_date">작성날짜</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${list}" var="d" varStatus="i">
+													<tr>
+														<td>${d.board_no}
+														</th>
+														<td><a href="/board/annDetail?board_no=${d.board_no}">${d.board_title}</a>
+														</td>
+														<td>${d.board_wirter}</td>
+														<td class="fw-bold">${d.reg_date}</td>
+												</c:forEach>
+												</tr>
+										</table>
 
-											<div class="activity">
-
-												<div class="activity-item d-flex">
-													<div class="activite-label">32 min</div>
-													<i
-														class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-													<div class="activity-content">
-														Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo
-															officiis</a> beatae
-													</div>
-												</div>
-												<!-- End activity item-->
-											</div>
-
-										</div>
 									</div>
-									<!-- End Recent Activity -->
+								</div>
+
+
+								<div class="col-lg-6">
+									<div class="card-body pb-0">
+										<h5 class="card-title">기안문서함</h5>
+
+										<table class="table table-borderless">
+											<colgroup>
+												<col style="width: 18%;">
+												<col style="width: 20%;">
+												<col style="width: 45%;">
+												<col style="width: 17%;">
+											</colgroup>
+											<thead>
+												<tr>
+											<thead>
+												<th>기안일</th>
+												<th>결재양식</th>
+												<th>제목</th>
+												<th>상태</th>
+											</thead>
+											</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${ar}" var="d" varStatus="i">
+													<tr>
+														<th scope="row">${d.reg_date}</th>
+														<td>${d.grp_cd}</td>
+														<td><a
+															href="/approval/draftDetail?k=com&doc_no=${d.doc_no}"
+															class="text-primary fw-bold">${d.doc_title}</a></td>
+														<td class="fw-bold">${d.approval_state}</td>
+													</tr>
+												</c:forEach>
+										</table>
+
+									</div>
 								</div>
 
 							</div>
-						</div>
-			</div>
 
-			</section>
-
-			</main>
-			<!-- End #main -->
-
-			<div class="container-fluid">
-
-				<div class="row">
-					<!-- 각 영역 크기조절하기 -->
-					<div class="col-lg-6">
-						<div class="card">
-
-
-							<div class=""></div>
 						</div>
 
-					</div>
+					</section>
 
-					<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
-
-				</div>
-
+				</main>
+				<!-- End #main -->
 
 
+				<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
 				<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 </body>
 
