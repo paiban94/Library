@@ -197,7 +197,6 @@ public class ApprovalService {
 		
 		
 		return approvalDAO.getAppDocList(params);
-		
 	}
 	
 	//sign add
@@ -302,6 +301,12 @@ public class ApprovalService {
 		public int setAppCancel(String doc_no)throws Exception{
 			
 			return approvalDAO.setAppCancel(doc_no);
+		}
+		
+		//DOCList
+		public List<ApprovalDocVO> IndexAppDocList(MemberVO memberVO)throws Exception{
+		
+			return approvalDAO.indexAppDocList(memberVO);
 		}
 
 }

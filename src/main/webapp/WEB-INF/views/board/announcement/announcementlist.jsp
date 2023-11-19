@@ -12,94 +12,97 @@
 				</head>
 
 				<style>
-.first {
-	position: absolute;
-	left: 20%;
-}
+					.first {
+						position: absolute;
+						left: 20%;
+					}
 
-.second {
-	position: absolute;
-	right: 7%;
-}
+					.second {
+						position: absolute;
+						right: 7%;
+					}
 
-.searchCategory {
-	display: flex;
-}
+					.searchCategory {
+						display: flex;
+					}
 
-.searchtext {
-	margin-right: 5px;
-}
+					.searchtext {
+						margin-right: 5px;
+					}
 
-.searchselect {
-	margin-left: 3px;
-	margin-right: 5px;
-}
+					.searchselect {
+						margin-left: 3px;
+						margin-right: 5px;
+					}
 
-.searchBtn {
-	margin-left: 3px;
-}
+					.searchBtn {
+						margin-left: 3px;
+					}
 
-.board_no {
-	width: 5%;
-	text-align: center;
-}
+					.board_no {
+						width: 5%;
+						text-align: center;
+					}
 
-.board_title {
-	width: 35%;
-	text-align: center;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
+					.board_title {
+						width: 35%;
+						text-align: center;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
 
-.txt_line {
-	width: 70px;
-	padding: 0 5px;
-	text-align: left;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
+					.txt_line {
+						width: 70px;
+						padding: 0 5px;
+						text-align: left;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
 
-.reg_id {
-	width: 10%;
-	text-align: center;
-}
+					.reg_id {
+						width: 10%;
+						text-align: center;
+					}
 
-.reg_date {
-	width: 10%;
-	text-align: center;
-}
+					.reg_date {
+						width: 10%;
+						text-align: center;
+					}
 
-.board_views {
-	width: 7%;
-	text-align: center;
-}
+					.board_views {
+						width: 7%;
+						text-align: center;
+					}
 
-table {
-	border-collapse: separate;
-	border: solid black 1px;
-	border-radius: 6px;
-}
+					table {
+						border-collapse: separate;
+						border: solid black 1px;
+						border-radius: 6px;
+					}
 
-td, th {
-	border-left: solid black 1px;
-	border-top: solid black 1px;
-}
+					td,
+					th {
+						border-left: solid black 1px;
+						border-top: solid black 1px;
+					}
 
-th {
-	background-color: blue;
-	border-top: none;
-}
+					th {
+						background-color: blue;
+						border-top: none;
+					}
 
-td:first-child, th:first-child {
-	border-left: none;
-}
-.lock{
-	max-width: 3%;
-	max-height: 3%;
-}
-</style>
+					td:first-child,
+					th:first-child {
+						border-left: none;
+					}
+
+					.lock {
+						max-width: 3%;
+						max-height: 3%;
+					}
+				</style>
 
 				<body id="page-top">
 					<div id="wrapper">
@@ -127,20 +130,27 @@ td:first-child, th:first-child {
 											<tbody>
 												<c:forEach items="${list}" var="d" varStatus="i">
 													<tr>
-														<td class="board_no" id="kind_${d.board_no}" data-kind="${d.board_kind}">${d.board_no}</td>
-														<td class="kind" id="kind_${d.board_no}" data-kind="${d.board_kind}">
+														<td class="board_no" id="kind_${d.board_no}"
+															data-kind="${d.board_kind}">${d.board_no}</td>
+														<td class="kind" id="kind_${d.board_no}"
+															data-kind="${d.board_kind}">
 															<c:choose>
 																<c:when test='${d.board_kind == "on"}'>
-																	<sec:authorize access="hasRole('ADMIN') or ${d.reg_id eq member.emp_no}">
-																		<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+																	<sec:authorize
+																		access="hasRole('ADMIN') or ${d.reg_id eq member.emp_no}">
+																		<a
+																			href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
 																	</sec:authorize>
-																	<sec:authorize access="!hasRole('ADMIN') and ${d.reg_id ne member.emp_no}">
-																		<img class="lock" src="/assets/img/lock.png" alt="lock">
+																	<sec:authorize
+																		access="!hasRole('ADMIN') and ${d.reg_id ne member.emp_no}">
+																		<img class="lock" src="/assets/img/lock.png"
+																			alt="lock">
 																		<span>읽기 권한이 없습니다.</span>
 																	</sec:authorize>
 																</c:when>
 																<c:when test='${d.board_kind == "off"}'>
-																	<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+																	<a
+																		href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
 																</c:when>
 															</c:choose>
 														</td>
@@ -156,31 +166,36 @@ td:first-child, th:first-child {
 
 											<ul class="pagination">
 												<c:if test="${pager.pre}">
-													<li class="page-item"><a class="page-link" href="./announcement?page=${pager.startNum-1}" aria-label="Previous">
-														<span aria-hidden="true">&laquo;</span>
-													</a></li>
+													<li class="page-item"><a class="page-link"
+															href="./announcement?page=${pager.startNum-1}"
+															aria-label="Previous">
+															<span aria-hidden="true">&laquo;</span>
+														</a></li>
 												</c:if>
-												
+
 												<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
 													<li class="page-item <c:if test='${pager.page eq i}'>active</c:if>">
 														<a class="page-link" href="./announcement?page=${i}">${i}</a>
 													</li>
 												</c:forEach>
-												
+
 												<c:if test="${pager.next}">
-													<li class="page-item"><a class="page-link" href="./announcement?page=${pager.lastNum+1}" aria-label="Next">
-														<span aria-hidden="true">&raquo;</span>
-													</a></li>
+													<li class="page-item"><a class="page-link"
+															href="./announcement?page=${pager.lastNum+1}"
+															aria-label="Next">
+															<span aria-hidden="true">&raquo;</span>
+														</a></li>
 												</c:if>
 											</ul>
 										</nav>
-										
-										
+
+
 
 										<div class="input-group mb-3 searchCategory first">
 											<form action="./announcement" method="get">
 												<div class="searchselect">
-													<select name="kind" class="form-select" aria-label="Default select example">
+													<select name="kind" class="form-select"
+														aria-label="Default select example">
 														<option value="N">제목</option>
 														<option value="W">작성자</option>
 													</select>
@@ -195,10 +210,10 @@ td:first-child, th:first-child {
 											</form>
 										</div>
 
-										
-										<a class="btn btn-outline-success second" for="btn-check-outlined"
-											href="./addAnn">글쓰기</a>
-
+										<sec:authorize access="hasRole('ADMIN')">
+											<a class="btn btn-outline-success second" for="btn-check-outlined"
+												href="./addAnn">글쓰기</a>
+										</sec:authorize>
 
 									</section>
 								</main>
@@ -206,8 +221,8 @@ td:first-child, th:first-child {
 						</div>
 					</div>
 					<div>
-					<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
-					<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+						<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
+						<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 					</div>
 					<script src="/js/annlist.js"></script>
 				</body>

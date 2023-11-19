@@ -184,6 +184,9 @@
 		LIKE_BASE WHERE 
 		BOARD_NO = #{board_no} AND REG_ID=#{reg_id}
 	</select>
+	<select id="getIndexList">
+	 SELECT * FROM BOARD_BASE  ORDER BY BOARD_NO DESC LIMIT 5
+	</select>
 
 
 </mapper>

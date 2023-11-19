@@ -62,4 +62,6 @@ public interface ApprovalDAO {
 	public int setFileDelete(ApprovalFileVO approvalFileVO)throws Exception;
 
 	public int setAppCancel(String doc_no)throws Exception;
+
+	public List<ApprovalDocVO> indexAppDocList(MemberVO memberVO) throws Exception;
 }
