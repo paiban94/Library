@@ -40,6 +40,7 @@ import org.springframework.validation.BindingResult;
 
 import com.lib.fin.commons.FileManager;
 import com.lib.fin.commons.FileManagerProfile;
+import com.lib.fin.commons.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 	
@@ -93,9 +94,9 @@ import lombok.extern.slf4j.Slf4j;
 		   
 		
 		//멤버리스트
-		   public List<MemberVO> getList(MemberVO memberVO)throws Exception {
-		        List<MemberVO> list = memberDAO.getList(memberVO);
-		        return list;
+		   public List<MemberVO> getList(Pager pager)throws Exception {
+		        //List<MemberVO> list = memberDAO.getList(pager);
+		        return memberDAO.getList(pager);
 		    }
 		   
 		
@@ -149,6 +150,8 @@ import lombok.extern.slf4j.Slf4j;
 		 		
 		 		//String path =filePath +photo;
 			
+			
+			
 				String saveFileName = fileManagerProfile.save(filePath, photo, memberVO);
 		 		log.info("===saveFileName{}=========",saveFileName);
 		 		log.info("===이미지사원번호{}=========",memberVO.getEmp_no());
@@ -156,7 +159,7 @@ import lombok.extern.slf4j.Slf4j;
 			   try {
 				   //이미지가져오기
 				   MemberFileVO existImage = memberDAO.getMemImage(memberVO.getEmp_no());
-				   if(photo != null) {
+				   if(photo != null && !photo.isEmpty()) {
 					   //이전에 설정한 프로필 사진 삭제
 					   if (existImage != null) { // 기존회원 이미지 변경시
 						   existImage = memberDAO.getMemImage(memberVO.getEmp_no());
@@ -208,6 +211,9 @@ import lombok.extern.slf4j.Slf4j;
 		
 		//프로필사진보기
 		public MemberFileVO getMemImage(String emp_no)throws Exception{
+			MemberFileVO memImage = memberDAO.getMemImage(emp_no);
+			log.info("====memberFile emp_no:{}===",emp_no);
+			log.info("====memberFile empNo:{}===",memImage);
 			return memberDAO.getMemImage(emp_no);
 		}
 	

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lib.fin.commons.Pager;
 import com.lib.fin.member.MemberVO;
 
 @Mapper
@@ -23,7 +24,7 @@ public interface MemberDAO {
 	public int memJoin(MemberVO memberVO)throws Exception;
 	
 	//회원목록
-	public List<MemberVO> getList(MemberVO memberVO)throws Exception;
+	public List<MemberVO> getList(Pager pager)throws Exception;
 	
 	//관리자 회원목록
 	public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception;

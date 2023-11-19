@@ -19,6 +19,8 @@ import com.lib.fin.member.MemberVO;
 public interface AnnouncementService {
 
 	public List<BoardVO> getList(Pager pager) throws Exception;
+	
+	public List<BoardVO> getIndexList() throws Exception;
 
 	public int getTotalAnnouncementCount() throws Exception;
 
@@ -63,7 +65,6 @@ public interface AnnouncementService {
 
 	public LikeVO checkLike(LikeVO likeVO) throws Exception;
 
-	public String uploadImage(MultipartFile file,MemberVO memberVO) throws Exception;
 
 	public String setContentsImg(MultipartFile files) throws Exception;
 

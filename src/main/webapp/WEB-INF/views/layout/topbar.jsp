@@ -6,8 +6,8 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="/" class="logo d-flex align-items-center">
-      <img src="/assets/img/logo.png" alt="">
-      <span class="d-none d-lg-block">NiceAdmin</span>
+      <img src="/assets/img/library.png" alt="">
+      <span class="d-none d-lg-block">Genie</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -184,13 +184,17 @@
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
  
 		 <c:choose>
-		 	<c:when test="${not empty filePath}">
+		 	<c:when test="${not empty profileImage and not empty profileImage.file_oriName}">
 		   		<img src="${filePath}" alt="프로필사진" class="rounded-circle">
 		 	</c:when>
 		 	<c:otherwise>
-		 		<img src="assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
+		 		<img src="/assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
 		 	</c:otherwise>
 		 </c:choose>   
+
+     <script>
+      console.log("===filePath: ", "${filePath}");
+    </script>
       
       <span class="d-none d-md-block dropdown-toggle ps-2">${memberName}님</span>
     </a>

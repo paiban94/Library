@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lib.fin.commons.CommonJava;
+import com.lib.fin.commons.ProfileImage;
 import com.lib.fin.member.MemberVO;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,11 @@ public class ScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 	
+	@Autowired
+	private ProfileImage profileImage;
+	
 	@GetMapping("getSchedule")
-	public ModelAndView getSchedule(@AuthenticationPrincipal MemberVO memberVO) throws Exception{
+	public ModelAndView getSchedule(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception{
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> listMap = new HashMap<>();
 		ModelAndView mv = new ModelAndView();
@@ -44,6 +49,8 @@ public class ScheduleController {
 
 		mv.addObject("List" ,json.toJSONString());
 */
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
+		
 		return mv;
 		      
 		 

@@ -186,6 +186,8 @@
     
 
 <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
+<script src="fullcalendar/lib/locales-all.js"></script>
+
 <script type="text/javascript">
 
 

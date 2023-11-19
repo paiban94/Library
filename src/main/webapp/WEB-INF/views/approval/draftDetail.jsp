@@ -207,7 +207,7 @@
 
 													<!-- button  -->
 													<div class="btn-group my-3" role="group" aria-label="Document Approval Buttons">
-														<button type="button" id="btn_appr" style="display:none" class="btn btn-primary btn-sm mx-1">승인</button>
+														<button type="button" id="btn_appr" style="display:none"	 class="btn btn-primary btn-sm mx-1">승인</button>
 														<button type="button" id="btn_refusal"  style="display:none" class="btn btn-primary btn-sm mx-1">반려</button>
 														<button type="button"  id="btn_cancle" style="display:none" class="btn btn-primary btn-sm mx-1">기안취소</button>
 													    <a class="btn btn-primary btn-sm mx-1" id="re" style="display:none" href="./update?doc_no=${docVO.doc_no}">재기안</a>
@@ -271,8 +271,20 @@
 	let empNoLv1 = "${appLine0.emp_no}"; //중간결재자 사원번호
 	let empNoLv2 = "${appLine1.emp_no}"; // 최종결재자사원번호
 	let doc_no = "${docVO.doc_no}";
+	let adtn_info3 = "${docVO.adtn_info3}"
+	let adtn_info1 = "${docVO.adtn_info1}"
+	let grp_cd = "${docVO.grp_cd}";
 	
-	console.log(loginEmpNo,empNoLv1,empNoLv2)
+	
+	console.log("midEmpNo:", midEmpNo);
+	console.log("lastEmpNo:", lastEmpNo);
+	console.log("loginEmpNo:", loginEmpNo);
+	console.log("docWriter:", docWriter);
+	console.log("stateLv1:", stateLv1);
+	console.log("stateLv2:", stateLv2);
+	console.log("empNoLv1:", empNoLv1);
+	console.log("empNoLv2:", empNoLv2);
+	console.log("doc_no:", doc_no);
 	
 	$(document).ready(function(){
 		
@@ -321,25 +333,40 @@
         $("#btn_appr").on("click", function () {
         	doc_approval("S"); //승인
         	
-     /*    	if(stateLv2 == "O" && ${docVO.grp_cd} == "B"){
+       	if(stateLv2 == "S" && grp_cd == "H"){
         		
-        		$.ajax({
+       	
+        		 $.ajax({
         			type:'post',
-        			url:"/approval/",
-        			data:{
-        				emp_no: loginEmpNo,
-        				doc_title: ${docVO.doc_title},
-        				adtn_info1: ${docVO.adtn_info1},
-        				start_date: ${docVO.start_date},
-        				end_date: ${docVO.end_date},
-        				adtn_info: ${docVO.adtn_info2},
+        			url:"/approval/setDocInfo",
+        			data: {
+        				emp_no: docWriter
+        				,doc_title: "${docVO.doc_title}"
+        				,adtn_info1: adtn_info1
+        				,start_date: "${docVO.start_date}"
+        				,end_date: "${docVO.end_date}"
+        				,adtn_info3: adtn_info3
+        			
+        			  },
+        			dataType:"json",  
+        			success: function(result){
+        				console.log(result);
+        				if(result.code="0000"){
+        					 
+        				}else{
+        					alert("다시시도해주세요.");
+        				} 
+        			},
+        			error:function(){  
+        	            //에러가 났을 경우 실행시킬 코드
         			}
         			
         			
-        		})
+        		}) 
         		
         		
-        	} */
+        	} 
+        
         });
 
         // 반려 버튼 클릭 이벤트
@@ -389,8 +416,7 @@
 			flag = "C";
 		}
 		
-		console.log(flag);
-		console.log(val);
+	
 
 		 $.ajax({
 			type: "post",
@@ -405,7 +431,7 @@
 			success: function(result){
 				console.log(result);
 				if(result.code="0000"){
-					location.reload();
+					  location.reload();  
 				}else{
 					alert("다시시도해주세요.");
 				}

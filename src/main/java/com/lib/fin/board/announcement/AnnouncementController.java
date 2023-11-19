@@ -41,6 +41,7 @@ import com.lib.fin.board.LikeVO;
 import com.lib.fin.board.comment.CommentVO;
 import com.lib.fin.commons.FileVO;
 import com.lib.fin.commons.Pager;
+import com.lib.fin.commons.ProfileImage;
 import com.lib.fin.member.MemberService;
 import com.lib.fin.member.MemberVO;
 
@@ -62,6 +63,9 @@ public class AnnouncementController {
 
 	@Value("${app.board.announce}")
 	private String directory;
+	
+	@Autowired
+	private ProfileImage profileImage;
 
 	@GetMapping("announcement")
 	public ModelAndView goAnnouncement(@AuthenticationPrincipal MemberVO memberVO, Pager pager, ModelAndView mv,
@@ -72,12 +76,15 @@ public class AnnouncementController {
 		mv.addObject("list", list);
 		mv.addObject("pager", pager);
 		mv.setViewName("board/announcement/announcementlist");
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
+		
 		return mv;
 	}
 
 	@GetMapping("annDetail")
 	public ModelAndView goAnnouncementDetail(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
-			ModelAndView mv, HttpSession session) throws Exception {
+			ModelAndView mv, HttpSession session, Model model) throws Exception {
 
 		mv.setViewName("board/announcement/anndetail");
 		AnnouncementVO boardVO = announcementService.getDetail(announcementVO);
@@ -117,6 +124,8 @@ public class AnnouncementController {
 		mv.addObject("data", boardVO);
 		mv.addObject("comments", comments);
 
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return mv;
 	}
 
@@ -154,12 +163,14 @@ public class AnnouncementController {
 	@GetMapping("addAnn")
 	public String goAddAnn(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
 		model.addAttribute("member", memberVO);
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "board/announcement/annadd";
 	}
 
 	@PostMapping("addAnn")
 	public String addAnnouncementWritten(@AuthenticationPrincipal MemberVO memberVO, AnnouncementVO announcementVO,
 			List<MultipartFile> files1, Model model) throws Exception {
+		
 		model.addAttribute("member", memberVO);
 		announcementVO.setReg_id(memberVO.getEmp_no());
 		log.info("************************ BaordString : {}", announcementVO.getBoard_kind());
@@ -167,6 +178,10 @@ public class AnnouncementController {
 			announcementVO.setBoard_kind("off");
 		}
 		int result = announcementService.addWriting(announcementVO, files1);
+		
+
+		
+		
 
 		return "redirect:./announcement";
 	}
@@ -209,6 +224,8 @@ public class AnnouncementController {
 		model.addAttribute("board", announcementVO);
 		model.addAttribute("member", memberVO);
 		model.addAttribute("files", filelist);
+		
+		profileImage.addProfileImage(model, memberVO.getEmp_no());
 		return "board/announcement/annmodify";
 	}
 

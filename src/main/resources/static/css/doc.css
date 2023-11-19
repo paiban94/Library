@@ -61,3 +61,7 @@
        .Ttable th {
         text-align: center;
     }
+    
+    .contents{
+    	height: 400px;
+    }

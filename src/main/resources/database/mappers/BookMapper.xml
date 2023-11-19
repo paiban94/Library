@@ -8,9 +8,14 @@
 		values(0, #{book_author}, #{book_publisher}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{book_name});
    </insert>
    
-   <select id="getBooklist" resultType="BookVO">
+   <select id="getBooklist" parameterType="Pager" resultType="BookVO">
    		SELECT * FROM BOOK_BASE
    		WHERE USE_YN='Y'
+   		ORDER BY BOOK_NO DESC
+   </select>
+   
+   <select id="getTotal" resultType="Long" parameterType="Pager">
+	   SELECT COUNT(*) FROM BOOK_BASE
    </select>
    
    <update id="setBookDelete" parameterType="BookVO">
@@ -18,4 +23,14 @@
    			USE_YN='N'
    			WHERE BOOK_NO=#{book_no}
    </update>
+   
+   <select id="getPaginatiedList" resultType="BookVO" parameterType="map">
+	   SELECT * FROM BOOK_BASE WHERE USE_YN = 'Y'
+	   ORDER BY BOOK_NO
+	   LIMIT #{startRow}, #{pageSize}
+   </select>
+   <select id="getTotalBookCount" resultType="Long">
+	   SELECT
+	   COUNT(*) FROM BOOK_BASE WHERE USE_YN='Y'
+   </select>
    </mapper>
