@@ -45,7 +45,7 @@
                                 <c:forEach items="${memberList}" var="memberVO">
                                     <tr>
                                         <td>${memberVO.emp_no}</td>
-                                        <td><a href="#">${memberVO.name}</a></td>
+                                        <td>${memberVO.name}</td>
                                         <td>${memberVO.emp_team}</td>
                                         <td>${memberVO.emp_position}</td>
                                         <td>${memberVO.phone}</td>
@@ -53,6 +53,25 @@
                                 </c:forEach>
                             </tbody>
                         </table>
+                        <ul class="pagination">
+                            <c:if test="${pager.pre}">
+                                <li class="page-item"><a class="page-link" href="./memberList?page=${pager.startNum-1}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a></li>
+                            </c:if>
+                            
+                            <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+                                <li class="page-item <c:if test='${pager.page eq i}'>active</c:if>">
+                                    <a class="page-link" href="./memberList?page=${i}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            
+                            <c:if test="${pager.next}">
+                                <li class="page-item"><a class="page-link" href="./memberList?page=${pager.lastNum+1}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a></li>
+                            </c:if>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,7 @@ left:1170px;
 top:0px}
 .pagination{
 position:relative;
-top:180px;
+top:210px;
 }
 .page-item{
 position:relative;

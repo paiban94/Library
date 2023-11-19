@@ -184,11 +184,11 @@
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
  
 		 <c:choose>
-		 	<c:when test="${not empty filePath}">
+		 	<c:when test="${not empty profileImage and not empty profileImage.file_oriName}">
 		   		<img src="${filePath}" alt="프로필사진" class="rounded-circle">
 		 	</c:when>
 		 	<c:otherwise>
-		 		<img src="assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
+		 		<img src="/assets/img/defalut_image.jpg" alt="프로필사진" class="rounded-circle">	
 		 	</c:otherwise>
 		 </c:choose>   
       
