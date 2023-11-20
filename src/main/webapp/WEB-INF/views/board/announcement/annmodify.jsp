@@ -138,7 +138,6 @@
 
                     <c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
 
-                    <script src="/js/file.js"></script>
                     <script src="/js/modify.js"></script>
                 </body>
 

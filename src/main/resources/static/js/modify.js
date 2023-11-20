@@ -1,91 +1,122 @@
 
-
-
 $(document).ready(function () {
+    let idx = 1;
 
-    $('#board_content').summernote({
-        height: 500,
-        lang: "ko-KR",
-        // data: json,
-        callbacks: {
-            onImageUpload: function (files1) {
-                uploadImages(files1);
-            },
-            onMediaDelete: function (target) {
-                handleImageDelete(target[0].src);
-            }
-        }
-    });
 
-    $(".attachment").click(function () {
-
-        let fileNo = $(this).attr("id").replace("file_","");
-        //.replace("file_", "");
-        console.log("id : "+fileNo);
-        let confirmation = confirm("파일을 삭제하시겠습니까?");
-
-        if (confirmation) {
-            //fileId 전송
-            $.ajax({
-                type: "POST",
-                url: "/board/deleteFile",
-                data: { fileNo: fileNo },
-                success: function (response) {
-                    console.log("ajax data : "+fileNo);
-                    console.log(response);
-
-                    $("#file_" + fileNo).remove();
-                },
-                error: function (error) {
-                    console.log("ajax data : "+fileNo);
-                    console.error("Error:", error);
-                }
-            });
-        }
-    });
-
-    function uploadImages(files1) {
-        let formData = new FormData();
-        for (let i = 0; i < files1.length; i++) {
-            formData.append("files1", files1[i]);
-        }
-
-        $.ajax({
-            url: "/board/uploadImages",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                let imageUrls = data;
-                for (let i = 0; i < imageUrls.length; i++) {
-                    $('#board_content').summernote('insertImage', imageUrls[i]);
-                }
-            },
-            error: function () {
-                console.log('upload image fail ... error...');
+        $('#add_btn').on('click', function(e) {
+            e.preventDefault(); 
+            
+            let title = $('#board_title').val();
+            let content = $('#board_content').val();
+    
+            if (title.trim() === '' || content.trim() === '') {
+                alert('빈 공간이 있습니다');
+            } else {
+                
+                $('#announcementForm').submit(); 
             }
         });
-    }
-
-    //   function deleteFile(fileNo) {
-    //     let confirmation = confirm("파일을 삭제하시겠습니까?");
-    //     if (confirmation) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/board/deleteFile",
-    //             data: { fileNo: fileNo },
-    //             success: function (response) {
-    //                 console.log(response);
-    //                 $("#file_" + fileNo).remove();
-    //             },
-    //             error: function (error) {
-    //                 console.error("Error:", error);
-    //             }
-    //         });
-    //     }
-    // }
+    
+        $("#fileList").on("click", ".df", function() {
+            $(this).parent().remove();
+        });
+    
+        $("#fileAdd").on('click', function() {
+            if (idx < 6) {
+                let r = '<div class="a mb-3 w-50" id="file ' + idx + '">';
+                r = r.concat('<input type="file" class="form-control" id="pic" name="files1" </div>');
+                r = r.concat('<div class="a df mt-2 mx-2" data-id="file" ' + idx + '>x</div>')
+                $("#fileList").append(r);
+                idx++;
+            } else {
+                alert('최대 첨부파일 수는 5개 입니다.');
+            }
+        });
+    
+        $('#add_cancel').on('click', function() {
+            history.back();
+        });
+    
+    
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('#memberList, #tags').length) {
+                $('#memberList').empty().hide();
+            }
+        });
+        function displayMemberList(members, query) {
+            var memberList = $('#memberList');
+            memberList.empty();
+            for (var i = 0; i < members.length; i++) {
+                var memberName = members[i].empName;
+                if (memberName.toLowerCase().includes(query.substring(1).toLowerCase())) {
+                    var listItem = $('<li>').text(memberName);
+                    memberList.append(listItem);
+                }
+            }
+            if (memberList.children().length > 0) {
+                memberList.show();
+            } else {
+                memberList.hide();
+            }
+        }
 
     
-});
 
+
+
+    $("#board_content").summernote({
+        height: 500,
+        callbacks: {
+            onImageUpload: function(files){
+                alert('이미지 업로드');
+                //이미지를 server로 전송하고
+                //응답으로 이미지경로와 파일명을 받아서
+                //img 태그를 만들어서 src속성에 이미지 경로를 넣는것
+                let formData = new FormData(); // <form></form>
+                formData.append("files",files[0]); // <input type="file" name="files"> 를 폼안에 추가
+    
+                $.ajax({
+                    type:"post",
+                    url:'./setContentsImg',
+                    data:formData,
+                    enctype: 'multipart/form-data',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:function(result){
+                        console.log(result)
+                        $("#board_content").summernote('insertImage', result.trim());
+                    },
+                    error:function(){
+                        console.log('error');
+                    }	
+                });
+    
+            },
+            onMediaDelete:function(files){
+                let path = $(files[0]).attr("src"); // /resources/upload/notice/파일명
+                console.log("del");
+                $.ajax({
+                    type:'post',
+                    url:'./setContentsImgDelete',
+                    data:{
+                        path:path
+                    },
+                    success:function(result){
+                        console.log(result);
+                    },
+                    error:function(){
+                        console.log('error');
+                    }
+                })
+            }
+    
+        }
+    })
+    
+    
+
+});
+    
+
+ 
