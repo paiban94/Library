@@ -86,16 +86,16 @@ import lombok.extern.slf4j.Slf4j;
 		        return memberDAO.getAdminDetail(emp_no);
 		    }
 		   
-
-		//관리자 멤버 정보 업데이트
-		  public int adminMemUpdate(MemberVO memberVO)throws Exception{
-			  return memberDAO.adminMemUpdate(memberVO);
-		  }
-		   
+	
+			//관리자 멤버 정보 업데이트
+			  public int adminMemUpdate(MemberVO memberVO)throws Exception{
+				  return memberDAO.adminMemUpdate(memberVO);
+			  }
+			   
 		
 		//멤버리스트
 		   public List<MemberVO> getList(Pager pager)throws Exception {
-		        //List<MemberVO> list = memberDAO.getList(pager);
+		        List<MemberVO> list = memberDAO.getList(pager);
 		        return memberDAO.getList(pager);
 		    }
 		   

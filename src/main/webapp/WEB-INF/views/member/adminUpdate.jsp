@@ -66,13 +66,12 @@
 					</div>
 
 					
-                    <div class="form-group">
+					<div class="form-group">
 						<br>
-						<form:label path="emp_in_date">입사일</form:label>
-						<form:input id="emp_in_date" type="date" path="emp_in_date" cssClass="form-control"/>
-						<form:errors path="emp_in_date"></form:errors>
+						<label for="emp_in_date">입사일</label>
+						<input id="emp_in_date_display" type="text" class="form-control" value="${memberVO.emp_in_date}" readonly="true"/>
 					</div>
-
+					
                     <div class="form-group">
 						<br>
 						<form:label path="emp_out_date">퇴사일</form:label>
@@ -83,7 +82,7 @@
                     <div class="form-group">
                         <br>
                         <form:label path="emp_team">부서</form:label>
-                        <form:select name="selectTeam" id="emp_team" path="emp_team" cssClass="form-control">
+                        <form:select name="selectTeam" id="emp_team" path="emp_team" cssClass="form-control" defaultValue="${memberVO.emp_team}">
                             <form:option value="" label="부서 선택 시 클릭하세요" /> 	
                             <form:option value="A" label="대표" />
                             <form:option value="B" label="운영과" />
@@ -97,7 +96,7 @@
                     <div class="form-group">
 						<br>
 						<form:label path="emp_position">직급</form:label>
-						<form:select name="selectPosition" id="emp_position"  path="emp_position" cssClass="form-control">
+						<form:select name="selectPosition" id="emp_position"  path="emp_position" cssClass="form-control" defaultValue="${memberVO.emp_position}">
 							<form:option value="" label="직급 선택 시 클릭하세요" /> 
 							<form:option value="A" label="관장" /> 
 							<form:option value="B" label="팀장" /> 
@@ -119,7 +118,7 @@
 					</div>
 
 			
-				
+					
 				
 				
 				</div>

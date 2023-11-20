@@ -77,7 +77,12 @@
 	   
 	    <!-- 관리자 멤버 상세정보 조회 -->
     <select id="getAdminDetail" parameterType="MemberVO" resultType="MemberVO">
-        SELECT * FROM MEM_INFO WHERE EMP_NO = #{empNo}
+         SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,M.EMP_IN_DATE,
+       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION
+	FROM MEM_INFO M
+	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
+	LEFT JOIN ST_STD_CD L ON M.EMP_POSITION = L.CD AND L.GRP_CD = 'L001'
+	WHERE EMP_NO = #{empNo}
     </select>
 	
 	
@@ -98,22 +103,7 @@
 	    LIMIT 1;
    	</select>  
    	
- <!--   	<select id="getNewEmpNo" resultType="String">
-	    SELECT EMP_NO
-	    FROM MEM_INFO
-	    ORDER BY EMP_NO DESC
-	    LIMIT 1;
-   	</select> 
-   	 -->
-  	
-   	<!-- 관리자 -->
-<!-- 	
-   <select id="getAdmin" resultType="boolean">
-        SELECT * FROM MEM_INFO 
-        WHERE emp_no = #{emp_no} 
-        AND position IN ('A', 'B');
-    </select> -->
-	
+ 
 	<!-- 권한 부여 -->
 	 <insert id="setMemberRole" parameterType="java.util.Map">
 	  INSERT INTO MEMBER_ROLE (EMP_NO, ROLENUM)

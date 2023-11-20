@@ -93,6 +93,12 @@
 							<label for="emp_position">직급</label>
 							<input id="emp_position" type="text" value="${memberVO.emp_position}" class="form-control" readonly/>
 						  </div>
+						  
+						 <div class="form-group">
+							<br>
+							<label for="remain_holiday">연차</label>
+							<input id="remain_holiday" type="text" value="${memberVO.remain_holiday}" class="form-control" readonly/>
+						  </div>
 						 <br> 
 						  <button type="submit" class="btn btn-primary" href="/member/update">정보수정</button>
 						  </form>

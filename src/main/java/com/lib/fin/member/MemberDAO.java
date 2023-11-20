@@ -18,7 +18,7 @@ public interface MemberDAO {
 	//로그인
 	//시큐리티
 	public MemberVO getLogin(MemberVO memberVO)throws Exception;	
-	
+		
 	//회원가입
 	//int reuslt= memberDAO.memJoin(memberVO); service에서 데이터 타입 
 	public int memJoin(MemberVO memberVO)throws Exception;

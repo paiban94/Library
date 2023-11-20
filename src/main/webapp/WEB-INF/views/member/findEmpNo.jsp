@@ -32,7 +32,7 @@
 					<div class="col-lg-6">
 
                         <div class="pt-4 pb-2">
-                            <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">로그인</h5>
+                            <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">사원번호찾기</h5>
                             <p class="text-center small">이름과 전화번호를 입력하세요.</p>
                           </div>
 				

@@ -3,6 +3,7 @@
 import java.io.File;
 import java.lang.reflect.Member;
 import java.security.Principal;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,26 +61,60 @@ public class MemberController {
 	
 	//관리자페이지
 	@GetMapping("adminPage")
-	public String adminPage()throws Exception{
-		  return "member/adminPage";
+	public String adminPage(Model model,@AuthenticationPrincipal MemberVO memberVO)throws Exception{
+		  
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		log.info("===멤버리스트용memberVO.getEmp_no():{}===",memberVO.getEmp_no());
+		if (profileImage != null) {
+	        String filePath = "/files/" + profileImage.getFile_name();
+	        model.addAttribute("profileImage", profileImage);
+	        model.addAttribute("filePath", filePath);
+	    } else {
+	        model.addAttribute("filePath", "/files/default_profile_image.jpg");
+	    }
+
+		
+		return "member/adminPage";
 	}
 	
 	
 	//멤버관리자페이지 멤버리스트
 	@RequestMapping("adminMemberPage")
-	public String AdminMemList(Model model, MemberVO memberVO)throws Exception{
+	public String AdminMemList(Model model, @AuthenticationPrincipal MemberVO memberVO)throws Exception{
 		List<MemberVO> adminMemList = memberService.getAdminMemList(memberVO);
 		log.info("=====authorities{}",memberVO.getAuthorities());
 		model.addAttribute("adminMemList",adminMemList);
+		
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		log.info("===멤버리스트용memberVO.getEmp_no():{}===",memberVO.getEmp_no());
+		if (profileImage != null) {
+	        String filePath = "/files/" + profileImage.getFile_name();
+	        model.addAttribute("profileImage", profileImage);
+	        model.addAttribute("filePath", filePath);
+	    } else {
+	        model.addAttribute("filePath", "/files/default_profile_image.jpg");
+	    }
+
 		return "member/adminMemberPage";
 	}
 	
 	//멤버관리자페이지 상세정보
 	@RequestMapping("adminDetailPage")
-	public String getAdminDetail(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
-		MemberVO memberVO = memberService.getAdminDetail(emp_no);
+	public String getAdminDetail(@RequestParam("emp_no")String emp_no, Model model, @AuthenticationPrincipal MemberVO memberVO)throws Exception{
+		MemberVO adminDetailmemberVO = memberService.getAdminDetail(emp_no);
 		// memberVO를 adminDetailPage 뷰로 전달
-		model.addAttribute("memberVO",memberVO);
+		model.addAttribute("memberVO",adminDetailmemberVO);
+		
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		log.info("===멤버리스트용memberVO.getEmp_no():{}===",memberVO.getEmp_no());
+		if (profileImage != null) {
+	        String filePath = "/files/" + profileImage.getFile_name();
+	        model.addAttribute("profileImage", profileImage);
+	        model.addAttribute("filePath", filePath);
+	    } else {
+	        model.addAttribute("filePath", "/files/default_profile_image.jpg");
+	    }
+
 		return "member/adminDetailPage";
 	}
 
@@ -87,27 +122,57 @@ public class MemberController {
 	
 //		//멤버 관리자 상세정보 업데이트 페이지
 		@GetMapping("adminUpdate")
-		public String adminMemUpdate(@RequestParam("emp_no")String emp_no, Model model)throws Exception{
+		public String adminMemUpdate(@RequestParam("emp_no")String emp_no, Model model,@AuthenticationPrincipal MemberVO memberVO)throws Exception{
 			//emp_no를 사용하여 회원정보가져오기
-			MemberVO memberVO = memberService.getAdminDetail(emp_no);
+			MemberVO adminMemberVO = memberService.getAdminDetail(emp_no);
 			//memberVO 를 adminUpdate 뷰로 전달
-			model.addAttribute("memberVO",memberVO);
+			model.addAttribute("memberVO",adminMemberVO);
+			MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+			log.info("===멤버리스트용memberVO.getEmp_no():{}===",memberVO.getEmp_no());
+			if (profileImage != null) {
+		        String filePath = "/files/" + profileImage.getFile_name();
+		        model.addAttribute("profileImage", profileImage);
+		        model.addAttribute("filePath", filePath);
+		    } else {
+		        model.addAttribute("filePath", "/files/default_profile_image.jpg");
+		    }
+			
 			return "member/adminUpdate";
 	}
 		
-		@PostMapping("adminUpdate")
-		public String adminMemUpdate(@ModelAttribute MemberVO memberVO)throws Exception{
-			int result = memberService.adminMemUpdate(memberVO);
-			
-			if(result>0) {
-				log.info("관리자 멤버 정보 변경 성공");
-			}else {
-				log.info("관리자 멤버 정보 변경 실패");
-			}
-			return "member/adminDetailPage";
-			//return "redirect:/adminDetailPage?emp_no="+memberVO.getEmp_no();
-		}
 		
+		@PostMapping("adminUpdate")
+		public String adminMemUpdate(@ModelAttribute MemberVO memberVO) throws Exception {
+		    try {
+		      
+		    	//DB에서 원래값을 가져옴
+		    	MemberVO originalData = memberService.getAdminDetail(memberVO.getEmp_no());
+		    	//부서와 직급 수정하지 않을시 원래 값 가져옴
+		    	if(memberVO.getEmp_team()== null) {
+		    		memberVO.setEmp_team(originalData.getEmp_team());
+		    	}
+		    	if(memberVO.getEmp_position()== null) {
+		    		memberVO.setEmp_position(originalData.getEmp_position());
+		    	}
+		    	
+		        Date empOutDate = memberVO.getEmp_out_date();
+		        memberVO.setEmp_out_date(empOutDate);
+		        log.info("===empOutDate:{}===",empOutDate);
+		        int result = memberService.adminMemUpdate(memberVO);
+
+		        if (result > 0) {
+		            // 업데이트 성공 시 리다이렉트할 페이지
+		            //return "redirect:/adminDetailPage?emp_no=" + memberVO.getEmp_no();
+		        	return "member/adminDetailPage";
+		        } else {
+		            // 업데이트 실패 시 에러 처리
+		            return "errorPage";
+		        }
+		    } catch (Exception e) {
+		        // 예외 발생 시 에러 처리
+		        return "errorPage";
+		    }
+		}
 		
 	
 	
@@ -126,6 +191,9 @@ public class MemberController {
 		
 		List<MemberVO> memberList = memberService.getList(pager);
 		model.addAttribute("memberList",memberList);
+		
+		model.addAttribute("pager", pager);
+		
 		return "member/memberList";
 	}
 	
