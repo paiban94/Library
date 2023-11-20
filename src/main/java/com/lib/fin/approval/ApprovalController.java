@@ -263,6 +263,7 @@ public class ApprovalController {
 	@GetMapping("fileDelete")
 	public String setFileDelete(ApprovalFileVO approvalFileVO, Model model)throws Exception{
 		
+		
 		int result = approvalService.setFileDelete(approvalFileVO);
 		model.addAttribute("result",result);
 		return "commons/ajaxResult";

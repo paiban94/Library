@@ -33,7 +33,7 @@ $(".delets").each(function(i,e){
             type:'GET',
             url: "./fileDelete",
             data:{
-                fileNo:num
+                file_no:num
             },
             success:function(result){
                 if(result.trim()=='1'){

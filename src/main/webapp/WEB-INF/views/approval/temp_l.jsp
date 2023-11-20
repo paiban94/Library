@@ -111,7 +111,7 @@
 	                $("#id2").text(daysDiff);
 	            } else if (leaveType == "조퇴") { // 조퇴
 	            	var daysDiff = 0;
-	            	$("#id2").text(dayDiff);
+	            	$("#id2").text(daysDiff);
 	            } else if (leaveType == "반차") { // 반차
 	                var daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24) * 0.5 +0.5;
 	               
