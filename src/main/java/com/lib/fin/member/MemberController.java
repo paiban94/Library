@@ -144,26 +144,43 @@ public class MemberController {
 		@PostMapping("adminUpdate")
 		public String adminMemUpdate(@ModelAttribute MemberVO memberVO) throws Exception {
 		    try {
-		      
-		    	//DB에서 원래값을 가져옴
-		    	MemberVO originalData = memberService.getAdminDetail(memberVO.getEmp_no());
-		    	//부서와 직급 수정하지 않을시 원래 값 가져옴
-		    	if(memberVO.getEmp_team()== null) {
-		    		memberVO.setEmp_team(originalData.getEmp_team());
-		    	}
-		    	if(memberVO.getEmp_position()== null) {
-		    		memberVO.setEmp_position(originalData.getEmp_position());
-		    	}
-		    	
-		        Date empOutDate = memberVO.getEmp_out_date();
-		        memberVO.setEmp_out_date(empOutDate);
-		        log.info("===empOutDate:{}===",empOutDate);
+		        // DB에서 원래값을 가져옴
+		        MemberVO originalData = memberService.getAdminDetail(memberVO.getEmp_no());
+		        log.info("=====originalData{}=====", originalData);
+
+		        // 부서와 직급 수정하지 않을 시 원래 값 가져옴
+		        if (memberVO.getEmp_team() == null || memberVO.getEmp_team().isEmpty()) {
+		            memberVO.setEmp_team(originalData.getEmp_team());
+		        }
+		        log.info("=====memberVO.getEmp_team(){}=====", memberVO.getEmp_team());
+
+		        if (memberVO.getEmp_position() == null || memberVO.getEmp_position().isEmpty()) {
+		            memberVO.setEmp_position(originalData.getEmp_position());
+		        }
+
+		        // 퇴사일이 선택되지 않았을 경우에 대한 처리
+		        if (memberVO.getEmp_out_date() == null) {
+		            // 퇴사일이 선택되지 않았을 때 수행할 로직
+		            log.info("퇴사일 선택 안함");
+		            memberVO.setEmp_out_date(null); // 무시하거나 필요에 따라 다른 처리 수행
+		        } else {
+		            try {
+		                // emp_out_date를 java.sql.Date로 변환
+		                Date empOutDate = (Date) memberVO.getEmp_out_date();
+		                log.info("===empOutDate:{}===", empOutDate);
+		            } catch (ClassCastException e) {
+		                log.error("Failed to cast emp_out_date to java.sql.Date", e);
+		                // 캐스팅 실패 시 에러 처리, 예를 들어 에러 페이지로 리다이렉트하거나 다른 로직 수행
+		                return "errorPage";
+		            }
+		        }
+
 		        int result = memberService.adminMemUpdate(memberVO);
 
 		        if (result > 0) {
 		            // 업데이트 성공 시 리다이렉트할 페이지
-		            //return "redirect:/adminDetailPage?emp_no=" + memberVO.getEmp_no();
-		        	return "member/adminDetailPage";
+		            // return "redirect:/adminDetailPage?emp_no=" + memberVO.getEmp_no();
+		            return "member/adminDetailPage";
 		        } else {
 		            // 업데이트 실패 시 에러 처리
 		            return "errorPage";
@@ -173,7 +190,6 @@ public class MemberController {
 		        return "errorPage";
 		    }
 		}
-		
 	
 	
 	//멤버리스트
