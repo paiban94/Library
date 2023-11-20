@@ -321,46 +321,82 @@
 			$("#lastSign").append(strHtml);
 		}
 		
-		 // 승인 버튼 클릭 이벤트
-        $("#btn_appr").on("click", function () {
-        	doc_approval("S"); //승인
-        	
-       
-        
-        });
-
-        // 반려 버튼 클릭 이벤트
-        $("#btn_refusal").on("click", function () {
-        	doc_approval("C"); //반려
-        	
-
-        });
-
-        // 기안취소 버튼 클릭 이벤트
-        $("#btn_cancle").on("click", function () {
-          
-            $.ajax({
-        		type:'post',
-        		url:"/approval/AppCancel",
-        		data : {
-        			doc_no : doc_no
-        			
-        		}, 
-			   success:function(result){
-				   console.log(result)
-				   if(result ==1){
-				
-					window.location.replace("/approval/list?k=${param.k}"); 
-				   }
-			   },
-			   error:function(){
-					alert("다시시도해주세요.");
-			   }
-        	}) 
-        });
 		
 
 	});
+	
+	 // 승인 버튼 클릭 이벤트
+    $("#btn_appr").on("click", function () {
+    	doc_approval("S"); //승인
+    	
+    	
+    	if((stateLv2 == "R" && stateLv1 !="R")	&& grp_cd == "H"){
+    		
+	       	
+      		 $.ajax({
+      			type:'post',
+      			url:"/approval/setDocInfo",
+      			data: {
+      				emp_no: docWriter
+      				,doc_title: "${docVO.doc_title}"
+      				,adtn_info1: adtn_info1
+      				,start_date: "${docVO.start_date}"
+      				,end_date: "${docVO.end_date}"
+      				,adtn_info3: adtn_info3
+      			
+      			  },
+      			dataType:"json",  
+      			success: function(result){
+      				
+      				if(result.code="0000"){
+      					location.reload(); 
+      				}else{
+      					alert("다시시도해주세요.");
+      				} 
+      			},
+      			error:function(){  
+      	            //에러가 났을 경우 실행시킬 코드
+      			}
+      			
+      			
+      		}) 
+      		
+      		
+      	} 
+    
+    });
+
+    // 반려 버튼 클릭 이벤트
+    $("#btn_refusal").on("click", function () {
+    	doc_approval("C"); //반려
+    	
+    	
+    	
+
+    });
+
+    // 기안취소 버튼 클릭 이벤트
+    $("#btn_cancle").on("click", function () {
+      
+        $.ajax({
+    		type:'post',
+    		url:"/approval/AppCancel",
+    		data : {
+    			doc_no : doc_no
+    			
+    		}, 
+		   success:function(result){
+			   console.log(result)
+			   if(result ==1){
+			
+				window.location.replace("/approval/list?k=${param.k}"); 
+			   }
+		   },
+		   error:function(){
+				alert("다시시도해주세요.");
+		   }
+    	}) 
+    });
 	
 	function doc_approval(val){
 		var flag = ""; // approval_doc State 바꾸기 위함
@@ -393,41 +429,12 @@
 				console.log(result);
 				if(result.code="0000"){
 					   location.reload();
+					   
+					   
 					  
-					 //reload되기전에는 R 상태이므로
-					if(stateLv2 == "R" && grp_cd == "H"){
-		        		
-				       	
-		        		 $.ajax({
-		        			type:'post',
-		        			url:"/approval/setDocInfo",
-		        			data: {
-		        				emp_no: docWriter
-		        				,doc_title: "${docVO.doc_title}"
-		        				,adtn_info1: adtn_info1
-		        				,start_date: "${docVO.start_date}"
-		        				,end_date: "${docVO.end_date}"
-		        				,adtn_info3: adtn_info3
-		        			
-		        			  },
-		        			dataType:"json",  
-		        			success: function(result){
-		        				
-		        				if(result.code="0000"){
-		        					/* location.reload();  */ 
-		        				}else{
-		        					alert("다시시도해주세요.");
-		        				} 
-		        			},
-		        			error:function(){  
-		        	            //에러가 났을 경우 실행시킬 코드
-		        			}
-		        			
-		        			
-		        		}) 
-		        		
-		        		
-		        	} 
+					  
+					 
+					
 				}else{
 					alert("다시시도해주세요.");
 				}
